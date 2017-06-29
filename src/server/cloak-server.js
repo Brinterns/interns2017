@@ -1,12 +1,12 @@
 var cloak = require('cloak');
 
-var listOfUserNames = [];
+var listOfUsers = [];
 
 var sendLobbyCount = function(arg) {
-  listOfUserNames = [];
+  listOfUsers = [];
   var members = this.getMembers();
   members.forEach( function(user) {
-    listOfUserNames.push(user.name);
+    listOfUsers.push(user);
   });
 };
 
