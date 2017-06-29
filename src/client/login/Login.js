@@ -11,7 +11,7 @@ export default class Login extends Component {
     e.preventDefault();
     var username = document.getElementById("inputfield").value;
     cloak.message('setusername', username);
-    //Change page to lobby
+    browserHistory.push("/lobby");
   }
   render(){
     return (

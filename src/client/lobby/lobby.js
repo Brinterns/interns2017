@@ -10,7 +10,6 @@ export default class Lobby extends Component {
 
         cloak.run(config.cloakAddress);
     }
-
     render() {
         return (
             <h1>Lobby</h1>
