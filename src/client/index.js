@@ -9,6 +9,10 @@ import App from './app';
 const store = configureStore();
 const app = document.getElementById('app');
 
+cloak.configure({
+});
+cloak.run('http://localhost:8080');
+
 render(
     <AppContainer>
         <Provider store={store}>

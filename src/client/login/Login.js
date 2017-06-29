@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+
+
 export default class Login extends Component {
   constructor(props){
     super(props);
@@ -7,7 +9,8 @@ export default class Login extends Component {
   }
   onSubmit(e){
     e.preventDefault();
-    var nameInput = document.getElementById("inputfield").value;
+    var username = document.getElementById("inputfield").value;
+    cloak.message('setusername', username);
   }
   render(){
     return (
