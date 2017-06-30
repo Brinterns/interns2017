@@ -5,8 +5,8 @@ deployment:
   prod:
     branch: master
     heroku:
-      appname: inturn
+      appname: jurr 
   dev:
     branch: develop
     heroku:
-      appname: inturn-dev
+      appname: jurr-dev
