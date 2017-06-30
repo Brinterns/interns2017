@@ -22,7 +22,7 @@ export default class Login extends Component {
     cloak.message('setusername', username);
     browserHistory.push("/lobby");
   }
-  
+
   render(){
     return (
       <div className={styles.inputbox}>
