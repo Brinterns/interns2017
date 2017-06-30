@@ -1,6 +1,6 @@
 var cloak = require('cloak');
 
-var listOfUsers = [];
+let listOfUsers = [];
 
 var sendLobbyCount = function(arg) {
   listOfUsers = [];
