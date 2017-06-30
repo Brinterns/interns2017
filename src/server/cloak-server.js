@@ -2,7 +2,7 @@ var cloak = require('cloak');
 
 let listOfUsers = [];
 
-var sendLobbyCount = function(arg) {
+var updateLobbyUsers = function(arg) {
   listOfUsers = [];
   var members = this.getMembers();
   members.forEach( function(user) {
@@ -19,8 +19,8 @@ module.exports = function(expressServer) {
           }
         },
         lobby: {
-          newMember: sendLobbyCount,
-          memberLeaves: sendLobbyCount
+          newMember: updateLobbyUsers,
+          memberLeaves: updateLobbyUsers
         }
     });
     cloak.run();

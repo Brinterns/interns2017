@@ -18,7 +18,7 @@ export default class Login extends Component {
   }
 
   onSubmit(e){
-    var username = this.state.username;
+    const { username } = this.state;
     cloak.message('setusername', username);
     browserHistory.push("/lobby");
   }
