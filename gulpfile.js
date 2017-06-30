@@ -25,7 +25,6 @@ gulp.task('dev', gulp.series(
             build(),
             startServer,
             openBrowser
-            // test()
         )
     )
 ));

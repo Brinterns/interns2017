@@ -5,19 +5,31 @@ import styles from './Login.css';
 export default class Login extends Component {
   constructor(props){
     super(props);
+    this.state = {
+      username: ''
+    };
     this.onSubmit = this.onSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
+  handleChange(event){
+    this.setState ({
+      username: event.target.value
+    });
+  }
+
   onSubmit(e){
-    e.preventDefault();
-    var username = document.getElementById("inputfield").value;
+    var username = this.state.username;
     cloak.message('setusername', username);
     browserHistory.push("/lobby");
   }
+  
   render(){
     return (
       <div className={styles.inputbox}>
-        <input id="inputfield" type="text"/>
-        <button onClick={this.onSubmit}>-></button>
+        <form onSubmit={this.onSubmit}>
+          <input type="text" value={this.state.username} onChange={this.handleChange}/>
+          <input type="submit" value="Submit"/>
+        </form>
       </div>
     );
   }
