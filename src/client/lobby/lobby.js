@@ -6,15 +6,24 @@ export default class Lobby extends Component {
   constructor(props){
     super(props);
     this.state = {
-      listOfUserNames : ['Bob','Sam','Daniel']
+      listOfUserNames : []
     };
     cloak.configure({
       messages: {
-      updateusers: function(userlist) {
+      updateusers: (userlistInput) => {
+          this.setState({
+            listOfUserNames : userlistInput
+          });
         }
       },
     });
+    {this.getUserNames()};
   }
+
+  getUserNames(){
+    cloak.message('getusernames',_);
+  }
+
   render() {
       const userList = (
         this.state.listOfUserNames.map(function(users,i){
