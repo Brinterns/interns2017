@@ -3,10 +3,11 @@ import User from './User';
 import config from '../config/config';
 
 export default class Lobby extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      listOfUserNames : []
+      listOfUserNames : [],
+      ready: false
     };
     cloak.configure({
       messages: {
@@ -17,10 +18,19 @@ export default class Lobby extends Component {
         }
       },
     });
+    this.onClick = this.onClick.bind(this);
     {this.getUserNames()};
   }
 
-  getUserNames(){
+  onClick(e) {
+    const ready = !this.state.ready;
+    cloak.message('userready', ready);
+    this.setState({
+      ready: ready
+    });
+  }
+
+  getUserNames() {
     cloak.message('getusernames',_);
   }
 
@@ -32,6 +42,7 @@ export default class Lobby extends Component {
     );
     return (
       <div>
+        <button onClick={this.onClick}>{this.state.ready ? "Unready" : "Ready"}</button>
         {userList}
       </div>
     );
