@@ -32,6 +32,7 @@
     "gulp-replace": "^0.5.4",
     "history": "^4.6.3",
     "jquery": "^2.2.0",
+    "lodash": "^4.13.1",    
     "node-sass": "^3.7.0",
     "nodemon": "^1.8.1",
     "opn": "^4.0.0",
@@ -44,6 +45,7 @@
     "react-router-dom": "^4.1.1",
     "redux": "^3.5.2",
     "sass-loader": "^3.2.0",
+    "style-loader": "^0.13.1",    
     "webpack": "^1.12.12",
     "yargs": "^3.32.0"
   },
@@ -57,10 +59,8 @@
     "karma-jasmine": "^1.0.2",
     "karma-mocha-reporter": "^2.0.4",
     "karma-webpack": "^1.7.0",
-    "lodash": "^4.13.1",
     "react-addons-test-utils": "^15.1.0",
     "redux-devtools": "^3.3.1",
-    "style-loader": "^0.13.1",
     "webpack-dev-server": "^1.14.1"
   },
   "repository": {
