@@ -11,17 +11,20 @@ var updateLobbyUsers = function(arg) {
 };
 
 module.exports = function(expressServer) {
-    cloak.configure({
-        express: expressServer,
-        messages: {
-          setusername: function(msg, user) {
-            user.name = msg;
-          }
+  cloak.configure({
+    express: expressServer,
+      messages: {
+        setusername: function(msg, user) {
+          user.name = msg;
         },
-        lobby: {
-          newMember: updateLobbyUsers,
-          memberLeaves: updateLobbyUsers
+        userready: function(msg, user) {
+          user.data.ready = msg;
         }
-    });
-    cloak.run();
+      },
+      lobby: {
+        newMember: updateLobbyUsers,
+        memberLeaves: updateLobbyUsers
+      }
+  });
+  cloak.run();
 };
