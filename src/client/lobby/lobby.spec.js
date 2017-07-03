@@ -8,7 +8,4 @@ describe('<Lobby />', () => {
         window.cloak = jasmine.createSpyObj('cloak', ['configure', 'run']);
     });
 
-    it('contains "Lobby" heading', () => {
-        const wrapper = shallow(<Lobby />);
-    });
 });
