@@ -13,11 +13,11 @@ export default class User extends Component {
   }
 
   onClick(e) {
-      const ready = !this.state.ready;
-      cloak.message('userready', ready);
-      this.setState({
-          ready: ready
-      });
+    const ready = !this.state.ready;
+    cloak.message('userready', ready);
+    this.setState({
+      ready: ready
+    });
   }
 
   render(){

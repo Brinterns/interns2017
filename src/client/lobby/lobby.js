@@ -10,7 +10,7 @@ export default class Lobby extends Component {
     };
     cloak.configure({
       messages: {
-      updateusers: (userlistInput) => {
+        updateusers: (userlistInput) => {
           this.setState({
             listOfUserNames : userlistInput
           });
@@ -25,15 +25,15 @@ export default class Lobby extends Component {
   }
 
   render() {
-      const userList = (
-        this.state.listOfUserNames.map(function(users,i){
-          return <User index={i} key={i} name={users} />;
-        })
-      );
-      return (
-        <div>
-          {userList}
-        </div>
-      );
+    const userList = (
+      this.state.listOfUserNames.map(function(users,i){
+        return <User index={i} key={i} name={users} />;
+      })
+    );
+    return (
+      <div>
+        {userList}
+      </div>
+    );
   }
 };

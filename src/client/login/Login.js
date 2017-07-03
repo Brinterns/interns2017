@@ -11,6 +11,7 @@ export default class Login extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
+  
   handleChange(event){
     this.setState ({
       username: event.target.value
