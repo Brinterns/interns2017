@@ -32,12 +32,16 @@ module.exports = function(expressServer) {
           },
           getusernames: function(msg, user) {
             user.message('updateusers', getListOfUserNames());
+          },
+          userready: function(msg, user) {
+            console.log(user.data.ready);
+            user.data.ready = msg;
           }
-        },
-        lobby: {
-          newMember: updateLobbyUsers,
-          memberLeaves: updateLobbyUsers
-        }
-    });
-    cloak.run();
+      },
+      lobby: {
+        newMember: updateLobbyUsers,
+        memberLeaves: updateLobbyUsers
+      }
+  });
+  cloak.run();
 };
