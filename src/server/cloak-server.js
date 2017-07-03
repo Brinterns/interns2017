@@ -34,7 +34,6 @@ module.exports = function(expressServer) {
             user.message('updateusers', getListOfUserNames());
           },
           userready: function(msg, user) {
-            console.log(user.data.ready);
             user.data.ready = msg;
           }
       },
