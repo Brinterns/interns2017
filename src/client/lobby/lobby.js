@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import User from '../user/User';
+import User from './User';
 import config from '../config/config';
 
 export default class Lobby extends Component {
