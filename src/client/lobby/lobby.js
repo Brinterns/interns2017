@@ -6,7 +6,6 @@ export default class Lobby extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            title: "Ready",
             ready: false
         };
         this.onClick = this.onClick.bind(this);
@@ -14,10 +13,8 @@ export default class Lobby extends Component {
 
     onClick(e) {
         const ready = !this.state.ready;
-        const title = this.state.ready ? "Ready" : "Unready";
         cloak.message('userready', ready);
         this.setState({
-            title: title,
             ready: ready
         });
     }
@@ -26,7 +23,7 @@ export default class Lobby extends Component {
         return (
             <div>
                 <h1>Lobby</h1>
-                <button onClick={this.onClick}>{this.state.title}</button>
+                <button onClick={this.onClick}>{this.state.ready ? "Unready" : "Ready"}</button>
             </div>
         );
     }
