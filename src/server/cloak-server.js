@@ -10,15 +10,15 @@ var updateLobbyUsers = function(arg) {
   members.forEach( function(user) {
     listOfUsers.push(user);
   });
-  messageAllUserNames();
+  cloak.messageAll('updateusers', getListOfUserNames());
 };
 //all clients are updated with the list of usernames currently in the lobby
-function messageAllUserNames(){
+function getListOfUserNames(){
   let listofUserNames = [];
   listOfUsers.forEach(function(user){
     listofUserNames.push(user.name);
   });
-  cloak.messageAll('updateusers', listofUserNames);
+  return listofUserNames;
 }
 
 module.exports = function(expressServer) {
@@ -28,10 +28,10 @@ module.exports = function(expressServer) {
           setusername: function(msg, user) {
             listOfUsers[listOfUsers.indexOf(user)].name = msg;
             user.name = msg;
-            messageAllUserNames();
+            cloak.messageAll('updateusers', getListOfUserNames());
           },
           getusernames: function(msg, user) {
-            user.message('updateusers',listOfUserNames);
+            user.message('updateusers', getListOfUserNames());
           }
         },
         lobby: {
