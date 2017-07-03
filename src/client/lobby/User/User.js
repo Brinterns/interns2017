@@ -12,7 +12,7 @@ export default class User extends Component {
     return (
       <div>
         <div className={loginStyles.userMain}>
-          <h1> Id = {this.props.index} {this.props.name}</h1>
+          <h1>{this.props.name}</h1>
         </div>
       </div>
     );

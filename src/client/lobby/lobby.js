@@ -6,20 +6,26 @@ export default class Lobby extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listOfUserNames : [],
+      id: null,
+      listOfUsers: [],
       ready: false
     };
     cloak.configure({
       messages: {
-        updateusers: (userlistInput) => {
+        updateusers: (userInfo) => {
           this.setState({
-            listOfUserNames : userlistInput
+            listOfUsers: JSON.parse(userInfo)
+          });
+        },
+        userid: (id) => {
+          this.setState({
+            id: id
           });
         }
-      },
+      }
     });
     this.onClick = this.onClick.bind(this);
-    {this.getUserNames()};
+    {this.getLobbyInfo()};
   }
 
   onClick(e) {
@@ -30,20 +36,31 @@ export default class Lobby extends Component {
     });
   }
 
-  getUserNames() {
-    cloak.message('getusernames',_);
+  getLobbyInfo() {
+    cloak.message('getlobbyinfo',_);
   }
 
   render() {
-    const userList = (
-      this.state.listOfUserNames.map(function(users,i){
-        return <User index={i} key={i} name={users} />;
+    let otherUsers = [];
+    let name = "";
+    this.state.listOfUsers.forEach((user) => {
+      if (this.state.id != user.id) {
+        otherUsers.push(user.name);
+        return;
+      }
+      name = user.name;
+    });
+
+    const userDisplayList = (
+      otherUsers.map(function(users, i) {
+        return <User key={i} name={users} />;
       })
     );
     return (
       <div>
+        <h1> {name} </h1>
         <button onClick={this.onClick}>{this.state.ready ? "Unready" : "Ready"}</button>
-        {userList}
+        {userDisplayList}
       </div>
     );
   }

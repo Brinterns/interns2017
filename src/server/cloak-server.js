@@ -10,16 +10,20 @@ var updateLobbyUsers = function(arg) {
   members.forEach( function(user) {
     listOfUsers.push(user);
   });
-  cloak.messageAll('updateusers', getListOfUserNames());
+  cloak.messageAll('updateusers', getUserInfo());
 };
 
 //all clients are updated with the list of usernames currently in the lobby
-function getListOfUserNames(){
-  let listofUserNames = [];
-  listOfUsers.forEach(function(user){
-    listofUserNames.push(user.name);
+function getUserInfo() {
+  let listOfUserInfo = [];
+  listOfUsers.forEach(function(user) {
+    var userJson = {
+      id: user.id,
+      name: user.name
+    };
+    listOfUserInfo.push(userJson);
   });
-  return listofUserNames;
+  return JSON.stringify(listOfUserInfo);
 }
 
 module.exports = function(expressServer) {
@@ -29,10 +33,11 @@ module.exports = function(expressServer) {
       setusername: function(msg, user) {
         listOfUsers[listOfUsers.indexOf(user)].name = msg;
         user.name = msg;
-        cloak.messageAll('updateusers', getListOfUserNames());
+        cloak.messageAll('updateusers', getUserInfo());
       },
-      getusernames: function(msg, user) {
-        user.message('updateusers', getListOfUserNames());
+      getlobbyinfo: function(msg, user) {
+        user.message('userid', user.id);
+        user.message('updateusers', getUserInfo());
       },
       userready: function(msg, user) {
         user.data.ready = msg;
