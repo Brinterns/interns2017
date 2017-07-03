@@ -26,11 +26,15 @@ export default class Login extends Component {
 
   render(){
     return (
-      <div className={styles.inputbox}>
-        <form onSubmit={this.onSubmit}>
-          <input type="text" value={this.state.username} onChange={this.handleChange}/>
-          <input type="submit" value="Submit"/>
-        </form>
+      <div className={styles.pageBackground}>
+        <div className={styles.backgroundBlock}>
+          <div className={styles.inputbox}>
+            <form onSubmit={this.onSubmit}>
+              <input className={styles.nameField}  type="text" placeholder="Username" value={this.state.username} onChange={this.handleChange}/>
+              <input className={styles.submitButton} type="submit" value="Submit"/>
+            </form>
+          </div>
+        </div>
       </div>
     );
   }
