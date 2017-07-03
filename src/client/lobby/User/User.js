@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
-import loginStyles from './Users.css';
+import userStyles from '../lobby.css';
 
 
 export default class User extends Component {
@@ -10,8 +10,8 @@ export default class User extends Component {
 
   render() {
     return (
-      <div>
-        <div className={loginStyles.userMain}>
+      <div className={userStyles.user}>
+        <div>
           <h1>{this.props.name}</h1>
         </div>
       </div>

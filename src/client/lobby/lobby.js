@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import User from './User';
 import config from '../config/config';
 
+import lobbyStyles from './lobby.css';
+
 export default class Lobby extends Component {
   constructor(props) {
     super(props);
@@ -57,10 +59,14 @@ export default class Lobby extends Component {
       })
     );
     return (
-      <div>
+      <div className={lobbyStyles.lobbyMain}>
         <h1> {name} </h1>
-        <button onClick={this.onClick}>{this.state.ready ? "Unready" : "Ready"}</button>
-        {userDisplayList}
+        <button onClick={this.onClick} className={lobbyStyles.readyButton}>{this.state.ready ? "Unready" : "Ready"}</button>
+        <div className="container">
+          <div className ={lobbyStyles.userList}>
+            {userDisplayList}
+          </div>
+        </div> 
       </div>
     );
   }
