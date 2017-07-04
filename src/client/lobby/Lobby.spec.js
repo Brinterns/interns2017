@@ -7,5 +7,4 @@ describe('<Lobby />', () => {
     beforeEach(() => {
         window.cloak = jasmine.createSpyObj('cloak', ['configure', 'run']);
     });
-
 });

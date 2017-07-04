@@ -5,9 +5,9 @@ import Lobby from './lobby/Lobby';
 
 
 export default(
-  <Route path="/">
-    <IndexRoute component={App}/>
-    <Route path = "/lobby" component = {Lobby} />
-    <Route path="/main" component={App} />
-  </Route>
+    <Route path="/">
+        <IndexRoute component={App}/>
+        <Route path = "/lobby" component = {Lobby} />
+        <Route path="/main" component={App} />
+    </Route>
 )

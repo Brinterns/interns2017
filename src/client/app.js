@@ -4,6 +4,6 @@ import Login from './login/Login';
 
 export default () => (
     <div>
-      <Login />
+        <Login />
     </div>
 );

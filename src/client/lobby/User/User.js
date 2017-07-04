@@ -4,17 +4,17 @@ import userStyles from '../Lobby.css';
 
 
 export default class User extends Component {
-  constructor(props) {
-    super(props);
-  }
+    constructor(props) {
+        super(props);
+    }
 
-  render() {
-    return (
-      <div className={userStyles.user}>
-        <div>
-          <h1>{this.props.name}</h1>
-        </div>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div className={userStyles.user}>
+                <div>
+                    <h1>{this.props.name}</h1>
+                </div>
+            </div>
+        );
+    }
 }
