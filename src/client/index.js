@@ -11,8 +11,7 @@ import routes from './routes';
 const store = configureStore();
 const app = document.getElementById('app');
 
-cloak.configure({
-});
+
 cloak.run('http://localhost:8080');
 
 render(
