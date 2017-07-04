@@ -19,7 +19,8 @@ function getUserInfo() {
     listOfUsers.forEach(function(user) {
         var userJson = {
             id: user.id,
-            name: user.name
+            name: user.name,
+            ready: user.data.ready
         };
         listOfUserInfo.push(userJson);
     });
@@ -41,6 +42,7 @@ module.exports = function(expressServer) {
             },
             userready: function(msg, user) {
                 user.data.ready = msg;
+                cloak.messageAll('updateusers', getUserInfo());
             }
         },
         lobby: {

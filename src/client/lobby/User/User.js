@@ -13,6 +13,7 @@ export default class User extends Component {
             <div className={userStyles.user}>
                 <div>
                     <h1>{this.props.name}</h1>
+                    {this.props.ready ? <button>Challenge</button> : null}
                 </div>
             </div>
         );

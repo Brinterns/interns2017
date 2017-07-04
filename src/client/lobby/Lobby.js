@@ -47,15 +47,15 @@ export default class Lobby extends Component {
         let name = "";
         this.state.listOfUsers.forEach((user) => {
             if (this.state.id != user.id) {
-                otherUsers.push(user.name);
+                otherUsers.push(user);
                 return;
             }
             name = user.name;
         });
 
         const userDisplayList = (
-            otherUsers.map(function(users, i) {
-                return <User key={i} name={users} />;
+            otherUsers.map(function(user, i) {
+                return <User key={i} name={user.name} ready={user.ready} />;
             })
         );
         return (
