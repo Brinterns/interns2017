@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
 
+import config from './config/config';
 import configureStore from './store';
 import App from './app';
 import routes from './routes';
@@ -12,7 +13,7 @@ const store = configureStore();
 const app = document.getElementById('app');
 
 
-cloak.run('http://localhost:8080');
+cloak.run(config.cloakAddress);
 
 render(
     <AppContainer>
