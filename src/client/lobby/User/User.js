@@ -9,10 +9,12 @@ export default class User extends Component {
     }
 
     render() {
+        const buttonClassname = this.props.ready ? null : userStyles.inactiveChallenge;
         return (
             <div className={userStyles.user}>
-                <div>
-                    <h1>{this.props.name}</h1>
+                <h1>{this.props.name}</h1>
+                <div className = {userStyles.challengeButton}>
+                    <button className={buttonClassname}>Challenge</button>
                 </div>
             </div>
         );

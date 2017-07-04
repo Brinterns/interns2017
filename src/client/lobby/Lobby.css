@@ -47,7 +47,33 @@
 }
 
 .user {
-    margin-top: 0.4em;
-    margin-bottom: 0.4em;
+    margin-top: 2.0em;
+    margin-bottom: 2.0em;
+    border-bottom: dashed;
     display: block;
 }
+
+.user h1 {
+    display: inline;
+}
+
+.challengeButton {
+    margin-right: 3em;
+    float: right;
+}
+
+.challengeButton button {
+    background-color: #03b733;
+    border-color: black;
+    height: 2.5em;
+    width: 7em;
+    border-radius: 10em;
+    font-weight: bold;
+    font-family: Bookman;
+}
+
+.inactiveChallenge {
+    opacity: 0.5;
+    cursor: default;
+}
+
