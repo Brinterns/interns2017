@@ -47,7 +47,7 @@ export default class Lobby extends Component {
         console.log(user.name);
         //TELL THE SERVER TO CREATE A ROOM IN A MESSAGE
         //IN THIS MESSAGE SEND BOTH USER IDS THAT NEED TO JOIN THIS ROOM 
-
+        cloak.message('creategame', user.id);
     }
 
     render() {

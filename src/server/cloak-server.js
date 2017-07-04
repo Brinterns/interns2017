@@ -30,6 +30,7 @@ function getUserInfo() {
 module.exports = function(expressServer) {
     cloak.configure({
         express: expressServer,
+        defaultRoomSize: 2,
         messages: {
             setusername: function(msg, user) {
                 listOfUsers[listOfUsers.indexOf(user)].name = msg;
@@ -43,6 +44,15 @@ module.exports = function(expressServer) {
             userready: function(msg, user) {
                 user.data.ready = msg;
                 cloak.messageAll('updateusers', getUserInfo());
+            },
+            creategame: function(id, user) {
+                var user2 = listOfUsers.filter(function(user) {
+                    return user.id === id;
+                })[0];
+                const roomName = user.name + " vs " + user2.name;
+                const createdRoom = cloak.createRoom(roomName);
+                createdRoom.addMember(user);
+                createdRoom.addMember(user2);
             }
         },
         lobby: {
