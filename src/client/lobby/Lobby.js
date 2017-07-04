@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 import User from './User';
-import config from '../config/config';
 
 import lobbyStyles from './Lobby.css';
 
@@ -23,6 +23,9 @@ export default class Lobby extends Component {
                     this.setState({
                         id: id
                     });
+                },
+                joingame: (roomId) => {
+                    browserHistory.push('/game/' + roomId);
                 }
             }
         });
@@ -44,9 +47,6 @@ export default class Lobby extends Component {
     }
 
     challengeUser(user) {
-        console.log(user.name);
-        //TELL THE SERVER TO CREATE A ROOM IN A MESSAGE
-        //IN THIS MESSAGE SEND BOTH USER IDS THAT NEED TO JOIN THIS ROOM 
         cloak.message('creategame', user.id);
     }
 
