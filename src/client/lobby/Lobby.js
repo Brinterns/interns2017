@@ -27,6 +27,7 @@ export default class Lobby extends Component {
             }
         });
         this.onClick = this.onClick.bind(this);
+        this.challengeUser = this.challengeUser.bind(this);
         {this.getLobbyInfo()};
     }
 
@@ -42,6 +43,13 @@ export default class Lobby extends Component {
         cloak.message('getlobbyinfo',_);
     }
 
+    challengeUser(user) {
+        console.log(user.name);
+        //TELL THE SERVER TO CREATE A ROOM IN A MESSAGE
+        //IN THIS MESSAGE SEND BOTH USER IDS THAT NEED TO JOIN THIS ROOM 
+
+    }
+
     render() {
         let otherUsers = [];
         let name = "";
@@ -54,8 +62,8 @@ export default class Lobby extends Component {
         });
 
         const userDisplayList = (
-            otherUsers.map(function(user, i) {
-                return <User key={i} name={user.name} ready={user.ready} />;
+            otherUsers.map((user, i) => {
+                return <User key={i} user={user} challengeUser={this.challengeUser} />;
             })
         );
         return (
