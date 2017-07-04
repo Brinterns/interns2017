@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
-import userStyles from '../lobby.css';
+import userStyles from '../Lobby.css';
 
 
 export default class User extends Component {

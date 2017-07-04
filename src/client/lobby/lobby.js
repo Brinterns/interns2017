@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import User from './User';
 import config from '../config/config';
 
-import lobbyStyles from './lobby.css';
+import lobbyStyles from './Lobby.css';
 
 export default class Lobby extends Component {
   constructor(props) {
