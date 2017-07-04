@@ -1,9 +1,9 @@
 import React from 'react';
-import Lobby from './lobby/lobby';
+import Lobby from './lobby/Lobby';
 import Login from './login/Login';
 
 export default () => (
     <div>
-      <Login />
+        <Login />
     </div>
 );

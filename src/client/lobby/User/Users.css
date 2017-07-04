@@ -1,16 +1,16 @@
 
 .userMain {
-  margin-left: 10%;
-  width: 80%;
-  background-color: #00008B;
+    margin-left: 10%;
+    width: 80%;
+    background-color: #00008B;
 }
 
 .userMain h1 {
-  display: inline-block;
-  font-size: 3em;
-  color: white;
-  margin-right: 2em;
+    display: inline-block;
+    font-size: 3em;
+    color: white;
+    margin-right: 2em;
 }
 .userMain button {
-  display: inline-block;
+    display: inline-block;
 }
