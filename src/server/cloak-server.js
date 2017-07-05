@@ -67,6 +67,7 @@ module.exports = function(expressServer) {
                 })[0];
                 const roomName = user.name + " vs " + user2.name;
                 const createdRoom = cloak.createRoom(roomName);
+
                 createdRoom.addMember(user);
                 createdRoom.addMember(user2);
                 user.data.ready = false;

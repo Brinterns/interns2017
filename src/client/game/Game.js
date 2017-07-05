@@ -7,6 +7,7 @@ export default class Game extends Component {
             id: null,
             listOfPlayers: [],
             GameOver : false,
+            forfeit: false,
             winnerId: null
         };
         cloak.configure({
@@ -23,6 +24,7 @@ export default class Game extends Component {
                 },
                 gameover: (winnerId) => {
                     this.setState({
+                        forfeit: false,
                         winnerId: winnerId,
                         GameOver: true
                     });
@@ -30,6 +32,7 @@ export default class Game extends Component {
             }
         });
         this.onClickWin = this.onClickWin.bind(this);
+        this.onClickForfeit = this.onClickForfeit.bind(this);
         {this.getGameInfo()};
     }
 
@@ -38,6 +41,16 @@ export default class Game extends Component {
             return;
         }
         cloak.message('winclick', winBool);
+    }
+
+    onClickForfeit() {
+        if (this.state.GameOver) {
+            return;
+        }
+        const forfeitAttempt = this.state.forfeit;
+        this.setState({
+            forfeit: !forfeitAttempt
+        });
     }
 
     getGameInfo() {
@@ -52,14 +65,22 @@ export default class Game extends Component {
                     <button> Return To Lobby </button>
                 </div>
         );
+        const forfeitDiv = (
+            <div>
+                <h1>Are you sure you want to forfeit?</h1>
+                <button onClick={this.onClickForfeit}>No</button>
+                <button onClick={ () => this.onClickWin(false)}>Yes</button>
+            </div>
+        );
 
         return (
             <div>
                 <center>
                     <h1> The Royal Game of Clicking </h1>
                     <button onClick={ () => this.onClickWin(true)}> PRESS ME </button>
-                    <button onClick={ () => this.onClickWin(false)}> FORFEIT </button>
+                    <button onClick={this.onClickForfeit}> FORFEIT </button>
                     {this.state.GameOver ? gameOverDiv : null}
+                    {this.state.forfeit ? forfeitDiv : null}
                 </center>
             </div>
         );
