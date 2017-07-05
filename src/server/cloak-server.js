@@ -41,13 +41,13 @@ function getRoomUserInfo(room) {
 
 module.exports = function(expressServer) {
     cloak.configure({
+        autoJoinLobby: false,
         express: expressServer,
         defaultRoomSize: 2,
         messages: {
             setusername: function(msg, user) {
-                listOfLobbyUsers[listOfLobbyUsers.indexOf(user)].name = msg;
                 user.name = msg;
-                cloak.messageAll('updateusers', getLobbyUserInfo());
+                cloak.getLobby().addMember(user);
             },
             getlobbyinfo: function(msg, user) {
                 user.message('userid', user.id);
