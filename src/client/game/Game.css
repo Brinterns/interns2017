@@ -1,0 +1,11 @@
+.forfeitButton {
+    background-color: #e81212;
+    float: right;
+    margin-right: 3.5%;
+    border-radius: 1em;
+    border-width: 0.05em;
+    border-color: black;
+    font-weight: bold;
+    width: 9.2em;
+    height: 3em;
+}

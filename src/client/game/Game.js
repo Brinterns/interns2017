@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
+import gameStyles from './Game.css';
 
 export default class Game extends Component {
     constructor(props) {
@@ -78,16 +79,16 @@ export default class Game extends Component {
             <div>
                 <h1>Are you sure you want to forfeit?</h1>
                 <button onClick={this.onClickForfeit}>No</button>
-                <button onClick={ () => this.onClickWin(false)}>Yes</button>
+                <button onClick={() => this.onClickWin(false)}>Yes</button>
             </div>
         );
 
         return (
             <div>
                 <center>
+                    <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
                     <h1> The Royal Game of Clicking </h1>
-                    <button onClick={ () => this.onClickWin(true)}> PRESS ME </button>
-                    <button onClick={this.onClickForfeit}> FORFEIT </button>
+                    <button onClick={() => this.onClickWin(true)}> PRESS ME </button>
                     {this.state.GameOver ? gameOverDiv : null}
                     {this.state.forfeit ? forfeitDiv : null}
                 </center>
