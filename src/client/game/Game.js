@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 
 export default class Game extends Component {
     constructor(props) {
@@ -26,6 +27,9 @@ export default class Game extends Component {
                         winnerId: winnerId,
                         GameOver: true
                     });
+                },
+                gotolobby: () => {
+                    browserHistory.push('/lobby');
                 }
             }
         });
@@ -40,6 +44,10 @@ export default class Game extends Component {
         cloak.message('winclick', winBool);
     }
 
+    returnToLobby() {
+        cloak.message('leavegame', _);
+    }
+
     getGameInfo() {
         cloak.message('getroominfo', _);
     }
@@ -49,7 +57,7 @@ export default class Game extends Component {
         const gameOverDiv = (
                 <div>
                     <h1>{gameOverTextChoice}</h1>
-                    <button> Return To Lobby </button>
+                    <button onClick={this.returnToLobby}> Return To Lobby </button>
                 </div>
         );
 

@@ -74,6 +74,10 @@ module.exports = function(expressServer) {
                 user.message('joingame', createdRoom.id);
                 user2.message('joingame', createdRoom.id);
             },
+            leavegame: function(msg, user) {
+                cloak.getLobby().addMember(user);
+                user.message('gotolobby');
+            },
             winclick: function(winBool, user) {
                 const userRoom = user.getRoom();
                 if (winBool) {
