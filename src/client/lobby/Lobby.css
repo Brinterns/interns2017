@@ -41,8 +41,8 @@
     width: 50%;
     height: 60%;
     transform: translate(-50%, 0%);
-    background-color: rgba(23, 114, 3, 0.5);
-    overflow-y: scroll;
+    background-color: rgba(23, 114, 3, 0.15);
+    overflow-y : auto;
 }
 
 .user {
@@ -74,4 +74,3 @@
     opacity: 0.5;
     cursor: default;
 }
-
