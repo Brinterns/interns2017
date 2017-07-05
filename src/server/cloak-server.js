@@ -69,8 +69,21 @@ module.exports = function(expressServer) {
                 const createdRoom = cloak.createRoom(roomName);
                 createdRoom.addMember(user);
                 createdRoom.addMember(user2);
+                user.data.ready = false;
+                user2.data.ready = false;
                 user.message('joingame', createdRoom.id);
                 user2.message('joingame', createdRoom.id);
+            },
+            winclick: function(winBool, user) {
+                const userRoom = user.getRoom();
+                if (winBool) {
+                    userRoom.messageMembers('gameover', user.id);
+                } else {
+                    var user2 = userRoom.getMembers().filter(function(usr) {
+                        return usr.id !== user.id;
+                    })[0];
+                    userRoom.messageMembers('gameover', user2.id);
+                }
             }
         },
         lobby: {
