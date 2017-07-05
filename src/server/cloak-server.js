@@ -60,8 +60,10 @@ module.exports = function(expressServer) {
                 user.message('updateusers', getLobbyUserInfo());
             },
             getroominfo: function(msg, user) {
+                const room = user.getRoom();
                 user.message('userid', user.id);
-                getRoomUserInfo(user.getRoom());
+                user.message('roomname', room.name);
+                getRoomUserInfo(room);
             },
             userready: function(msg, user) {
                 user.data.ready = msg;

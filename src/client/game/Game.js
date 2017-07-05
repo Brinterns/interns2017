@@ -7,6 +7,7 @@ export default class Game extends Component {
         super(props);
         this.state = {
             id: null,
+            roomname: '',
             listOfPlayers: [],
             GameOver : false,
             forfeit: false,
@@ -22,6 +23,11 @@ export default class Game extends Component {
                 userid: (id) => {
                     this.setState({
                         id: id
+                    });
+                },
+                roomname: (name) => {
+                    this.setState({
+                        roomname: name
                     });
                 },
                 gameover: (winnerId) => {
@@ -84,10 +90,10 @@ export default class Game extends Component {
         );
 
         return (
-            <div>
+            <div className={gameStyles.gameMain}>
                 <center>
                     <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
-                    <h1> The Royal Game of Clicking </h1>
+                    <h1> {this.state.roomname} </h1>
                     <button onClick={() => this.onClickWin(true)}> PRESS ME </button>
                     {this.state.GameOver ? gameOverDiv : null}
                     {this.state.forfeit ? forfeitDiv : null}
