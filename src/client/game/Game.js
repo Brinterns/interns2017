@@ -76,28 +76,28 @@ export default class Game extends Component {
     render() {
         const gameOverTextChoice = (this.state.winnerId == this.state.id) ? "You Won!" : "You Lost";
         const gameOverDiv = (
-                <div>
-                    <h1>{gameOverTextChoice}</h1>
-                    <button onClick={this.returnToLobby}> Return To Lobby </button>
-                </div>
+            <div className={gameStyles.notificationMenu}>
+                <h1>{gameOverTextChoice}</h1>
+                <button className={gameStyles.returnButton} onClick={this.returnToLobby}> Return To Lobby </button>
+            </div>
         );
         const forfeitDiv = (
-            <div>
+            <div className={gameStyles.notificationMenu}>
                 <h1>Are you sure you want to forfeit?</h1>
-                <button onClick={this.onClickForfeit}>No</button>
-                <button onClick={() => this.onClickWin(false)}>Yes</button>
+                <button className={gameStyles.yesButton} onClick={() => this.onClickWin(false)}>Yes</button>
+                <button className={gameStyles.noButton} onClick={this.onClickForfeit}>No</button>
             </div>
         );
 
         return (
             <div className={gameStyles.gameMain}>
-                <center>
-                    <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
-                    <h1> {this.state.roomname} </h1>
+                <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
+                <h1> {this.state.roomname} </h1>
+                <div className={gameStyles.gameInterface}>
                     <button onClick={() => this.onClickWin(true)}> PRESS ME </button>
-                    {this.state.GameOver ? gameOverDiv : null}
-                    {this.state.forfeit ? forfeitDiv : null}
-                </center>
+                </div>
+                {this.state.GameOver ? gameOverDiv : null}
+                {this.state.forfeit ? forfeitDiv : null}
             </div>
         );
     }
