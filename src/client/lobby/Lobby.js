@@ -66,15 +66,18 @@ export default class Lobby extends Component {
                 return <User key={i} user={user} challengeUser={this.challengeUser} />;
             })
         );
+        const buttonClass = this.state.ready ? lobbyStyles.unready : null;
         return (
             <div className={lobbyStyles.lobbyMain}>
                 <h1> {name} </h1>
-                <button onClick={this.onClick} className={lobbyStyles.readyButton}>{this.state.ready ? "Unready" : "Ready"}</button>
+                <div className={lobbyStyles.readyOptions}>
+                    <button onClick={this.onClick} className={buttonClass}>{this.state.ready ? "Unready" : "Ready"}</button>
+                </div>
                 <div className="container">
                     <div className ={lobbyStyles.userList}>
                         {userDisplayList}
                     </div>
-                </div> 
+                </div>
             </div>
         );
     }
