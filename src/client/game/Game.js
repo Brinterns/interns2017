@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
+import gameStyles from './Game.css';
 
 export default class Game extends Component {
     constructor(props) {
         super(props);
         this.state = {
             id: null,
+            roomname: '',
             listOfPlayers: [],
             GameOver : false,
+            forfeit: false,
             winnerId: null
         };
         cloak.configure({
@@ -21,15 +25,26 @@ export default class Game extends Component {
                         id: id
                     });
                 },
+                roomname: (name) => {
+                    this.setState({
+                        roomname: name
+                    });
+                },
                 gameover: (winnerId) => {
                     this.setState({
+                        forfeit: false,
                         winnerId: winnerId,
                         GameOver: true
                     });
+                },
+                gotolobby: () => {
+                    browserHistory.push('/lobby');
                 }
             }
         });
         this.onClickWin = this.onClickWin.bind(this);
+        this.onClickForfeit = this.onClickForfeit.bind(this);
+        this.returnToLobby = this.returnToLobby.bind(this);
         {this.getGameInfo()};
     }
 
@@ -40,6 +55,20 @@ export default class Game extends Component {
         cloak.message('winclick', winBool);
     }
 
+    onClickForfeit() {
+        if (this.state.GameOver) {
+            return;
+        }
+        const forfeitAttempt = this.state.forfeit;
+        this.setState({
+            forfeit: !forfeitAttempt
+        });
+    }
+
+    returnToLobby() {
+        cloak.message('leavegame', _);
+    }
+
     getGameInfo() {
         cloak.message('getroominfo', _);
     }
@@ -47,20 +76,28 @@ export default class Game extends Component {
     render() {
         const gameOverTextChoice = (this.state.winnerId == this.state.id) ? "You Won!" : "You Lost";
         const gameOverDiv = (
-                <div>
-                    <h1>{gameOverTextChoice}</h1>
-                    <button> Return To Lobby </button>
-                </div>
+            <div className={gameStyles.notificationMenu}>
+                <h1>{gameOverTextChoice}</h1>
+                <button className={gameStyles.returnButton} onClick={this.returnToLobby}> Return To Lobby </button>
+            </div>
+        );
+        const forfeitDiv = (
+            <div className={gameStyles.notificationMenu}>
+                <h1>Are you sure you want to forfeit?</h1>
+                <button className={gameStyles.yesButton} onClick={() => this.onClickWin(false)}>Yes</button>
+                <button className={gameStyles.noButton} onClick={this.onClickForfeit}>No</button>
+            </div>
         );
 
         return (
-            <div>
-                <center>
-                    <h1> The Royal Game of Clicking </h1>
-                    <button onClick={ () => this.onClickWin(true)}> PRESS ME </button>
-                    <button onClick={ () => this.onClickWin(false)}> FORFEIT </button>
-                    {this.state.GameOver ? gameOverDiv : null}
-                </center>
+            <div className={gameStyles.gameMain}>
+                <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
+                <h1> {this.state.roomname} </h1>
+                <div>
+                    <button className={gameStyles.winButton} onClick={() => this.onClickWin(true)}> PRESS ME </button>
+                </div>
+                {this.state.GameOver ? gameOverDiv : null}
+                {this.state.forfeit ? forfeitDiv : null}
             </div>
         );
     }

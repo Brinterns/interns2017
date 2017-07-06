@@ -39,10 +39,16 @@ function getRoomUserInfo(room) {
     room.messageMembers('updateplayers', JSON.stringify(listOfRoomUsers));
 }
 
+function userJoinRoom(user, room) {
+    room.addMember(user);
+    user.data.ready = false;
+}
+
 module.exports = function(expressServer) {
     cloak.configure({
         autoJoinLobby: false,
         express: expressServer,
+        pruneEmptyRooms: 10000,
         defaultRoomSize: 2,
         messages: {
             setusername: function(msg, user) {
@@ -54,8 +60,10 @@ module.exports = function(expressServer) {
                 user.message('updateusers', getLobbyUserInfo());
             },
             getroominfo: function(msg, user) {
+                const room = user.getRoom();
                 user.message('userid', user.id);
-                getRoomUserInfo(user.getRoom());
+                user.message('roomname', room.name);
+                getRoomUserInfo(room);
             },
             userready: function(msg, user) {
                 user.data.ready = msg;
@@ -65,14 +73,14 @@ module.exports = function(expressServer) {
                 var user2 = listOfLobbyUsers.filter(function(user) {
                     return user.id === id;
                 })[0];
-                const roomName = user.name + " vs " + user2.name;
-                const createdRoom = cloak.createRoom(roomName);
-                createdRoom.addMember(user);
-                createdRoom.addMember(user2);
-                user.data.ready = false;
-                user2.data.ready = false;
-                user.message('joingame', createdRoom.id);
-                user2.message('joingame', createdRoom.id);
+                const createdRoom = cloak.createRoom(user.name + " vs " + user2.name);
+                userJoinRoom(user, createdRoom);
+                userJoinRoom(user2, createdRoom);
+                createdRoom.messageMembers('joingame', createdRoom.id);
+            },
+            leavegame: function(msg, user) {
+                cloak.getLobby().addMember(user);
+                user.message('gotolobby');
             },
             winclick: function(winBool, user) {
                 const userRoom = user.getRoom();
