@@ -3,6 +3,7 @@ import { browserHistory } from 'react-router';
 import User from './User';
 import Cookies from 'universal-cookie';
 import lobbyStyles from './Lobby.css';
+import ChatBox from './Chat/ChatBox';
 
 const cookies = new Cookies();
 
@@ -13,6 +14,7 @@ export default class Lobby extends Component {
             id: null,
             listOfUsers: [],
             listOfActiveGames: [],
+            messages: [],
             ready: false
         };
         cloak.configure({
@@ -35,6 +37,11 @@ export default class Lobby extends Component {
                 },
                 joingame: (roomId) => {
                     browserHistory.push('/game/' + roomId);
+                },
+                updatemessages: (messages) => {
+                    this.setState({
+                        messages: JSON.parse(messages)
+                    });
                 }
             }
         });
@@ -103,6 +110,7 @@ export default class Lobby extends Component {
                         <h1>Active Games</h1>
                         {gamesDisplayList}
                     </div>
+                    <ChatBox id={this.state.id} messages={this.state.messages}/>
                 </div>
             </div>
         );

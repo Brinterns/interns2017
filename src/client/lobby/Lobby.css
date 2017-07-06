@@ -17,13 +17,13 @@
 
 .readyOptions button {
     position: absolute;
-    top: 15%;
+    top: 10%;
     left: 50%;
     margin-right: -50%;
     margin: 0;
     transform: translate(-50%, -50%);
-    height: 7.5em;
-    width: 7.5em;
+    height: 5em;
+    width: 5em;
     border-radius: 50%;
     background-color: rgba(9, 183, 73, 1.0);
     border-color: black;
@@ -39,16 +39,15 @@
 
 .userList {
     position: absolute;
-    top: 30%;
+    top: 20%;
     left: 40%;
     margin-right: -50%;
     margin: 0;
     width: 50%;
-    height: 60%;
+    height: 50%;
     transform: translate(-50%, 0%);
     background-color: rgba(23, 114, 3, 0.15);
     border-top-left-radius: 3em;
-    border-bottom-left-radius: 3em;
     overflow-y : auto;
     border-style: solid;
 }
@@ -59,18 +58,17 @@
 
 .gameList {
     position: absolute;
-    top: 30%;
+    top: 20%;
     left: 65%;
     margin-right: -50%;
     margin: 0;
     width: 25%;
-    height: 60%;
+    height: 50%;
     background-color: rgba(23, 114, 3, 0.15);
     overflow-y : auto;
     border-style: solid;
     border-left: none;
     border-top-right-radius: 3em;
-    border-bottom-right-radius: 3em;
 }
 
 .gameList h1 {

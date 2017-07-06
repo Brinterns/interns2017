@@ -1,7 +1,8 @@
 var cloak = require('cloak');
 
 let listOfLobbyUsers = [];
-
+let messages = [];
+const maxMessages = 7;
 
 module.exports = function(expressServer) {
     cloak.configure({
@@ -16,6 +17,7 @@ module.exports = function(expressServer) {
             },
             getlobbyinfo: function(msg, user) {
                 getLobbyInfo(user);
+                sendMessages();
             },
             getroominfo: function(msg, user) {
                 getRoomInfo(user);
@@ -36,6 +38,18 @@ module.exports = function(expressServer) {
             },
             reconnectuser: function(id, user) {
                 reconnectUser(id, user);
+            },
+            sendmessage: function(message, user) {
+                var messageObj = {
+                    message: message,
+                    userName: user.name,
+                    userId: user.id
+                };
+                messages.push(messageObj);
+                if (messages.length > maxMessages) {
+                    messages.splice(0,1);
+                }
+                sendMessages();
             }
         },
         lobby: {
@@ -48,6 +62,12 @@ module.exports = function(expressServer) {
     });
     cloak.run();
 };
+
+function sendMessages() {
+    if (messages.length > 0) {
+        cloak.getLobby().messageMembers('updatemessages', JSON.stringify(messages));
+    }
+}
 
 function getLobbyInfo(user) {
     user.message('userid', user.id);
@@ -86,11 +106,13 @@ function winClick(winBool, user) {
 //whenever a username is changed/a player joins the lobby
 ///a player leaves the lobby the list of users is updated
 var updateLobbyUsers = function(arg) {
+
     listOfLobbyUsers = [];
     var members = this.getMembers();
     members.forEach(function(user) {
         listOfLobbyUsers.push(user);
     });
+    sendMessages();
     cloak.messageAll('updateusers', getLobbyUserInfo());
 };
 
