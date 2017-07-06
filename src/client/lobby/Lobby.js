@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import User from './User';
-
+import Cookies from 'universal-cookie';
 import lobbyStyles from './Lobby.css';
+
+const cookies = new Cookies();
 
 export default class Lobby extends Component {
     constructor(props) {
@@ -20,9 +22,11 @@ export default class Lobby extends Component {
                     });
                 },
                 userid: (id) => {
+                    console.log("I have been told my id = " + id);
                     this.setState({
                         id: id
                     });
+                    cookies.set('userId', id);
                 },
                 joingame: (roomId) => {
                     browserHistory.push('/game/' + roomId);
@@ -43,7 +47,13 @@ export default class Lobby extends Component {
     }
 
     getLobbyInfo() {
-        cloak.message('getlobbyinfo',_);
+        if(cloak.connected()) {
+            cloak.message('getlobbyinfo', _);
+        } else {
+            setTimeout(() => {
+                cloak.message('reconnectuser', cookies.get('userId'));
+            }, 300);
+        }
     }
 
     challengeUser(user) {
