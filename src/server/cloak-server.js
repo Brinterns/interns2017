@@ -24,7 +24,20 @@ function getLobbyUserInfo() {
         };
         listOfUserInfo.push(userJson);
     });
+    updateLobbyActiveGames();
     return JSON.stringify(listOfUserInfo);
+}
+
+function updateLobbyActiveGames() {
+    //updates lobby users with active game names
+    let activeGameNames = [];
+    cloak.getRooms().forEach(function(room) {
+        if(room.members.length > 0) {
+            activeGameNames.push(room.name);
+        }
+    });
+    console.log("room closed, update members with "+ activeGameNames);
+    cloak.getLobby().messageMembers('updaterooms', activeGameNames);
 }
 
 function getRoomUserInfo(room) {
@@ -48,7 +61,7 @@ module.exports = function(expressServer) {
     cloak.configure({
         autoJoinLobby: false,
         express: expressServer,
-        pruneEmptyRooms: 10000,
+        pruneEmptyRooms: 1000,
         defaultRoomSize: 2,
         messages: {
             setusername: function(msg, user) {
@@ -73,10 +86,11 @@ module.exports = function(expressServer) {
                 var user2 = listOfLobbyUsers.filter(function(user) {
                     return user.id === id;
                 })[0];
-                const createdRoom = cloak.createRoom(user.name + " vs " + user2.name);
+                let createdRoom = cloak.createRoom(user.name + " vs " + user2.name);
                 userJoinRoom(user, createdRoom);
                 userJoinRoom(user2, createdRoom);
                 createdRoom.messageMembers('joingame', createdRoom.id);
+                updateLobbyActiveGames();
             },
             leavegame: function(msg, user) {
                 cloak.getLobby().addMember(user);
@@ -109,7 +123,10 @@ module.exports = function(expressServer) {
         lobby: {
             newMember: updateLobbyUsers,
             memberLeaves: updateLobbyUsers
-        }
+        },
+        room: {
+            close: updateLobbyActiveGames
+        },
     });
     cloak.run();
 };

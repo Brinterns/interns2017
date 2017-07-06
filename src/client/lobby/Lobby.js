@@ -12,6 +12,7 @@ export default class Lobby extends Component {
         this.state = {
             id: null,
             listOfUsers: [],
+            listOfActiveGames: [],
             ready: false
         };
         cloak.configure({
@@ -21,8 +22,12 @@ export default class Lobby extends Component {
                         listOfUsers: JSON.parse(userInfo)
                     });
                 },
+                updaterooms: (roomNames) => {
+                    this.setState({
+                        listOfActiveGames: roomNames
+                    });
+                },
                 userid: (id) => {
-                    console.log("I have been told my id = " + id);
                     this.setState({
                         id: id
                     });
@@ -76,6 +81,12 @@ export default class Lobby extends Component {
                 return <User key={i} user={user} challengeUser={this.challengeUser} />;
             })
         );
+        const gamesDisplayList = (
+            this.state.listOfActiveGames.map((gameName, i) => {
+                return <h2>{gameName}</h2>;
+            })
+        );
+
         const buttonClass = this.state.ready ? lobbyStyles.unready : null;
         return (
             <div className={lobbyStyles.lobbyMain}>
@@ -90,6 +101,7 @@ export default class Lobby extends Component {
                     </div>
                     <div className ={lobbyStyles.gameList}>
                         <h1>Active Games</h1>
+                        {gamesDisplayList}
                     </div>
                 </div>
             </div>
