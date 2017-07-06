@@ -85,7 +85,11 @@ export default class Lobby extends Component {
                 </div>
                 <div className="container">
                     <div className ={lobbyStyles.userList}>
+                        <h1>Lobby</h1>
                         {userDisplayList}
+                    </div>
+                    <div className ={lobbyStyles.gameList}>
+                        <h1>Active Games</h1>
                     </div>
                 </div>
             </div>
