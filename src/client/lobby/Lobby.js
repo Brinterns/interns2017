@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router';
 import User from './User';
-import config from '../config/config';
 
 import lobbyStyles from './Lobby.css';
 
@@ -23,10 +23,14 @@ export default class Lobby extends Component {
                     this.setState({
                         id: id
                     });
+                },
+                joingame: (roomId) => {
+                    browserHistory.push('/game/' + roomId);
                 }
             }
         });
         this.onClick = this.onClick.bind(this);
+        this.challengeUser = this.challengeUser.bind(this);
         {this.getLobbyInfo()};
     }
 
@@ -42,6 +46,10 @@ export default class Lobby extends Component {
         cloak.message('getlobbyinfo',_);
     }
 
+    challengeUser(user) {
+        cloak.message('creategame', user.id);
+    }
+
     render() {
         let otherUsers = [];
         let name = "";
@@ -54,8 +62,8 @@ export default class Lobby extends Component {
         });
 
         const userDisplayList = (
-            otherUsers.map(function(user, i) {
-                return <User key={i} name={user.name} ready={user.ready} />;
+            otherUsers.map((user, i) => {
+                return <User key={i} user={user} challengeUser={this.challengeUser} />;
             })
         );
         return (
