@@ -3,7 +3,7 @@ import { browserHistory } from 'react-router';
 import styles from './Login.css';
 
 export default class Login extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             username: ''
@@ -11,20 +11,20 @@ export default class Login extends Component {
         this.onSubmit = this.onSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
-  
-    handleChange(event){
+
+    handleChange(event) {
         this.setState ({
             username: event.target.value
         });
     }
 
-    onSubmit(e){
+    onSubmit(e) {
         const { username } = this.state;
         cloak.message('setusername', username);
         browserHistory.push("/lobby");
     }
 
-    render(){
+    render() {
         return (
             <div className={styles.pageBackground}>
                 <div className={styles.backgroundBlock}>

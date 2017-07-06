@@ -92,6 +92,18 @@ module.exports = function(expressServer) {
                     })[0];
                     userRoom.messageMembers('gameover', user2.id);
                 }
+            },
+            reconnectuser: function(id, user) {
+                var user2 = cloak.getUsers().filter(function(user) {
+                    return user.id === id;
+                });
+                if (user2.length) {
+                    user.name = user2[0].name;
+                    user.ready = user2[0].ready;
+                    user.message('userid', user.id);
+                    user.joinRoom(user2[0].getRoom());
+                    user2[0].delete();
+                }
             }
         },
         lobby: {
