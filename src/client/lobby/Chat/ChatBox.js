@@ -19,11 +19,13 @@ export default class ChatBox extends Component {
             });
         }
     }
+
     handleChange(e) {
         this.setState ({
-            input: event.target.value
+            input: e.target.value
         });
     }
+    
     render() {
         const messageData = this.props.messages;
         const messageDisplay = (
@@ -39,7 +41,7 @@ export default class ChatBox extends Component {
         return (
             <div className={chatStyles.chatMain}>
                 {messageDisplay}
-                <input type="text" onKeyPress={this.handleKeyPress} onChange={this.handleChange}/>
+                <input type="text" onKeyPress={this.handleKeyPress} value={this.state.input} onChange={this.handleChange}/>
             </div>
         );
     }
