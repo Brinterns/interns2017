@@ -3,6 +3,7 @@ import { browserHistory } from 'react-router';
 import User from './User';
 import Cookies from 'universal-cookie';
 import lobbyStyles from './Lobby.css';
+import ChatBox from './Chat/ChatBox';
 
 const cookies = new Cookies();
 
@@ -12,6 +13,8 @@ export default class Lobby extends Component {
         this.state = {
             id: null,
             listOfUsers: [],
+            listOfActiveGames: [],
+            messages: [],
             ready: false
         };
         cloak.configure({
@@ -21,8 +24,12 @@ export default class Lobby extends Component {
                         listOfUsers: JSON.parse(userInfo)
                     });
                 },
+                updaterooms: (roomNames) => {
+                    this.setState({
+                        listOfActiveGames: roomNames
+                    });
+                },
                 userid: (id) => {
-                    console.log("I have been told my id = " + id);
                     this.setState({
                         id: id
                     });
@@ -30,6 +37,11 @@ export default class Lobby extends Component {
                 },
                 joingame: (roomId) => {
                     browserHistory.push('/game/' + roomId);
+                },
+                updatemessages: (messages) => {
+                    this.setState({
+                        messages: JSON.parse(messages)
+                    });
                 }
             }
         });
@@ -76,6 +88,12 @@ export default class Lobby extends Component {
                 return <User key={i} user={user} challengeUser={this.challengeUser} />;
             })
         );
+        const gamesDisplayList = (
+            this.state.listOfActiveGames.map((gameName, i) => {
+                return <h2>{gameName}</h2>;
+            })
+        );
+
         const buttonClass = this.state.ready ? lobbyStyles.unready : null;
         return (
             <div className={lobbyStyles.lobbyMain}>
@@ -85,8 +103,14 @@ export default class Lobby extends Component {
                 </div>
                 <div className="container">
                     <div className ={lobbyStyles.userList}>
+                        <h1>Lobby</h1>
                         {userDisplayList}
                     </div>
+                    <div className ={lobbyStyles.gameList}>
+                        <h1>Active Games</h1>
+                        {gamesDisplayList}
+                    </div>
+                    <ChatBox id={this.state.id} messages={this.state.messages}/>
                 </div>
             </div>
         );
