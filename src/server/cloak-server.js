@@ -76,12 +76,12 @@ function getLobbyInfo(user) {
 
 function getRoomInfo(user) {
     const room = user.getRoom();
-    if (!room.data.nextPlayer) {
-        room.data.nextPlayer = room.getMembers()[1].id;
+    if (!room.data.currentPlayer) {
+        room.data.currentPlayer = room.getMembers()[1].id;
     }
     user.message('userid', user.id);
     user.message('roomname', room.name);
-    user.message('nextplayer', room.data.nextPlayer);
+    user.message('currentplayer', room.data.currentPlayer);
     getRoomUserInfo(room);
 }
 
@@ -167,10 +167,10 @@ function reconnectUser(id, user) {
         user.message('userid', user.id);
         const room = user2[0].getRoom();
         user.joinRoom(room);
-        if (user2[0].id === room.data.nextPlayer) {
-            room.data.nextPlayer = user.id;
+        if (user2[0].id === room.data.currentPlayer) {
+            room.data.currentPlayer = user.id;
         }
-        user.message('nextPlayer', room.data.nextPlayer);
+        user.message('currentplayer', room.data.currentPlayer);
         user2[0].delete();
     }
 }
