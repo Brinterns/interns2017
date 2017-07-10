@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import gameStyles from './Game.css';
+import Board from './board/Board';
 
 export default class Game extends Component {
     constructor(props) {
@@ -101,12 +102,10 @@ export default class Game extends Component {
             <div className={gameStyles.gameMain}>
                 <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
                 <h1> {this.state.roomname} </h1>
-                <div>
-                    <button className={gameStyles.winButton} onClick={() => this.onClickWin(true)}> PRESS ME </button>
-                </div>
+                <Board />
                 {this.state.GameOver ? gameOverDiv : null}
                 {this.state.forfeit ? forfeitDiv : null}
             </div>
         );
     }
-}
+}// <button className={gameStyles.winButton} onClick={() => this.onClickWin(true)}> PRESS ME </button>
