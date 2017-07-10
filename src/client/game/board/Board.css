@@ -1,3 +1,9 @@
+:root {
+    --squareMargin: calc(0.5 * (1vw + 1vh - 1vmin)) calc(0.5 * (1vw + 1vh - 1vmin)) calc(0.5 * (1vw + 1vh - 1vmin)) calc(0.5 * (1vw + 1vh - 1vmin));
+    --squareSide: calc(6 * (1vw + 1vh - 1vmin));
+}
+
+
 .boardMainDiv {
     width: 100%;
     margin-left: auto;
@@ -13,21 +19,21 @@
 }
 
 .squareNormal {
-    margin: 0.5vmax 0.5vmax 0.5vmax 0.5vmax;
-    height: 6vmax;
-    width: 6vmax;
+    margin: var(--squareMargin);
+    height: var(--squareSide);
+    width: var(--squareSide);
     background-color: white;
 }
 
 .squareBlank {
-    margin: 0.5vmax 0.5vmax 0.5vmax 0.5vmax;
-    height: 6vmax;
-    width: 6vmax;
+    margin: var(--squareMargin);
+    height: var(--squareSide);
+    width: var(--squareSide);
 }
 
 .squareRosetta {
-    margin: 0.5vmax 0.5vmax 0.5vmax 0.5vmax;
-    height: 6vmax;
-    width: 6vmax;
+    margin: var(--squareMargin);
+    height: var(--squareSide);
+    width: var(--squareSide);
     background-color: red;
 }
