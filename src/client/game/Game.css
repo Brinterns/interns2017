@@ -20,6 +20,13 @@
     text-align: center;
 }
 
+.gameMain h2 {
+    color: white;
+    position: absolute;
+    margin-top : 1em;
+    margin-left: 1em;
+}
+
 .forfeitButton {
     background-color: #e81212;
     float: right;

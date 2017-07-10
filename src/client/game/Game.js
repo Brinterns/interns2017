@@ -12,7 +12,8 @@ export default class Game extends Component {
             listOfPlayers: [],
             GameOver : false,
             forfeit: false,
-            winnerId: null
+            winnerId: null,
+            currentPlayer: null
         };
         cloak.configure({
             messages: {
@@ -41,6 +42,11 @@ export default class Game extends Component {
                 },
                 gotolobby: () => {
                     browserHistory.push('/lobby');
+                },
+                currentplayer: (current) => {
+                    this.setState({
+                        currentPlayer: current
+                    });
                 }
             }
         });
@@ -97,9 +103,16 @@ export default class Game extends Component {
                 <button className={gameStyles.noButton} onClick={this.onClickForfeit}>No</button>
             </div>
         );
+        let currentPlayerText = "";
+        if (this.state.listOfPlayers.length) {
+            currentPlayerText = (this.state.currentPlayer === this.state.id) ? "It's your turn" : "It's " + this.state.listOfPlayers.filter(player => {
+                return player.id === this.state.currentPlayer;
+            })[0].name + "'s" + " turn";
+        }
 
         return (
             <div className={gameStyles.gameMain}>
+                <h2> {currentPlayerText} </h2>
                 <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
                 <h1> {this.state.roomname} </h1>
                 <Board />
