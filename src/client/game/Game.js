@@ -43,9 +43,9 @@ export default class Game extends Component {
                 gotolobby: () => {
                     browserHistory.push('/lobby');
                 },
-                currentplayer: (next) => {
+                currentplayer: (current) => {
                     this.setState({
-                        currentPlayer: next
+                        currentPlayer: current
                     });
                 }
             }
