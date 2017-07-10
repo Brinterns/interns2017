@@ -42,8 +42,8 @@
     margin-right: -50%;
     margin: 0;
     transform: translate(-50%, -50%);
-    height: 20%;
-    width: 20%;
+    height: 12em;
+    width: 15em;
     background-color: #031326;
     border-radius: 3em;
 }
