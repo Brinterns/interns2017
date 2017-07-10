@@ -109,4 +109,3 @@ export default class Game extends Component {
         );
     }
 }
-// <button className={gameStyles.winButton} onClick={() => this.onClickWin(true)}> PRESS ME </button>
