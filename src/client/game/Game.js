@@ -102,7 +102,9 @@ export default class Game extends Component {
                 <button className={gameStyles.noButton} onClick={this.onClickForfeit}>No</button>
             </div>
         );
-        const nextPlayerText = (this.state.nextPlayer === this.state.id) ? "You're next" : "You're not next";
+        const nextPlayerText = (this.state.nextPlayer === this.state.id) ? "You're next" : this.state.listOfPlayers.filter(player => {
+            return player.id === this.state.nextPlayer;
+        })[0].name + " is next";
 
         return (
             <div className={gameStyles.gameMain}>
