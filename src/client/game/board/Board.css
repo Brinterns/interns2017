@@ -37,3 +37,13 @@
     width: var(--squareSide);
     background-color: red;
 }
+
+.rollButton {
+    bottom: 5%;
+    right: 5%;
+    font-size: 3em;
+    border-radius: 1.0em;
+    height: calc(2 * var(--squareSide));
+    width: calc(2 * var(--squareSide));
+    position: absolute;
+}

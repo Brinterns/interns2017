@@ -13,7 +13,9 @@ export default class Game extends Component {
             GameOver : false,
             forfeit: false,
             winnerId: null,
-            currentPlayer: null
+            currentPlayer: null,
+            rollNumber: "Roll",
+            rolled: false
         };
         cloak.configure({
             messages: {
@@ -45,7 +47,13 @@ export default class Game extends Component {
                 },
                 currentplayer: (current) => {
                     this.setState({
-                        currentPlayer: current
+                        currentPlayer: current,
+                        rolled: false
+                    });
+                },
+                rolledvalue: (value) => {
+                    this.setState({
+                        rollNumber: value
                     });
                 }
             }
@@ -53,6 +61,7 @@ export default class Game extends Component {
         this.onClickWin = this.onClickWin.bind(this);
         this.onClickForfeit = this.onClickForfeit.bind(this);
         this.returnToLobby = this.returnToLobby.bind(this);
+        this.rolledCb = this.rolledCb.bind(this);
         {this.getGameInfo()};
     }
 
@@ -88,7 +97,14 @@ export default class Game extends Component {
         }
     }
 
+    rolledCb() {
+        this.setState({
+            rolled: true
+        });
+    }
+
     render() {
+        const isPlayerTurn = (this.state.currentPlayer === this.state.id);
         const gameOverTextChoice = (this.state.winnerId == this.state.id) ? "You Won!" : "You Lost";
         const gameOverDiv = (
             <div className={gameStyles.notificationMenu}>
@@ -105,7 +121,7 @@ export default class Game extends Component {
         );
         let currentPlayerText = "";
         if (this.state.listOfPlayers.length) {
-            currentPlayerText = (this.state.currentPlayer === this.state.id) ? "It's your turn" : "It's " + this.state.listOfPlayers.filter(player => {
+            currentPlayerText = isPlayerTurn ? "It's your turn" : "It's " + this.state.listOfPlayers.filter(player => {
                 return player.id === this.state.currentPlayer;
             })[0].name + "'s" + " turn";
         }
@@ -115,7 +131,7 @@ export default class Game extends Component {
                 <h2> {currentPlayerText} </h2>
                 <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
                 <h1> {this.state.roomname} </h1>
-                <Board />
+                <Board isPlayerTurn={isPlayerTurn} rollNumber={this.state.rollNumber} rolled={this.state.rolled} rolledCb={this.rolledCb}/>
                 {this.state.GameOver ? gameOverDiv : null}
                 {this.state.forfeit ? forfeitDiv : null}
             </div>
