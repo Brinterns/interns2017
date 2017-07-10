@@ -28,16 +28,16 @@ export default class Board extends Component {
 
     render() {
         return (
-            <div className={boardStyles.boardMainDiv}>
-                {this.squareColumn(squareN,squareN,squareN)}
-                {this.squareColumn(squareR,squareN,squareR)}
-                {this.squareColumn(squareB,squareN,squareB)}
-                {this.squareColumn(squareB,squareN,squareB)}
-                {this.squareColumn(squareN,squareR,squareN)}
-                {this.squareColumn(squareN,squareN,squareN)}
-                {this.squareColumn(squareN,squareN,squareN)}
-                {this.squareColumn(squareR,squareN,squareR)}
-            </div>
+                <div className={boardStyles.boardMainDiv}>
+                    {this.squareColumn(squareN,squareN,squareN)}
+                    {this.squareColumn(squareR,squareN,squareR)}
+                    {this.squareColumn(squareB,squareN,squareB)}
+                    {this.squareColumn(squareB,squareN,squareB)}
+                    {this.squareColumn(squareN,squareR,squareN)}
+                    {this.squareColumn(squareN,squareN,squareN)}
+                    {this.squareColumn(squareN,squareN,squareN)}
+                    {this.squareColumn(squareR,squareN,squareR)}
+                </div>
         );
     }
 }
