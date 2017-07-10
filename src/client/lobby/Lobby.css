@@ -1,0 +1,116 @@
+.lobbyMain {
+    position: fixed;
+    padding: 0;
+    margin: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0e4282;
+}
+
+.lobbyMain h1 {
+    color: white;
+    margin-left: 0.5em;
+    font-family: Bookman;
+}
+
+.readyOptions button {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    margin-right: -50%;
+    margin: 0;
+    transform: translate(-50%, -50%);
+    height: 5em;
+    width: 5em;
+    border-radius: 50%;
+    background-color: rgba(9, 183, 73, 1.0);
+    border-color: black;
+    border-width: 0.2em;
+    font-size: 2em;
+    color: white;
+    outline: none;
+}
+
+.unready {
+    background-color: rgba(9, 183, 73, 0.5) !important;
+}
+
+.userList {
+    position: absolute;
+    top: 20%;
+    left: 40%;
+    margin-right: -50%;
+    margin: 0;
+    width: 50%;
+    height: 50%;
+    transform: translate(-50%, 0%);
+    background-color: rgba(23, 114, 3, 0.15);
+    border-top-left-radius: 3em;
+    overflow-y : auto;
+    border-style: solid;
+}
+
+.userList h1 {
+    text-align: center;
+}
+
+.gameList {
+    position: absolute;
+    top: 20%;
+    left: 65%;
+    margin-right: -50%;
+    margin: 0;
+    width: 25%;
+    height: 50%;
+    background-color: rgba(23, 114, 3, 0.15);
+    overflow-y : auto;
+    border-style: solid;
+    border-left: none;
+    border-top-right-radius: 3em;
+}
+
+.gameList h1 {
+    text-align: center;
+    margin-bottom: 1em;
+}
+.gameList h2 {
+    font-family: Bookman;
+    color: white;
+    font-size: 1.6em;
+    margin-left: 1em;
+    margin-top: 0.5em;
+}
+
+
+.user {
+    margin-top: 2.0em;
+    margin-bottom: 2.0em;
+    border-bottom: dashed;
+    display: block;
+}
+
+.user h1 {
+    display: inline;
+}
+
+.challengeButton {
+    margin-right: 3em;
+    float: right;
+}
+
+.challengeButton button {
+    outline: none;
+    background-color: #03b733;
+    border-color: black;
+    height: 2.5em;
+    width: 7em;
+    border-radius: 10em;
+    font-weight: bold;
+}
+
+.inactiveChallenge {
+    opacity: 0.5;
+    cursor: default;
+}
