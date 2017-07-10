@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import gameStyles from './Game.css';
 
-import Cookies from 'universal-cookie';
-const cookies = new Cookies();
-
 export default class Game extends Component {
     constructor(props) {
         super(props);
@@ -27,7 +24,7 @@ export default class Game extends Component {
                     this.setState({
                         id: id
                     });
-                    cookies.set('userId', id);
+                    localStorage.setItem('userId', id);
                 },
                 roomname: (name) => {
                     this.setState({
@@ -78,7 +75,7 @@ export default class Game extends Component {
             cloak.message('getroominfo', _);
         } else {
             setTimeout(() => {
-                cloak.message('reconnectuser', cookies.get('userId'));
+                cloak.message('reconnectuser', localStorage.getItem('userId'));
                 cloak.message('getroominfo', _);
             }, 300);
         }
