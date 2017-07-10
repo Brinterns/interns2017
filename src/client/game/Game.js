@@ -11,7 +11,8 @@ export default class Game extends Component {
             listOfPlayers: [],
             GameOver : false,
             forfeit: false,
-            winnerId: null
+            winnerId: null,
+            isNext: false
         };
         cloak.configure({
             messages: {
@@ -40,6 +41,11 @@ export default class Game extends Component {
                 },
                 gotolobby: () => {
                     browserHistory.push('/lobby');
+                },
+                nextplayer: (next) => {
+                    this.setState({
+                        isNext: next
+                    });
                 }
             }
         });
@@ -96,9 +102,11 @@ export default class Game extends Component {
                 <button className={gameStyles.noButton} onClick={this.onClickForfeit}>No</button>
             </div>
         );
+        const nextPlayerText = this.state.isNext ? "You're next" : "You're not next";
 
         return (
             <div className={gameStyles.gameMain}>
+                <h2> {nextPlayerText} </h2>
                 <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
                 <h1> {this.state.roomname} </h1>
                 <div>
