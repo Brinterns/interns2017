@@ -81,7 +81,7 @@ function getRoomInfo(user) {
     }
     user.message('userid', user.id);
     user.message('roomname', room.name);
-    user.message('nextplayer', user.id === room.data.nextPlayer);
+    user.message('nextplayer', room.data.nextPlayer);
     getRoomUserInfo(room);
 }
 
@@ -169,10 +169,8 @@ function reconnectUser(id, user) {
         user.joinRoom(room);
         if (user2[0].id === room.data.nextPlayer) {
             room.data.nextPlayer = user.id;
-            user.message('nextPlayer', true);
-        } else {
-            user.message('nextPlayer', false);
         }
+        user.message('nextPlayer', room.data.nextPlayer);
         user2[0].delete();
     }
 }
