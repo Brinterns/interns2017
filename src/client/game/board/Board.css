@@ -1,0 +1,33 @@
+.boardMainDiv {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    float: left;
+    top: 30%;
+    position: absolute;
+}
+
+.squaresColumn {
+    display: inline-block;
+}
+
+.squareNormal {
+    margin: 0.5vmax 0.5vmax 0.5vmax 0.5vmax;
+    height: 6vmax;
+    width: 6vmax;
+    background-color: white;
+}
+
+.squareBlank {
+    margin: 0.5vmax 0.5vmax 0.5vmax 0.5vmax;
+    height: 6vmax;
+    width: 6vmax;
+}
+
+.squareRosetta {
+    margin: 0.5vmax 0.5vmax 0.5vmax 0.5vmax;
+    height: 6vmax;
+    width: 6vmax;
+    background-color: red;
+}
