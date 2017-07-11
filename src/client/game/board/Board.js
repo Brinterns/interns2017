@@ -28,7 +28,7 @@ export default class Board extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            squares: Array(24).fill(true),
+            squares: Array(24).fill(false),
             piecePositions: Array(7).fill(0)
         };
         this.onClick = this.onClick.bind(this);
