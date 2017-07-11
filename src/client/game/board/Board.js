@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import boardStyles from './Board.css';
+import Piece from './Piece';
 
 
 
@@ -33,6 +34,13 @@ export default class Board extends Component {
     }
 
     render() {
+        const numOfPlaceHolderPieces = 7;
+        const pieceHolder = [];
+        for(var i = 0; i < numOfPlaceHolderPieces; i++) {
+            pieceHolder.push(<Piece />);
+        }
+
+
         return (
                 <div>
                     <div className={boardStyles.boardMainDiv}>
@@ -47,13 +55,7 @@ export default class Board extends Component {
                     </div>
                     <button onClick={this.onClick} className={boardStyles.rollButton}>{this.props.rollNumber}</button>
                     <div className={boardStyles.pieceHolder}>
-                        <div className={boardStyles.piece}></div>
-                        <div className={boardStyles.piece}></div>
-                        <div className={boardStyles.piece}></div>
-                        <div className={boardStyles.piece}></div>
-                        <div className={boardStyles.piece}></div>
-                        <div className={boardStyles.piece}></div>
-                        <div className={boardStyles.piece}></div>
+                        {pieceHolder}
                     </div>
                 </div>
         );
