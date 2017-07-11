@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import boardStyles from './Board.css';
+import Piece from './Piece';
 
 
 
@@ -13,7 +14,7 @@ export default class Board extends Component {
         super(props);
         this.onClick = this.onClick.bind(this);
         this.squareColumn = this.squareColumn.bind(this);
-        this.movePiece = this.movePiece.bind(this);
+        this.handleMovePiece = this.handleMovePiece.bind(this);
     }
 
     squareColumn(class1, class2, class3) {
@@ -33,7 +34,7 @@ export default class Board extends Component {
         }
     }
 
-    movePiece(e) {
+    handleMovePiece() {
         if (this.props.isPlayerTurn && this.props.rolled) {
             console.log("Piece clicked");
             cloak.message('endturn', _);
@@ -41,7 +42,13 @@ export default class Board extends Component {
     }
 
     render() {
-        const piece = <div onClick={this.movePiece} className={boardStyles.piece}></div>;
+        const numOfPlaceHolderPieces = 7;
+        const pieceHolder = [];
+        for(var i = 0; i < numOfPlaceHolderPieces; i++) {
+            pieceHolder.push(<Piece movePiece={this.handleMovePiece}/>);
+        }
+
+
         return (
                 <div>
                     <div className={boardStyles.boardMainDiv}>
@@ -56,13 +63,7 @@ export default class Board extends Component {
                     </div>
                     <button onClick={this.onClick} className={boardStyles.rollButton}>{this.props.rollNumber}</button>
                     <div className={boardStyles.pieceHolder}>
-                        {piece}
-                        {piece}
-                        {piece}
-                        {piece}
-                        {piece}
-                        {piece}
-                        {piece}
+                        {pieceHolder}
                     </div>
                 </div>
         );
