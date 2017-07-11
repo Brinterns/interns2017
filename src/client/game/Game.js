@@ -14,7 +14,7 @@ export default class Game extends Component {
             forfeit: false,
             winnerId: null,
             currentPlayer: null,
-            rollNumber: "Roll",
+            rollNumber: 'Roll',
             rolled: false
         };
         cloak.configure({
@@ -50,6 +50,11 @@ export default class Game extends Component {
                         currentPlayer: current,
                         rolled: false
                     });
+                    if (this.state.currentPlayer === this.state.id) {
+                        this.setState({
+                            rollNumber: 'Roll'
+                        });
+                    }
                 },
                 rolledvalue: (value) => {
                     this.setState({
