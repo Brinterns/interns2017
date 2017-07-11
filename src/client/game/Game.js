@@ -60,6 +60,9 @@ export default class Game extends Component {
                     this.setState({
                         rollNumber: value
                     });
+                    if (value === 0) {
+                        cloak.message('endturn', _);
+                    }
                 }
             }
         });
