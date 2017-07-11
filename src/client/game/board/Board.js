@@ -59,6 +59,9 @@ export default class Board extends Component {
         if (this.props.isPlayerTurn && this.props.rolled) {
             const rollNumberInt = parseInt(this.props.rollNumber);
             var squares = this.state.squares;
+            if (squares[playerPath[position+rollNumberInt-1]]) {
+                return;
+            }
             squares[playerPath[position+rollNumberInt-1]] = true;
             if (position !== 0) {
                 squares[playerPath[position-1]] = false;
