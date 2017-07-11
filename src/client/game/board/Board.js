@@ -6,7 +6,7 @@ import Square from './Square';
 
 const rosettaSquares = [3,5,13,21,23];
 const blankSquares = [6,8,9,11];
-
+const numberOfPieces = 1;
 
 const playerPath = [
     14,  17,  20,  23,
@@ -29,7 +29,7 @@ export default class Board extends Component {
         super(props);
         this.state = {
             squares: Array(24).fill(false),
-            piecePositions: Array(7).fill(0),
+            piecePositions: Array(numberOfPieces).fill(0),
             numPiecesFinished: 0
         };
         this.onClick = this.onClick.bind(this);
@@ -74,6 +74,9 @@ export default class Board extends Component {
                 this.setState({
                     numPiecesFinished: numPiecesFinished
                 });
+                if (numPiecesFinished === numberOfPieces) {
+                    this.props.onWin(true);
+                }
             }
             var piecePositions = this.state.piecePositions;
             piecePositions[this.state.piecePositions.indexOf(position)] = nextPos;

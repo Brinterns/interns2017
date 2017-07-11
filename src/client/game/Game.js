@@ -66,7 +66,7 @@ export default class Game extends Component {
                 }
             }
         });
-        this.onClickWin = this.onClickWin.bind(this);
+        this.onWin = this.onWin.bind(this);
         this.onClickForfeit = this.onClickForfeit.bind(this);
         this.returnToLobby = this.returnToLobby.bind(this);
         this.rolledCb = this.rolledCb.bind(this);
@@ -74,7 +74,7 @@ export default class Game extends Component {
         {this.getGameInfo()};
     }
 
-    onClickWin(winBool) {
+    onWin(winBool) {
         if (this.state.GameOver) {
             return;
         }
@@ -131,7 +131,7 @@ export default class Game extends Component {
         const forfeitDiv = (
             <div className={gameStyles.notificationMenu}>
                 <h1>Are you sure you want to forfeit?</h1>
-                <button className={gameStyles.yesButton} onClick={() => this.onClickWin(false)}>Yes</button>
+                <button className={gameStyles.yesButton} onClick={() => this.onWin(false)}>Yes</button>
                 <button className={gameStyles.noButton} onClick={this.onClickForfeit}>No</button>
             </div>
         );
@@ -147,7 +147,7 @@ export default class Game extends Component {
                 <h2> {currentPlayerText} </h2>
                 <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
                 <h1> {this.state.roomname} </h1>
-                <Board reRoll={this.reRoll} isPlayerTurn={isPlayerTurn} rollNumber={this.state.rollNumber} rolled={this.state.rolled} rolledCb={this.rolledCb}/>
+                <Board onWin={this.onWin} reRoll={this.reRoll} isPlayerTurn={isPlayerTurn} rollNumber={this.state.rollNumber} rolled={this.state.rolled} rolledCb={this.rolledCb}/>
                 {this.state.GameOver ? gameOverDiv : null}
                 {this.state.forfeit ? forfeitDiv : null}
             </div>
