@@ -13,6 +13,7 @@ export default class Board extends Component {
         super(props);
         this.onClick = this.onClick.bind(this);
         this.squareColumn = this.squareColumn.bind(this);
+        this.movePiece = this.movePiece.bind(this);
     }
 
     squareColumn(class1, class2, class3) {
@@ -32,7 +33,15 @@ export default class Board extends Component {
         }
     }
 
+    movePiece(e) {
+        if (this.props.isPlayerTurn && this.props.rolled) {
+            console.log("Piece clicked");
+            cloak.message('endturn', _);
+        }
+    }
+
     render() {
+        const piece = <div onClick={this.movePiece} className={boardStyles.piece}></div>;
         return (
                 <div>
                     <div className={boardStyles.boardMainDiv}>
@@ -47,13 +56,13 @@ export default class Board extends Component {
                     </div>
                     <button onClick={this.onClick} className={boardStyles.rollButton}>{this.props.rollNumber}</button>
                     <div className={boardStyles.pieceHolder}>
-                        <div className={boardStyles.piece}></div>
-                        <div className={boardStyles.piece}></div>
-                        <div className={boardStyles.piece}></div>
-                        <div className={boardStyles.piece}></div>
-                        <div className={boardStyles.piece}></div>
-                        <div className={boardStyles.piece}></div>
-                        <div className={boardStyles.piece}></div>
+                        {piece}
+                        {piece}
+                        {piece}
+                        {piece}
+                        {piece}
+                        {piece}
+                        {piece}
                     </div>
                 </div>
         );

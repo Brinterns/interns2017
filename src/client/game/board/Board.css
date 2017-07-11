@@ -52,8 +52,8 @@
 .pieceHolder {
     bottom: 8%;
     left: 5%;
-    height: var(--squareSide);
-    width: calc(7 * var(--squareSide));
+    height: auto;
+    width: auto;
     position: absolute;
 }
 
