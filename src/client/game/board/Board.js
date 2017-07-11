@@ -29,7 +29,8 @@ export default class Board extends Component {
         super(props);
         this.state = {
             squares: Array(24).fill(false),
-            piecePositions: Array(7).fill(0)
+            piecePositions: Array(7).fill(0),
+            numPiecesFinished: 0
         };
         this.onClick = this.onClick.bind(this);
         this.squareType = this.squareType.bind(this);
@@ -59,15 +60,23 @@ export default class Board extends Component {
         if (this.props.isPlayerTurn && this.props.rolled) {
             const rollNumberInt = parseInt(this.props.rollNumber);
             var squares = this.state.squares;
-            if (squares[playerPath[position+rollNumberInt-1]]) {
+            var nextPos = (position + rollNumberInt);
+            if (squares[playerPath[position+rollNumberInt-1]] || (nextPos > 15)) {
                 return;
             }
-            squares[playerPath[position+rollNumberInt-1]] = true;
+            squares[playerPath[nextPos-1]] = true;
             if (position !== 0) {
                 squares[playerPath[position-1]] = false;
             }
+            if (nextPos === 15) {
+                nextPos = -1;
+                const numPiecesFinished = this.state.numPiecesFinished + 1;
+                this.setState({
+                    numPiecesFinished: numPiecesFinished
+                });
+            }
             var piecePositions = this.state.piecePositions;
-            piecePositions[this.state.piecePositions.indexOf(position)] = position + rollNumberInt;
+            piecePositions[this.state.piecePositions.indexOf(position)] = nextPos;
             this.setState({
                 squares: squares,
                 piecePositions: piecePositions
@@ -77,8 +86,6 @@ export default class Board extends Component {
     }
 
     render() {
-        console.log(this.state.squares);
-        console.log(this.state.piecePositions);
         const pieceHolder = [];
         const squareCols = [];
         for(var i = 0; i < 7; i++) {
@@ -98,6 +105,7 @@ export default class Board extends Component {
 
         return (
                 <div>
+                    <h3>Finished pieces: {this.state.numPiecesFinished}</h3>
                     <div className={boardStyles.boardMainDiv}>
                         {squareCols}
                     </div>
