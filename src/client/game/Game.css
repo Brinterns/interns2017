@@ -38,6 +38,7 @@
     font-weight: bold;
     width: 9.2em;
     height: 3em;
+    outline: none;
 }
 
 .notificationMenu {
@@ -76,16 +77,19 @@
     border-width: 0.05em;
     border-color: black;
     font-weight: bold;
+    outline: none;
 }
 
 .yesButton {
     left: 20%;
     background-color: #e81212;
+    outline: none;
 }
 
 .noButton {
     right: 20%;
     background-color: #03b733;
+    outline: none;
 }
 
 .returnButton {
@@ -93,4 +97,5 @@
     left: 50%;
     margin: 0;
     transform: translate(-50%, 0%);
+    outline: none;
 }

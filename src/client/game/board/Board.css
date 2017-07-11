@@ -46,4 +46,5 @@
     height: calc(2 * var(--squareSide));
     width: calc(2 * var(--squareSide));
     position: absolute;
+    outline: none;
 }
