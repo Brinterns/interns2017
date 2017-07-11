@@ -6,23 +6,14 @@ import Square from './Square';
 
 const rosettaSquares = [3,5,13,21,23];
 const blankSquares = [6,8,9,11];
-const numberOfPieces = 1;
+const numberOfPieces = 7;
 
 const playerPath = [
     14,  17,  20,  23,
     22,  19,  16,  13,
     10,  7,  4,  1,
     2,  5
-]
-
-const opponentPath = {
-    1: 12,  2: 15,  3: 18,  4: 21,
-    5: 22,  6: 19,  7: 16,  8: 13,
-    9: 10,  10: 7,  11: 4,  12: 1,
-    13: 0,  14: 3
-}
-
-
+];
 
 export default class Board extends Component {
     constructor(props) {
