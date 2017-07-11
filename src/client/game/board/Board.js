@@ -81,6 +81,10 @@ export default class Board extends Component {
                 squares: squares,
                 piecePositions: piecePositions
             });
+            if (rosettaSquares.includes(playerPath[position+rollNumberInt-1])) {
+                this.props.reRoll();
+                return;
+            }
             cloak.message('endturn', _);
         }
     }
