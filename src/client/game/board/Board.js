@@ -35,6 +35,7 @@ export default class Board extends Component {
         this.onClick = this.onClick.bind(this);
         this.squareType = this.squareType.bind(this);
         this.handleMovePiece = this.handleMovePiece.bind(this);
+        this.canMove = this.canMove.bind(this);
     }
 
     squareType(i) {
@@ -61,7 +62,7 @@ export default class Board extends Component {
             const rollNumberInt = parseInt(this.props.rollNumber);
             var squares = this.state.squares;
             var nextPos = (position + rollNumberInt);
-            if (squares[playerPath[position+rollNumberInt-1]] || (nextPos > 15)) {
+            if (!(this.canMove(position, rollNumberInt, squares, nextPos))) {
                 return;
             }
             squares[playerPath[nextPos-1]] = true;
@@ -92,7 +93,28 @@ export default class Board extends Component {
         }
     }
 
+    canMove(position, rollNumberInt, squares, nextPos) {
+        var nextPos = (position + rollNumberInt);
+        if (squares[playerPath[position+rollNumberInt-1]] || (nextPos > 15)) {
+            return false;
+        }
+        return true;
+    }
+
+
     render() {
+        if (this.props.rolled && this.props.isPlayerTurn) {
+            const rollNumberInt = parseInt(this.props.rollNumber);
+            var squares = this.state.squares;
+            const numNotMoveable = this.state.piecePositions.filter((position) => {
+                var nextPos = (position + rollNumberInt);
+                return ((position === -1) || !this.canMove(position, rollNumberInt, squares, nextPos));
+            }).length;
+            if (numNotMoveable === numberOfPieces) {
+                cloak.message('endturn', _);
+            }
+        }
+
         const pieceHolder = [];
         const squareCols = [];
         for(var i = 0; i < 7; i++) {
