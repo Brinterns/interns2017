@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import boardStyles from './Board.css';
 
-
-
 const squareN = boardStyles.squareNormal;
 const squareR = boardStyles.squareRosetta;
 const squareB = boardStyles.squareBlank;
