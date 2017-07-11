@@ -50,6 +50,18 @@ module.exports = function(expressServer) {
                     messages.splice(0,1);
                 }
                 sendMessages();
+            },
+            rolldice: function(_, user) {
+                var total = 0;
+                for (var i = 0; i < 4; i ++) {
+                    total += getRandomIntInclusive(0,1);
+                }
+                user.message('rolledvalue', total);
+                const room = user.getRoom();
+                room.data.currentPlayer = room.getMembers().filter(function(userTemp) {
+                    return userTemp.id !== user.id;
+                })[0].id;
+                room.messageMembers('currentplayer', room.data.currentPlayer);
             }
         },
         lobby: {
@@ -178,4 +190,10 @@ function reconnectUser(id, user) {
 function userJoinRoom(user, room) {
     room.addMember(user);
     user.data.ready = false;
+}
+
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
 }

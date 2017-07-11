@@ -11,8 +11,7 @@ const squareB = boardStyles.squareBlank;
 export default class Board extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-        };
+        this.onClick = this.onClick.bind(this);
         this.squareColumn = this.squareColumn.bind(this);
     }
 
@@ -26,17 +25,27 @@ export default class Board extends Component {
         );
     }
 
+    onClick() {
+        if (this.props.isPlayerTurn && !this.props.rolled) {
+            this.props.rolledCb();
+            cloak.message('rolldice', _);
+        }
+    }
+
     render() {
         return (
-                <div className={boardStyles.boardMainDiv}>
-                    {this.squareColumn(squareN,squareN,squareN)}
-                    {this.squareColumn(squareR,squareN,squareR)}
-                    {this.squareColumn(squareB,squareN,squareB)}
-                    {this.squareColumn(squareB,squareN,squareB)}
-                    {this.squareColumn(squareN,squareR,squareN)}
-                    {this.squareColumn(squareN,squareN,squareN)}
-                    {this.squareColumn(squareN,squareN,squareN)}
-                    {this.squareColumn(squareR,squareN,squareR)}
+                <div>
+                    <div className={boardStyles.boardMainDiv}>
+                        {this.squareColumn(squareN,squareN,squareN)}
+                        {this.squareColumn(squareR,squareN,squareR)}
+                        {this.squareColumn(squareB,squareN,squareB)}
+                        {this.squareColumn(squareB,squareN,squareB)}
+                        {this.squareColumn(squareN,squareR,squareN)}
+                        {this.squareColumn(squareN,squareN,squareN)}
+                        {this.squareColumn(squareN,squareN,squareN)}
+                        {this.squareColumn(squareR,squareN,squareR)}
+                    </div>
+                    <button onClick={this.onClick} className={boardStyles.rollButton}>{this.props.rollNumber}</button>
                 </div>
         );
     }
