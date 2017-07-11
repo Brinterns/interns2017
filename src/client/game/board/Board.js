@@ -2,27 +2,39 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import boardStyles from './Board.css';
 import Piece from './Piece';
+import Square from './Square';
 
-
-
-const squareN = boardStyles.squareNormal;
-const squareR = boardStyles.squareRosetta;
-const squareB = boardStyles.squareBlank;
+const rosettaSquares = [3,5,13,21,23];
+const blankSquares = [6,8,9,11];
 
 export default class Board extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            squares: Array(24).fill(false)
+        };
+        {this.temp()};
         this.onClick = this.onClick.bind(this);
-        this.squareColumn = this.squareColumn.bind(this);
+        this.squareType = this.squareType.bind(this);
     }
 
-    squareColumn(class1, class2, class3) {
+    temp() {
+        let arrayS = this.state.squares;
+        arrayS[21] = true;
+        this.setState({
+            squares: arrayS
+        });
+    }
+
+    squareType(i) {
+        let className = boardStyles.squareNormal;
+        if (rosettaSquares.includes(i)) {
+            className = boardStyles.squareRosetta;
+        } else if (blankSquares.includes(i)) {
+            className = boardStyles.squareBlank;
+        }
         return (
-            <div className={boardStyles.squaresColumn}>
-                <div className={class1} />
-                <div className={class2} />
-                <div className={class3} />
-            </div>
+            <Square piece={this.state.squares[i]} className={className} key={i} />
         );
     }
 
@@ -36,22 +48,24 @@ export default class Board extends Component {
     render() {
         const numOfPlaceHolderPieces = 7;
         const pieceHolder = [];
+        const squareCols = [];
         for(var i = 0; i < numOfPlaceHolderPieces; i++) {
-            pieceHolder.push(<Piece />);
+            pieceHolder.push(<Piece className={boardStyles.piece} key={i}/>);
         }
-
+        for(var i = 0; i < 24; i += 3) {
+            squareCols.push(
+                <div key={i} className={boardStyles.squaresColumn}>
+                    {this.squareType(i)}
+                    {this.squareType(i+1)}
+                    {this.squareType(i+2)}
+                </div>
+            );
+        }
 
         return (
                 <div>
                     <div className={boardStyles.boardMainDiv}>
-                        {this.squareColumn(squareN,squareN,squareN)}
-                        {this.squareColumn(squareR,squareN,squareR)}
-                        {this.squareColumn(squareB,squareN,squareB)}
-                        {this.squareColumn(squareB,squareN,squareB)}
-                        {this.squareColumn(squareN,squareR,squareN)}
-                        {this.squareColumn(squareN,squareN,squareN)}
-                        {this.squareColumn(squareN,squareN,squareN)}
-                        {this.squareColumn(squareR,squareN,squareR)}
+                        {squareCols}
                     </div>
                     <button onClick={this.onClick} className={boardStyles.rollButton}>{this.props.rollNumber}</button>
                     <div className={boardStyles.pieceHolder}>
