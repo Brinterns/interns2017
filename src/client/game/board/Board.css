@@ -42,9 +42,28 @@
     bottom: 5%;
     right: 5%;
     font-size: 3em;
-    border-radius: 1.0em;
+    border-radius: 1em;
     height: calc(2 * var(--squareSide));
     width: calc(2 * var(--squareSide));
     position: absolute;
     outline: none;
+}
+
+.pieceHolder {
+    bottom: 8%;
+    left: 5%;
+    height: var(--squareSide);
+    width: calc(7 * var(--squareSide));
+    position: absolute;
+}
+
+.piece {
+    background-color: #639af2;
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-right: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    display: inline-block;
 }

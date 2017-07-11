@@ -46,6 +46,15 @@ export default class Board extends Component {
                         {this.squareColumn(squareR,squareN,squareR)}
                     </div>
                     <button onClick={this.onClick} className={boardStyles.rollButton}>{this.props.rollNumber}</button>
+                    <div className={boardStyles.pieceHolder}>
+                        <div className={boardStyles.piece}></div>
+                        <div className={boardStyles.piece}></div>
+                        <div className={boardStyles.piece}></div>
+                        <div className={boardStyles.piece}></div>
+                        <div className={boardStyles.piece}></div>
+                        <div className={boardStyles.piece}></div>
+                        <div className={boardStyles.piece}></div>
+                    </div>
                 </div>
         );
     }
