@@ -3,6 +3,8 @@ import { browserHistory } from 'react-router';
 import gameStyles from './Game.css';
 import Board from './board/Board';
 
+const numberOfPieces = 7;
+
 export default class Game extends Component {
     constructor(props) {
         super(props);
@@ -17,7 +19,10 @@ export default class Game extends Component {
             rollNumber: 'Roll',
             opponentRollNumber: null,
             rolled: false,
-            moveablePositions: []
+            moveablePositions: [],
+            squares: Array(24).fill(false),
+            piecePositions: Array(numberOfPieces).fill(0),
+            numPiecesFinished: 0
         };
         cloak.configure({
             messages: {
@@ -63,9 +68,6 @@ export default class Game extends Component {
                     this.setState({
                         rollNumber: value
                     });
-                    if (value === 0) {
-                        cloak.message('endturn', _);
-                    }
                 },
                 opponentroll: (value) => {
                     this.setState({
@@ -75,6 +77,21 @@ export default class Game extends Component {
                 moveablepositions: (moveablePositions) => {
                     this.setState({
                         moveablePositions: moveablePositions
+                    });
+                },
+                piecepositions: (positions) => {
+                    this.setState({
+                        piecePositions: positions
+                    });
+                },
+                squarestates: (squares) => {
+                    this.setState({
+                        squares: squares
+                    });
+                },
+                finishedpieces: (numPiecesFinished) => {
+                    this.setState({
+                        numPiecesFinished: numPiecesFinished
                     });
                 }
             }
@@ -159,7 +176,7 @@ export default class Game extends Component {
                 <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
                 <h1> {this.state.roomname} </h1>
                 <h4> {opponentRoll} </h4>
-                <Board onWin={this.onWin} isPlayerTurn={isPlayerTurn} rollNumber={this.state.rollNumber} rolled={this.state.rolled} rolledCb={this.rolledCb} moveablePositions={this.state.moveablePositions}/>
+                <Board numPiecesFinished={this.state.numPiecesFinished} squares={this.state.squares} piecePositions={this.state.piecePositions} onWin={this.onWin} isPlayerTurn={isPlayerTurn} rollNumber={this.state.rollNumber} rolled={this.state.rolled} rolledCb={this.rolledCb} moveablePositions={this.state.moveablePositions}/>
                 {this.state.GameOver ? gameOverDiv : null}
                 {this.state.forfeit ? forfeitDiv : null}
             </div>

@@ -54,10 +54,11 @@ module.exports = function(expressServer) {
             },
             rolldice: function(_, user) {
                 const rollNumber = rollDice(user);
-                checkMoves(user, rollNumber);
-            },
-            endturn: function(_, user) {
-                endTurn(user);
+                if (rollNumber === 0) {
+                    endTurn(user);
+                } else {
+                    checkMoves(user, rollNumber);
+                }
             },
             movepiece: function(position, user) {
                 movePiece(position, user);
@@ -247,7 +248,7 @@ function checkMoves(user, rollNumber) {
 }
 
 function canMove(squares, nextPos, moveablePositions, position) {
-    if ((nextPos === 15) || !squares[playerPath[nextPos-1]]) {
+    if ((nextPos === 15) || (!squares[playerPath[nextPos-1]] && (nextPos < 15))) {
         moveablePositions.push(position);
         return true;
     }
@@ -264,15 +265,16 @@ function movePiece(position, user) {
     if (nextPos === 15) {
         nextPos = -1;
         user.data.numPiecesFinished ++;
-        //update user with numPiecesFinished
-        if (numPiecesFinished === numberOfPieces) {
+        user.message('finishedpieces', user.data.numPiecesFinished);
+        if (user.data.numPiecesFinished === numberOfPieces) {
             win(true, user);
         }
     }
     user.data.piecePositions[user.data.piecePositions.indexOf(position)] = nextPos;
-
+    user.message('piecepositions', user.data.piecePositions);
+    user.message('squarestates', user.data.squares);
     if (rosettaSquares.includes(playerPath[position+user.data.lastRoll-1])) {
-        room.messageMembers('currentPlayer', room.data.currentPlayer);
+        room.messageMembers('currentplayer', room.data.currentPlayer);
         return;
     }
     endTurn(user);

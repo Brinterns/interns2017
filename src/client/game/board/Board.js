@@ -6,7 +6,6 @@ import Square from './Square';
 
 const rosettaSquares = [3,5,13,21,23];
 const blankSquares = [6,8,9,11];
-const numberOfPieces = 7;
 
 const playerPath = [
     14,  17,  20,  23,
@@ -18,11 +17,6 @@ const playerPath = [
 export default class Board extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            squares: Array(24).fill(false),
-            piecePositions: Array(numberOfPieces).fill(0),
-            numPiecesFinished: 0
-        };
         this.onClick = this.onClick.bind(this);
         this.squareType = this.squareType.bind(this);
         this.handleMovePiece = this.handleMovePiece.bind(this);
@@ -36,7 +30,7 @@ export default class Board extends Component {
             className = boardStyles.squareBlank;
         }
         return (
-            <Square position={(playerPath.indexOf(i)+1)}  movePiece={this.handleMovePiece} piece={this.state.squares[i]} className={className} key={i} />
+            <Square position={(playerPath.indexOf(i)+1)}  movePiece={this.handleMovePiece} piece={this.props.squares[i]} className={className} key={i} />
         );
     }
 
@@ -57,8 +51,8 @@ export default class Board extends Component {
         const pieceHolder = [];
         const squareCols = [];
         for(var i = 0; i < 7; i++) {
-            if (this.state.piecePositions[i] === 0) {
-                pieceHolder.push(<Piece position={this.state.piecePositions[i]} className={boardStyles.piece} movePiece={this.handleMovePiece} key={i}/>);
+            if (this.props.piecePositions[i] === 0) {
+                pieceHolder.push(<Piece position={this.props.piecePositions[i]} className={boardStyles.piece} movePiece={this.handleMovePiece} key={i}/>);
             }
         }
         for(var i = 0; i < 24; i += 3) {
@@ -72,7 +66,7 @@ export default class Board extends Component {
         }
         return (
                 <div>
-                    <h3>Finished pieces: {this.state.numPiecesFinished}</h3>
+                    <h3>Finished pieces: {this.props.numPiecesFinished}</h3>
                     <div className={boardStyles.boardMainDiv}>
                         {squareCols}
                     </div>
