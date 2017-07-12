@@ -1,5 +1,5 @@
 :root {
-    --squareMargin: calc(0.5 * (1vw + 1vh - 1vmin)) calc(0.5 * (1vw + 1vh - 1vmin)) calc(0.5 * (1vw + 1vh - 1vmin)) calc(0.5 * (1vw + 1vh - 1vmin));
+    --squareMargin: calc(0.5 * (1vw + 1vh - 1vmin)) calc(0.275 * (1vw + 1vh - 1vmin)) calc(0.5 * (1vw + 1vh - 1vmin)) calc(0.275 * (1vw + 1vh - 1vmin));
     --squareSide: calc(6 * (1vw + 1vh - 1vmin));
 }
 
