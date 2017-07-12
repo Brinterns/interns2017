@@ -182,7 +182,7 @@ export default class Game extends Component {
                 <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
                 <h1> {this.state.roomname} </h1>
                 <h4> {opponentRoll} </h4>
-                <Board numPiecesFinished={this.state.numPiecesFinished} squares={this.state.squares} opponentSquares={this.state.opponentSquares} piecePositions={this.state.piecePositions} onWin={this.onWin} isPlayerTurn={isPlayerTurn} rollNumber={this.state.rollNumber} rolled={this.state.rolled} rolledCb={this.rolledCb} moveablePositions={this.state.moveablePositions}/>
+                <Board gameState={this.state} isPlayerTurn={isPlayerTurn} rolledCb={this.rolledCb}/>
                 {this.state.GameOver ? gameOverDiv : null}
                 {this.state.forfeit ? forfeitDiv : null}
             </div>
