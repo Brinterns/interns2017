@@ -83,7 +83,6 @@ export default class Game extends Component {
         this.onClickForfeit = this.onClickForfeit.bind(this);
         this.returnToLobby = this.returnToLobby.bind(this);
         this.rolledCb = this.rolledCb.bind(this);
-        this.reRoll = this.reRoll.bind(this);
         {this.getGameInfo()};
     }
 
@@ -125,13 +124,6 @@ export default class Game extends Component {
         });
     }
 
-    reRoll() {
-        this.setState({
-            rolled: false,
-            rollNumber: 'Roll'
-        });
-    }
-
     render() {
         const isPlayerTurn = (this.state.currentPlayer === this.state.id);
         const gameOverTextChoice = (this.state.winnerId == this.state.id) ? "You Won!" : "You Lost";
@@ -167,7 +159,7 @@ export default class Game extends Component {
                 <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
                 <h1> {this.state.roomname} </h1>
                 <h4> {opponentRoll} </h4>
-                <Board onWin={this.onWin} reRoll={this.reRoll} isPlayerTurn={isPlayerTurn} rollNumber={this.state.rollNumber} rolled={this.state.rolled} rolledCb={this.rolledCb} moveablePositions={this.state.moveablePositions}/>
+                <Board onWin={this.onWin} isPlayerTurn={isPlayerTurn} rollNumber={this.state.rollNumber} rolled={this.state.rolled} rolledCb={this.rolledCb} moveablePositions={this.state.moveablePositions}/>
                 {this.state.GameOver ? gameOverDiv : null}
                 {this.state.forfeit ? forfeitDiv : null}
             </div>

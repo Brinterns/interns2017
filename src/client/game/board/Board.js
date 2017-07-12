@@ -26,7 +26,6 @@ export default class Board extends Component {
         this.onClick = this.onClick.bind(this);
         this.squareType = this.squareType.bind(this);
         this.handleMovePiece = this.handleMovePiece.bind(this);
-        this.canMove = this.canMove.bind(this);
     }
 
     squareType(i) {
@@ -51,41 +50,6 @@ export default class Board extends Component {
     handleMovePiece(position) {
         if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(position)) {
             cloak.message('movepiece', position);
-        }
-
-
-
-        if (this.props.isPlayerTurn && this.props.rolled) {
-            const rollNumberInt = parseInt(this.props.rollNumber);
-            var squares = this.state.squares;
-            var nextPos = (position + rollNumberInt);
-
-            squares[playerPath[nextPos-1]] = true;
-            if (position !== 0) {
-                squares[playerPath[position-1]] = false;
-            }
-
-            if (nextPos === 15) {
-                nextPos = -1;
-                const numPiecesFinished = this.state.numPiecesFinished + 1;
-                this.setState({
-                    numPiecesFinished: numPiecesFinished
-                });
-                if (numPiecesFinished === numberOfPieces) {
-                    this.props.onWin(true);
-                }
-            }
-            var piecePositions = this.state.piecePositions;
-            piecePositions[this.state.piecePositions.indexOf(position)] = nextPos;
-            this.setState({
-                squares: squares,
-                piecePositions: piecePositions
-            });
-            if (rosettaSquares.includes(playerPath[position+rollNumberInt-1])) {
-                this.props.reRoll();
-                return;
-            }
-            cloak.message('endturn', _);
         }
     }
 

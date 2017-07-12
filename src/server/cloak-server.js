@@ -5,6 +5,7 @@ let messages = [];
 const maxMessages = 7;
 
 //Game playing variables
+const rosettaSquares = [3,5,13,21,23];
 const numberOfPieces = 7;
 const playerPath = [
     14,  17,  20,  23,
@@ -254,6 +255,7 @@ function canMove(squares, nextPos, moveablePositions, position) {
 }
 
 function movePiece(position, user) {
+    const room = user.getRoom();
     var nextPos = position + user.data.lastRoll;
     user.data.squares[playerPath[nextPos-1]] = true;
     if (position !== 0) {
@@ -267,5 +269,11 @@ function movePiece(position, user) {
             win(true, user);
         }
     }
+    user.data.piecePositions[user.data.piecePositions.indexOf(position)] = nextPos;
 
+    if (rosettaSquares.includes(playerPath[position+user.data.lastRoll-1])) {
+        room.messageMembers('currentPlayer', room.data.currentPlayer);
+        return;
+    }
+    endTurn(user);
 }
