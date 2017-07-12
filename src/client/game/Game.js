@@ -60,17 +60,21 @@ export default class Game extends Component {
                     this.setState({
                         rollNumber: value
                     });
+                    if (value === 0) {
+                        cloak.message('endturn', _);
+                    }
                 }
             }
         });
-        this.onClickWin = this.onClickWin.bind(this);
+        this.onWin = this.onWin.bind(this);
         this.onClickForfeit = this.onClickForfeit.bind(this);
         this.returnToLobby = this.returnToLobby.bind(this);
         this.rolledCb = this.rolledCb.bind(this);
+        this.reRoll = this.reRoll.bind(this);
         {this.getGameInfo()};
     }
 
-    onClickWin(winBool) {
+    onWin(winBool) {
         if (this.state.GameOver) {
             return;
         }
@@ -108,6 +112,13 @@ export default class Game extends Component {
         });
     }
 
+    reRoll() {
+        this.setState({
+            rolled: false,
+            rollNumber: 'Roll'
+        });
+    }
+
     render() {
         const isPlayerTurn = (this.state.currentPlayer === this.state.id);
         const gameOverTextChoice = (this.state.winnerId == this.state.id) ? "You Won!" : "You Lost";
@@ -120,7 +131,7 @@ export default class Game extends Component {
         const forfeitDiv = (
             <div className={gameStyles.notificationMenu}>
                 <h1>Are you sure you want to forfeit?</h1>
-                <button className={gameStyles.yesButton} onClick={() => this.onClickWin(false)}>Yes</button>
+                <button className={gameStyles.yesButton} onClick={() => this.onWin(false)}>Yes</button>
                 <button className={gameStyles.noButton} onClick={this.onClickForfeit}>No</button>
             </div>
         );
@@ -136,7 +147,7 @@ export default class Game extends Component {
                 <h2> {currentPlayerText} </h2>
                 <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
                 <h1> {this.state.roomname} </h1>
-                <Board isPlayerTurn={isPlayerTurn} rollNumber={this.state.rollNumber} rolled={this.state.rolled} rolledCb={this.rolledCb}/>
+                <Board onWin={this.onWin} reRoll={this.reRoll} isPlayerTurn={isPlayerTurn} rollNumber={this.state.rollNumber} rolled={this.state.rolled} rolledCb={this.rolledCb}/>
                 {this.state.GameOver ? gameOverDiv : null}
                 {this.state.forfeit ? forfeitDiv : null}
             </div>
