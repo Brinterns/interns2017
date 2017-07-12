@@ -30,7 +30,7 @@ export default class Board extends Component {
             className = boardStyles.squareBlank;
         }
         return (
-            <Square position={(playerPath.indexOf(i)+1)}  movePiece={this.handleMovePiece} piece={this.props.squares[i]} className={className} key={i} />
+            <Square position={(playerPath.indexOf(i)+1)}  movePiece={this.handleMovePiece} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} className={className} key={i} />
         );
     }
 

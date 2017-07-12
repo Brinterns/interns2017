@@ -8,10 +8,16 @@ const maxMessages = 7;
 const rosettaSquares = [3,5,13,21,23];
 const numberOfPieces = 7;
 const playerPath = [
-    14,  17,  20,  23,
-    22,  19,  16,  13,
-    10,  7,  4,  1,
+    14, 17, 20, 23,
+    22, 19, 16, 13,
+    10, 7,  4,  1,
     2,  5
+];
+const opponentPath = [
+    12, 15, 18, 21,
+    22, 19, 16, 13,
+    10, 7,  4,  1,
+    0, 3
 ];
 
 module.exports = function(expressServer) {
@@ -57,7 +63,10 @@ module.exports = function(expressServer) {
                 if (rollNumber === 0) {
                     endTurn(user);
                 } else {
-                    checkMoves(user, rollNumber);
+                    var opponentSquares = user.getRoom().getMembers().filter((member) => {
+                        return member.id !== user.id;
+                    })[0].data.squares;
+                    checkMoves(user, rollNumber, opponentSquares);
                 }
             },
             movepiece: function(position, user) {
@@ -225,7 +234,6 @@ function userJoinRoom(user, room) {
     room.addMember(user);
     user.data.ready = false;
     user.data.squares = Array(24).fill(false);
-    user.data.oppositeSquares = Array(24).fill(false);
     user.data.piecePositions = Array(numberOfPieces).fill(0);
     user.data.numPiecesFinished = 0;
 }
@@ -236,10 +244,10 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
 }
 
-function checkMoves(user, rollNumber) {
+function checkMoves(user, rollNumber, opponentSquares) {
     var moveablePositions = [];
     const moveablePieces = user.data.piecePositions.filter((position) => {
-        return (position >= 0) && canMove(user.data.squares, position + rollNumber, moveablePositions, position);
+        return (position >= 0) && canMove(user.data.squares, opponentSquares, position + rollNumber, moveablePositions, position);
     });
     if (moveablePieces.length === 0) {
         endTurn(user);
@@ -247,16 +255,21 @@ function checkMoves(user, rollNumber) {
     user.message('moveablepositions', moveablePositions);
 }
 
-function canMove(squares, nextPos, moveablePositions, position) {
+function canMove(squares, opponentSquares, nextPos, moveablePositions, position) {
     if ((nextPos === 15) || (!squares[playerPath[nextPos-1]] && (nextPos < 15))) {
-        moveablePositions.push(position);
-        return true;
+        if (!((nextPos === 8) && opponentSquares[opponentPath[nextPos-1]])) {
+            moveablePositions.push(position);
+            return true;
+        }
     }
     return false;
 }
 
 function movePiece(position, user) {
     const room = user.getRoom();
+    var opponent = room.getMembers().filter((member) => {
+        return member.id !== user.id;
+    })[0];
     var nextPos = position + user.data.lastRoll;
     user.data.squares[playerPath[nextPos-1]] = true;
     if (position !== 0) {
@@ -272,10 +285,28 @@ function movePiece(position, user) {
     }
     user.data.piecePositions[user.data.piecePositions.indexOf(position)] = nextPos;
     user.message('piecepositions', user.data.piecePositions);
-    user.message('squarestates', user.data.squares);
+    user.message('squares', user.data.squares);
+    opponent.message('opponentsquares', reverseSquares(user.data.piecePositions));
+    if ((nextPos !== -1) && (nextPos > 4) && (nextPos < 13) && opponent.data.piecePositions.includes(nextPos)) {
+        opponent.data.piecePositions[opponent.data.piecePositions.indexOf(nextPos)] = 0;
+        opponent.data.squares[playerPath[nextPos-1]] = false;
+        opponent.message('piecepositions', opponent.data.piecePositions);
+        opponent.message('squares', opponent.data.squares);
+        user.message('opponentsquares', reverseSquares(opponent.data.piecePositions));
+    }
     if (rosettaSquares.includes(playerPath[position+user.data.lastRoll-1])) {
         room.messageMembers('currentplayer', room.data.currentPlayer);
         return;
     }
     endTurn(user);
+}
+
+function reverseSquares(positions) {
+    var reverse = Array(24).fill(false);
+    positions.forEach(position => {
+        if (position > 0) {
+            reverse[opponentPath[position-1]] = true;
+        }
+    });
+    return reverse;
 }
