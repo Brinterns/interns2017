@@ -262,6 +262,9 @@ function canMove(squares, nextPos, moveablePositions, position) {
 
 function movePiece(position, user) {
     const room = user.getRoom();
+    var opponent = room.getMembers().filter((member) => {
+        return member.id !== user.id;
+    })[0];
     var nextPos = position + user.data.lastRoll;
     user.data.squares[playerPath[nextPos-1]] = true;
     if (position !== 0) {
@@ -278,9 +281,14 @@ function movePiece(position, user) {
     user.data.piecePositions[user.data.piecePositions.indexOf(position)] = nextPos;
     user.message('piecepositions', user.data.piecePositions);
     user.message('squares', user.data.squares);
-    room.getMembers().filter((member) => {
-        return member.id !== user.id;
-    })[0].message('opponentsquares', reverseSquares(user.data.piecePositions));
+    opponent.message('opponentsquares', reverseSquares(user.data.piecePositions));
+    if ((nextPos !== -1) && (nextPos > 4) && (nextPos < 13) && opponent.data.piecePositions.includes(nextPos)) {
+        opponent.data.piecePositions[opponent.data.piecePositions.indexOf(nextPos)] = 0;
+        opponent.data.squares[playerPath[nextPos-1]] = false;
+        opponent.message('piecepositions', opponent.data.piecePositions);
+        opponent.message('squares', opponent.data.squares);
+        user.message('opponentsquares', reverseSquares(opponent.data.piecePositions));
+    }
     if (rosettaSquares.includes(playerPath[position+user.data.lastRoll-1])) {
         room.messageMembers('currentplayer', room.data.currentPlayer);
         return;
