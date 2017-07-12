@@ -23,7 +23,8 @@ export default class Game extends Component {
             squares: Array(24).fill(false),
             opponentSquares:  Array(24).fill(false),
             piecePositions: Array(numberOfPieces).fill(0),
-            numPiecesFinished: 0
+            numPiecesFinished: 0,
+            numOppPiecesFinished: 0
         };
         cloak.configure({
             messages: {
@@ -98,6 +99,11 @@ export default class Game extends Component {
                 finishedpieces: (numPiecesFinished) => {
                     this.setState({
                         numPiecesFinished: numPiecesFinished
+                    });
+                },
+                finishedopppieces: (numPiecesFinished) => {
+                    this.setState({
+                        numOppPiecesFinished: numPiecesFinished
                     });
                 }
             }
@@ -181,8 +187,8 @@ export default class Game extends Component {
                 <h2> {currentPlayerText} </h2>
                 <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
                 <h1> {this.state.roomname} </h1>
-                <h4> {opponentRoll} </h4>
-                <Board numPiecesFinished={this.state.numPiecesFinished} squares={this.state.squares} opponentSquares={this.state.opponentSquares} piecePositions={this.state.piecePositions} onWin={this.onWin} isPlayerTurn={isPlayerTurn} rollNumber={this.state.rollNumber} rolled={this.state.rolled} rolledCb={this.rolledCb} moveablePositions={this.state.moveablePositions}/>
+                <h5> {opponentRoll} </h5>
+                <Board gameState={this.state} isPlayerTurn={isPlayerTurn} rolledCb={this.rolledCb}/>
                 {this.state.GameOver ? gameOverDiv : null}
                 {this.state.forfeit ? forfeitDiv : null}
             </div>

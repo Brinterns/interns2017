@@ -4,6 +4,7 @@ import boardStyles from './Board.css';
 import Piece from './Piece';
 import Square from './Square';
 
+const numberOfPieces = 7;
 const rosettaSquares = [3,5,13,21,23];
 const blankSquares = [6,8,9,11];
 
@@ -30,32 +31,37 @@ export default class Board extends Component {
             className = boardStyles.squareBlank;
         }
         return (
-            <Square position={(playerPath.indexOf(i)+1)}  movePiece={this.handleMovePiece} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} className={className} key={i} />
+            <Square position={(playerPath.indexOf(i)+1)}  movePiece={this.handleMovePiece} piece={this.props.gameState.squares[i]} opponentPiece={this.props.gameState.opponentSquares[i]} className={className} key={i} />
         );
     }
 
     onClick() {
-        if (this.props.isPlayerTurn && !this.props.rolled) {
+        if (this.props.isPlayerTurn && !this.props.gameState.rolled) {
             this.props.rolledCb();
             cloak.message('rolldice', _);
         }
     }
 
     handleMovePiece(position) {
-        if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(position)) {
+        if (this.props.isPlayerTurn && this.props.gameState.rolled && this.props.gameState.moveablePositions.includes(position)) {
             cloak.message('movepiece', position);
         }
     }
 
     render() {
         const pieceHolder = [];
+        const oppPieceHolder = [];
         const squareCols = [];
-        for(var i = 0; i < 7; i++) {
-            if (this.props.piecePositions[i] === 0) {
-                pieceHolder.push(<Piece position={this.props.piecePositions[i]} className={boardStyles.piece} movePiece={this.handleMovePiece} key={i}/>);
+        for (var i = 0; i < 7; i++) {
+            if (this.props.gameState.piecePositions[i] === 0) {
+                pieceHolder.push(<Piece position={this.props.gameState.piecePositions[i]} className={boardStyles.piece} movePiece={this.handleMovePiece} key={i}/>);
             }
         }
-        for(var i = 0; i < 24; i += 3) {
+        const oppPieceHolderSize = numberOfPieces - this.props.gameState.opponentSquares.filter((square) => {return square}).length - this.props.gameState.numOppPiecesFinished;
+        for (var i = 0; i < oppPieceHolderSize; i++) {
+            oppPieceHolder.push(<Piece className={boardStyles.oppPiece} key={i}/>)
+        }
+        for (var i = 0; i < 24; i += 3) {
             squareCols.push(
                 <div key={i} className={boardStyles.squaresColumn}>
                     {this.squareType(i)}
@@ -66,11 +72,15 @@ export default class Board extends Component {
         }
         return (
                 <div>
-                    <h3>Finished pieces: {this.props.numPiecesFinished}</h3>
+                    <h3>Your finished pieces: {this.props.gameState.numPiecesFinished}</h3>
+                    <h4>Their finished pieces: {this.props.gameState.numOppPiecesFinished}</h4>
                     <div className={boardStyles.boardMainDiv}>
                         {squareCols}
                     </div>
-                    <button onClick={this.onClick} className={boardStyles.rollButton}>{this.props.rollNumber}</button>
+                    <button onClick={this.onClick} className={boardStyles.rollButton}>{this.props.gameState.rollNumber}</button>
+                    <div className={boardStyles.oppPieceHolder}>
+                        {oppPieceHolder}
+                    </div>
                     <div className={boardStyles.pieceHolder}>
                         {pieceHolder}
                     </div>

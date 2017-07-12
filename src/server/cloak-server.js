@@ -279,6 +279,7 @@ function movePiece(position, user) {
         nextPos = -1;
         user.data.numPiecesFinished ++;
         user.message('finishedpieces', user.data.numPiecesFinished);
+        opponent.message('finishedopppieces', user.data.numPiecesFinished);
         if (user.data.numPiecesFinished === numberOfPieces) {
             win(true, user);
         }
