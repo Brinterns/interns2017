@@ -60,13 +60,14 @@ module.exports = function(expressServer) {
             },
             rolldice: function(_, user) {
                 const rollNumber = rollDice(user);
+                var opponent = user.getRoom().getMembers().filter((member) => {
+                    return member.id !== user.id;
+                })[0];
                 if (rollNumber === 0) {
+                    opponent.message('opponentroll', rollNumber);
                     endTurn(user);
                 } else {
-                    var opponentSquares = user.getRoom().getMembers().filter((member) => {
-                        return member.id !== user.id;
-                    })[0].data.squares;
-                    checkMoves(user, rollNumber, opponentSquares);
+                    checkMoves(user, rollNumber, opponent.data.squares);
                 }
             },
             movepiece: function(position, user) {

@@ -14,6 +14,7 @@ export default class Game extends Component {
             listOfPlayers: [],
             GameOver : false,
             forfeit: false,
+            notificationBool: false,
             winnerId: null,
             currentPlayer: null,
             rollNumber: 'Roll',
@@ -57,8 +58,7 @@ export default class Game extends Component {
                 currentplayer: (current) => {
                     this.setState({
                         currentPlayer: current,
-                        rolled: false,
-                        opponentRollNumber: null
+                        rolled: false
                     });
                     if (this.state.currentPlayer === this.state.id) {
                         this.setState({
@@ -73,8 +73,14 @@ export default class Game extends Component {
                 },
                 opponentroll: (value) => {
                     this.setState({
-                        opponentRollNumber: value
+                        opponentRollNumber: value,
+                        notificationBool: true
                     });
+                    setTimeout(() => {
+                        this.setState({
+                            notificationBool: false
+                        });
+                    }, 2000);
                 },
                 moveablepositions: (moveablePositions) => {
                     this.setState({
@@ -175,7 +181,7 @@ export default class Game extends Component {
             currentPlayerText = isPlayerTurn ? "It's your turn" : "It's " + this.state.listOfPlayers.filter(player => {
                 return player.id === this.state.currentPlayer;
             })[0].name + "'s" + " turn";
-            if (this.state.opponentRollNumber) {
+            if (this.state.opponentRollNumber !== null) {
                 opponentRoll = this.state.listOfPlayers.filter(player => {
                     return player.id === this.state.currentPlayer;
                 })[0].name + " rolled a " + this.state.opponentRollNumber;
@@ -187,8 +193,10 @@ export default class Game extends Component {
                 <h2> {currentPlayerText} </h2>
                 <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
                 <h1> {this.state.roomname} </h1>
-                <h5> {opponentRoll} </h5>
                 <Board gameState={this.state} isPlayerTurn={isPlayerTurn} rolledCb={this.rolledCb}/>
+                <div className={gameStyles.notificationDiv}>
+                    {this.state.notificationBool ? opponentRoll : null}
+                </div>
                 {this.state.GameOver ? gameOverDiv : null}
                 {this.state.forfeit ? forfeitDiv : null}
             </div>

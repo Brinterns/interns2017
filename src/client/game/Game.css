@@ -43,16 +43,17 @@
     font-size: 2em;
 }
 
-.gameMain h5 {
+.notificationDiv {
     color: white;
     position: absolute;
-    top: 15%;
+    top: 40%;
     left: 50%;
     margin-right: -50%;
     margin: 0;
     transform: translate(-50%, 0%);
     text-align: center;
     font-size: 3em;
+    background-color: rgba(0,0,0,0.75) !important;
 }
 
 .forfeitButton {
