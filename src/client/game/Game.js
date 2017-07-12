@@ -21,6 +21,7 @@ export default class Game extends Component {
             rolled: false,
             moveablePositions: [],
             squares: Array(24).fill(false),
+            opponentSquares:  Array(24).fill(false),
             piecePositions: Array(numberOfPieces).fill(0),
             numPiecesFinished: 0
         };
@@ -84,9 +85,14 @@ export default class Game extends Component {
                         piecePositions: positions
                     });
                 },
-                squarestates: (squares) => {
+                squares: (squares) => {
                     this.setState({
                         squares: squares
+                    });
+                },
+                opponentsquares: (squares) => {
+                    this.setState({
+                        opponentSquares: squares
                     });
                 },
                 finishedpieces: (numPiecesFinished) => {
@@ -176,7 +182,7 @@ export default class Game extends Component {
                 <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
                 <h1> {this.state.roomname} </h1>
                 <h4> {opponentRoll} </h4>
-                <Board numPiecesFinished={this.state.numPiecesFinished} squares={this.state.squares} piecePositions={this.state.piecePositions} onWin={this.onWin} isPlayerTurn={isPlayerTurn} rollNumber={this.state.rollNumber} rolled={this.state.rolled} rolledCb={this.rolledCb} moveablePositions={this.state.moveablePositions}/>
+                <Board numPiecesFinished={this.state.numPiecesFinished} squares={this.state.squares} opponentSquares={this.state.opponentSquares} piecePositions={this.state.piecePositions} onWin={this.onWin} isPlayerTurn={isPlayerTurn} rollNumber={this.state.rollNumber} rolled={this.state.rolled} rolledCb={this.rolledCb} moveablePositions={this.state.moveablePositions}/>
                 {this.state.GameOver ? gameOverDiv : null}
                 {this.state.forfeit ? forfeitDiv : null}
             </div>

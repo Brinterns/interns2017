@@ -68,10 +68,19 @@
     display: inline-block;
 }
 
-
 .squarePiece {
     position: absolute;
     background-color: #639af2;
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+}
+
+.squareOpponentPiece {
+    position: absolute;
+    background-color: black;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));

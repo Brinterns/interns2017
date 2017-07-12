@@ -8,10 +8,16 @@ const maxMessages = 7;
 const rosettaSquares = [3,5,13,21,23];
 const numberOfPieces = 7;
 const playerPath = [
-    14,  17,  20,  23,
-    22,  19,  16,  13,
-    10,  7,  4,  1,
+    14, 17, 20, 23,
+    22, 19, 16, 13,
+    10, 7,  4,  1,
     2,  5
+];
+const opponentPath = [
+    12, 15, 18, 21,
+    22, 19, 16, 13,
+    10, 7,  4,  1,
+    0, 3
 ];
 
 module.exports = function(expressServer) {
@@ -225,7 +231,6 @@ function userJoinRoom(user, room) {
     room.addMember(user);
     user.data.ready = false;
     user.data.squares = Array(24).fill(false);
-    user.data.oppositeSquares = Array(24).fill(false);
     user.data.piecePositions = Array(numberOfPieces).fill(0);
     user.data.numPiecesFinished = 0;
 }
@@ -272,10 +277,23 @@ function movePiece(position, user) {
     }
     user.data.piecePositions[user.data.piecePositions.indexOf(position)] = nextPos;
     user.message('piecepositions', user.data.piecePositions);
-    user.message('squarestates', user.data.squares);
+    user.message('squares', user.data.squares);
+    room.getMembers().filter((member) => {
+        return member.id !== user.id;
+    })[0].message('opponentsquares', reverseSquares(user.data.piecePositions));
     if (rosettaSquares.includes(playerPath[position+user.data.lastRoll-1])) {
         room.messageMembers('currentplayer', room.data.currentPlayer);
         return;
     }
     endTurn(user);
+}
+
+function reverseSquares(positions) {
+    var reverse = Array(24).fill(false);
+    positions.forEach(position => {
+        if (position > 0) {
+            reverse[opponentPath[position-1]] = true;
+        }
+    });
+    return reverse;
 }
