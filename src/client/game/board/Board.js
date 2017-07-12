@@ -49,13 +49,17 @@ export default class Board extends Component {
     }
 
     handleMovePiece(position) {
+        if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(position)) {
+            cloak.message('movepiece', position);
+        }
+
+
+
         if (this.props.isPlayerTurn && this.props.rolled) {
             const rollNumberInt = parseInt(this.props.rollNumber);
             var squares = this.state.squares;
             var nextPos = (position + rollNumberInt);
-            if (!(this.canMove(squares, nextPos))) {
-                return;
-            }
+
             squares[playerPath[nextPos-1]] = true;
             if (position !== 0) {
                 squares[playerPath[position-1]] = false;
@@ -85,25 +89,7 @@ export default class Board extends Component {
         }
     }
 
-    canMove(squares, nextPos) {
-        if ((nextPos === 15) || !squares[playerPath[nextPos-1]]) {
-            return true;
-        }
-        return false;
-    }
-
-
     render() {
-        if ((this.props.rollNumber !== 'Roll') && this.props.rolled && this.props.isPlayerTurn) {
-            const rollNumberInt = parseInt(this.props.rollNumber);
-            var squares = this.state.squares;
-            const numFinishedPieces = this.state.piecePositions.filter((position) => {
-                return (position < 0) || !this.canMove(squares, position + rollNumberInt);
-            }).length;
-            if (numFinishedPieces === numberOfPieces) {
-                cloak.message('endturn', _);
-            }
-        }
         const pieceHolder = [];
         const squareCols = [];
         for(var i = 0; i < 7; i++) {

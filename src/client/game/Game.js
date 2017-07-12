@@ -16,7 +16,8 @@ export default class Game extends Component {
             currentPlayer: null,
             rollNumber: 'Roll',
             opponentRollNumber: null,
-            rolled: false
+            rolled: false,
+            moveablePositions: []
         };
         cloak.configure({
             messages: {
@@ -70,6 +71,11 @@ export default class Game extends Component {
                     this.setState({
                         opponentRollNumber: value
                     });
+                },
+                moveablepositions: (moveablePositions) => {
+                    this.setState({
+                        moveablePositions: moveablePositions
+                    });
                 }
             }
         });
@@ -85,7 +91,7 @@ export default class Game extends Component {
         if (this.state.GameOver) {
             return;
         }
-        cloak.message('winclick', winBool);
+        cloak.message('win', winBool);
     }
 
     onClickForfeit() {
@@ -161,7 +167,7 @@ export default class Game extends Component {
                 <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
                 <h1> {this.state.roomname} </h1>
                 <h4> {opponentRoll} </h4>
-                <Board onWin={this.onWin} reRoll={this.reRoll} isPlayerTurn={isPlayerTurn} rollNumber={this.state.rollNumber} rolled={this.state.rolled} rolledCb={this.rolledCb}/>
+                <Board onWin={this.onWin} reRoll={this.reRoll} isPlayerTurn={isPlayerTurn} rollNumber={this.state.rollNumber} rolled={this.state.rolled} rolledCb={this.rolledCb} moveablePositions={this.state.moveablePositions}/>
                 {this.state.GameOver ? gameOverDiv : null}
                 {this.state.forfeit ? forfeitDiv : null}
             </div>
