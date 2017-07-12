@@ -63,7 +63,10 @@ module.exports = function(expressServer) {
                 if (rollNumber === 0) {
                     endTurn(user);
                 } else {
-                    checkMoves(user, rollNumber);
+                    var opponentSquares = user.getRoom().getMembers().filter((member) => {
+                        return member.id !== user.id;
+                    })[0].data.squares;
+                    checkMoves(user, rollNumber, opponentSquares);
                 }
             },
             movepiece: function(position, user) {
@@ -241,10 +244,10 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
 }
 
-function checkMoves(user, rollNumber) {
+function checkMoves(user, rollNumber, opponentSquares) {
     var moveablePositions = [];
     const moveablePieces = user.data.piecePositions.filter((position) => {
-        return (position >= 0) && canMove(user.data.squares, position + rollNumber, moveablePositions, position);
+        return (position >= 0) && canMove(user.data.squares, opponentSquares, position + rollNumber, moveablePositions, position);
     });
     if (moveablePieces.length === 0) {
         endTurn(user);
@@ -252,10 +255,12 @@ function checkMoves(user, rollNumber) {
     user.message('moveablepositions', moveablePositions);
 }
 
-function canMove(squares, nextPos, moveablePositions, position) {
+function canMove(squares, opponentSquares, nextPos, moveablePositions, position) {
     if ((nextPos === 15) || (!squares[playerPath[nextPos-1]] && (nextPos < 15))) {
-        moveablePositions.push(position);
-        return true;
+        if (!((nextPos === 8) && opponentSquares[opponentPath[nextPos-1]])) {
+            moveablePositions.push(position);
+            return true;
+        }
     }
     return false;
 }
