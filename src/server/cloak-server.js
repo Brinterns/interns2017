@@ -40,28 +40,13 @@ module.exports = function(expressServer) {
                 reconnectUser(id, user);
             },
             sendmessage: function(message, user) {
-                var messageObj = {
-                    message: message,
-                    userName: user.name,
-                    userId: user.id
-                };
-                messages.push(messageObj);
-                if (messages.length > maxMessages) {
-                    messages.splice(0,1);
-                }
-                sendMessages();
+                sendMessage(message, user);
             },
             rolldice: function(_, user) {
-                var total = 0;
-                for (var i = 0; i < 4; i ++) {
-                    total += getRandomIntInclusive(0,1);
-                }
-                user.message('rolledvalue', total);
-                const room = user.getRoom();
-                room.data.currentPlayer = room.getMembers().filter(function(userTemp) {
-                    return userTemp.id !== user.id;
-                })[0].id;
-                room.messageMembers('currentplayer', room.data.currentPlayer);
+                rollDice(user);
+            },
+            endturn: function(_, user) {
+                endTurn(user);
             }
         },
         lobby: {
@@ -185,6 +170,35 @@ function reconnectUser(id, user) {
         user.message('currentplayer', room.data.currentPlayer);
         user2[0].delete();
     }
+}
+
+function sendMessage(message, user) {
+    var messageObj = {
+        message: message,
+        userName: user.name,
+        userId: user.id
+    };
+    messages.push(messageObj);
+    if (messages.length > maxMessages) {
+        messages.splice(0,1);
+    }
+    sendMessages();
+}
+
+function rollDice(user) {
+    var total = 0;
+    for (var i = 0; i < 4; i ++) {
+        total += getRandomIntInclusive(0,1);
+    }
+    user.message('rolledvalue', total);
+}
+
+function endTurn(user) {
+    const room = user.getRoom();
+    room.data.currentPlayer = room.getMembers().filter(function(userTemp) {
+        return userTemp.id !== user.id;
+    })[0].id;
+    room.messageMembers('currentplayer', room.data.currentPlayer);
 }
 
 function userJoinRoom(user, room) {

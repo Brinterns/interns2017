@@ -87,7 +87,7 @@ export default class Lobby extends Component {
         );
         const gamesDisplayList = (
             this.state.listOfActiveGames.map((gameName, i) => {
-                return <h2>{gameName}</h2>;
+                return <h2 key={i}>{gameName}</h2>;
             })
         );
 
