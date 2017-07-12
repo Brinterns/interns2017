@@ -191,6 +191,9 @@ function rollDice(user) {
         total += getRandomIntInclusive(0,1);
     }
     user.message('rolledvalue', total);
+    user.getRoom().getMembers().filter((member) => {
+        return member.id !== user.id;
+    })[0].message('opponentroll', total);
 }
 
 function endTurn(user) {
