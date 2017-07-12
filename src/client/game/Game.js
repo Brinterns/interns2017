@@ -15,6 +15,7 @@ export default class Game extends Component {
             winnerId: null,
             currentPlayer: null,
             rollNumber: 'Roll',
+            opponentRollNumber: null,
             rolled: false
         };
         cloak.configure({
@@ -48,7 +49,8 @@ export default class Game extends Component {
                 currentplayer: (current) => {
                     this.setState({
                         currentPlayer: current,
-                        rolled: false
+                        rolled: false,
+                        opponentRollNumber: null
                     });
                     if (this.state.currentPlayer === this.state.id) {
                         this.setState({
@@ -63,6 +65,11 @@ export default class Game extends Component {
                     if (value === 0) {
                         cloak.message('endturn', _);
                     }
+                },
+                opponentroll: (value) => {
+                    this.setState({
+                        opponentRollNumber: value
+                    });
                 }
             }
         });
@@ -136,10 +143,16 @@ export default class Game extends Component {
             </div>
         );
         let currentPlayerText = "";
+        let opponentRoll = "";
         if (this.state.listOfPlayers.length) {
             currentPlayerText = isPlayerTurn ? "It's your turn" : "It's " + this.state.listOfPlayers.filter(player => {
                 return player.id === this.state.currentPlayer;
             })[0].name + "'s" + " turn";
+            if (this.state.opponentRollNumber) {
+                opponentRoll = this.state.listOfPlayers.filter(player => {
+                    return player.id === this.state.currentPlayer;
+                })[0].name + " rolled a " + this.state.opponentRollNumber;
+            }
         }
 
         return (
@@ -147,6 +160,7 @@ export default class Game extends Component {
                 <h2> {currentPlayerText} </h2>
                 <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
                 <h1> {this.state.roomname} </h1>
+                <h4> {opponentRoll} </h4>
                 <Board onWin={this.onWin} reRoll={this.reRoll} isPlayerTurn={isPlayerTurn} rollNumber={this.state.rollNumber} rolled={this.state.rolled} rolledCb={this.rolledCb}/>
                 {this.state.GameOver ? gameOverDiv : null}
                 {this.state.forfeit ? forfeitDiv : null}

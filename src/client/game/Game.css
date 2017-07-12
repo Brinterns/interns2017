@@ -34,6 +34,18 @@
     margin-left: 1em;
 }
 
+.gameMain h4 {
+    color: white;
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    margin-right: -50%;
+    margin: 0;
+    transform: translate(-50%, 0%);
+    text-align: center;
+    font-size: 3em;
+}
+
 .forfeitButton {
     background-color: #e81212;
     float: right;
