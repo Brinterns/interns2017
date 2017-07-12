@@ -6,7 +6,7 @@ import Square from './Square';
 
 const rosettaSquares = [3,5,13,21,23];
 const blankSquares = [6,8,9,11];
-const numberOfPieces = 1;
+const numberOfPieces = 7;
 
 const playerPath = [
     14,  17,  20,  23,
@@ -62,13 +62,14 @@ export default class Board extends Component {
             const rollNumberInt = parseInt(this.props.rollNumber);
             var squares = this.state.squares;
             var nextPos = (position + rollNumberInt);
-            if (!(this.canMove(position, rollNumberInt, squares, nextPos))) {
+            if (!(this.canMove(squares, nextPos))) {
                 return;
             }
             squares[playerPath[nextPos-1]] = true;
             if (position !== 0) {
                 squares[playerPath[position-1]] = false;
             }
+
             if (nextPos === 15) {
                 nextPos = -1;
                 const numPiecesFinished = this.state.numPiecesFinished + 1;
@@ -93,28 +94,25 @@ export default class Board extends Component {
         }
     }
 
-    canMove(position, rollNumberInt, squares, nextPos) {
-        var nextPos = (position + rollNumberInt);
-        if (squares[playerPath[position+rollNumberInt-1]] || (nextPos > 15)) {
-            return false;
+    canMove(squares, nextPos) {
+        if ((nextPos === 15) || !squares[playerPath[nextPos-1]]) {
+            return true;
         }
-        return true;
+        return false;
     }
 
 
     render() {
-        if (this.props.rolled && this.props.isPlayerTurn) {
+        if ((this.props.rollNumber !== 'Roll') && this.props.rolled && this.props.isPlayerTurn) {
             const rollNumberInt = parseInt(this.props.rollNumber);
             var squares = this.state.squares;
-            const numNotMoveable = this.state.piecePositions.filter((position) => {
-                var nextPos = (position + rollNumberInt);
-                return ((position === -1) || !this.canMove(position, rollNumberInt, squares, nextPos));
+            const numFinishedPieces = this.state.piecePositions.filter((position) => {
+                return (position < 0) || !this.canMove(squares, position + rollNumberInt);
             }).length;
-            if (numNotMoveable === numberOfPieces) {
+            if (numFinishedPieces === numberOfPieces) {
                 cloak.message('endturn', _);
             }
         }
-
         const pieceHolder = [];
         const squareCols = [];
         for(var i = 0; i < 7; i++) {
@@ -131,7 +129,6 @@ export default class Board extends Component {
                 </div>
             );
         }
-
         return (
                 <div>
                     <h3>Finished pieces: {this.state.numPiecesFinished}</h3>
