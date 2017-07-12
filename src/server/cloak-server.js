@@ -4,6 +4,16 @@ let listOfLobbyUsers = [];
 let messages = [];
 const maxMessages = 7;
 
+//Game playing variables
+const rosettaSquares = [3,5,13,21,23];
+const numberOfPieces = 7;
+const playerPath = [
+    14,  17,  20,  23,
+    22,  19,  16,  13,
+    10,  7,  4,  1,
+    2,  5
+];
+
 module.exports = function(expressServer) {
     cloak.configure({
         autoJoinLobby: false,
@@ -33,8 +43,8 @@ module.exports = function(expressServer) {
                 cloak.getLobby().addMember(user);
                 user.message('gotolobby');
             },
-            winclick: function(winBool, user) {
-                winClick(winBool, user);
+            win: function(winBool, user) {
+                win(winBool, user);
             },
             reconnectuser: function(id, user) {
                 reconnectUser(id, user);
@@ -43,10 +53,15 @@ module.exports = function(expressServer) {
                 sendMessage(message, user);
             },
             rolldice: function(_, user) {
-                rollDice(user);
+                const rollNumber = rollDice(user);
+                if (rollNumber === 0) {
+                    endTurn(user);
+                } else {
+                    checkMoves(user, rollNumber);
+                }
             },
-            endturn: function(_, user) {
-                endTurn(user);
+            movepiece: function(position, user) {
+                movePiece(position, user);
             }
         },
         lobby: {
@@ -93,7 +108,7 @@ function createGame(id, user) {
     updateLobbyActiveGames();
 }
 
-function winClick(winBool, user) {
+function win(winBool, user) {
     const userRoom = user.getRoom();
     if (winBool) {
         userRoom.messageMembers('gameover', user.id);
@@ -194,6 +209,8 @@ function rollDice(user) {
     user.getRoom().getMembers().filter((member) => {
         return member.id !== user.id;
     })[0].message('opponentroll', total);
+    user.data.lastRoll = total;
+    return total;
 }
 
 function endTurn(user) {
@@ -207,10 +224,58 @@ function endTurn(user) {
 function userJoinRoom(user, room) {
     room.addMember(user);
     user.data.ready = false;
+    user.data.squares = Array(24).fill(false);
+    user.data.oppositeSquares = Array(24).fill(false);
+    user.data.piecePositions = Array(numberOfPieces).fill(0);
+    user.data.numPiecesFinished = 0;
 }
-
+//Game Functions
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
+}
+
+function checkMoves(user, rollNumber) {
+    var moveablePositions = [];
+    const moveablePieces = user.data.piecePositions.filter((position) => {
+        return (position >= 0) && canMove(user.data.squares, position + rollNumber, moveablePositions, position);
+    });
+    if (moveablePieces.length === 0) {
+        endTurn(user);
+    }
+    user.message('moveablepositions', moveablePositions);
+}
+
+function canMove(squares, nextPos, moveablePositions, position) {
+    if ((nextPos === 15) || (!squares[playerPath[nextPos-1]] && (nextPos < 15))) {
+        moveablePositions.push(position);
+        return true;
+    }
+    return false;
+}
+
+function movePiece(position, user) {
+    const room = user.getRoom();
+    var nextPos = position + user.data.lastRoll;
+    user.data.squares[playerPath[nextPos-1]] = true;
+    if (position !== 0) {
+        user.data.squares[playerPath[position-1]] = false;
+    }
+    if (nextPos === 15) {
+        nextPos = -1;
+        user.data.numPiecesFinished ++;
+        user.message('finishedpieces', user.data.numPiecesFinished);
+        if (user.data.numPiecesFinished === numberOfPieces) {
+            win(true, user);
+        }
+    }
+    user.data.piecePositions[user.data.piecePositions.indexOf(position)] = nextPos;
+    user.message('piecepositions', user.data.piecePositions);
+    user.message('squarestates', user.data.squares);
+    if (rosettaSquares.includes(playerPath[position+user.data.lastRoll-1])) {
+        room.messageMembers('currentplayer', room.data.currentPlayer);
+        return;
+    }
+    endTurn(user);
 }

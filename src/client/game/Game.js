@@ -3,6 +3,8 @@ import { browserHistory } from 'react-router';
 import gameStyles from './Game.css';
 import Board from './board/Board';
 
+const numberOfPieces = 7;
+
 export default class Game extends Component {
     constructor(props) {
         super(props);
@@ -16,7 +18,11 @@ export default class Game extends Component {
             currentPlayer: null,
             rollNumber: 'Roll',
             opponentRollNumber: null,
-            rolled: false
+            rolled: false,
+            moveablePositions: [],
+            squares: Array(24).fill(false),
+            piecePositions: Array(numberOfPieces).fill(0),
+            numPiecesFinished: 0
         };
         cloak.configure({
             messages: {
@@ -62,13 +68,30 @@ export default class Game extends Component {
                     this.setState({
                         rollNumber: value
                     });
-                    if (value === 0) {
-                        cloak.message('endturn', _);
-                    }
                 },
                 opponentroll: (value) => {
                     this.setState({
                         opponentRollNumber: value
+                    });
+                },
+                moveablepositions: (moveablePositions) => {
+                    this.setState({
+                        moveablePositions: moveablePositions
+                    });
+                },
+                piecepositions: (positions) => {
+                    this.setState({
+                        piecePositions: positions
+                    });
+                },
+                squarestates: (squares) => {
+                    this.setState({
+                        squares: squares
+                    });
+                },
+                finishedpieces: (numPiecesFinished) => {
+                    this.setState({
+                        numPiecesFinished: numPiecesFinished
                     });
                 }
             }
@@ -77,7 +100,6 @@ export default class Game extends Component {
         this.onClickForfeit = this.onClickForfeit.bind(this);
         this.returnToLobby = this.returnToLobby.bind(this);
         this.rolledCb = this.rolledCb.bind(this);
-        this.reRoll = this.reRoll.bind(this);
         {this.getGameInfo()};
     }
 
@@ -85,7 +107,7 @@ export default class Game extends Component {
         if (this.state.GameOver) {
             return;
         }
-        cloak.message('winclick', winBool);
+        cloak.message('win', winBool);
     }
 
     onClickForfeit() {
@@ -116,13 +138,6 @@ export default class Game extends Component {
     rolledCb() {
         this.setState({
             rolled: true
-        });
-    }
-
-    reRoll() {
-        this.setState({
-            rolled: false,
-            rollNumber: 'Roll'
         });
     }
 
@@ -161,7 +176,7 @@ export default class Game extends Component {
                 <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
                 <h1> {this.state.roomname} </h1>
                 <h4> {opponentRoll} </h4>
-                <Board onWin={this.onWin} reRoll={this.reRoll} isPlayerTurn={isPlayerTurn} rollNumber={this.state.rollNumber} rolled={this.state.rolled} rolledCb={this.rolledCb}/>
+                <Board numPiecesFinished={this.state.numPiecesFinished} squares={this.state.squares} piecePositions={this.state.piecePositions} onWin={this.onWin} isPlayerTurn={isPlayerTurn} rollNumber={this.state.rollNumber} rolled={this.state.rolled} rolledCb={this.rolledCb} moveablePositions={this.state.moveablePositions}/>
                 {this.state.GameOver ? gameOverDiv : null}
                 {this.state.forfeit ? forfeitDiv : null}
             </div>
