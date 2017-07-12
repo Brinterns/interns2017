@@ -32,9 +32,18 @@
     position: absolute;
     margin-top : 3.5em;
     margin-left: 1em;
+    font-size: 2em;
 }
 
 .gameMain h4 {
+    color: white;
+    position: absolute;
+    margin-top : 5em;
+    margin-left: 1em;
+    font-size: 2em;
+}
+
+.gameMain h5 {
     color: white;
     position: absolute;
     top: 15%;
