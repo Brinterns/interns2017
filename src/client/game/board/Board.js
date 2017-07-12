@@ -4,6 +4,7 @@ import boardStyles from './Board.css';
 import Piece from './Piece';
 import Square from './Square';
 
+const numberOfPieces = 7;
 const rosettaSquares = [3,5,13,21,23];
 const blankSquares = [6,8,9,11];
 
@@ -49,13 +50,18 @@ export default class Board extends Component {
 
     render() {
         const pieceHolder = [];
+        const oppPieceHolder = [];
         const squareCols = [];
-        for(var i = 0; i < 7; i++) {
+        for (var i = 0; i < 7; i++) {
             if (this.props.gameState.piecePositions[i] === 0) {
                 pieceHolder.push(<Piece position={this.props.gameState.piecePositions[i]} className={boardStyles.piece} movePiece={this.handleMovePiece} key={i}/>);
             }
         }
-        for(var i = 0; i < 24; i += 3) {
+        const oppPieceHolderSize = numberOfPieces - this.props.gameState.opponentSquares.filter((square) => {return square}).length - this.props.gameState.numOppPiecesFinished;
+        for (var i = 0; i < oppPieceHolderSize; i++) {
+            oppPieceHolder.push(<Piece className={boardStyles.oppPiece} key={i}/>)
+        }
+        for (var i = 0; i < 24; i += 3) {
             squareCols.push(
                 <div key={i} className={boardStyles.squaresColumn}>
                     {this.squareType(i)}
@@ -72,6 +78,9 @@ export default class Board extends Component {
                         {squareCols}
                     </div>
                     <button onClick={this.onClick} className={boardStyles.rollButton}>{this.props.gameState.rollNumber}</button>
+                    <div className={boardStyles.oppPieceHolder}>
+                        {oppPieceHolder}
+                    </div>
                     <div className={boardStyles.pieceHolder}>
                         {pieceHolder}
                     </div>
