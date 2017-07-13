@@ -3,6 +3,7 @@ import { browserHistory } from 'react-router';
 import User from './User';
 import lobbyStyles from './Lobby.css';
 import ChatBox from './Chat/ChatBox';
+import Rules from '../rules/Rules';
 
 export default class Lobby extends Component {
     constructor(props) {
@@ -12,7 +13,8 @@ export default class Lobby extends Component {
             listOfUsers: [],
             listOfActiveGames: [],
             messages: [],
-            ready: false
+            ready: false,
+            rules: true
         };
         cloak.configure({
             messages: {
@@ -110,6 +112,7 @@ export default class Lobby extends Component {
                     </div>
                     <ChatBox id={this.state.id} messages={this.state.messages}/>
                 </div>
+                 {this.state.rules ? <Rules /> : null}
             </div>
         );
     }

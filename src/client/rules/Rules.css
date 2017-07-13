@@ -1,0 +1,14 @@
+.rulesWindow {
+    position: absolute;
+    top: 57.5%;
+    left: 50%;
+    margin-right: -50%;
+    margin: 0;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    height: 75%;
+    background-color: rgb(17, 72, 111);
+    border-style: solid;
+    border-width: 0.3em;
+    border-radius: 3em;
+}
