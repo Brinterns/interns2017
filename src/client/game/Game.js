@@ -15,6 +15,7 @@ export default class Game extends Component {
             GameOver : false,
             forfeit: false,
             notificationBool: false,
+            notificationText: null,
             winnerId: null,
             currentPlayer: null,
             rollNumber: 'Roll',
@@ -74,7 +75,10 @@ export default class Game extends Component {
                 opponentroll: (value) => {
                     this.setState({
                         opponentRollNumber: value,
-                        notificationBool: true
+                        notificationBool: true,
+                        notificationText: this.state.listOfPlayers.filter(player => {
+                            return player.id === this.state.currentPlayer;
+                        })[0].name + " rolled a " + value
                     });
                     setTimeout(() => {
                         this.setState({
@@ -182,9 +186,7 @@ export default class Game extends Component {
                 return player.id === this.state.currentPlayer;
             })[0].name + "'s" + " turn";
             if (this.state.opponentRollNumber !== null) {
-                opponentRoll = this.state.listOfPlayers.filter(player => {
-                    return player.id === this.state.currentPlayer;
-                })[0].name + " rolled a " + this.state.opponentRollNumber;
+                opponentRoll = this.state.notificationText;
             }
         }
 
