@@ -37,7 +37,6 @@ export default class Board extends Component {
 
     onClick() {
         if (this.props.isPlayerTurn && !this.props.gameState.rolled) {
-            this.props.rolledCb();
             cloak.message('rolldice', _);
         }
     }

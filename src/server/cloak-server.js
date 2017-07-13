@@ -38,8 +38,8 @@ module.exports = function(expressServer) {
             getroominfo: function(msg, user) {
                 getRoomInfo(user);
             },
-            userready: function(msg, user) {
-                user.data.ready = msg;
+            userready: function(_, user) {
+                user.data.ready = !user.data.ready;
                 cloak.messageAll('updateusers', getLobbyUserInfo());
             },
             creategame: function(id, user) {
@@ -101,9 +101,25 @@ function getRoomInfo(user) {
     if (!room.data.currentPlayer) {
         room.data.currentPlayer = room.getMembers()[1].id;
     }
-    user.message('userid', user.id);
-    user.message('roomname', room.name);
+    const opponent = room.getMembers().filter((member) => {
+        return member.id !== user.id;
+    })[0];
+
+    var gameStateJson = {
+        id: user.id,
+        roomName: room.name,
+        squares: user.data.squares,
+        piecePositions: user.data.piecePositions,
+        opponentSquares: reverseSquares(opponent.data.piecePositions),
+        finishedPieces: user.data.numPiecesFinished,
+        finishedOppPieces: opponent.data.numPiecesFinished
+    };
+    user.message('gamestate', JSON.stringify(gameStateJson));
     user.message('currentplayer', room.data.currentPlayer);
+    if (user.data.lastRoll) {
+        user.message('rolledvalue', user.data.lastRoll);
+        checkMoves(user, user.data.lastRoll, opponent.data.squares);
+    }
     getRoomUserInfo(room);
 }
 
@@ -185,7 +201,7 @@ function reconnectUser(id, user) {
     });
     if (user2.length) {
         user.name = user2[0].name;
-        user.ready = user2[0].ready;
+        user.data = user2[0].data;
         user.message('userid', user.id);
         const room = user2[0].getRoom();
         user.joinRoom(room);

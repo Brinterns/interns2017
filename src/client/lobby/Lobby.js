@@ -17,8 +17,13 @@ export default class Lobby extends Component {
         cloak.configure({
             messages: {
                 updateusers: (userInfo) => {
+                    const info = JSON.parse(userInfo);
+                    const ready = info.filter((user) => {
+                        return user.id === this.state.id;
+                    })[0].ready;
                     this.setState({
-                        listOfUsers: JSON.parse(userInfo)
+                        listOfUsers: info,
+                        ready: ready
                     });
                 },
                 updaterooms: (roomNames) => {
@@ -48,11 +53,7 @@ export default class Lobby extends Component {
     }
 
     onClick(e) {
-        const ready = !this.state.ready;
-        cloak.message('userready', ready);
-        this.setState({
-            ready: ready
-        });
+        cloak.message('userready', _);
     }
 
     getLobbyInfo() {
