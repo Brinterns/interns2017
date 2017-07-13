@@ -64,7 +64,6 @@ module.exports = function(expressServer) {
                     return member.id !== user.id;
                 })[0];
                 if (rollNumber === 0) {
-                    opponent.message('opponentroll', rollNumber);
                     endTurn(user);
                 } else {
                     checkMoves(user, rollNumber, opponent.data.squares);
