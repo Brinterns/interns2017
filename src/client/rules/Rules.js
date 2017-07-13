@@ -6,14 +6,22 @@ export default class Rules extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            page: 0
+            page: 1
         };
+        this.closeRules = this.closeRules.bind(this);
+    }
+
+    closeRules() {
+        this.setState({
+            page: 0
+        });
+        this.props.closeRules();
     }
     
     render() {
         return (
-            <div className={rulesStyles.rulesWindow}>
-                {pages.getPage(0)}
+            <div>
+                {pages.getPage(this.state.page, this.closeRules)}
             </div>
         );
     }

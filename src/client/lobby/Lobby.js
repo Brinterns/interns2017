@@ -51,6 +51,7 @@ export default class Lobby extends Component {
         });
         this.onClick = this.onClick.bind(this);
         this.challengeUser = this.challengeUser.bind(this);
+        this.handleCloseRules = this.handleCloseRules.bind(this);
         {this.getLobbyInfo()};
     }
 
@@ -70,6 +71,12 @@ export default class Lobby extends Component {
 
     challengeUser(user) {
         cloak.message('creategame', user.id);
+    }
+
+    handleCloseRules() {
+        this.setState({
+            rules: false
+        });
     }
 
     render() {
@@ -112,7 +119,7 @@ export default class Lobby extends Component {
                     </div>
                     <ChatBox id={this.state.id} messages={this.state.messages}/>
                 </div>
-                 {this.state.rules ? <Rules /> : null}
+                 {this.state.rules ? <Rules closeRules={this.handleCloseRules} /> : null}
             </div>
         );
     }

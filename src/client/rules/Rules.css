@@ -12,3 +12,46 @@
     border-width: 0.3em;
     border-radius: 3em;
 }
+
+.exit {
+    position: relative;
+    float: right;
+    margin-top: 2%;
+    margin-right: 3%;
+    width: calc(3 * (1vw + 1vh - 1vmin));
+    height: calc(3 * (1vw + 1vh - 1vmin));
+    border: solid;
+    border-radius: 0.5em;
+    border-color: black;
+    font-size: 2em;
+    font-weight: bold;
+    background-color: #e81212;
+}
+
+.page0Img {
+    position: absolute;
+    top: 10%;
+    margin-right: -50%;
+    transform: translate(-50%, 0%);
+    left: 50%;
+    width: calc(42.3 * (1vw + 1vh - 1vmin));
+    height: calc(15.4 * (1vw + 1vh - 1vmin));
+}
+
+.page0Text {
+    position: absolute;
+    top: 54%;
+    color: white;
+    font-size: calc(2 * (1vw + 1vh - 1vmin));
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.pageText {
+    position: absolute;
+    top: 10%;
+    color: white;
+    font-size: calc(2 * (1vw + 1vh - 1vmin));
+    margin-left: 10%;
+    margin-right: 10%;
+}
