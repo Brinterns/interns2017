@@ -23,7 +23,7 @@ export default class Game extends Component {
             rolled: true,
             moveablePositions: [],
             squares: Array(24).fill(false),
-            opponentSquares:  Array(24).fill(false),
+            opponentSquares: Array(24).fill(false),
             piecePositions: Array(numberOfPieces).fill(0),
             numPiecesFinished: 0,
             numOppPiecesFinished: 0
@@ -65,6 +65,11 @@ export default class Game extends Component {
                         this.setState({
                             rollNumber: 'Roll'
                         });
+                        setTimeout(() => {
+                            this.setState({
+                                notificationBool: false
+                            });
+                        }, 1000);
                     }
                 },
                 rolledvalue: (value) => {
@@ -81,11 +86,6 @@ export default class Game extends Component {
                             return player.id === this.state.currentPlayer;
                         })[0].name + " rolled a " + value
                     });
-                    setTimeout(() => {
-                        this.setState({
-                            notificationBool: false
-                        });
-                    }, 2000);
                 },
                 moveablepositions: (moveablePositions) => {
                     this.setState({
