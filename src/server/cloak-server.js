@@ -64,7 +64,6 @@ module.exports = function(expressServer) {
                     return member.id !== user.id;
                 })[0];
                 if (rollNumber === 0) {
-                    opponent.message('opponentroll', rollNumber);
                     endTurn(user);
                 } else {
                     checkMoves(user, rollNumber, opponent.data.squares);
@@ -253,6 +252,7 @@ function userJoinRoom(user, room) {
     user.data.squares = Array(24).fill(false);
     user.data.piecePositions = Array(numberOfPieces).fill(0);
     user.data.numPiecesFinished = 0;
+    user.data.lastRoll = null;
 }
 //Game Functions
 function getRandomIntInclusive(min, max) {
