@@ -101,9 +101,22 @@ function getRoomInfo(user) {
     if (!room.data.currentPlayer) {
         room.data.currentPlayer = room.getMembers()[1].id;
     }
+    const opponent = room.getMembers().filter((member) => {
+        return member.id !== user.id;
+    })[0];
+
     user.message('userid', user.id);
     user.message('roomname', room.name);
     user.message('currentplayer', room.data.currentPlayer);
+    user.message('squares', user.data.squares);
+    user.message('piecepositions', user.data.piecePositions);
+    user.message('opponentsquares', reverseSquares(opponent.data.piecePositions));
+    user.message('finishedpieces', user.data.numPiecesFinished);
+    user.message('finishedopppieces', opponent.data.numPiecesFinished);
+    user.message('rolledvalue', user.data.lastRoll);
+    console.log("rollnumber = " + user.data.lastRoll);
+    console.log("opp squares = "+ opponent.data.squares);
+    checkMoves(user, user.data.lastRoll, opponent.data.squares);
     getRoomUserInfo(room);
 }
 
@@ -185,7 +198,7 @@ function reconnectUser(id, user) {
     });
     if (user2.length) {
         user.name = user2[0].name;
-        user.data.ready = user2[0].data.ready;
+        user.data = user2[0].data;
         user.message('userid', user.id);
         const room = user2[0].getRoom();
         user.joinRoom(room);

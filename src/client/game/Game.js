@@ -69,7 +69,8 @@ export default class Game extends Component {
                 },
                 rolledvalue: (value) => {
                     this.setState({
-                        rollNumber: value
+                        rollNumber: value,
+                        rolled: true
                     });
                 },
                 opponentroll: (value) => {
@@ -121,7 +122,6 @@ export default class Game extends Component {
         this.onWin = this.onWin.bind(this);
         this.onClickForfeit = this.onClickForfeit.bind(this);
         this.returnToLobby = this.returnToLobby.bind(this);
-        this.rolledCb = this.rolledCb.bind(this);
         {this.getGameInfo()};
     }
 
@@ -157,12 +157,6 @@ export default class Game extends Component {
         }
     }
 
-    rolledCb() {
-        this.setState({
-            rolled: true
-        });
-    }
-
     render() {
         const isPlayerTurn = (this.state.currentPlayer === this.state.id);
         const gameOverTextChoice = (this.state.winnerId == this.state.id) ? "You Won!" : "You Lost";
@@ -195,7 +189,7 @@ export default class Game extends Component {
                 <h2> {currentPlayerText} </h2>
                 <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
                 <h1> {this.state.roomname} </h1>
-                <Board gameState={this.state} isPlayerTurn={isPlayerTurn} rolledCb={this.rolledCb}/>
+                <Board gameState={this.state} isPlayerTurn={isPlayerTurn}/>
                 <div className={gameStyles.notificationDiv}>
                     {this.state.notificationBool ? opponentRoll : null}
                 </div>
