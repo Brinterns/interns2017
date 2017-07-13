@@ -10,9 +10,9 @@ export default class Game extends Component {
         super(props);
         this.state = {
             id: null,
-            roomname: '',
+            roomName: '',
             listOfPlayers: [],
-            GameOver : false,
+            gameOver : false,
             forfeit: false,
             notificationBool: false,
             notificationText: null,
@@ -43,14 +43,14 @@ export default class Game extends Component {
                 },
                 roomname: (name) => {
                     this.setState({
-                        roomname: name
+                        roomName: name
                     });
                 },
                 gameover: (winnerId) => {
                     this.setState({
                         forfeit: false,
                         winnerId: winnerId,
-                        GameOver: true
+                        gameOver: true
                     });
                 },
                 gotolobby: () => {
@@ -116,6 +116,18 @@ export default class Game extends Component {
                     this.setState({
                         numOppPiecesFinished: numPiecesFinished
                     });
+                },
+                gamestate: (json) => {
+                    const gameState = JSON.parse(json);
+                    this.setState({
+                        id: gameState.id,
+                        roomName: gameState.roomName,
+                        squares: gameState.squares,
+                        piecePositions: gameState.piecePositions,
+                        opponentSquares: gameState.opponentSquares,
+                        numPiecesFinished: gameState.finishedPieces,
+                        numOppPiecesFinished: gameState.finishedOppPieces
+                    });
                 }
             }
         });
@@ -126,14 +138,14 @@ export default class Game extends Component {
     }
 
     onWin(winBool) {
-        if (this.state.GameOver) {
+        if (this.state.gameOver) {
             return;
         }
         cloak.message('win', winBool);
     }
 
     onClickForfeit() {
-        if (this.state.GameOver) {
+        if (this.state.gameOver) {
             return;
         }
         const forfeitAttempt = this.state.forfeit;
@@ -153,7 +165,7 @@ export default class Game extends Component {
             setTimeout(() => {
                 cloak.message('reconnectuser', localStorage.getItem('userId'));
                 cloak.message('getroominfo', _);
-            }, 300);
+            }, 100);
         }
     }
 
@@ -188,12 +200,12 @@ export default class Game extends Component {
             <div className={gameStyles.gameMain}>
                 <h2> {currentPlayerText} </h2>
                 <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
-                <h1> {this.state.roomname} </h1>
+                <h1> {this.state.roomName} </h1>
                 <Board gameState={this.state} isPlayerTurn={isPlayerTurn}/>
                 <div className={gameStyles.notificationDiv}>
                     {this.state.notificationBool ? opponentRoll : null}
                 </div>
-                {this.state.GameOver ? gameOverDiv : null}
+                {this.state.gameOver ? gameOverDiv : null}
                 {this.state.forfeit ? forfeitDiv : null}
             </div>
         );
