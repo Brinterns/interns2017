@@ -114,8 +114,6 @@ function getRoomInfo(user) {
     user.message('finishedpieces', user.data.numPiecesFinished);
     user.message('finishedopppieces', opponent.data.numPiecesFinished);
     user.message('rolledvalue', user.data.lastRoll);
-    console.log("rollnumber = " + user.data.lastRoll);
-    console.log("opp squares = "+ opponent.data.squares);
     checkMoves(user, user.data.lastRoll, opponent.data.squares);
     getRoomUserInfo(room);
 }
