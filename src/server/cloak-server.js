@@ -105,6 +105,7 @@ function getRoomInfo(user) {
         return member.id !== user.id;
     })[0];
 
+    console.log("Current player before " + room.data.currentPlayer);
     user.message('userid', user.id);
     user.message('roomname', room.name);
     user.message('currentplayer', room.data.currentPlayer);
@@ -113,8 +114,10 @@ function getRoomInfo(user) {
     user.message('opponentsquares', reverseSquares(opponent.data.piecePositions));
     user.message('finishedpieces', user.data.numPiecesFinished);
     user.message('finishedopppieces', opponent.data.numPiecesFinished);
-    user.message('rolledvalue', user.data.lastRoll);
-    checkMoves(user, user.data.lastRoll, opponent.data.squares);
+    if (user.data.lastRoll) {
+        user.message('rolledvalue', user.data.lastRoll);
+        checkMoves(user, user.data.lastRoll, opponent.data.squares);
+    }
     getRoomUserInfo(room);
 }
 
