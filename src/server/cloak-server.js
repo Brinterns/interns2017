@@ -38,8 +38,8 @@ module.exports = function(expressServer) {
             getroominfo: function(msg, user) {
                 getRoomInfo(user);
             },
-            userready: function(msg, user) {
-                user.data.ready = msg;
+            userready: function(_, user) {
+                user.data.ready = !user.data.ready;
                 cloak.messageAll('updateusers', getLobbyUserInfo());
             },
             creategame: function(id, user) {
@@ -185,7 +185,7 @@ function reconnectUser(id, user) {
     });
     if (user2.length) {
         user.name = user2[0].name;
-        user.ready = user2[0].ready;
+        user.data.ready = user2[0].data.ready;
         user.message('userid', user.id);
         const room = user2[0].getRoom();
         user.joinRoom(room);
