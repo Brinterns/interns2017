@@ -20,7 +20,7 @@ export default class Game extends Component {
             currentPlayer: null,
             rollNumber: 'Roll',
             opponentRollNumber: null,
-            rolled: false,
+            rolled: true,
             moveablePositions: [],
             squares: Array(24).fill(false),
             opponentSquares:  Array(24).fill(false),
@@ -165,7 +165,7 @@ export default class Game extends Component {
             setTimeout(() => {
                 cloak.message('reconnectuser', localStorage.getItem('userId'));
                 cloak.message('getroominfo', _);
-            }, 100);
+            }, 300);
         }
     }
 
