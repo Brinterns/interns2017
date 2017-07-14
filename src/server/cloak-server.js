@@ -1,4 +1,5 @@
 var cloak = require('cloak');
+var {getUsername} = require('./randomnames');
 
 let listOfLobbyUsers = [];
 let messages = [];
@@ -28,7 +29,7 @@ module.exports = function(expressServer) {
         defaultRoomSize: 2,
         messages: {
             setusername: function(msg, user) {
-                user.name = msg;
+                user.name = (msg === "") ? getUsername(getRandomIntInclusive(0,199)) : msg;
                 cloak.getLobby().addMember(user);
             },
             getlobbyinfo: function(msg, user) {
