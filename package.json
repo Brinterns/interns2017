@@ -4,7 +4,7 @@
   "description": "Interns 2017",
   "main": "app.js",
   "engines": {
-    "node": ">=5.8.0"
+    "node": ">=6.11.1"
   },
   "scripts": {
     "build": "gulp build",
