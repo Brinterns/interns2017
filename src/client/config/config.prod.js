@@ -1,3 +1,3 @@
 export default {
-    cloakAddress: 'http://decrementer.herokuapp.com'
+    cloakAddress: 'http://jurr.herokuapp.com'
 };

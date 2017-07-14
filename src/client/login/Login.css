@@ -1,0 +1,57 @@
+.pageBackground {
+    position:fixed;
+    padding:0;
+    margin:0;
+    top:0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background-color: #0e4282;
+}
+
+.pageBackground h1 {
+    color: white;
+    text-align: center;
+    margin-top: calc(7.5 * (1vw + 1vh - 1vmin));;
+    font-size: calc(4 * (1vw + 1vh - 1vmin));
+
+}
+
+.inputbox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    margin: 0;
+    transform: translate(-50%, -50%);
+}
+
+.nameField {
+    display: block;
+    text-align: center;
+    margin-bottom: 0.5em;
+    border-color: grey;
+    border-width: 0.005em;
+    width: 13em;
+}
+
+.submitButton {
+    display: block;
+    width: 13em;
+    background-color: #034ea8;
+    color: white;
+    border: none;
+}
+
+.backgroundBlock {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    margin: 0;
+    transform: translate(-50%, -50%);
+    height: 12em;
+    width: 15em;
+    background-color: #031326;
+    border-radius: 3em;
+}

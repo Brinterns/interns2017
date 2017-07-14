@@ -1,0 +1,109 @@
+:root {
+    --squareMargin: calc(0.5 * (1vw + 1vh - 1vmin)) calc(0.275 * (1vw + 1vh - 1vmin)) calc(0.5 * (1vw + 1vh - 1vmin)) calc(0.275 * (1vw + 1vh - 1vmin));
+    --squareSide: calc(6 * (1vw + 1vh - 1vmin));
+}
+
+
+.boardMainDiv {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    float: left;
+    top: 30%;
+    position: absolute;
+}
+
+.squaresColumn {
+    display: inline-block;
+}
+
+.squareNormal {
+    margin: var(--squareMargin);
+    height: var(--squareSide);
+    width: var(--squareSide);
+    background-color: white;
+}
+
+.squareBlank {
+    margin: var(--squareMargin);
+    height: var(--squareSide);
+    width: var(--squareSide);
+}
+
+.squareRosetta {
+    margin: var(--squareMargin);
+    height: var(--squareSide);
+    width: var(--squareSide);
+    background-color: red;
+}
+
+.rollButton {
+    bottom: 5%;
+    right: 5%;
+    font-size: 3em;
+    border-radius: 1em;
+    height: calc(2 * var(--squareSide));
+    width: calc(2 * var(--squareSide));
+    position: absolute;
+    outline: none;
+}
+
+.pieceHolder {
+    bottom: 8%;
+    left: 5%;
+    height: auto;
+    width: auto;
+    position: absolute;
+}
+
+.oppPieceHolder {
+    top: 15%;
+    right: 5%;
+    height: auto;
+    width: auto;
+    direction: rtl;
+    position: absolute;
+}
+
+.piece {
+    background-color: #639af2;
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-right: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    display: inline-block;
+}
+
+.oppPiece {
+    background-color: grey;
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-right: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    display: inline-block;
+}
+
+.squarePiece {
+    position: absolute;
+    background-color: #639af2;
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+}
+
+.squareOpponentPiece {
+    position: absolute;
+    background-color: grey;
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+}

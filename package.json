@@ -1,10 +1,10 @@
 {
   "name": "interns2017",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Interns 2017",
   "main": "app.js",
   "engines": {
-    "node": ">=5.8.0"
+    "node": ">=6.11.1"
   },
   "scripts": {
     "build": "gulp build",
@@ -30,7 +30,10 @@
     "gulp-load-plugins": "^1.2.0",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
+    "history": "^4.6.3",
+    "image-webpack-loader": "^3.3.1",
     "jquery": "^2.2.0",
+    "lodash": "^4.13.1",
     "node-sass": "^3.7.0",
     "nodemon": "^1.8.1",
     "opn": "^4.0.0",
@@ -39,8 +42,12 @@
     "react-dom": "^15.0.1",
     "react-hot-loader": "^3.0.0-beta.2",
     "react-redux": "^4.4.5",
+    "react-router": "^3.0.0",
+    "react-router-dom": "^4.1.1",
     "redux": "^3.5.2",
     "sass-loader": "^3.2.0",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.9",
     "webpack": "^1.12.12",
     "yargs": "^3.32.0"
   },
@@ -54,10 +61,8 @@
     "karma-jasmine": "^1.0.2",
     "karma-mocha-reporter": "^2.0.4",
     "karma-webpack": "^1.7.0",
-    "lodash": "^4.13.1",
     "react-addons-test-utils": "^15.1.0",
     "redux-devtools": "^3.3.1",
-    "style-loader": "^0.13.1",
     "webpack-dev-server": "^1.14.1"
   },
   "repository": {
