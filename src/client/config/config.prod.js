@@ -1,3 +1,3 @@
 export default {
-    cloakAddress: 'http://jurr.herokuapp.com'
+    cloakAddress: 'https://jurr.herokuapp.com'
 };
