@@ -27,6 +27,7 @@ export default class Login extends Component {
     render() {
         return (
             <div className={styles.pageBackground}>
+                <h1> The Royal Game of Ur </h1>
                 <div className={styles.backgroundBlock}>
                     <div className={styles.inputbox}>
                         <form onSubmit={this.onSubmit}>
