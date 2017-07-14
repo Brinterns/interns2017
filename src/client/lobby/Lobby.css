@@ -37,10 +37,27 @@
     background-color: rgba(9, 183, 73, 0.5) !important;
 }
 
+.rules {
+    position: absolute;
+    top: 12%;
+    right: 10%;
+    margin-right: -50%;
+    margin: 0;
+    transform: translate(-50%, -50%);
+    border-color: black;
+    color: white;
+    background-color: #4286f4;
+    outline: none;
+    font-size: calc(2 * (1vw + 1vh - 1vmin));
+    width: calc(7 * (1vw + 1vh - 1vmin));
+    height: calc(3 * (1vw + 1vh - 1vmin)); 
+    border-radius: calc(1 * (1vw + 1vh - 1vmin));
+}
+
 .userList {
     position: absolute;
     top: 20%;
-    left: 40%;
+    left: 37.5%;
     margin-right: -50%;
     margin: 0;
     width: 50%;
@@ -59,7 +76,7 @@
 .gameList {
     position: absolute;
     top: 20%;
-    left: 65%;
+    left: 62.5%;
     margin-right: -50%;
     margin: 0;
     width: 25%;

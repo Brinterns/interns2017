@@ -3,6 +3,7 @@ import { browserHistory } from 'react-router';
 import User from './User';
 import lobbyStyles from './Lobby.css';
 import ChatBox from './Chat/ChatBox';
+import Rules from '../rules/Rules';
 
 export default class Lobby extends Component {
     constructor(props) {
@@ -12,7 +13,8 @@ export default class Lobby extends Component {
             listOfUsers: [],
             listOfActiveGames: [],
             messages: [],
-            ready: false
+            ready: false,
+            rules: false
         };
         cloak.configure({
             messages: {
@@ -49,6 +51,7 @@ export default class Lobby extends Component {
         });
         this.onClick = this.onClick.bind(this);
         this.challengeUser = this.challengeUser.bind(this);
+        this.handleToggleRules = this.handleToggleRules.bind(this);
         {this.getLobbyInfo()};
     }
 
@@ -68,6 +71,12 @@ export default class Lobby extends Component {
 
     challengeUser(user) {
         cloak.message('creategame', user.id);
+    }
+
+    handleToggleRules() {
+        this.setState({
+            rules: !this.state.rules
+        });
     }
 
     render() {
@@ -97,8 +106,9 @@ export default class Lobby extends Component {
             <div className={lobbyStyles.lobbyMain}>
                 <h1> {name} </h1>
                 <div className={lobbyStyles.readyOptions}>
-                    <button onClick={this.onClick} className={buttonClass}>{this.state.ready ? "Unready" : "Ready"}</button>
+                    <button className={buttonClass} onClick={this.onClick}>{this.state.ready ? "Unready" : "Ready"}</button>
                 </div>
+                <button className={lobbyStyles.rules} onClick={this.handleToggleRules}> Rules </button>
                 <div className="container">
                     <div className ={lobbyStyles.userList}>
                         <h1>Lobby</h1>
@@ -110,6 +120,7 @@ export default class Lobby extends Component {
                     </div>
                     <ChatBox id={this.state.id} messages={this.state.messages}/>
                 </div>
+                {this.state.rules ? <Rules toggleRules={this.handleToggleRules} /> : null}
             </div>
         );
     }
