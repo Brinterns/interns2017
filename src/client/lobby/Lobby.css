@@ -17,7 +17,7 @@
 
 .readyOptions button {
     position: absolute;
-    top: 10%;
+    top: calc(60px + 4 * (1vw + 1vh - 1vmin));
     left: 50%;
     margin-right: -50%;
     margin: 0;
