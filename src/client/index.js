@@ -11,7 +11,6 @@ import routes from './routes';
 
 const app = document.getElementById('app');
 
-
 cloak.run(config.cloakAddress);
 
 render(
