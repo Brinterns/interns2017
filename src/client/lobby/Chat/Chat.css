@@ -1,17 +1,17 @@
 .chatMain {
-    position: absolute;
+    /* position: absolute;
     top: 70%;
     left: 12.5%;
     margin-right: -50%;
     margin: 0;
     width: 75%;
-    height: 25%;
+    height: 25%; */
+    flex-basis: 100%;
     background-color: rgba(23, 114, 3, 0.15);
     overflow-y : auto;
     border-style: solid;
-    border-top: none;
-    border-bottom-right-radius: 3em;
-    border-bottom-left-radius: 3em;
+    border-color: black;
+    border-width: 0.12em;
 }
 
 .chatMain input {

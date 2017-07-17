@@ -112,7 +112,7 @@ export default class Lobby extends Component {
                     <button className={buttonClass} onClick={this.onClick}>{this.state.ready ? "Unready" : "Ready"}</button>
                 </div>
                 <button className={lobbyStyles.rules} onClick={this.handleToggleRules}> Rules </button>
-                <div className="container">
+                <div className={lobbyStyles.container}>
                     <div className ={lobbyStyles.userList}>
                         <h1>Lobby</h1>
                         {userDisplayList}
