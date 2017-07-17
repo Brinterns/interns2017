@@ -39,18 +39,15 @@
 
 .rules {
     position: absolute;
-    top: 13%;
-    right: 10%;
-    margin-right: -50%;
-    margin: 0;
-    transform: translate(-50%, -50%);
+    top: 15%;
+    right: 12.5%;
     border-color: black;
     color: white;
     background-color: #4286f4;
     outline: none;
     font-size: calc(2 * (1vw + 1vh - 1vmin));
-    width: calc(9 * (1vw + 1vh - 1vmin));
-    height: calc(4 * (1vw + 1vh - 1vmin)); 
+    width: 4em;
+    height: 2em;
     border-radius: calc(1 * (1vw + 1vh - 1vmin));
 }
 
@@ -82,6 +79,7 @@
     transform: translate(-50%, 0%); */
     flex-basis: calc(45 * (1vw + 1vh - 1vmin));
     flex-grow: 1;
+    height: 50%;
     background-color: rgba(23, 114, 3, 0.15);
     overflow-y : auto;
     border-style: solid;
