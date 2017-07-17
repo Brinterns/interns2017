@@ -1,54 +1,46 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
+import { connect } from 'react-redux';
 import User from './User';
 import lobbyStyles from './Lobby.css';
 import ChatBox from './Chat/ChatBox';
 import Rules from '../rules/Rules';
 
-export default class Lobby extends Component {
+import {
+    updateMessages,
+    updateId,
+    updateRoomNames,
+    updateUsers} from './Lobby-actions';
+
+export class Lobby extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: null,
-            listOfUsers: [],
-            listOfActiveGames: [],
-            messages: [],
-            ready: false,
             rules: false
         };
         cloak.configure({
             messages: {
                 updateusers: (userInfo) => {
-                    if (!this.state.id) {
+                    if (!this.props.id) {
                         return;
                     }
                     const info = JSON.parse(userInfo);
                     const ready = info.filter((user) => {
-                        return user.id === this.state.id;
+                        return user.id === this.props.id;
                     })[0].ready;
-                    this.setState({
-                        listOfUsers: info,
-                        ready: ready
-                    });
+                    this.props.updateUsers(info, ready);
                 },
                 updaterooms: (roomNames) => {
-                    this.setState({
-                        listOfActiveGames: roomNames
-                    });
+                    this.props.updateRoomNames(roomNames);
                 },
                 userid: (id) => {
-                    this.setState({
-                        id: id
-                    });
-                    localStorage.setItem('userId', id);
+                    this.props.updateId(id);
                 },
                 joingame: (roomId) => {
                     browserHistory.push('/game/' + roomId);
                 },
                 updatemessages: (messages) => {
-                    this.setState({
-                        messages: JSON.parse(messages)
-                    });
+                    this.props.updateMessages(JSON.parse(messages));
                 }
             }
         });
@@ -85,8 +77,8 @@ export default class Lobby extends Component {
     render() {
         let otherUsers = [];
         let name = "";
-        this.state.listOfUsers.forEach((user) => {
-            if (this.state.id != user.id) {
+        this.props.listOfUsers.forEach((user) => {
+            if (this.props.id != user.id) {
                 otherUsers.push(user);
                 return;
             }
@@ -99,17 +91,17 @@ export default class Lobby extends Component {
             })
         );
         const gamesDisplayList = (
-            this.state.listOfActiveGames.map((gameName, i) => {
+            this.props.listOfActiveGames.map((gameName, i) => {
                 return <h2 key={i}>{gameName}</h2>;
             })
         );
+        const buttonClass = this.props.ready ? lobbyStyles.unready : null;
 
-        const buttonClass = this.state.ready ? lobbyStyles.unready : null;
         return (
             <div className={lobbyStyles.lobbyMain}>
                 <h1> {name} </h1>
                 <div className={lobbyStyles.readyOptions}>
-                    <button className={buttonClass} onClick={this.onClick}>{this.state.ready ? "Unready" : "Ready"}</button>
+                    <button className={buttonClass} onClick={this.onClick}>{this.props.ready ? "Unready" : "Ready"}</button>
                 </div>
                 <button className={lobbyStyles.rules} onClick={this.handleToggleRules}> Rules </button>
                 <div className="container">
@@ -121,10 +113,38 @@ export default class Lobby extends Component {
                         <h1>Active Games</h1>
                         {gamesDisplayList}
                     </div>
-                    <ChatBox id={this.state.id} messages={this.state.messages}/>
+                    <ChatBox id={this.props.id} messages={this.props.messages}/>
                 </div>
                 {this.state.rules ? <Rules toggleRules={this.handleToggleRules} /> : null}
             </div>
         );
     }
 };
+
+const mapStateToProps = state => ({
+    id: state.lobby.id,
+    listOfUsers: state.lobby.listOfUsers,
+    ready: state.lobby.ready,
+    listOfActiveGames: state.lobby.listOfActiveGames,
+    messages: state.lobby.messages
+});
+
+const mapDispatchToProps = dispatch => ({
+    updateMessages(messages) {
+        dispatch(updateMessages(messages));
+    },
+    updateId(id) {
+        dispatch(updateId(id));
+    },
+    updateRoomNames(roomNames) {
+        dispatch(updateRoomNames(roomNames));
+    },
+    updateUsers(listOfUsers, ready) {
+        dispatch(updateUsers(listOfUsers, ready));
+    }
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Lobby);
