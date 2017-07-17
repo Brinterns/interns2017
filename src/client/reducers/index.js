@@ -1,10 +1,7 @@
 import { combineReducers } from 'redux';
+import login from '../login/Login-reducers';
 
-const fake = () => {
-    return null;
-};
 
 export default combineReducers({
-    // TODO: Add reducers
-    fake
+    login
 });
