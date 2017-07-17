@@ -62,21 +62,12 @@
     width: 75%;
     height: 70%;
     transform: translate(-50%, -50%);
-    /* border-radius: 3em; */
     border-style: solid;
     border-color: black;
     border-width: 0.12em;
 }
 
 .userList {
-    /* position: absolute;
-    top: 20%;
-    left: 37.5%;
-    margin-right: -50%;
-    margin: 0;
-    width: 50%;
-    height: 50%;
-    transform: translate(-50%, 0%); */
     flex-basis: calc(35 * (1vw + 1vh - 1vmin));
     flex-grow: 1;
     height: 50%;
@@ -89,17 +80,10 @@
 
 .userList h1 {
     text-align: center;
-    font-size: calc(2.5 * (1vw + 1vh - 1vmin));
+    font-size: calc(12px + 1.75 * (1vw + 1vh - 1vmin));
 }
 
 .gameList {
-    /* position: absolute;
-    top: 20%;
-    left: 62.5%;
-    margin-right: -50%;
-    margin: 0;
-    width: 25%;
-    height: 50%; */
     flex-grow: 1;
     background-color: rgba(23, 114, 3, 0.15);
     overflow-y : auto;
@@ -111,12 +95,12 @@
 .gameList h1 {
     text-align: center;
     margin-bottom: 1em;
-    font-size: calc(2.5 * (1vw + 1vh - 1vmin));
+    font-size: calc(12px + 1.75 * (1vw + 1vh - 1vmin));
 }
 
 .gameList h2 {
     color: white;
-    font-size: calc(2 * (1vw + 1vh - 1vmin));
+    font-size: calc(5px + 1.5 * (1vw + 1vh - 1vmin));
     margin-left: 1em;
     margin-top: 0.5em;
 }
@@ -131,6 +115,7 @@
 
 .user h1 {
     display: inline;
+    font-size: calc(5px + 1.5 * (1vw + 1vh - 1vmin));
 }
 
 .challengeButton {
