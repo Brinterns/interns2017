@@ -11,8 +11,8 @@
 
 .lobbyMain h1 {
     color: white;
+    font-size: calc(4 * (1vw + 1vh - 1vmin));
     margin-left: 0.5em;
-    font-family: Bookman;
 }
 
 .readyOptions button {
@@ -22,13 +22,13 @@
     margin-right: -50%;
     margin: 0;
     transform: translate(-50%, -50%);
-    height: 5em;
-    width: 5em;
+    height: calc(10 * (1vw + 1vh - 1vmin));
+    width: calc(10 * (1vw + 1vh - 1vmin));
     border-radius: 50%;
     background-color: rgba(9, 183, 73, 1.0);
     border-color: black;
     border-width: 0.2em;
-    font-size: 2em;
+    font-size: calc(2 * (1vw + 1vh - 1vmin));
     color: white;
     outline: none;
 }
@@ -93,7 +93,6 @@
     margin-bottom: 1em;
 }
 .gameList h2 {
-    font-family: Bookman;
     color: white;
     font-size: 1.6em;
     margin-left: 1em;
