@@ -8,7 +8,8 @@ import {
 import {
     updateUserGameId,
     updateListOfPlayers,
-    updateCurrentPlayer
+    updateCurrentPlayer,
+    gameOver
 } from '../game/Game-actions';
 
 import { dispatch } from '../store';
@@ -26,8 +27,10 @@ export function RunCloakConfig() {
                 const info = JSON.parse(userInfo);
                 const ready = info.filter((user) => {
                     return user.id === localStorage.getItem('userId');
-                })[0].ready;
-                dispatch(updateUsers(info, ready));
+                })[0];
+                if (ready) {
+                    dispatch(updateUsers(info, ready.ready));
+                }
             },
             updaterooms: (roomNames) => {
                 dispatch(updateRoomNames(roomNames));
@@ -48,9 +51,11 @@ export function RunCloakConfig() {
             updateplayers: (userinfo) => {
                 dispatch(updateListOfPlayers(JSON.parse(userinfo)));
             },
-
             currentplayer: (current) => {
                 dispatch(updateCurrentPlayer(current));
+            },
+            gameover: (winnerId) => {
+                dispatch(gameOver(winnerId));
             }
         }
     });

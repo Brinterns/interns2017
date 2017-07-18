@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
-import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import User from './User';
 import lobbyStyles from './Lobby.css';
 import ChatBox from './Chat/ChatBox';
 import Rules from '../rules/Rules';
 
-import {
-    updateMessages,
-    updateId,
-    updateRoomNames,
-    updateUsers} from './Lobby-actions';
+import { RunCloakConfig } from '../services/cloak-service';
 
 export class Lobby extends Component {
     constructor(props) {
@@ -18,32 +13,6 @@ export class Lobby extends Component {
         this.state = {
             rules: false
         };
-        cloak.configure({
-            messages: {
-                updateusers: (userInfo) => {
-                    if (!this.props.id) {
-                        return;
-                    }
-                    const info = JSON.parse(userInfo);
-                    const ready = info.filter((user) => {
-                        return user.id === this.props.id;
-                    })[0].ready;
-                    this.props.updateUsers(info, ready);
-                },
-                updaterooms: (roomNames) => {
-                    this.props.updateRoomNames(roomNames);
-                },
-                userid: (id) => {
-                    this.props.updateId(id);
-                },
-                joingame: (roomId) => {
-                    browserHistory.push('/game/' + roomId);
-                },
-                updatemessages: (messages) => {
-                    this.props.updateMessages(JSON.parse(messages));
-                }
-            }
-        });
         this.onClick = this.onClick.bind(this);
         this.challengeUser = this.challengeUser.bind(this);
         this.handleToggleRules = this.handleToggleRules.bind(this);
@@ -55,6 +24,7 @@ export class Lobby extends Component {
     }
 
     getLobbyInfo() {
+        RunCloakConfig();
         if(cloak.connected()) {
             cloak.message('getlobbyinfo', _);
         } else {
@@ -129,22 +99,6 @@ const mapStateToProps = state => ({
     messages: state.lobby.messages
 });
 
-const mapDispatchToProps = dispatch => ({
-    updateMessages(messages) {
-        dispatch(updateMessages(messages));
-    },
-    updateId(id) {
-        dispatch(updateId(id));
-    },
-    updateRoomNames(roomNames) {
-        dispatch(updateRoomNames(roomNames));
-    },
-    updateUsers(listOfUsers, ready) {
-        dispatch(updateUsers(listOfUsers, ready));
-    }
-})
-
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps
+    mapStateToProps
 )(Lobby);

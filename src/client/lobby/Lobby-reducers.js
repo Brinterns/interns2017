@@ -12,8 +12,7 @@ const initalState = {
     listOfUsers: [],
     listOfActiveGames: [],
     messages: [],
-    ready: false,
-    rules: false
+    ready: false
 };
 
 const lobby = (state = initalState, action) => {

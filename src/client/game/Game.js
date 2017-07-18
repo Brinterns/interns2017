@@ -2,22 +2,25 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import gameStyles from './Game.css';
 import Board from './board/Board';
+import { connect } from 'react-redux';
+
+import { RunCloakConfig } from '../services/cloak-service';
 
 const numberOfPieces = 7;
 
-export default class Game extends Component {
+import {
+
+} from './Game-actions';
+
+export class Game extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: null,
             roomName: '',
-            listOfPlayers: [],
-            gameOver : false,
             forfeit: false,
             notificationBool: false,
             notificationText: null,
             winnerId: null,
-            currentPlayer: null,
             rollNumber: 'Roll',
             opponentRollNumber: null,
             rolled: true,
@@ -30,27 +33,9 @@ export default class Game extends Component {
         };
         cloak.configure({
             messages: {
-                updateplayers: (userinfo) => {
-                    this.setState({
-                        listOfPlayers: JSON.parse(userinfo)
-                    });
-                },
-                userid: (id) => {
-                    this.setState({
-                        id: id
-                    });
-                    localStorage.setItem('userId', id);
-                },
                 roomname: (name) => {
                     this.setState({
                         roomName: name
-                    });
-                },
-                gameover: (winnerId) => {
-                    this.setState({
-                        forfeit: false,
-                        winnerId: winnerId,
-                        gameOver: true
                     });
                 },
                 gotolobby: () => {
@@ -58,10 +43,10 @@ export default class Game extends Component {
                 },
                 currentplayer: (current) => {
                     this.setState({
-                        currentPlayer: current,
                         rolled: false
                     });
-                    if (this.state.currentPlayer === this.state.id) {
+
+                    if (this.props.currentPlayer === this.props.id) {
                         this.setState({
                             rollNumber: 'Roll'
                         });
@@ -82,8 +67,8 @@ export default class Game extends Component {
                     this.setState({
                         opponentRollNumber: value,
                         notificationBool: true,
-                        notificationText: this.state.listOfPlayers.filter(player => {
-                            return player.id === this.state.currentPlayer;
+                        notificationText: this.props.listOfPlayers.filter(player => {
+                            return player.id === this.props.currentPlayer;
                         })[0].name + " rolled a " + value
                     });
                 },
@@ -138,17 +123,16 @@ export default class Game extends Component {
     }
 
     onWin(winBool) {
-        if (this.state.gameOver) {
+        if (this.props.gameOver) {
             return;
         }
         cloak.message('win', winBool);
     }
 
     onClickForfeit() {
-        if (this.state.gameOver) {
+        if (this.props.gameOver) {
             return;
         }
-        const forfeitAttempt = this.state.forfeit;
         this.setState({
             forfeit: !forfeitAttempt
         });
@@ -159,6 +143,7 @@ export default class Game extends Component {
     }
 
     getGameInfo() {
+        RunCloakConfig();
         if(cloak.connected()) {
             cloak.message('getroominfo', _);
         } else {
@@ -170,8 +155,8 @@ export default class Game extends Component {
     }
 
     render() {
-        const isPlayerTurn = (this.state.currentPlayer === this.state.id);
-        const gameOverTextChoice = (this.state.winnerId == this.state.id) ? "You Won!" : "You Lost";
+        const isPlayerTurn = (this.props.currentPlayer === this.props.id);
+        const gameOverTextChoice = (this.state.winnerId == this.props.id) ? "You Won!" : "You Lost";
         const gameOverDiv = (
             <div className={gameStyles.notificationMenu}>
                 <h1>{gameOverTextChoice}</h1>
@@ -187,9 +172,9 @@ export default class Game extends Component {
         );
         let currentPlayerText = "";
         let opponentRoll = "";
-        if (this.state.listOfPlayers.length) {
-            currentPlayerText = isPlayerTurn ? "It's your turn" : "It's " + this.state.listOfPlayers.filter(player => {
-                return player.id === this.state.currentPlayer;
+        if (this.props.listOfPlayers.length) {
+            currentPlayerText = isPlayerTurn ? "It's your turn" : "It's " + this.props.listOfPlayers.filter(player => {
+                return player.id === this.props.currentPlayer;
             })[0].name + "'s" + " turn";
             if (this.state.opponentRollNumber !== null) {
                 opponentRoll = this.state.notificationText;
@@ -205,9 +190,26 @@ export default class Game extends Component {
                 <div className={gameStyles.notificationDiv}>
                     {this.state.notificationBool ? opponentRoll : null}
                 </div>
-                {this.state.gameOver ? gameOverDiv : null}
+                {this.props.gameOver ? gameOverDiv : null}
                 {this.state.forfeit ? forfeitDiv : null}
             </div>
         );
     }
 }
+
+const mapStateToProps = state => ({
+    id: state.game.id,
+    listOfPlayers: state.game.listOfPlayers,
+    currentPlayer: state.game.currentPlayer,
+    gameOver: state.game.gameOver,
+    forfeit: state.game.forfeit
+});
+
+const mapDispatchToProps = dispatch => ({
+
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Game);
