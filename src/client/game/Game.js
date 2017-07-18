@@ -9,23 +9,19 @@ import { RunCloakConfig } from '../services/cloak-service';
 const numberOfPieces = 7;
 
 import {
-
+    toggleForfeit
 } from './Game-actions';
 
 export class Game extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            roomName: '',
-            forfeit: false,
             notificationBool: false,
             notificationText: null,
             winnerId: null,
             rollNumber: 'Roll',
             opponentRollNumber: null,
-            rolled: true,
             moveablePositions: [],
-            squares: Array(24).fill(false),
             opponentSquares: Array(24).fill(false),
             piecePositions: Array(numberOfPieces).fill(0),
             numPiecesFinished: 0,
@@ -33,18 +29,7 @@ export class Game extends Component {
         };
         cloak.configure({
             messages: {
-                roomname: (name) => {
-                    this.setState({
-                        roomName: name
-                    });
-                },
-                gotolobby: () => {
-                    browserHistory.push('/lobby');
-                },
                 currentplayer: (current) => {
-                    this.setState({
-                        rolled: false
-                    });
 
                     if (this.props.currentPlayer === this.props.id) {
                         this.setState({
@@ -56,12 +41,6 @@ export class Game extends Component {
                             });
                         }, 1000);
                     }
-                },
-                rolledvalue: (value) => {
-                    this.setState({
-                        rollNumber: value,
-                        rolled: true
-                    });
                 },
                 opponentroll: (value) => {
                     this.setState({
@@ -82,11 +61,6 @@ export class Game extends Component {
                         piecePositions: positions
                     });
                 },
-                squares: (squares) => {
-                    this.setState({
-                        squares: squares
-                    });
-                },
                 opponentsquares: (squares) => {
                     this.setState({
                         opponentSquares: squares
@@ -102,18 +76,7 @@ export class Game extends Component {
                         numOppPiecesFinished: numPiecesFinished
                     });
                 },
-                gamestate: (json) => {
-                    const gameState = JSON.parse(json);
-                    this.setState({
-                        id: gameState.id,
-                        roomName: gameState.roomName,
-                        squares: gameState.squares,
-                        piecePositions: gameState.piecePositions,
-                        opponentSquares: gameState.opponentSquares,
-                        numPiecesFinished: gameState.finishedPieces,
-                        numOppPiecesFinished: gameState.finishedOppPieces
-                    });
-                }
+
             }
         });
         this.onWin = this.onWin.bind(this);
@@ -133,9 +96,7 @@ export class Game extends Component {
         if (this.props.gameOver) {
             return;
         }
-        this.setState({
-            forfeit: !forfeitAttempt
-        });
+        this.props.toggleForfeit();
     }
 
     returnToLobby() {
@@ -185,19 +146,20 @@ export class Game extends Component {
             <div className={gameStyles.gameMain}>
                 <h2> {currentPlayerText} </h2>
                 <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
-                <h1> {this.state.roomName} </h1>
+                <h1> {this.props.roomName} </h1>
                 <Board gameState={this.state} isPlayerTurn={isPlayerTurn}/>
                 <div className={gameStyles.notificationDiv}>
                     {this.state.notificationBool ? opponentRoll : null}
                 </div>
                 {this.props.gameOver ? gameOverDiv : null}
-                {this.state.forfeit ? forfeitDiv : null}
+                {this.props.forfeit ? forfeitDiv : null}
             </div>
         );
     }
 }
 
 const mapStateToProps = state => ({
+    roomName: state.game.roomName,
     id: state.game.id,
     listOfPlayers: state.game.listOfPlayers,
     currentPlayer: state.game.currentPlayer,
@@ -206,7 +168,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-
+    toggleForfeit(){
+        dispatch(toggleForfeit());
+    }
 })
 
 export default connect(

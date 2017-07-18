@@ -3,6 +3,7 @@ import { browserHistory } from 'react-router';
 import boardStyles from './Board.css';
 import Piece from './Piece';
 import Square from './Square';
+import { connect } from 'react-redux';
 
 const numberOfPieces = 7;
 const rosettaSquares = [3,5,13,21,23];
@@ -15,7 +16,7 @@ const playerPath = [
     2,  5
 ];
 
-export default class Board extends Component {
+export class Board extends Component {
     constructor(props) {
         super(props);
         this.onClick = this.onClick.bind(this);
@@ -31,18 +32,18 @@ export default class Board extends Component {
             className = boardStyles.squareBlank;
         }
         return (
-            <Square position={(playerPath.indexOf(i)+1)}  movePiece={this.handleMovePiece} piece={this.props.gameState.squares[i]} opponentPiece={this.props.gameState.opponentSquares[i]} className={className} key={i} />
+            <Square position={(playerPath.indexOf(i)+1)}  movePiece={this.handleMovePiece} piece={this.props.squares[i]} opponentPiece={this.props.gameState.opponentSquares[i]} className={className} key={i} />
         );
     }
 
     onClick() {
-        if (this.props.isPlayerTurn && !this.props.gameState.rolled) {
+        if (this.props.isPlayerTurn && !this.props.rolled) {
             cloak.message('rolldice', _);
         }
     }
 
     handleMovePiece(position) {
-        if (this.props.isPlayerTurn && this.props.gameState.rolled && this.props.gameState.moveablePositions.includes(position)) {
+        if (this.props.isPlayerTurn && this.props.rolled && this.props.gameState.moveablePositions.includes(position)) {
             cloak.message('movepiece', position);
         }
     }
@@ -76,7 +77,7 @@ export default class Board extends Component {
                     <div className={boardStyles.boardMainDiv}>
                         {squareCols}
                     </div>
-                    <button onClick={this.onClick} className={boardStyles.rollButton}>{this.props.gameState.rollNumber}</button>
+                    <button onClick={this.onClick} className={boardStyles.rollButton}>{this.props.rollNumber}</button>
                     <div className={boardStyles.oppPieceHolder}>
                         {oppPieceHolder}
                     </div>
@@ -87,3 +88,13 @@ export default class Board extends Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    rolled: state.game.rolled,
+    rollNumber: state.game.rollNumber,
+    squares: state.game.squares
+});
+
+export default connect(
+    mapStateToProps
+)(Board);

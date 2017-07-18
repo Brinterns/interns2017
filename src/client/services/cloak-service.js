@@ -9,7 +9,11 @@ import {
     updateUserGameId,
     updateListOfPlayers,
     updateCurrentPlayer,
-    gameOver
+    gameOver,
+    rolledValue,
+    setRoomName,
+    updateGameState,
+    updateSquares
 } from '../game/Game-actions';
 
 import { dispatch } from '../store';
@@ -56,6 +60,18 @@ export function RunCloakConfig() {
             },
             gameover: (winnerId) => {
                 dispatch(gameOver(winnerId));
+            },
+            gotolobby: () => {
+                browserHistory.push('/lobby');
+            },
+            rolledvalue: (value) => {
+                dispatch(rolledValue(value));
+            },
+            gamestate: (json) => {
+                dispatch(updateGameState(JSON.parse(json)));
+            },
+            squares: (squares) => {
+                dispatch(updateSquares(squares));
             }
         }
     });
