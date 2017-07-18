@@ -25,11 +25,11 @@ export default class ChatBox extends Component {
             input: e.target.value
         });
     }
-    
+
     render() {
         const messageData = this.props.messages;
         const messageDisplay = (
-            this.props.messages.map((messageData, i) => {
+            messageData.map((messageData, i) => {
                 return (
                     <div key={i} className={chatStyles.messagesDiv}>
                         <h1>{messageData.userName}: </h1>

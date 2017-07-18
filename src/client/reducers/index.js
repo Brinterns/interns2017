@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-
-const fake = () => {
-    return null;
-};
+import login from '../login/Login-reducers';
+import lobby from '../lobby/Lobby-reducers';
+import game from '../game/Game-reducers';
 
 export default combineReducers({
-    // TODO: Add reducers
-    fake
+    login,
+    lobby,
+    game
 });

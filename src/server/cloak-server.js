@@ -112,7 +112,9 @@ function getRoomInfo(user) {
         piecePositions: user.data.piecePositions,
         opponentSquares: reverseSquares(opponent.data.piecePositions),
         finishedPieces: user.data.numPiecesFinished,
-        finishedOppPieces: opponent.data.numPiecesFinished
+        finishedOppPieces: opponent.data.numPiecesFinished,
+        winnerId: room.data.winnerId
+
     };
     user.message('gamestate', JSON.stringify(gameStateJson));
     user.message('currentplayer', room.data.currentPlayer);
@@ -135,14 +137,16 @@ function createGame(id, user) {
 }
 
 function win(winBool, user) {
-    const userRoom = user.getRoom();
+    var userRoom = user.getRoom();
     if (winBool) {
         userRoom.messageMembers('gameover', user.id);
+        userRoom.data.winnerId = user.id;
     } else {
         var user2 = userRoom.getMembers().filter(function(usr) {
             return usr.id !== user.id;
         })[0];
         userRoom.messageMembers('gameover', user2.id);
+        userRoom.data.winnerId = user2.id;
     }
 }
 //whenever a username is changed/a player joins the lobby
@@ -207,6 +211,9 @@ function reconnectUser(id, user) {
         user.joinRoom(room);
         if (user2[0].id === room.data.currentPlayer) {
             room.data.currentPlayer = user.id;
+        }
+        if (user2[0].id === room.data.winnerId) {
+            room.data.winnerId = user.id;
         }
         user.message('currentplayer', room.data.currentPlayer);
         user2[0].delete();

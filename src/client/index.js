@@ -5,13 +5,11 @@ import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
 
 import config from './config/config';
-import configureStore from './store';
+import store from './store';
 import App from './app';
 import routes from './routes';
 
-const store = configureStore();
 const app = document.getElementById('app');
-
 
 cloak.run(config.cloakAddress);
 
