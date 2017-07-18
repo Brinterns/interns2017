@@ -14,6 +14,9 @@ export const UPDATE_MOVEABLE_POSITIONS = namespace + 'UPDATE_MOVEABLE_POSITIONS'
 export const UPDATE_NUM_FINISHED = namespace + 'UPDATE_NUM_FINISHED';
 export const UPDATE_NUM_OPPONENT_FINISHED = namespace + 'UPDATE_NUM_OPPONENT_FINISHED';
 export const RESET_ROLL_TEXT = namespace + 'RESET_ROLL_TEXT';
+export const OPPONENT_ROLLED_NUMBER = namespace + 'OPPONENT_ROLLED_NUMBER';
+export const RESET_NOTIFICATION_BOOL = namespace + 'RESET_NOTIFICATION_BOOL';
+export const RESET_STORE = namespace + 'RESET_STORE';
 
 export function updateUserGameId(id) {
     localStorage.setItem('userId', id);
@@ -35,6 +38,12 @@ export function resetRollText() {
     }
 }
 
+export function resetNotificationBool() {
+    return {
+        type: RESET_NOTIFICATION_BOOL
+    }
+}
+
 export function updateListOfPlayers(listOfPlayers) {
     return {
         type: UPDATE_LIST_OF_PLAYERS,
@@ -45,6 +54,13 @@ export function updateListOfPlayers(listOfPlayers) {
 export function rolledValue(value) {
     return {
         type: ROLLED_NUMBER,
+        payload: value
+    }
+}
+
+export function opponentRolled(value) {
+    return {
+        type: OPPONENT_ROLLED_NUMBER,
         payload: value
     }
 }
@@ -109,6 +125,12 @@ export function updateOppFinishedPieces(numPiecesFinished) {
     return {
         type: UPDATE_NUM_OPPONENT_FINISHED,
         payload: numPiecesFinished
+    }
+}
+
+export function resetStore() {
+    return {
+        type: RESET_STORE
     }
 }
 

@@ -19,7 +19,10 @@ import {
     updatePiecePositions,
     updateFinishedPieces,
     updateOppFinishedPieces,
-    resetRollText
+    resetRollText,
+    opponentRolled,
+    resetNotificationBool,
+    resetStore
 } from '../game/Game-actions';
 
 import { dispatch } from '../store';
@@ -64,11 +67,15 @@ export function RunCloakConfig() {
             currentplayer: (current) => {
                 dispatch(updateCurrentPlayer(current));
                 dispatch(resetRollText());
+                setTimeout(() => {
+                    dispatch(resetNotificationBool());
+                }, 1000);
             },
             gameover: (winnerId) => {
                 dispatch(gameOver(winnerId));
             },
             gotolobby: () => {
+                dispatch(resetStore());
                 browserHistory.push('/lobby');
             },
             rolledvalue: (value) => {
@@ -94,6 +101,9 @@ export function RunCloakConfig() {
             },
             finishedopppieces: (numPiecesFinished) => {
                 dispatch(updateOppFinishedPieces(numPiecesFinished));
+            },
+            opponentroll: (value) => {
+                dispatch(opponentRolled(value));
             }
         }
     });

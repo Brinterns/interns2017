@@ -13,38 +13,6 @@ import {
 export class Game extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            notificationBool: false,
-            notificationText: null,
-            winnerId: null,
-            rollNumber: 'Roll',
-            opponentRollNumber: null
-        };
-        cloak.configure({
-            messages: {
-                currentplayer: (current) => {
-                    if (this.props.currentPlayer === this.props.id) {
-                        this.setState({
-                            rollNumber: 'Roll'
-                        });
-                        setTimeout(() => {
-                            this.setState({
-                                notificationBool: false
-                            });
-                        }, 1000);
-                    }
-                },
-                opponentroll: (value) => {
-                    this.setState({
-                        opponentRollNumber: value,
-                        notificationBool: true,
-                        notificationText: this.props.listOfPlayers.filter(player => {
-                            return player.id === this.props.currentPlayer;
-                        })[0].name + " rolled a " + value
-                    });
-                },
-            }
-        });
         this.onWin = this.onWin.bind(this);
         this.onClickForfeit = this.onClickForfeit.bind(this);
         this.returnToLobby = this.returnToLobby.bind(this);
@@ -83,7 +51,7 @@ export class Game extends Component {
 
     render() {
         const isPlayerTurn = (this.props.currentPlayer === this.props.id);
-        const gameOverTextChoice = (this.state.winnerId == this.props.id) ? "You Won!" : "You Lost";
+        const gameOverTextChoice = (this.props.winnerId == this.props.id) ? "You Won!" : "You Lost";
         const gameOverDiv = (
             <div className={gameStyles.notificationMenu}>
                 <h1>{gameOverTextChoice}</h1>
@@ -103,8 +71,8 @@ export class Game extends Component {
             currentPlayerText = isPlayerTurn ? "It's your turn" : "It's " + this.props.listOfPlayers.filter(player => {
                 return player.id === this.props.currentPlayer;
             })[0].name + "'s" + " turn";
-            if (this.state.opponentRollNumber !== null) {
-                opponentRoll = this.state.notificationText;
+            if (this.props.opponentRollNumber !== null) {
+                opponentRoll = this.props.notificationText;
             }
         }
 
@@ -115,7 +83,7 @@ export class Game extends Component {
                 <h1> {this.props.roomName} </h1>
                 <Board gameState={this.state} isPlayerTurn={isPlayerTurn}/>
                 <div className={gameStyles.notificationDiv}>
-                    {this.state.notificationBool ? opponentRoll : null}
+                    {this.props.notificationBool ? opponentRoll : null}
                 </div>
                 {this.props.gameOver ? gameOverDiv : null}
                 {this.props.forfeit ? forfeitDiv : null}
@@ -127,10 +95,14 @@ export class Game extends Component {
 const mapStateToProps = state => ({
     roomName: state.game.roomName,
     id: state.game.id,
+    winnerId: state.game.winnerId,
     listOfPlayers: state.game.listOfPlayers,
     currentPlayer: state.game.currentPlayer,
     gameOver: state.game.gameOver,
-    forfeit: state.game.forfeit
+    forfeit: state.game.forfeit,
+    opponentRollNumber: state.game.opponentRollNumber,
+    notificationBool: state.game.notificationBool,
+    notificationText: state.game.notificationText
 });
 
 const mapDispatchToProps = dispatch => ({

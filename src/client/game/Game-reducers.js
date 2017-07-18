@@ -13,7 +13,10 @@ import {
     UPDATE_PIECE_POSITIONS,
     UPDATE_NUM_FINISHED,
     UPDATE_NUM_OPPONENT_FINISHED,
-    RESET_ROLL_TEXT
+    RESET_ROLL_TEXT,
+    OPPONENT_ROLLED_NUMBER,
+    RESET_NOTIFICATION_BOOL,
+    RESET_STORE
 } from './Game-actions';
 
 const updateState = (currentState, newState) => Object.assign({}, currentState, newState);
@@ -34,7 +37,10 @@ const initalState = {
     opponentSquares: Array(24).fill(false),
     piecePositions: Array(numberOfPieces).fill(0),
     numPiecesFinished: 0,
-    numOppPiecesFinished: 0
+    numOppPiecesFinished: 0,
+    notificationBool: false,
+    notificationText: null,
+    opponentRollNumber: null
 };
 
 const game = (state = initalState, action) => {
@@ -78,6 +84,15 @@ const game = (state = initalState, action) => {
                 roomName: action.payload
             });
         }
+        case OPPONENT_ROLLED_NUMBER: {
+            return updateState(state, {
+                opponentRollNumber: action.payload,
+                notificationBool: true,
+                notificationText: state.listOfPlayers.filter(player => {
+                    return player.id === state.currentPlayer;
+                })[0].name + " rolled a " + action.payload
+            });
+        }
         case UPDATE_SQUARES: {
             return updateState(state, {
                 squares: action.payload
@@ -116,6 +131,14 @@ const game = (state = initalState, action) => {
             }
             return state;
         }
+        case RESET_NOTIFICATION_BOOL: {
+            if (state.currentPlayer === state.id) {
+                return updateState(state, {
+                    notificationBool: false
+                });
+            }
+            return state;
+        }
         case UPDATE_GAME_STATE: {
             return updateState(state, {
                 id: action.payload.id,
@@ -126,6 +149,9 @@ const game = (state = initalState, action) => {
                 numPiecesFinished: action.payload.finishedPieces,
                 numOppPiecesFinished: action.payload.finishedOppPieces
             });
+        }
+        case RESET_STORE: {
+            return initalState;
         }
         default: {
             return state;
