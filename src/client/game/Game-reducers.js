@@ -59,7 +59,7 @@ const game = (state = initalState, action) => {
         case UPDATE_LIST_OF_PLAYERS: {
             return updateState(state, {
                 listOfPlayers: action.payload
-            })
+            });
         }
         case UPDATE_USER_ID: {
             return updateState(state, {
@@ -70,14 +70,14 @@ const game = (state = initalState, action) => {
             return updateState(state, {
                 currentPlayer: action.payload,
                 rolled: false
-            })
+            });
         }
         case GAME_OVER: {
             return updateState(state, {
                 forfeit: false,
                 winnerId: action.payload,
                 gameOver: true
-            })
+            });
         }
         case TOGGLE_FORFEIT: {
             return updateState(state, {
