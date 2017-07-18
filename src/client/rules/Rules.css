@@ -75,8 +75,8 @@
     margin-right: -50%;
     transform: translate(-50%, 0%);
     left: 50%;
-    width: calc(42.3 * (1vw + 1vh - 1vmin));
-    height: calc(15.4 * (1vw + 1vh - 1vmin));
+    width: calc(38.5 * (1vw + 1vh - 1vmin));
+    height: calc(14 * (1vw + 1vh - 1vmin));
 }
 
 .page1Img {

@@ -14,7 +14,7 @@ export default class Lobby extends Component {
             listOfActiveGames: [],
             messages: [],
             ready: false,
-            rules: true
+            rules: false
         };
         cloak.configure({
             messages: {
