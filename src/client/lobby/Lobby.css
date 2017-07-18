@@ -68,7 +68,7 @@
     flex-basis: 520px;
     flex-grow: 1;
     flex-shrink: 1;
-    height: 50%;
+    height: 60%;
     background-color: rgba(23, 114, 3, 0.15);
     overflow-y : auto;
     border-style: solid;
@@ -92,7 +92,7 @@
 .gameList {
     flex-grow: 1;
     flex-shrink: 1;
-    height: 50%;
+    height: 60%;
     background-color: rgba(23, 114, 3, 0.15);
     overflow-y : auto;
     border-style: solid;

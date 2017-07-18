@@ -43,7 +43,7 @@ export default class ChatBox extends Component {
                 <div className={chatStyles.sentMessages}>
                     {messageDisplay}
                 </div>
-                <input type="text" placeholder="Type here..." onKeyPress={this.handleKeyPress} value={this.state.input} onChange={this.handleChange}/>
+                <input type="text" onKeyPress={this.handleKeyPress} value={this.state.input} onChange={this.handleChange}/>
             </div>
         );
     }
