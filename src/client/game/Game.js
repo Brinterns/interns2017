@@ -85,7 +85,7 @@ export class Game extends Component {
                 <div className={gameStyles.notificationDiv}>
                     {this.props.notificationBool ? opponentRoll : null}
                 </div>
-                {this.props.gameOver ? gameOverDiv : null}
+                {this.props.winnerId ? gameOverDiv : null}
                 {this.props.forfeit ? forfeitDiv : null}
             </div>
         );

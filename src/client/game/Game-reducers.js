@@ -21,6 +21,7 @@ import {
 
 
 const numberOfPieces = 7;
+const updateState = (currentState, newState) => Object.assign({}, currentState, newState);
 
 const initalState = {
     roomName: '',
@@ -152,7 +153,8 @@ const game = (state = initalState, action) => {
                 piecePositions: action.payload.piecePositions,
                 opponentSquares: action.payload.opponentSquares,
                 numPiecesFinished: action.payload.finishedPieces,
-                numOppPiecesFinished: action.payload.finishedOppPieces
+                numOppPiecesFinished: action.payload.finishedOppPieces,
+                winnerId: action.payload.winnerId
             });
         }
         case RESET_STORE: {
