@@ -72,8 +72,10 @@ export class Board extends Component {
         }
         return (
                 <div>
-                    <h3>Your finished pieces: {this.props.numPiecesFinished}</h3>
-                    <h4>Their finished pieces: {this.props.numOppPiecesFinished}</h4>
+                    <ul>
+                        <li>Your finished pieces: {this.props.numPiecesFinished}</li>
+                        <li>Their finished pieces: {this.props.numOppPiecesFinished}</li>
+                    </ul>
                     <div className={boardStyles.boardMainDiv}>
                         {squareCols}
                     </div>

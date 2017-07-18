@@ -32,15 +32,17 @@ export default class ChatBox extends Component {
             messageData.map((messageData, i) => {
                 return (
                     <div key={i} className={chatStyles.messagesDiv}>
-                        <h3>{messageData.userName}: </h3>
-                        <h4>&nbsp;&nbsp;{messageData.message}</h4>
+                        <h1>{messageData.userName}: </h1>
+                        <h2>&nbsp;&nbsp;{messageData.message}</h2>
                     </div>
                 )
             })
         );
         return (
             <div className={chatStyles.chatMain}>
-                {messageDisplay}
+                <div className={chatStyles.sentMessages}>
+                    {messageDisplay}
+                </div>
                 <input type="text" onKeyPress={this.handleKeyPress} value={this.state.input} onChange={this.handleChange}/>
             </div>
         );
