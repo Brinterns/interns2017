@@ -12,17 +12,19 @@
 .gameMain h1 {
     color: white;
     position: absolute;
-    top: 5%;
+    top: 7%;
     left: 50%;
     margin-right: -50%;
     margin: 0;
     transform: translate(-50%, 0%);
+    font-size: calc(10px + 2 * (1vw + 1vh - 1vmin));
     text-align: center;
 }
 
 .gameMain h2 {
     color: white;
     position: absolute;
+    font-size: calc(5px + 1.5 * (1vw + 1vh - 1vmin));
     margin-top : 1em;
     margin-left: 1em;
 }
@@ -30,17 +32,17 @@
 .gameMain h3 {
     color: white;
     position: absolute;
-    margin-top : 3.5em;
+    top : 13%;
     margin-left: 1em;
-    font-size: 2em;
+    font-size: calc(8px + 1.5 * (1vw + 1vh - 1vmin));
 }
 
 .gameMain h4 {
     color: white;
     position: absolute;
-    margin-top : 5em;
+    top : 22%;
     margin-left: 1em;
-    font-size: 2em;
+    font-size: calc(8px + 1.5 * (1vw + 1vh - 1vmin));
 }
 
 .notificationDiv {
