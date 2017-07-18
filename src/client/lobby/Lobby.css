@@ -17,7 +17,7 @@
 
 .readyOptions button {
     position: absolute;
-    top: calc(60px + 4 * (1vw + 1vh - 1vmin));
+    top: calc(50px + 4 * (1vw + 1vh - 1vmin));
     left: 50%;
     margin-right: -50%;
     margin: 0;
@@ -40,7 +40,7 @@
 .rules {
     position: absolute;
     top: 15%;
-    right: 12.5%;
+    right: 5%;
     border-color: black;
     color: white;
     background-color: #4286f4;
@@ -59,13 +59,13 @@
     top: 60%;
     left: 50%;
     margin: 0;
-    width: 75%;
+    width: 90%;
     height: 70%;
     transform: translate(-50%, -50%);
 }
 
 .userList {
-    flex-basis: 520px;
+    flex-basis: 750px;
     flex-grow: 1;
     flex-shrink: 1;
     height: 60%;
