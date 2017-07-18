@@ -41,8 +41,8 @@
 .rollButton {
     bottom: 5%;
     right: 5%;
-    font-size: 3em;
-    border-radius: 1em;
+    font-size: calc(2.5 * (1vw + 1vh - 1vmin));
+    border-radius: calc(2.5 * (1vw + 1vh - 1vmin));
     height: calc(2 * var(--squareSide));
     width: calc(2 * var(--squareSide));
     position: absolute;
@@ -54,6 +54,7 @@
     left: 5%;
     height: auto;
     width: auto;
+    max-width: 50%;
     position: absolute;
 }
 
@@ -62,6 +63,7 @@
     right: 5%;
     height: auto;
     width: auto;
+    max-width: 50%;
     direction: rtl;
     position: absolute;
 }
