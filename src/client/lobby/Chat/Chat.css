@@ -2,12 +2,17 @@
     flex-basis: 100%;
     flex-grow: 1;
     flex-shrink: 1;
-    /* min-height: 40%; */
-    height: auto;
+    height: 50%;
     background-color: rgba(23, 114, 3, 0.15);
     border-style: solid;
     border-color: black;
     border-width: 0.12em;
+}
+
+@media (max-width: 1157px) {
+    .chatMain {
+        height: 33.33%;
+    }
 }
 
 .chatMain input {

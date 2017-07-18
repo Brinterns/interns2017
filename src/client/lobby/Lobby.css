@@ -68,15 +68,21 @@
 }
 
 .userList {
-    flex-basis: calc(35 * (1vw + 1vh - 1vmin));
+    flex-basis: 520px;
     flex-grow: 1;
     flex-shrink: 1;
-    /* min-height: 40%; */
+    height: 50%;
     background-color: rgba(23, 114, 3, 0.15);
     overflow-y : auto;
     border-style: solid;
     border-color: black;
     border-width: 0.12em;
+}
+
+@media (max-width: 1157px) {
+    .userList {
+        height: 33.33%;
+    }
 }
 
 .userList h1 {
@@ -87,12 +93,18 @@
 .gameList {
     flex-grow: 1;
     flex-shrink: 1;
-    /* min-height: 10%; */
+    height: 50%;
     background-color: rgba(23, 114, 3, 0.15);
     overflow-y : auto;
     border-style: solid;
     border-color: black;
     border-width: 0.12em;
+}
+
+@media (max-width: 1157px) {
+    .gameList {
+        height: 33.33%;
+    }
 }
 
 .gameList h1 {
