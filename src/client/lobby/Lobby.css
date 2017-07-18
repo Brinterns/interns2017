@@ -62,9 +62,6 @@
     width: 75%;
     height: 70%;
     transform: translate(-50%, -50%);
-    border-style: solid;
-    border-color: black;
-    border-width: 0.12em;
 }
 
 .userList {
@@ -77,11 +74,13 @@
     border-style: solid;
     border-color: black;
     border-width: 0.12em;
+    border-top-left-radius: calc(2.5 * (1vw + 1vh - 1vmin));
 }
 
 @media (max-width: 1157px) {
     .userList {
         height: 33.33%;
+        border-top-right-radius: calc(2.5 * (1vw + 1vh - 1vmin));
     }
 }
 
@@ -98,12 +97,17 @@
     overflow-y : auto;
     border-style: solid;
     border-color: black;
+    border-left-style: none;
     border-width: 0.12em;
+    border-top-right-radius: calc(2.5 * (1vw + 1vh - 1vmin));
 }
 
 @media (max-width: 1157px) {
     .gameList {
         height: 33.33%;
+        border-top-style: none;
+        border-left-style: solid;
+        border-top-right-radius: 0;
     }
 }
 

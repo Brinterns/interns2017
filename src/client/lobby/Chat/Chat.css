@@ -6,7 +6,10 @@
     background-color: rgba(23, 114, 3, 0.15);
     border-style: solid;
     border-color: black;
+    border-top: none;
     border-width: 0.12em;
+    border-bottom-left-radius: calc(2.5 * (1vw + 1vh - 1vmin));
+    border-bottom-right-radius: calc(2.5 * (1vw + 1vh - 1vmin));
 }
 
 @media (max-width: 1157px) {
@@ -25,6 +28,8 @@
     border: none;
     outline: none;
     color: white;
+    border-bottom-left-radius: calc(2.5 * (1vw + 1vh - 1vmin));
+    border-bottom-right-radius: calc(2.5 * (1vw + 1vh - 1vmin));
 }
 
 .sentMessages {
