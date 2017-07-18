@@ -81,12 +81,12 @@
 
 .page1Img {
     position: absolute;
-    bottom: 12%;
+    bottom: 8%;
     margin-right: -50%;
     transform: translate(-50%, 0%);
     left: 50%;
-    width: calc(48 * (1vw + 1vh - 1vmin));
-    height: calc(10 * (1vw + 1vh - 1vmin)); 
+    width: calc(38.4 * (1vw + 1vh - 1vmin));
+    height: calc(8 * (1vw + 1vh - 1vmin)); 
 }
 
 .page3Img {

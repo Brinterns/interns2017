@@ -6,7 +6,7 @@ export default class Rules extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            page: 1
+            page: 0
         };
         this.toggleRules = this.toggleRules.bind(this);
         this.prevPage = this.prevPage.bind(this);
