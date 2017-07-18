@@ -78,9 +78,9 @@
     left: 50%;
     margin-right: -50%;
     margin: 0;
-    width: 46em;
-    height: 14em;
-    border-radius: 3em;
+    width: calc(40 * (1vw + 1vh - 1vmin));
+    height: calc(15 * (1vw + 1vh - 1vmin));
+    border-radius: calc(2.5 * (1vw + 1vh - 1vmin));
     background-color: black;
     transform: translate(-50%, -50%);
 }
@@ -93,20 +93,20 @@
     margin-right: -50%;
     margin: 0;
     transform: translate(-50%, 0%);
+    font-size: calc(5px + 2 * (1vw + 1vh - 1vmin));
     text-align: center;
     width: 100%;
 }
 
 .notificationMenu button {
     position: absolute;
-    margin-right: 2em;
-    bottom: 28%;
-    width: 10em;
-    height: 2.2em;
+    bottom: 20%;
+    width: calc(20px + 7 * (1vw + 1vh - 1vmin));
+    height: auto;
     display: inline-block;
-    border-radius: 0.8em;
-    border-width: 0.05em;
+    border-radius: calc(0.6 * (1vw + 1vh - 1vmin));
     border-color: black;
+    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
     font-weight: bold;
     outline: none;
 }
