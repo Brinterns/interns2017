@@ -108,11 +108,8 @@ export default class Lobby extends Component {
         return (
             <div className={lobbyStyles.lobbyMain}>
                 <h1> {name} </h1>
-                <div className={lobbyStyles.readyOptions}>
-                    <button className={buttonClass} onClick={this.onClick}>{this.state.ready ? "Unready" : "Ready"}</button>
-                </div>
                 <button className={lobbyStyles.rules} onClick={this.handleToggleRules}> Rules </button>
-                <div className="container">
+                <div className={lobbyStyles.container}>
                     <div className ={lobbyStyles.userList}>
                         <h1>Lobby</h1>
                         {userDisplayList}
@@ -122,6 +119,9 @@ export default class Lobby extends Component {
                         {gamesDisplayList}
                     </div>
                     <ChatBox id={this.state.id} messages={this.state.messages}/>
+                </div>
+                <div className={lobbyStyles.readyOptions}>
+                    <button className={buttonClass} onClick={this.onClick}>{this.state.ready ? "Unready" : "Ready"}</button>
                 </div>
                 {this.state.rules ? <Rules toggleRules={this.handleToggleRules} /> : null}
             </div>

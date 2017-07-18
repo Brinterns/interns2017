@@ -71,8 +71,10 @@ export default class Board extends Component {
         }
         return (
                 <div>
-                    <h3>Your finished pieces: {this.props.gameState.numPiecesFinished}</h3>
-                    <h4>Their finished pieces: {this.props.gameState.numOppPiecesFinished}</h4>
+                    <ul>
+                        <li>Your finished pieces: {this.props.gameState.numPiecesFinished}</li>
+                        <li>Their finished pieces: {this.props.gameState.numOppPiecesFinished}</li>
+                    </ul>
                     <div className={boardStyles.boardMainDiv}>
                         {squareCols}
                     </div>

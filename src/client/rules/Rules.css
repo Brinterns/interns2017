@@ -1,16 +1,16 @@
 .rulesWindow {
     position: absolute;
-    top: 57.5%;
+    top: 60%;
     left: 50%;
     margin-right: -50%;
     margin: 0;
     transform: translate(-50%, -50%);
     width: 75%;
-    height: 75%;
+    height: 70%;
     background-color: rgb(17, 72, 111);
     border-style: solid;
     border-width: 0.3em;
-    border-radius: 3em;
+    border-radius: calc(2.5 * (1vw + 1vh - 1vmin));
 }
 
 .exit {
@@ -21,10 +21,12 @@
     width: calc(3 * (1vw + 1vh - 1vmin));
     height: calc(3 * (1vw + 1vh - 1vmin));
     border: solid;
-    border-radius: 0.5em;
+    border-radius: calc(0.75 * (1vw + 1vh - 1vmin));
+    border-width: calc(0.15 * (1vw + 1vh - 1vmin));
     border-color: black;
-    font-size: calc(2 * (1vw + 1vh - 1vmin));
+    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
     font-weight: bold;
+    text-align: center;
     background-color: #e81212;
     color: black;
     outline: none;
@@ -38,9 +40,10 @@
     height: calc(3 * (1vw + 1vh - 1vmin)); 
     border: solid;
     bottom: 0;
-    border-radius: 0.5em;
+    border-radius: calc(0.75 * (1vw + 1vh - 1vmin));
+    border-width: calc(0.15 * (1vw + 1vh - 1vmin));
     border-color: black;
-    font-size: 2em;
+    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
     font-weight: bold;
     background-color: #03b733;
     color: black;
@@ -56,9 +59,10 @@
     height: calc(3 * (1vw + 1vh - 1vmin)); 
     border: solid;
     bottom: 0;
-    border-radius: 0.5em;
+    border-radius: calc(0.75 * (1vw + 1vh - 1vmin));
+    border-width: calc(0.15 * (1vw + 1vh - 1vmin));
     border-color: black;
-    font-size: 2em;
+    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
     font-weight: bold;
     background-color: #03b733;
     color: black;
@@ -71,18 +75,18 @@
     margin-right: -50%;
     transform: translate(-50%, 0%);
     left: 50%;
-    width: calc(42.3 * (1vw + 1vh - 1vmin));
-    height: calc(15.4 * (1vw + 1vh - 1vmin));
+    width: calc(38.5 * (1vw + 1vh - 1vmin));
+    height: calc(14 * (1vw + 1vh - 1vmin));
 }
 
 .page1Img {
     position: absolute;
-    bottom: 12%;
+    bottom: 8%;
     margin-right: -50%;
     transform: translate(-50%, 0%);
     left: 50%;
-    width: calc(48 * (1vw + 1vh - 1vmin));
-    height: calc(10 * (1vw + 1vh - 1vmin)); 
+    width: calc(38.4 * (1vw + 1vh - 1vmin));
+    height: calc(8 * (1vw + 1vh - 1vmin)); 
 }
 
 .page3Img {
@@ -107,9 +111,9 @@
 
 .page0Text {
     position: absolute;
-    top: 54%;
+    top: calc(15% + 15 * (1vw + 1vh - 1vmin));
     color: white;
-    font-size: calc(2 * (1vw + 1vh - 1vmin));
+    font-size: calc(1px + 2 * (1vw + 1vh - 1vmin));
     margin-left: 10%;
     margin-right: 10%;
 }

@@ -49,13 +49,13 @@ function getPage1(toggleRules, prevPage, nextPage) {
     return (
         <div className={pageStyles.rulesWindow}>
             <button className={pageStyles.exit} onClick={toggleRules}> X </button>
+            <img src={p1img} className={pageStyles.page1Img} />
             <ul className={pageStyles.pageText}>
                 <li> There are four, four cornered dice, each with white tips on two of the corners </li>
                 <li> Each turn you roll the dice and move a piece by the number of white tips facing up </li>
                 <li> The game represents this with a button that displays this number </li>
                 <li> The number rolled is how many squares you can move one piece forward </li>
             </ul>
-            <img src={p1img} className={pageStyles.page1Img} />
             <button className={pageStyles.prev} onClick={prevPage}> Prev </button>
             <button className={pageStyles.next} onClick={nextPage}> Next </button>
         </div>

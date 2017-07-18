@@ -1,59 +1,60 @@
 .chatMain {
-    position: absolute;
-    top: 70%;
-    left: 12.5%;
-    margin-right: -50%;
-    margin: 0;
-    width: 75%;
-    height: 25%;
+    flex-basis: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    height: 40%;
     background-color: rgba(23, 114, 3, 0.15);
-    overflow-y : auto;
     border-style: solid;
+    border-color: black;
     border-top: none;
-    border-bottom-right-radius: 3em;
-    border-bottom-left-radius: 3em;
+    border-width: 0.12em;
+    border-bottom-left-radius: calc(2.5 * (1vw + 1vh - 1vmin));
+    border-bottom-right-radius: calc(2.5 * (1vw + 1vh - 1vmin));
+}
+
+@media (max-width: 1157px) {
+    .chatMain {
+        height: 33.33%;
+    }
 }
 
 .chatMain input {
     width: 100%;
     bottom: 0%;
     height: 15%;
-    font-size: 2em;
+    font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));
     background-color: rgba(0, 0, 0, 0.5);
     padding-left: 2em;
-    position: absolute;
     border: none;
     outline: none;
     color: white;
+    border-bottom-left-radius: calc(2.5 * (1vw + 1vh - 1vmin));
+    border-bottom-right-radius: calc(2.5 * (1vw + 1vh - 1vmin));
 }
 
-.chatMain p {
-    padding-left: 1em;
-    color: white;
-    font-size: 1.5em;
+.sentMessages {
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 100%;
+    height: 85%;
+    overflow-y : auto;
 }
 
 .messagesDiv {
     padding-top: 0;
     padding-bottom: 0;
-    height: 10%;
+    height: calc(2.5 * (1vw + 1vh - 1vmin));
 }
 
-.messagesDiv h3 {
+.messagesDiv h1 {
     display: inline-block;
-    font-size: 1.5em;
+    font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));
     padding-left: 0.2em;
     color: green;
 }
-.messagesDiv h5 {
-    display: inline-block;
-    font-size: 1.5em;
-    padding-left: 0.2em;
-    color: red;
-}
 
-.messagesDiv h4 {
+.messagesDiv h2 {
     display: inline-block;
-    font-size: 1.5em;
+    font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));
     color: white;
 }
