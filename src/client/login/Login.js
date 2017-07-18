@@ -1,26 +1,23 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import styles from './Login.css';
+import { connect } from 'react-redux';
 
-export default class Login extends Component {
+import { updateUsername } from './Login-actions';
+
+export class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            username: ''
-        };
         this.onSubmit = this.onSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(event) {
-        this.setState ({
-            username: event.target.value
-        });
+        this.props.updateUsername(event.target.value);
     }
 
     onSubmit(e) {
-        const { username } = this.state;
-        cloak.message('setusername', username);
+        cloak.message('setusername', this.props.username);
         browserHistory.push("/lobby");
     }
 
@@ -31,7 +28,7 @@ export default class Login extends Component {
                 <div className={styles.backgroundBlock}>
                     <div className={styles.inputbox}>
                         <form onSubmit={this.onSubmit}>
-                            <input className={styles.nameField}  type="text" placeholder="Username" value={this.state.username} onChange={this.handleChange}/>
+                            <input className={styles.nameField}  type="text" placeholder="Username" value={this.props.username} onChange={this.handleChange}/>
                             <input className={styles.submitButton} type="submit" value="Submit"/>
                         </form>
                     </div>
@@ -40,3 +37,18 @@ export default class Login extends Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    username: state.login.username
+});
+
+const mapDispatchToProps = dispatch => ({
+    updateUsername(username) {
+        dispatch(updateUsername(username));
+    }
+})
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Login);
