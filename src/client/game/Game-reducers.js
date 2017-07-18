@@ -19,46 +19,51 @@ import {
     RESET_STORE
 } from './Game-actions';
 
-const updateState = (currentState, newState) => Object.assign({}, currentState, newState);
+
 const numberOfPieces = 7;
 
 const initalState = {
-    id: null,
     roomName: '',
-    listOfPlayers: [],
+    //Identity states
+    id: null,
     currentPlayer: null,
+    listOfPlayers: [],
+    //Game over states
     gameOver : false,
     forfeit: false,
     winnerId: null,
+    //Roll states
     rolled: true,
     rollNumber: 'Roll',
-    moveablePositions: [],
+    opponentRollNumber: null,
+    //Game states
     squares: Array(24).fill(false),
     opponentSquares: Array(24).fill(false),
     piecePositions: Array(numberOfPieces).fill(0),
+    moveablePositions: [],
     numPiecesFinished: 0,
     numOppPiecesFinished: 0,
+    //Notification states
     notificationBool: false,
-    notificationText: null,
-    opponentRollNumber: null
+    notificationText: null
 };
 
 const game = (state = initalState, action) => {
     switch(action.type) {
-        case UPDATE_USER_ID: {
+        case SET_ROOM_NAME: {
             return updateState(state, {
-                id: action.payload
-            });
-        }
-        case TOGGLE_FORFEIT: {
-            return updateState(state, {
-                forfeit: !state.forfeit
+                roomName: action.payload
             });
         }
         case UPDATE_LIST_OF_PLAYERS: {
             return updateState(state, {
                 listOfPlayers: action.payload
             })
+        }
+        case UPDATE_USER_ID: {
+            return updateState(state, {
+                id: action.payload
+            });
         }
         case UPDATE_CURRENT_PLAYER: {
             return updateState(state, {
@@ -73,15 +78,15 @@ const game = (state = initalState, action) => {
                 gameOver: true
             })
         }
+        case TOGGLE_FORFEIT: {
+            return updateState(state, {
+                forfeit: !state.forfeit
+            });
+        }
         case ROLLED_NUMBER: {
             return updateState(state, {
                 rollNumber: action.payload,
                 rolled: true
-            });
-        }
-        case SET_ROOM_NAME: {
-            return updateState(state, {
-                roomName: action.payload
             });
         }
         case OPPONENT_ROLLED_NUMBER: {

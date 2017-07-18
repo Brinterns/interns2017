@@ -61,6 +61,7 @@ export function RunCloakConfig() {
             /***********************************************************/
             /*                       Game messages                     */
             /***********************************************************/
+            //Identity Messages
             updateplayers: (userinfo) => {
                 dispatch(updateListOfPlayers(JSON.parse(userinfo)));
             },
@@ -71,6 +72,14 @@ export function RunCloakConfig() {
                     dispatch(resetNotificationBool());
                 }, 1000);
             },
+            //Roll messages
+            rolledvalue: (value) => {
+                dispatch(rolledValue(value));
+            },
+            opponentroll: (value) => {
+                dispatch(opponentRolled(value));
+            },
+            //End game messages
             gameover: (winnerId) => {
                 dispatch(gameOver(winnerId));
             },
@@ -78,9 +87,7 @@ export function RunCloakConfig() {
                 dispatch(resetStore());
                 browserHistory.push('/lobby');
             },
-            rolledvalue: (value) => {
-                dispatch(rolledValue(value));
-            },
+            //Game state messages
             gamestate: (json) => {
                 dispatch(updateGameState(JSON.parse(json)));
             },
@@ -101,9 +108,6 @@ export function RunCloakConfig() {
             },
             finishedopppieces: (numPiecesFinished) => {
                 dispatch(updateOppFinishedPieces(numPiecesFinished));
-            },
-            opponentroll: (value) => {
-                dispatch(opponentRolled(value));
             }
         }
     });

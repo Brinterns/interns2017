@@ -93,14 +93,18 @@ export class Game extends Component {
 }
 
 const mapStateToProps = state => ({
-    roomName: state.game.roomName,
+    //Identity states
     id: state.game.id,
-    winnerId: state.game.winnerId,
-    listOfPlayers: state.game.listOfPlayers,
     currentPlayer: state.game.currentPlayer,
-    gameOver: state.game.gameOver,
-    forfeit: state.game.forfeit,
+    listOfPlayers: state.game.listOfPlayers,
+    //Roll states
     opponentRollNumber: state.game.opponentRollNumber,
+    //End game states
+    forfeit: state.game.forfeit,
+    gameOver: state.game.gameOver,
+    winnerId: state.game.winnerId,
+    roomName: state.game.roomName,
+    //Notification states
     notificationBool: state.game.notificationBool,
     notificationText: state.game.notificationText
 });

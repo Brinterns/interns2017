@@ -90,12 +90,14 @@ export class Board extends Component {
 }
 
 const mapStateToProps = state => ({
+    //Roll states
     rolled: state.game.rolled,
     rollNumber: state.game.rollNumber,
+    //Game states
     squares: state.game.squares,
+    opponentSquares: state.game.opponentSquares,
     piecePositions: state.game.piecePositions,
     moveablePositions: state.game.moveablePositions,
-    opponentSquares: state.game.opponentSquares,
     numOppPiecesFinished: state.game.numOppPiecesFinished,
     numPiecesFinished: state.game.numPiecesFinished
 });
