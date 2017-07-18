@@ -111,9 +111,9 @@
 
 .page0Text {
     position: absolute;
-    top: 54%;
+    top: calc(70px + 15 * (1vw + 1vh - 1vmin));
     color: white;
-    font-size: calc(2 * (1vw + 1vh - 1vmin));
+    font-size: calc(1px + 2 * (1vw + 1vh - 1vmin));
     margin-left: 10%;
     margin-right: 10%;
 }
