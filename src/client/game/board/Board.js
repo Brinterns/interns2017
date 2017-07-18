@@ -32,7 +32,7 @@ export class Board extends Component {
             className = boardStyles.squareBlank;
         }
         return (
-            <Square position={(playerPath.indexOf(i)+1)}  movePiece={this.handleMovePiece} piece={this.props.squares[i]} opponentPiece={this.props.gameState.opponentSquares[i]} className={className} key={i} />
+            <Square position={(playerPath.indexOf(i)+1)}  movePiece={this.handleMovePiece} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} className={className} key={i} />
         );
     }
 
@@ -43,7 +43,7 @@ export class Board extends Component {
     }
 
     handleMovePiece(position) {
-        if (this.props.isPlayerTurn && this.props.rolled && this.props.gameState.moveablePositions.includes(position)) {
+        if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(position)) {
             cloak.message('movepiece', position);
         }
     }
@@ -53,11 +53,11 @@ export class Board extends Component {
         const oppPieceHolder = [];
         const squareCols = [];
         for (var i = 0; i < 7; i++) {
-            if (this.props.gameState.piecePositions[i] === 0) {
-                pieceHolder.push(<Piece position={this.props.gameState.piecePositions[i]} className={boardStyles.piece} movePiece={this.handleMovePiece} key={i}/>);
+            if (this.props.piecePositions[i] === 0) {
+                pieceHolder.push(<Piece position={this.props.piecePositions[i]} className={boardStyles.piece} movePiece={this.handleMovePiece} key={i}/>);
             }
         }
-        const oppPieceHolderSize = numberOfPieces - this.props.gameState.opponentSquares.filter((square) => {return square}).length - this.props.gameState.numOppPiecesFinished;
+        const oppPieceHolderSize = numberOfPieces - this.props.opponentSquares.filter((square) => {return square}).length - this.props.numOppPiecesFinished;
         for (var i = 0; i < oppPieceHolderSize; i++) {
             oppPieceHolder.push(<Piece className={boardStyles.oppPiece} key={i}/>)
         }
@@ -72,8 +72,8 @@ export class Board extends Component {
         }
         return (
                 <div>
-                    <h3>Your finished pieces: {this.props.gameState.numPiecesFinished}</h3>
-                    <h4>Their finished pieces: {this.props.gameState.numOppPiecesFinished}</h4>
+                    <h3>Your finished pieces: {this.props.numPiecesFinished}</h3>
+                    <h4>Their finished pieces: {this.props.numOppPiecesFinished}</h4>
                     <div className={boardStyles.boardMainDiv}>
                         {squareCols}
                     </div>
@@ -92,7 +92,12 @@ export class Board extends Component {
 const mapStateToProps = state => ({
     rolled: state.game.rolled,
     rollNumber: state.game.rollNumber,
-    squares: state.game.squares
+    squares: state.game.squares,
+    piecePositions: state.game.piecePositions,
+    moveablePositions: state.game.moveablePositions,
+    opponentSquares: state.game.opponentSquares,
+    numOppPiecesFinished: state.game.numOppPiecesFinished,
+    numPiecesFinished: state.game.numPiecesFinished
 });
 
 export default connect(

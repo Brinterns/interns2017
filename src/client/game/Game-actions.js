@@ -8,6 +8,12 @@ export const ROLLED_NUMBER = namespace + 'ROLLED_NUMBER';
 export const SET_ROOM_NAME = namespace + 'SET_ROOM_NAME';
 export const UPDATE_GAME_STATE = namespace + 'UPDATE_GAME_STATE';
 export const UPDATE_SQUARES = namespace + 'UPDATE_SQUARES';
+export const UPDATE_OPPONENT_SQUARES = namespace + 'UPDATE_OPPONENT_SQUARES';
+export const UPDATE_PIECE_POSITIONS = namespace + 'UPDATE_PIECE_POSITIONS';
+export const UPDATE_MOVEABLE_POSITIONS = namespace + 'UPDATE_MOVEABLE_POSITIONS';
+export const UPDATE_NUM_FINISHED = namespace + 'UPDATE_NUM_FINISHED';
+export const UPDATE_NUM_OPPONENT_FINISHED = namespace + 'UPDATE_NUM_OPPONENT_FINISHED';
+export const RESET_ROLL_TEXT = namespace + 'RESET_ROLL_TEXT';
 
 export function updateUserGameId(id) {
     localStorage.setItem('userId', id);
@@ -20,6 +26,12 @@ export function updateUserGameId(id) {
 export function toggleForfeit() {
     return {
         type: TOGGLE_FORFEIT
+    }
+}
+
+export function resetRollText() {
+    return {
+        type: RESET_ROLL_TEXT
     }
 }
 
@@ -62,6 +74,41 @@ export function updateSquares(squares) {
     return {
         type: UPDATE_SQUARES,
         payload: squares
+    }
+}
+
+export function updateOpponentSquares(squares){
+    return {
+        type: UPDATE_OPPONENT_SQUARES,
+        payload: squares
+    }
+}
+
+export function updateMoveablePositions(positions) {
+    return {
+        type: UPDATE_MOVEABLE_POSITIONS,
+        payload: positions
+    }
+}
+
+export function updatePiecePositions(positions) {
+    return {
+        type: UPDATE_PIECE_POSITIONS,
+        payload: positions
+    }
+}
+
+export function updateFinishedPieces(numPiecesFinished) {
+    return {
+        type: UPDATE_NUM_FINISHED,
+        payload: numPiecesFinished
+    }
+}
+
+export function updateOppFinishedPieces(numPiecesFinished) {
+    return {
+        type: UPDATE_NUM_OPPONENT_FINISHED,
+        payload: numPiecesFinished
     }
 }
 

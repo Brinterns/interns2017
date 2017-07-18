@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 
 import { RunCloakConfig } from '../services/cloak-service';
 
-const numberOfPieces = 7;
-
 import {
     toggleForfeit
 } from './Game-actions';
@@ -20,17 +18,11 @@ export class Game extends Component {
             notificationText: null,
             winnerId: null,
             rollNumber: 'Roll',
-            opponentRollNumber: null,
-            moveablePositions: [],
-            opponentSquares: Array(24).fill(false),
-            piecePositions: Array(numberOfPieces).fill(0),
-            numPiecesFinished: 0,
-            numOppPiecesFinished: 0
+            opponentRollNumber: null
         };
         cloak.configure({
             messages: {
                 currentplayer: (current) => {
-
                     if (this.props.currentPlayer === this.props.id) {
                         this.setState({
                             rollNumber: 'Roll'
@@ -51,32 +43,6 @@ export class Game extends Component {
                         })[0].name + " rolled a " + value
                     });
                 },
-                moveablepositions: (moveablePositions) => {
-                    this.setState({
-                        moveablePositions: moveablePositions
-                    });
-                },
-                piecepositions: (positions) => {
-                    this.setState({
-                        piecePositions: positions
-                    });
-                },
-                opponentsquares: (squares) => {
-                    this.setState({
-                        opponentSquares: squares
-                    });
-                },
-                finishedpieces: (numPiecesFinished) => {
-                    this.setState({
-                        numPiecesFinished: numPiecesFinished
-                    });
-                },
-                finishedopppieces: (numPiecesFinished) => {
-                    this.setState({
-                        numOppPiecesFinished: numPiecesFinished
-                    });
-                },
-
             }
         });
         this.onWin = this.onWin.bind(this);

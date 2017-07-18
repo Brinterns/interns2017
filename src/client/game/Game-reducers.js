@@ -7,14 +7,21 @@ import {
     ROLLED_NUMBER,
     SET_ROOM_NAME,
     UPDATE_GAME_STATE,
-    UPDATE_SQUARES
+    UPDATE_SQUARES,
+    UPDATE_MOVEABLE_POSITIONS,
+    UPDATE_OPPONENT_SQUARES,
+    UPDATE_PIECE_POSITIONS,
+    UPDATE_NUM_FINISHED,
+    UPDATE_NUM_OPPONENT_FINISHED,
+    RESET_ROLL_TEXT
 } from './Game-actions';
 
 const updateState = (currentState, newState) => Object.assign({}, currentState, newState);
+const numberOfPieces = 7;
 
 const initalState = {
     id: null,
-    roomName: 'bob',
+    roomName: '',
     listOfPlayers: [],
     currentPlayer: null,
     gameOver : false,
@@ -22,7 +29,12 @@ const initalState = {
     winnerId: null,
     rolled: true,
     rollNumber: 'Roll',
-    squares: Array(24).fill(false)
+    moveablePositions: [],
+    squares: Array(24).fill(false),
+    opponentSquares: Array(24).fill(false),
+    piecePositions: Array(numberOfPieces).fill(0),
+    numPiecesFinished: 0,
+    numOppPiecesFinished: 0
 };
 
 const game = (state = initalState, action) => {
@@ -71,15 +83,48 @@ const game = (state = initalState, action) => {
                 squares: action.payload
             });
         }
+        case UPDATE_OPPONENT_SQUARES: {
+            return updateState(state, {
+                opponentSquares: action.payload
+            });
+        }
+        case UPDATE_MOVEABLE_POSITIONS: {
+            return updateState(state, {
+                moveablePositions: action.payload
+            });
+        }
+        case UPDATE_PIECE_POSITIONS: {
+            return updateState(state, {
+                piecePositions: action.payload
+            });
+        }
+        case UPDATE_NUM_FINISHED: {
+            return updateState(state, {
+                numPiecesFinished: action.payload
+            });
+        }
+        case UPDATE_NUM_OPPONENT_FINISHED: {
+            return updateState(state, {
+                numOppPiecesFinished: action.payload
+            });
+        }
+        case RESET_ROLL_TEXT: {
+            if (state.currentPlayer === state.id) {
+                return updateState(state, {
+                    rollNumber: 'Roll'
+                });
+            }
+            return state;
+        }
         case UPDATE_GAME_STATE: {
             return updateState(state, {
                 id: action.payload.id,
                 roomName: action.payload.roomName,
-                squares: action.payload.squares
-                // piecePositions: action.payload.piecePositions,
-                // opponentSquares: action.payload.opponentSquares,
-                // numPiecesFinished: action.payload.finishedPieces,
-                // numOppPiecesFinished: action.payload.finishedOppPieces
+                squares: action.payload.squares,
+                piecePositions: action.payload.piecePositions,
+                opponentSquares: action.payload.opponentSquares,
+                numPiecesFinished: action.payload.finishedPieces,
+                numOppPiecesFinished: action.payload.finishedOppPieces
             });
         }
         default: {

@@ -13,7 +13,13 @@ import {
     rolledValue,
     setRoomName,
     updateGameState,
-    updateSquares
+    updateSquares,
+    updateMoveablePositions,
+    updateOpponentSquares,
+    updatePiecePositions,
+    updateFinishedPieces,
+    updateOppFinishedPieces,
+    resetRollText
 } from '../game/Game-actions';
 
 import { dispatch } from '../store';
@@ -57,6 +63,7 @@ export function RunCloakConfig() {
             },
             currentplayer: (current) => {
                 dispatch(updateCurrentPlayer(current));
+                dispatch(resetRollText());
             },
             gameover: (winnerId) => {
                 dispatch(gameOver(winnerId));
@@ -72,6 +79,21 @@ export function RunCloakConfig() {
             },
             squares: (squares) => {
                 dispatch(updateSquares(squares));
+            },
+            opponentsquares: (squares) => {
+                dispatch(updateOpponentSquares(squares));
+            },
+            moveablepositions: (moveablePositions) => {
+                dispatch(updateMoveablePositions(moveablePositions));
+            },
+            piecepositions: (positions) => {
+                dispatch(updatePiecePositions(positions));
+            },
+            finishedpieces: (numPiecesFinished) => {
+                dispatch(updateFinishedPieces(numPiecesFinished));
+            },
+            finishedopppieces: (numPiecesFinished) => {
+                dispatch(updateOppFinishedPieces(numPiecesFinished));
             }
         }
     });
