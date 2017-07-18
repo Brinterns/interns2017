@@ -111,7 +111,7 @@
 
 .page0Text {
     position: absolute;
-    top: calc(70px + 15 * (1vw + 1vh - 1vmin));
+    top: calc(15% + 15 * (1vw + 1vh - 1vmin));
     color: white;
     font-size: calc(1px + 2 * (1vw + 1vh - 1vmin));
     margin-left: 10%;
