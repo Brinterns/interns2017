@@ -10,7 +10,7 @@
     margin-right: auto;
     text-align: center;
     float: left;
-    top: 30%;
+    top: calc(50% - 1.5 * var(--squareSide) - calc(0.5 * (1vw + 1vh - 1vmin)));
     position: absolute;
 }
 
@@ -50,20 +50,18 @@
 }
 
 .pieceHolder {
-    bottom: 8%;
+    bottom: calc(50% - 2* (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));
     left: 5%;
     height: auto;
     width: auto;
-    max-width: 50%;
     position: absolute;
 }
 
 .oppPieceHolder {
-    top: 15%;
+    top: calc(50% - 2* (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));
     right: 5%;
     height: auto;
     width: auto;
-    max-width: 50%;
     direction: rtl;
     position: absolute;
 }
