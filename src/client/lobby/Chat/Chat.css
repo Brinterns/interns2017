@@ -12,7 +12,7 @@
     border-bottom-right-radius: calc(2.5 * (1vw + 1vh - 1vmin));
 }
 
-@media (max-width: 1157px) {
+@media (max-width: 1250px) {
     .chatMain {
         height: 33.33%;
     }

@@ -77,7 +77,7 @@
     border-top-left-radius: calc(2.5 * (1vw + 1vh - 1vmin));
 }
 
-@media (max-width: 1157px) {
+@media (max-width: 1250px) {
     .userList {
         height: 33.33%;
         border-top-right-radius: calc(2.5 * (1vw + 1vh - 1vmin));
@@ -90,6 +90,7 @@
 }
 
 .gameList {
+    flex-basis: 375px;
     flex-grow: 1;
     flex-shrink: 1;
     height: 60%;
@@ -102,7 +103,7 @@
     border-top-right-radius: calc(2.5 * (1vw + 1vh - 1vmin));
 }
 
-@media (max-width: 1157px) {
+@media (max-width: 1250px) {
     .gameList {
         height: 33.33%;
         border-top-style: none;
