@@ -43,19 +43,19 @@ describe('<ChatBox />', () => {
         expect(wrapper.find("div").length).toEqual(defaultDivs + msgs.length);
     });
 
-    // it('Message message is displayed correctly', () => {
-    //     const msgs = [message1, message2];
-    //     const wrapper = shallow(<ChatBox messages={msgs}/>);
-    //     const expectedMessage = " " + message1.message;
-    //     expect(wrapper.find("h4").first().text()).toEqual(expectedMessage);
-    // });
-    //
-    // it('Message username is displayed correctly', () => {
-    //     const msgs = [message1, message2];
-    //     const wrapper = shallow(<ChatBox messages={msgs}/>);
-    //     const expectedMessage = message1.userName + ": ";
-    //     expect(wrapper.find("h3").first().text()).toEqual(expectedMessage);
-    // });
+    it('Message message is displayed correctly', () => {
+        const msgs = [message1, message2];
+        const wrapper = shallow(<ChatBox messages={msgs}/>);
+        const expectedMessage = " " + message1.message;
+        expect(wrapper.find("h2").first().text()).toEqual(expectedMessage);
+    });
+    
+    it('Message username is displayed correctly', () => {
+        const msgs = [message1, message2];
+        const wrapper = shallow(<ChatBox messages={msgs}/>);
+        const expectedMessage = message1.userName + ": ";
+        expect(wrapper.find("h1").first().text()).toEqual(expectedMessage);
+    });
 
 
 });
