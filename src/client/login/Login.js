@@ -16,7 +16,7 @@ export class Login extends Component {
         this.props.updateUsername(event.target.value);
     }
 
-    onSubmit(e) {
+    onSubmit() {
         cloak.message('setusername', this.props.username);
         browserHistory.push("/lobby");
     }
@@ -46,7 +46,7 @@ const mapDispatchToProps = dispatch => ({
     updateUsername(username) {
         dispatch(updateUsername(username));
     }
-})
+});
 
 export default connect(
     mapStateToProps,
