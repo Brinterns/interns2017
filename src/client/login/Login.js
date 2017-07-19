@@ -25,6 +25,8 @@ export class Login extends Component {
         return (
             <div className={styles.pageBackground}>
                 <h1> The Royal Game of Ur </h1>
+                <button onClick={this.this.handleChange} />
+                <h6> bob </h6>
                 <div className={styles.backgroundBlock}>
                     <div className={styles.inputbox}>
                         <form onSubmit={this.onSubmit}>
