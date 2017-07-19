@@ -142,7 +142,9 @@ const game = (state = initalState, action) => {
                 });
 
             }
-            return state;
+            return updateState(state, {
+                notificationBool: false
+            });
         }
         case RESET_NOTIFICATION_BOOL: {
             if (state.currentPlayer === state.id) {
