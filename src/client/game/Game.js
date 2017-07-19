@@ -66,13 +66,16 @@ export class Game extends Component {
             </div>
         );
         let currentPlayerText = "";
-        let opponentRoll = "";
+        let opponentRoll;
         if (this.props.listOfPlayers.length) {
             currentPlayerText = isPlayerTurn ? "It's your turn" : "It's " + this.props.listOfPlayers.filter(player => {
                 return player.id === this.props.currentPlayer;
             })[0].name + "'s" + " turn";
-            if (this.props.opponentRollNumber !== null) {
-                opponentRoll = this.props.notificationText;
+
+            if (this.props.opponentRollNumber === 0) {
+                opponentRoll = (<div><p>{this.props.notificationText}</p><p className={gameStyles.turnNotif}>{currentPlayerText}</p></div>);
+            } else if (this.props.opponentRollNumber !== null) {
+                opponentRoll = (<p className={isPlayerTurn ? gameStyles.turnNotif : null}>{this.props.notificationText}</p>);
             }
         }
 

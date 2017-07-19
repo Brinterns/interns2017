@@ -131,9 +131,16 @@ const game = (state = initalState, action) => {
         }
         case RESET_ROLL_TEXT: {
             if (state.currentPlayer === state.id) {
+                if (state.opponentRollNumber === 0) {
+                    return updateState(state, {
+                        rollNumber: 'Roll'
+                    });
+                }
                 return updateState(state, {
-                    rollNumber: 'Roll'
+                    rollNumber: 'Roll',
+                    notificationText: "It's your turn!"
                 });
+
             }
             return state;
         }
