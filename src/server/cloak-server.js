@@ -169,13 +169,15 @@ var updateLobbyUsers = function(arg) {
 function getLobbyUserInfo() {
     let listOfUserInfo = [];
     listOfLobbyUsers.forEach(function(user) {
+        if (!user.data.winLossRecord) {
+            user.data.winLossRecord = {wins: 0, loses: 0};
+        }
         var userJson = {
             id: user.id,
             name: user.name,
             ready: user.data.ready,
-            winLossRecord: user.data.winLossRecord ? user.data.winLossRecord : {wins: 0, loses: 0}
+            winLossRecord: user.data.winLossRecord
         };
-        user.data.winLossRecord = userJson.winLossRecord;
         listOfUserInfo.push(userJson);
     });
     updateLobbyActiveGames();

@@ -55,7 +55,6 @@ export class Lobby extends Component {
             name = user.name;
         });
 
-        const recordDisplay = this.props.winLossRecord ? <h2> Wins: {this.props.winLossRecord.wins} Loses: {this.props.winLossRecord.loses} </h2>: null;
         const userDisplayList = (
             otherUsers.map((user, i) => {
                 return <User key={i} user={user} challengeUser={this.challengeUser} />;
@@ -72,7 +71,7 @@ export class Lobby extends Component {
             <div className={lobbyStyles.lobbyMain}>
                 <div className={lobbyStyles.userStats}>
                     <h1> {name} </h1>
-                    {recordDisplay}
+                    {this.props.winLossRecord ? <h2> Wins: {this.props.winLossRecord.wins} Loses: {this.props.winLossRecord.loses} </h2>: null}
                 </div>
                 <button className={lobbyStyles.rules} onClick={this.handleToggleRules}> Rules </button>
                 <div className={lobbyStyles.container}>
