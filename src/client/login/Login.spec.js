@@ -1,11 +1,12 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-
-
+import _ from 'underscore';
 import { Provider } from 'react-redux';
-import sinon from 'sinon';
-import expect from "expect";
+import configureStore from 'redux-mock-store'
 import Login from './Login';
+
+const middlewares = [];
+const mockStore = configureStore(middlewares);
 
 describe('<Login />', () => {
     let wrapper;
@@ -15,22 +16,15 @@ describe('<Login />', () => {
         updateUsername = jasmine.createSpy('updateUsername');
     });
 
-    it('contains nothing in the input', () => {
-        const store = {username : ''};
-        wrapper = shallow(
-            <Provider store={store}>
-                <Login username={store.username}/>
-            </Provider>
-        );
-        expect(wrapper.props().username).toEqual('');
-    });
-    it("sets the state properly after input", () => {
-        const spy = expect.spyOn(Login.prototype, "handleChange");
-        const stores = {username : ''};
-        wrapper = shallow(<Login store={stores} username={stores.username}/>);
-        expect(spy).toNotHaveBeenCalled();
-        console.log("TEXT = " + wrapper.hasClass('Login'));
-        wrapper.find("button").first().simulate("click");
-        expect(spy).toHaveBeenCalled();
+    it("Dispatches action when input box value changes", () => {
+        const initialState = {
+            login: {
+                username: ''
+            }
+        };
+        const store = mockStore(initialState);
+        wrapper = shallow(<Login store={store}/>).shallow();
+        wrapper.find("input").first().simulate("change", {target:{value:"test"}});
+        expect(_.isEqual(store.getActions(), [{type: 'LOGIN/UPDATE_USERNAME_TEXT', payload: 'test'}])).toEqual(true);
     });
 });
