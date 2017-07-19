@@ -175,6 +175,7 @@ function getLobbyUserInfo() {
             ready: user.data.ready,
             winLossRecord: user.data.winLossRecord ? user.data.winLossRecord : {wins: 0, loses: 0}
         };
+        user.data.winLossRecord = userJson.winLossRecord;
         listOfUserInfo.push(userJson);
     });
     updateLobbyActiveGames();
