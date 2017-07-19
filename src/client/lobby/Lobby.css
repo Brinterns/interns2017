@@ -13,6 +13,10 @@
     color: white;
 }
 
+.lobbyMain h2 {
+    color: white;
+}
+
 .userStats {
     display: block;
     margin-left: 1em;
@@ -24,7 +28,6 @@
 }
 
 .userStats h2 {
-    color: white;
     margin: 0;
     font-size: calc(3px + 1.8 * (1vw + 1vh - 1vmin));
 }
@@ -104,6 +107,11 @@
     font-size: calc(12px + 1.75 * (1vw + 1vh - 1vmin));
 }
 
+.userList h2 {
+    text-align: center;
+    margin-left: 1em;
+}
+
 .gameList {
     flex-basis: 375px;
     flex-grow: 1;
@@ -152,6 +160,11 @@
 .user h1 {
     display: inline;
     font-size: calc(5px + 1.5 * (1vw + 1vh - 1vmin));
+}
+
+.user h2 {
+    display: inline;
+    font-size: calc(3px + (1vw + 1vh - 1vmin));
 }
 
 .challengeButton {
