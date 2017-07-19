@@ -138,21 +138,24 @@ function createGame(id, user) {
 
 function win(winBool, user) {
     var userRoom = user.getRoom();
+    var user2 = userRoom.getMembers().filter(function(usr) {
+        return usr.id !== user.id;
+    })[0];
     if (winBool) {
         userRoom.messageMembers('gameover', user.id);
         userRoom.data.winnerId = user.id;
+        user.data.winLossRecord.wins++;
+        user2.data.winLossRecord.loses++;
     } else {
-        var user2 = userRoom.getMembers().filter(function(usr) {
-            return usr.id !== user.id;
-        })[0];
         userRoom.messageMembers('gameover', user2.id);
         userRoom.data.winnerId = user2.id;
+        user.data.winLossRecord.loses++;
+        user2.data.winLossRecord.wins++;
     }
 }
 //whenever a username is changed/a player joins the lobby
 ///a player leaves the lobby the list of users is updated
 var updateLobbyUsers = function(arg) {
-
     listOfLobbyUsers = [];
     var members = this.getMembers();
     members.forEach(function(user) {
@@ -166,10 +169,14 @@ var updateLobbyUsers = function(arg) {
 function getLobbyUserInfo() {
     let listOfUserInfo = [];
     listOfLobbyUsers.forEach(function(user) {
+        if (!user.data.winLossRecord) {
+            user.data.winLossRecord = {wins: 0, loses: 0};
+        }
         var userJson = {
             id: user.id,
             name: user.name,
-            ready: user.data.ready
+            ready: user.data.ready,
+            winLossRecord: user.data.winLossRecord
         };
         listOfUserInfo.push(userJson);
     });

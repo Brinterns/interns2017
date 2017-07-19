@@ -46,7 +46,7 @@ export class Lobby extends Component {
 
     render() {
         let otherUsers = [];
-        let name = "";
+        let name = '';
         this.props.listOfUsers.forEach((user) => {
             if (this.props.id != user.id) {
                 otherUsers.push(user);
@@ -69,7 +69,10 @@ export class Lobby extends Component {
 
         return (
             <div className={lobbyStyles.lobbyMain}>
-                <h1> {name} </h1>
+                <div className={lobbyStyles.userStats}>
+                    <h1> {name} </h1>
+                    {this.props.winLossRecord ? <h2> Wins: {this.props.winLossRecord.wins} Loses: {this.props.winLossRecord.loses} </h2>: null}
+                </div>
                 <button className={lobbyStyles.rules} onClick={this.handleToggleRules}> Rules </button>
                 <div className={lobbyStyles.container}>
                     <div className ={lobbyStyles.userList}>
@@ -83,7 +86,7 @@ export class Lobby extends Component {
                     <ChatBox id={this.props.id} messages={this.props.messages}/>
                 </div>
                 <div className={lobbyStyles.readyOptions}>
-                    <button className={buttonClass} onClick={this.onClick}>{this.props.ready ? "Unready" : "Ready"}</button>
+                    <button className={buttonClass} onClick={this.onClick}>{this.props.ready ? 'Unready' : 'Ready'}</button>
                 </div>
                 {this.state.rules ? <Rules toggleRules={this.handleToggleRules} /> : null}
             </div>
@@ -96,7 +99,8 @@ const mapStateToProps = state => ({
     listOfUsers: state.lobby.listOfUsers,
     ready: state.lobby.ready,
     listOfActiveGames: state.lobby.listOfActiveGames,
-    messages: state.lobby.messages
+    messages: state.lobby.messages,
+    winLossRecord: state.lobby.winLossRecord
 });
 
 export default connect(

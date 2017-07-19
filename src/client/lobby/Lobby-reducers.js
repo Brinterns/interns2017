@@ -12,7 +12,8 @@ const initalState = {
     listOfUsers: [],
     listOfActiveGames: [],
     messages: [],
-    ready: false
+    ready: false,
+    winLossRecord: null
 };
 
 const lobby = (state = initalState, action) => {
@@ -25,8 +26,11 @@ const lobby = (state = initalState, action) => {
         case UPDATE_USERS: {
             return updateState(state, {
                 listOfUsers: action.payload.listOfUsers,
-                ready: action.payload.ready
-            })
+                ready: action.payload.ready,
+                winLossRecord: state.id ? action.payload.listOfUsers.filter(user => {
+                    return state.id === user.id;
+                })[0].winLossRecord : null
+            });
         }
         case UPDATE_USER_ID: {
             return updateState(state, {
