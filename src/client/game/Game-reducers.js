@@ -24,7 +24,7 @@ import {
 const numberOfPieces = 7;
 const updateState = (currentState, newState) => Object.assign({}, currentState, newState);
 
-const initalState = {
+const initialState = {
     roomName: '',
     //Identity states
     id: null,
@@ -50,7 +50,7 @@ const initalState = {
     notificationText: null
 };
 
-const game = (state = initalState, action) => {
+const game = (state = initialState, action) => {
     switch(action.type) {
         case SET_ROOM_NAME: {
             return updateState(state, {
@@ -172,7 +172,7 @@ const game = (state = initalState, action) => {
             });
         }
         case RESET_STORE: {
-            return initalState;
+            return initialState;
         }
         default: {
             return state;

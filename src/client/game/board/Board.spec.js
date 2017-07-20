@@ -41,7 +41,7 @@ describe('<Board />', () => {
             notificationBool: false,
             notificationText: null
         }
-    }
+    };
     
     it('Default display for roll button should be (Roll)', () => {
         const store = mockStore(state);

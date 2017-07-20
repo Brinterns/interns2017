@@ -2,21 +2,25 @@ import {
     UPDATE_MESSAGES,
     UPDATE_USER_ID,
     UPDATE_ROOM_NAMES,
-    UPDATE_USERS
+    UPDATE_USERS,
+    WAIT_CHALLENGE,
+    SHOW_CHALLENGE
 } from './Lobby-actions';
 
 const updateState = (currentState, newState) => Object.assign({}, currentState, newState);
 
-const initalState = {
+const initialState = {
     id: null,
     listOfUsers: [],
     listOfActiveGames: [],
     messages: [],
     ready: false,
+    challenger: null,
+    challenging: false,
     winLossRecord: null
 };
 
-const lobby = (state = initalState, action) => {
+const lobby = (state = initialState, action) => {
     switch(action.type) {
         case UPDATE_MESSAGES: {
             return updateState(state, {
@@ -40,6 +44,16 @@ const lobby = (state = initalState, action) => {
         case UPDATE_ROOM_NAMES: {
             return updateState(state, {
                 listOfActiveGames: action.payload
+            });
+        }
+        case WAIT_CHALLENGE: {
+            return updateState(state, {
+                challenging: action.payload
+            });
+        }
+        case SHOW_CHALLENGE: {
+            return updateState(state, {
+                challenger: action.payload
             });
         }
         default: {
