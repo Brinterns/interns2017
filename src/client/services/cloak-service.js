@@ -2,7 +2,9 @@ import {
     updateMessages,
     updateId,
     updateRoomNames,
-    updateUsers
+    updateUsers,
+    waitChallenge,
+    showChallenge
 } from '../lobby/Lobby-actions';
 
 import {
@@ -52,6 +54,12 @@ export function RunCloakConfig() {
             userid: (id) => {
                 dispatch(updateId(id));
                 dispatch(updateUserGameId(id));
+            },
+            waitchallenge: (challenging) => {
+                dispatch(waitChallenge(challenging));
+            },
+            showchallenge: (id) => {
+                dispatch(showChallenge(id));
             },
             joingame: (roomId) => {
                 browserHistory.push('/game/' + roomId);

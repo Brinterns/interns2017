@@ -43,8 +43,11 @@ module.exports = function(expressServer) {
                 user.data.ready = !user.data.ready;
                 cloak.messageAll('updateusers', getLobbyUserInfo());
             },
+            challengeplayer: function(id, user) {
+                challengePlayer(id, user);
+            },
             creategame: function(id, user) {
-                createGame(id,user);
+                createGame(id, user);
             },
             leavegame: function(msg, user) {
                 cloak.getLobby().addMember(user);
@@ -123,6 +126,18 @@ function getRoomInfo(user) {
         checkMoves(user, user.data.lastRoll, opponent.data.squares);
     }
     getRoomUserInfo(room);
+}
+
+function challengePlayer(id, user) {
+    var user2 = listOfLobbyUsers.filter(function(user) {
+        return user.id === id;
+    })[0];
+    if (!user.data.challenging && !user.data.challenger && !user2.data.challenging && !user2.data.challenger) {
+        user.data.challenging = user2.id;
+        user2.data.challenger = user.id;
+        user.message('waitchallenge', true);
+        user2.message('showchallenge', user2.data.challenger);
+    }
 }
 
 function createGame(id, user) {
@@ -213,21 +228,39 @@ function reconnectUser(id, user) {
     if (user2.length) {
         user.name = user2[0].name;
         user.data = user2[0].data;
-        user.data.lastRoll = null;
         user.message('userid', user.id);
         const room = user2[0].getRoom();
         user.joinRoom(room);
-        if (user2[0].id === room.data.currentPlayer) {
-            room.data.currentPlayer = user.id;
+        if (room.isLobby) {
+            const challenging = user.data.challenging ? true : false;
+            user.message('waitchallenge', challenging);
+            user.message('showchallenge', user.data.challenger);
+            if (user.data.challenging) {
+                var opponent = room.getMembers().filter(member => {
+                    return member.id === user.data.challenging;
+                })[0];
+                opponent.data.challenger = user.id;
+                opponent.message('showchallenge', opponent.data.challenger);
+            } else if (user.data.challenger) {
+                var opponent = room.getMembers().filter(member => {
+                    return member.id === user.data.challenger;
+                })[0];
+                opponent.data.challenging = user.id;
+            }
+        } else {
+            user.data.lastRoll = null;
+            if (user2[0].id === room.data.currentPlayer) {
+                room.data.currentPlayer = user.id;
+            }
+            if (user2[0].id === room.data.winnerId) {
+                room.data.winnerId = user.id;
+            }
+            user.message('currentplayer', room.data.currentPlayer);
+            room.getMembers().filter(member => {
+                return (member.id !== user.id) && (member.id !== user2.id);
+            })[0].message('currentplayeronly', room.data.currentPlayer);
         }
-        if (user2[0].id === room.data.winnerId) {
-            room.data.winnerId = user.id;
-        }
-        user.message('currentplayer', room.data.currentPlayer);
         user2[0].delete();
-        room.getMembers().filter(member => {
-            return member.id !== user.id;
-        })[0].message('currentplayeronly', room.data.currentPlayer);
     }
 }
 
