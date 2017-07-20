@@ -152,9 +152,9 @@ function challengeRespond(accept, user) {
     if (!accept) {
         return;
     } else {
-        let createdRoom = cloak.createRoom(user.name + " vs " + user2.name);
-        userJoinRoom(user, createdRoom);
+        let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
         userJoinRoom(user2, createdRoom);
+        userJoinRoom(user, createdRoom);
         createdRoom.messageMembers('joingame', createdRoom.id);
         updateLobbyActiveGames();
     }

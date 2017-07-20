@@ -88,7 +88,7 @@ export class Lobby extends Component {
                 challengedDiv =
                     <div className={lobbyStyles.challengeMenu}>
                         <h1> {opponent.name} has challenged you </h1>
-                        <button className={lobbyStyles.acceptButton}> Accept </button>
+                        <button className={lobbyStyles.acceptButton} onClick={() => {this.challengeRespond(true)}}> Accept </button>
                         <button className={lobbyStyles.declineButton} onClick={() => {this.challengeRespond(false)}}> Decline </button>
                     </div>;
             }
