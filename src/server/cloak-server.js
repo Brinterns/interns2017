@@ -213,6 +213,7 @@ function reconnectUser(id, user) {
     if (user2.length) {
         user.name = user2[0].name;
         user.data = user2[0].data;
+        user.data.lastRoll = null;
         user.message('userid', user.id);
         const room = user2[0].getRoom();
         user.joinRoom(room);
