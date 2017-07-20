@@ -139,6 +139,11 @@ function challengePlayer(id, user) {
         user2.message('showchallenge', user2.data.challenger);
     }
     cloak.messageAll('updateusers', getLobbyUserInfo());
+    setTimeout(() => {
+        if ((user.getRoom().isLobby || user2.getRoom().isLobby) && user.data.challenging) {
+            challengeRespond(false, user2);
+        }
+    }, 5000);
 }
 
 function challengeRespond(accept, user) {

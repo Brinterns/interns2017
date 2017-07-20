@@ -100,7 +100,7 @@ export class Lobby extends Component {
         }
         let challengingDiv = null;
         if (this.props.challenging) {
-            challengingDiv = 
+            challengingDiv =
                 <div className={lobbyStyles.challengeWaiting}>
                     <h1> Waiting for response... </h1>
                 </div>;
