@@ -23,14 +23,22 @@ export class Lobby extends Component {
         cloak.message('userready', _);
     }
 
+    reconnectWait() {
+        setTimeout(() => {
+            if (cloak.connected()) {
+                cloak.message('reconnectuser', localStorage.getItem('userId'));
+            } else {
+                this.reconnectWait();
+            }
+        }, 300);
+    }
+
     getLobbyInfo() {
         RunCloakConfig();
         if(cloak.connected()) {
             cloak.message('getlobbyinfo', _);
         } else {
-            setTimeout(() => {
-                cloak.message('reconnectuser', localStorage.getItem('userId'));
-            }, 300);
+            this.reconnectWait();
         }
     }
 

@@ -37,15 +37,23 @@ export class Game extends Component {
         cloak.message('leavegame', _);
     }
 
+    reconnectWait() {
+        setTimeout(() => {
+            if (cloak.connected()) {
+                cloak.message('reconnectuser', localStorage.getItem('userId'));
+                cloak.message('getroominfo', _);
+            } else {
+                this.reconnectWait();
+            }
+        }, 300);
+    }
+
     getGameInfo() {
         RunCloakConfig();
         if(cloak.connected()) {
             cloak.message('getroominfo', _);
         } else {
-            setTimeout(() => {
-                cloak.message('reconnectuser', localStorage.getItem('userId'));
-                cloak.message('getroominfo', _);
-            }, 300);
+            this.reconnectWait();
         }
     }
 
