@@ -44,7 +44,10 @@ export class Lobby extends Component {
 
     challengeUser(user) {
         cloak.message('challengeplayer', user.id);
-        // cloak.message('creategame', user.id);
+    }
+
+    challengeRespond(accept) {
+        cloak.message('challengerespond', accept);
     }
 
     handleToggleRules() {
@@ -86,7 +89,7 @@ export class Lobby extends Component {
                     <div className={lobbyStyles.challengeMenu}>
                         <h1> {opponent.name} has challenged you </h1>
                         <button className={lobbyStyles.acceptButton}> Accept </button>
-                        <button className={lobbyStyles.declineButton}> Decline </button>
+                        <button className={lobbyStyles.declineButton} onClick={() => {this.challengeRespond(false)}}> Decline </button>
                     </div>;
             }
         }

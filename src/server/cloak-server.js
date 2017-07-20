@@ -46,8 +46,8 @@ module.exports = function(expressServer) {
             challengeplayer: function(id, user) {
                 challengePlayer(id, user);
             },
-            creategame: function(id, user) {
-                createGame(id, user);
+            challengerespond: function(accept, user) {
+                challengeRespond(accept, user);
             },
             leavegame: function(msg, user) {
                 cloak.getLobby().addMember(user);
@@ -140,15 +140,24 @@ function challengePlayer(id, user) {
     }
 }
 
-function createGame(id, user) {
+function challengeRespond(accept, user) {
+    const challenger = user.data.challenger;
     var user2 = listOfLobbyUsers.filter(function(user) {
-        return user.id === id;
+        return user.id === challenger;
     })[0];
-    let createdRoom = cloak.createRoom(user.name + " vs " + user2.name);
-    userJoinRoom(user, createdRoom);
-    userJoinRoom(user2, createdRoom);
-    createdRoom.messageMembers('joingame', createdRoom.id);
-    updateLobbyActiveGames();
+    user.data.challenger = null;
+    user2.data.challenging = null;
+    user.message('showchallenge', user.data.challenger);
+    user2.message('waitchallenge', false);
+    if (!accept) {
+        return;
+    } else {
+        let createdRoom = cloak.createRoom(user.name + " vs " + user2.name);
+        userJoinRoom(user, createdRoom);
+        userJoinRoom(user2, createdRoom);
+        createdRoom.messageMembers('joingame', createdRoom.id);
+        updateLobbyActiveGames();
+    }
 }
 
 function win(winBool, user) {
