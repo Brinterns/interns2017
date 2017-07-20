@@ -128,8 +128,8 @@ export class Lobby extends Component {
                     <button className={buttonClass} onClick={this.onClick}>{this.props.ready ? 'Unready' : 'Ready'}</button>
                 </div>
                 {this.state.rules ? <Rules toggleRules={this.handleToggleRules} /> : null}
-                {challengedDiv}
                 {challengingDiv}
+                {challengedDiv}
             </div>
         );
     }

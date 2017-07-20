@@ -9,7 +9,7 @@ import {
 
 const updateState = (currentState, newState) => Object.assign({}, currentState, newState);
 
-const initalState = {
+const initialState = {
     id: null,
     listOfUsers: [],
     listOfActiveGames: [],
@@ -20,7 +20,7 @@ const initalState = {
     winLossRecord: null
 };
 
-const lobby = (state = initalState, action) => {
+const lobby = (state = initialState, action) => {
     switch(action.type) {
         case UPDATE_MESSAGES: {
             return updateState(state, {
