@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import boardStyles from './Board.css';
 import Piece from './Piece';
+import OpponentPiece from './OpponentPiece';
 import Square from './Square';
 import { connect } from 'react-redux';
 
@@ -59,7 +60,7 @@ export class Board extends Component {
         }
         const oppPieceHolderSize = numberOfPieces - this.props.opponentSquares.filter((square) => {return square}).length - this.props.numOppPiecesFinished;
         for (var i = 0; i < oppPieceHolderSize; i++) {
-            oppPieceHolder.push(<Piece className={boardStyles.oppPiece} key={i}/>)
+            oppPieceHolder.push(<OpponentPiece className={boardStyles.oppPiece} key={i}/>)
         }
         for (var i = 0; i < 24; i += 3) {
             squareCols.push(
