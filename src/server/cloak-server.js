@@ -222,7 +222,7 @@ function reconnectUser(id, user) {
         if (user2[0].id === room.data.winnerId) {
             room.data.winnerId = user.id;
         }
-        user.message('currentplayer', room.data.currentPlayer);
+        room.messageMembers('currentplayer', room.data.currentPlayer);
         user2[0].delete();
     }
 }
