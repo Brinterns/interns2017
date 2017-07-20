@@ -9,6 +9,7 @@ import {
     updateUserGameId,
     updateListOfPlayers,
     updateCurrentPlayer,
+    updateCurrentPlayerOnly,
     gameOver,
     rolledValue,
     setRoomName,
@@ -71,6 +72,9 @@ export function RunCloakConfig() {
                 setTimeout(() => {
                     dispatch(resetNotificationBool());
                 }, 1000);
+            },
+            currentplayeronly: (current) => {
+                dispatch(updateCurrentPlayerOnly(current));
             },
             //Roll messages
             rolledvalue: (value) => {

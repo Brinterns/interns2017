@@ -222,8 +222,11 @@ function reconnectUser(id, user) {
         if (user2[0].id === room.data.winnerId) {
             room.data.winnerId = user.id;
         }
-        room.messageMembers('currentplayer', room.data.currentPlayer);
+        user.message('currentplayer', room.data.currentPlayer);
         user2[0].delete();
+        room.getMembers().filter(member => {
+            return member.id !== user.id;
+        })[0].message('currentplayeronly', room.data.currentPlayer);
     }
 }
 

@@ -2,6 +2,7 @@ import {
     UPDATE_USER_ID,
     UPDATE_LIST_OF_PLAYERS,
     UPDATE_CURRENT_PLAYER,
+    UPDATE_CURRENT_PLAYER_ONLY,
     GAME_OVER,
     TOGGLE_FORFEIT,
     ROLLED_NUMBER,
@@ -70,6 +71,11 @@ const game = (state = initalState, action) => {
             return updateState(state, {
                 currentPlayer: action.payload,
                 rolled: false
+            });
+        }
+        case UPDATE_CURRENT_PLAYER_ONLY: {
+            return updateState(state, {
+                currentPlayer: action.payload
             });
         }
         case GAME_OVER: {
