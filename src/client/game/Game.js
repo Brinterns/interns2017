@@ -37,15 +37,23 @@ export class Game extends Component {
         cloak.message('leavegame', _);
     }
 
+    reconnectWait() {
+        setTimeout(() => {
+            if (cloak.connected()) {
+                cloak.message('reconnectuser', localStorage.getItem('userId'));
+                cloak.message('getroominfo', _);
+            } else {
+                this.reconnectWait();
+            }
+        }, 300);
+    }
+
     getGameInfo() {
         RunCloakConfig();
         if(cloak.connected()) {
             cloak.message('getroominfo', _);
         } else {
-            setTimeout(() => {
-                cloak.message('reconnectuser', localStorage.getItem('userId'));
-                cloak.message('getroominfo', _);
-            }, 300);
+            this.reconnectWait();
         }
     }
 
@@ -65,12 +73,15 @@ export class Game extends Component {
                 <button className={gameStyles.noButton} onClick={this.onClickForfeit}>No</button>
             </div>
         );
-        let currentPlayerText = "";
+        let currentPlayerText = null;
         let opponentRoll;
         if (this.props.listOfPlayers.length) {
-            currentPlayerText = isPlayerTurn ? "It's your turn" : "It's " + this.props.listOfPlayers.filter(player => {
+            const currentPlayer = this.props.listOfPlayers.filter(player => {
                 return player.id === this.props.currentPlayer;
-            })[0].name + "'s" + " turn";
+            })[0];
+            if (currentPlayer) {
+                currentPlayerText = isPlayerTurn ? "It's your turn" : "It's " + currentPlayer.name + "'s" + " turn";
+            }
 
             if (this.props.opponentRollNumber === 0) {
                 opponentRoll = (<div><p>{this.props.notificationText}</p><p className={gameStyles.turnNotif}>{currentPlayerText}</p></div>);
