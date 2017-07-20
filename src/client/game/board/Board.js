@@ -20,9 +20,13 @@ const playerPath = [
 export class Board extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            highlightSquarePosition: null
+        }
         this.onClick = this.onClick.bind(this);
         this.squareType = this.squareType.bind(this);
         this.handleMovePiece = this.handleMovePiece.bind(this);
+        this.setHighlightSquare = this.setHighlightSquare.bind(this);
     }
 
     squareType(i) {
@@ -36,14 +40,29 @@ export class Board extends Component {
         if (this.props.isPlayerTurn && this.props.rolled && !this.props.moveablePositions.includes((playerPath.indexOf(i)+1))) {
             pieceClassName = boardStyles.unmoveableSquarePiece;
         }
+        const pos = playerPath.indexOf(i) + 1;
         return (
-            <Square position={(playerPath.indexOf(i)+1)} movePiece={this.handleMovePiece} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} className={className} pieceClassName={pieceClassName} key={i} />
+            <Square position={pos} movePiece={this.handleMovePiece} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} className={className} pieceClassName={pieceClassName} setHighlightSquare={this.setHighlightSquare} highlight={(pos === this.state.highlightSquarePosition)} key={i} />
         );
     }
 
     onClick() {
         if (this.props.isPlayerTurn && !this.props.rolled) {
             cloak.message('rolldice', _);
+        }
+    }
+
+    setHighlightSquare(pos) {
+        if ((pos === null) && (this.state.highlightSquarePosition !== null)) {
+            this.setState({
+                highlightSquarePosition: null
+            });
+            return;
+        }
+        if (this.props.isPlayerTurn && this.props.rolled) {
+            this.setState({
+                highlightSquarePosition: pos + this.props.rollNumber
+            });
         }
     }
 
@@ -61,10 +80,10 @@ export class Board extends Component {
             const pos = this.props.piecePositions[i];
             if (pos === 0) {
                 if (this.props.isPlayerTurn && this.props.rolled && !this.props.moveablePositions.includes(pos)) {
-                    pieceHolder.push(<Piece position={pos} className={boardStyles.unmoveablePiece} movePiece={this.handleMovePiece} key={i}/>);
+                    pieceHolder.push(<Piece position={pos} className={boardStyles.unmoveablePiece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
                     continue;
                 }
-                pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={this.handleMovePiece} key={i}/>);
+                pieceHolder.push(<Piece  position={pos} className={boardStyles.piece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
             }
         }
         const oppPieceHolderSize = numberOfPieces - this.props.opponentSquares.filter((square) => {return square}).length - this.props.numOppPiecesFinished;
