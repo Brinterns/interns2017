@@ -138,6 +138,7 @@ function challengePlayer(id, user) {
         user.message('waitchallenge', true);
         user2.message('showchallenge', user2.data.challenger);
     }
+    cloak.messageAll('updateusers', getLobbyUserInfo());
 }
 
 function challengeRespond(accept, user) {
@@ -150,6 +151,7 @@ function challengeRespond(accept, user) {
     user.message('showchallenge', user.data.challenger);
     user2.message('waitchallenge', false);
     if (!accept) {
+        cloak.messageAll('updateusers', getLobbyUserInfo());
         return;
     } else {
         let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
@@ -199,7 +201,7 @@ function getLobbyUserInfo() {
         var userJson = {
             id: user.id,
             name: user.name,
-            ready: user.data.ready,
+            ready: user.data.ready && !user.data.challenger && !user.data.challenging,
             winLossRecord: user.data.winLossRecord
         };
         listOfUserInfo.push(userJson);

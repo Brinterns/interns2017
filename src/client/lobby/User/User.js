@@ -16,7 +16,7 @@ export default class User extends Component {
     }
 
     render() {
-        const buttonClassname = !this.props.user.ready ? userStyles.inactiveChallenge : null;
+        const buttonClassname = (!this.props.user.ready || !this.props.canChallenge) ? userStyles.inactiveChallenge : null;
         return (
             <div className={userStyles.user}>
                 <h1> {this.props.user.name} </h1>

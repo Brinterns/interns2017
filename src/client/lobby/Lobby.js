@@ -20,7 +20,9 @@ export class Lobby extends Component {
     }
 
     onClick(e) {
-        cloak.message('userready', _);
+        if (!(this.props.challenger || this.props.challenging)) {
+            cloak.message('userready', _);
+        }
     }
 
     reconnectWait() {
@@ -43,7 +45,9 @@ export class Lobby extends Component {
     }
 
     challengeUser(user) {
-        cloak.message('challengeplayer', user.id);
+        if (!(this.props.challenger || this.props.challenging)) {
+            cloak.message('challengeplayer', user.id);
+        }
     }
 
     challengeRespond(accept) {
@@ -69,7 +73,8 @@ export class Lobby extends Component {
 
         const userDisplayList = (
             otherUsers.map((user, i) => {
-                return <User key={i} user={user} challengeUser={this.challengeUser} />;
+                const canChallenge = this.props.challenging || ((this.props.challenger === null) ? true : false);
+                return <User key={i} user={user} canChallenge={canChallenge} challengeUser={this.challengeUser} />;
             })
         );
         const gamesDisplayList = (
@@ -110,11 +115,11 @@ export class Lobby extends Component {
                 <button className={lobbyStyles.rules} onClick={this.handleToggleRules}> Rules </button>
                 <div className={lobbyStyles.container}>
                     <div className ={lobbyStyles.userList}>
-                        <h1>Lobby</h1>
+                        <h1> Lobby </h1>
                         {userDisplayList}
                     </div>
                     <div className ={lobbyStyles.gameList}>
-                        <h1>Active Games</h1>
+                        <h1> Active Games </h1>
                         {gamesDisplayList}
                     </div>
                     <ChatBox id={this.props.id} messages={this.props.messages}/>
