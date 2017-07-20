@@ -32,8 +32,12 @@ export class Board extends Component {
         } else if (blankSquares.includes(i)) {
             className = boardStyles.squareBlank;
         }
+        var pieceClassName = boardStyles.squarePiece;
+        if (this.props.isPlayerTurn && this.props.rolled && !this.props.moveablePositions.includes((playerPath.indexOf(i)+1))) {
+            pieceClassName = boardStyles.unmoveableSquarePiece;
+        }
         return (
-            <Square position={(playerPath.indexOf(i)+1)}  movePiece={this.handleMovePiece} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} className={className} key={i} />
+            <Square position={(playerPath.indexOf(i)+1)} movePiece={this.handleMovePiece} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} className={className} pieceClassName={pieceClassName} key={i} />
         );
     }
 
@@ -54,8 +58,13 @@ export class Board extends Component {
         const oppPieceHolder = [];
         const squareCols = [];
         for (var i = 0; i < 7; i++) {
-            if (this.props.piecePositions[i] === 0) {
-                pieceHolder.push(<Piece position={this.props.piecePositions[i]} className={boardStyles.piece} movePiece={this.handleMovePiece} key={i}/>);
+            const pos = this.props.piecePositions[i];
+            if (pos === 0) {
+                if (this.props.isPlayerTurn && this.props.rolled && !this.props.moveablePositions.includes(pos)) {
+                    pieceHolder.push(<Piece position={pos} className={boardStyles.unmoveablePiece} movePiece={this.handleMovePiece} key={i}/>);
+                    continue;
+                }
+                pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={this.handleMovePiece} key={i}/>);
             }
         }
         const oppPieceHolderSize = numberOfPieces - this.props.opponentSquares.filter((square) => {return square}).length - this.props.numOppPiecesFinished;

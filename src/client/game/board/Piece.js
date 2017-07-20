@@ -16,4 +16,6 @@ export default class Piece extends Component {
             <div className={this.props.className} onClick={this.movePiece}></div>
         );
     }
+
+
 }

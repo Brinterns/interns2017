@@ -12,7 +12,7 @@ export default class Square extends Component {
     render() {
         return (
             <div className={this.props.className}>
-                {this.props.piece ? <Piece position={this.props.position} className={boardStyles.squarePiece} movePiece={this.props.movePiece}/> : null}
+                {this.props.piece ? <Piece position={this.props.position} className={this.props.pieceClassName} movePiece={this.props.movePiece}/> : null}
                 {this.props.opponentPiece ? <OpponentPiece className={boardStyles.squareOpponentPiece}/> : null}
             </div>
         );
