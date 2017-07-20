@@ -77,6 +77,19 @@
     display: inline-block;
 }
 
+.unmoveablePiece {
+    background-color: #639af2;
+    opacity: 0.6;
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-right: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    display: inline-block;
+}
+
+
 .oppPiece {
     background-color: grey;
     border-radius: 50%;
@@ -98,9 +111,32 @@
     margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
 }
 
+.unmoveableSquarePiece {
+    position: absolute;
+    background-color: #639af2;
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    opacity: 0.6;
+}
+
 .squareOpponentPiece {
     position: absolute;
     background-color: grey;
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+}
+
+.moveHighlighter {
+    position: absolute;
+    background-color: none;
+    border: solid;
+    border-color: black;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
