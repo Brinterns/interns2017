@@ -47,8 +47,7 @@ const initalState = {
     numOppPiecesFinished: 0,
     //Notification states
     notificationBool: false,
-    notificationText: null,
-    numNotifications: 0
+    notificationText: null
 };
 
 const game = (state = initalState, action) => {
@@ -140,14 +139,12 @@ const game = (state = initalState, action) => {
             if (state.currentPlayer === state.id) {
                 if (state.opponentRollNumber === 0) {
                     return updateState(state, {
-                        rollNumber: 'Roll',
-                        numNotifications: state.numNotifications + 1
+                        rollNumber: 'Roll'
                     });
                 }
                 return updateState(state, {
                     rollNumber: 'Roll',
-                    notificationText: "It's your turn!",
-                    numNotifications: state.numNotifications + 1
+                    notificationText: "It's your turn!"
                 });
             }
             return updateState(state, {
@@ -156,15 +153,8 @@ const game = (state = initalState, action) => {
         }
         case RESET_NOTIFICATION_BOOL: {
             if (state.currentPlayer === state.id ) {
-                if ((state.numNotifications - 1) <= 0) {
-                    return updateState(state, {
-                        notificationBool: false,
-                        notifTimerSet: false,
-                        numNotifications: 0
-                    });
-                }
                 return updateState(state, {
-                    numNotifications: state.numNotifications - 1
+                    notificationBool: false
                 });
             }
             return state;
