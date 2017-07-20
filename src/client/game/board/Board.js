@@ -60,14 +60,19 @@ export class Board extends Component {
             return;
         }
         if (this.props.isPlayerTurn && this.props.rolled) {
-            this.setState({
-                highlightSquarePosition: pos + this.props.rollNumber
-            });
+            if(this.props.moveablePositions.includes(pos)) {
+                this.setState({
+                    highlightSquarePosition: pos + this.props.rollNumber
+                });
+            }
         }
     }
 
     handleMovePiece(position) {
         if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(position)) {
+            this.setState({
+                highlightSquarePosition: null
+            });
             cloak.message('movepiece', position);
         }
     }

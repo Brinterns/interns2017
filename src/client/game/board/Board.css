@@ -134,10 +134,12 @@
 
 .moveHighlighter {
     position: absolute;
-    background-color: #639af2;
+    background-color: none;
+    border: solid;
+    border-color: black;
     border-radius: 50%;
-    height: calc(0.7 * var(--squareSide));
-    width: calc(0.7 * var(--squareSide));
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
     margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
     margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
 }
