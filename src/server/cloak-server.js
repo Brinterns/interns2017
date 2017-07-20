@@ -213,6 +213,7 @@ function reconnectUser(id, user) {
     if (user2.length) {
         user.name = user2[0].name;
         user.data = user2[0].data;
+        user.data.lastRoll = null;
         user.message('userid', user.id);
         const room = user2[0].getRoom();
         user.joinRoom(room);
@@ -224,6 +225,9 @@ function reconnectUser(id, user) {
         }
         user.message('currentplayer', room.data.currentPlayer);
         user2[0].delete();
+        room.getMembers().filter(member => {
+            return member.id !== user.id;
+        })[0].message('currentplayeronly', room.data.currentPlayer);
     }
 }
 
