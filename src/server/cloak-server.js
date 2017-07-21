@@ -132,9 +132,7 @@ function getRoomInfo(user) {
 }
 
 function challengePlayer(id, user) {
-    var user2 = listOfLobbyUsers.filter(function(user) {
-        return user.id === id;
-    })[0];
+    var user2 = cloak.getUser(id);
     if (!user.data.challenging && !user.data.challenger && !user2.data.challenging && !user2.data.challenger) {
         user.data.challenging = user2.id;
         user2.data.challenger = user.id;
@@ -150,9 +148,7 @@ function cancelChallenge(user) {
 
 function challengeRespond(accept, user) {
     const challenger = user.data.challenger;
-    var user2 = listOfLobbyUsers.filter(function(user) {
-        return user.id === challenger;
-    })[0];
+    var user2 = cloak.getUser(challenger);
     user.data.challenger = null;
     user2.data.challenging = null;
     user.message('showchallenge', user.data.challenger);
@@ -240,37 +236,31 @@ function getRoomUserInfo(room) {
 }
 
 function reconnectUser(id, user) {
-    var user2 = cloak.getUsers().filter(function(user) {
-        return user.id === id;
-    });
-    if (user2.length) {
-        user.name = user2[0].name;
-        user.data = user2[0].data;
+    var user2 = cloak.getUser(id);
+    if (user2) {
+        user.name = user2.name;
+        user.data = user2.data;
         user.message('userid', user.id);
-        const room = user2[0].getRoom();
+        const room = user2.getRoom();
         user.joinRoom(room);
         if (room.isLobby) {
             const challenging = user.data.challenging ? true : false;
             user.message('waitchallenge', challenging);
             user.message('showchallenge', user.data.challenger);
             if (user.data.challenging) {
-                var opponent = room.getMembers().filter(member => {
-                    return member.id === user.data.challenging;
-                })[0];
+                var opponent = cloak.getUser(user.data.challenging);
                 opponent.data.challenger = user.id;
                 opponent.message('showchallenge', opponent.data.challenger);
             } else if (user.data.challenger) {
-                var opponent = room.getMembers().filter(member => {
-                    return member.id === user.data.challenger;
-                })[0];
+                var opponent = cloak.getUser(user.data.challenger);
                 opponent.data.challenging = user.id;
             }
         } else {
             user.data.lastRoll = null;
-            if (user2[0].id === room.data.currentPlayer) {
+            if (user2.id === room.data.currentPlayer) {
                 room.data.currentPlayer = user.id;
             }
-            if (user2[0].id === room.data.winnerId) {
+            if (user2.id === room.data.winnerId) {
                 room.data.winnerId = user.id;
             }
             user.message('currentplayer', room.data.currentPlayer);
@@ -278,7 +268,7 @@ function reconnectUser(id, user) {
                 return (member.id !== user.id) && (member.id !== user2.id);
             })[0].message('currentplayeronly', room.data.currentPlayer);
         }
-        user2[0].delete();
+        user2.delete();
     }
 }
 
