@@ -16,10 +16,11 @@ export default class User extends Component {
     }
 
     render() {
-        const buttonClassname = !this.props.user.ready ? userStyles.inactiveChallenge : null;
+        const buttonClassname = (!this.props.user.ready || !this.props.canChallenge) ? userStyles.inactiveChallenge : null;
         return (
             <div className={userStyles.user}>
-                <h1>{this.props.user.name}</h1>
+                <h1> {this.props.user.name} </h1>
+                <h2> W: {this.props.user.winLossRecord.wins} L: {this.props.user.winLossRecord.loses} </h2>
                 <div className = {userStyles.challengeButton}>
                     <button className={buttonClassname} onClick={this.onClick}>Challenge</button>
                 </div>

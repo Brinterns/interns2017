@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import boardStyles from './Board.css';
 import Piece from './Piece';
+import OpponentPiece from './OpponentPiece';
 import Square from './Square';
+import { connect } from 'react-redux';
 
 const numberOfPieces = 7;
 const rosettaSquares = [3,5,13,21,23];
@@ -15,12 +17,16 @@ const playerPath = [
     2,  5
 ];
 
-export default class Board extends Component {
+export class Board extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            highlightSquarePosition: null
+        }
         this.onClick = this.onClick.bind(this);
         this.squareType = this.squareType.bind(this);
         this.handleMovePiece = this.handleMovePiece.bind(this);
+        this.setHighlightSquare = this.setHighlightSquare.bind(this);
     }
 
     squareType(i) {
@@ -30,19 +36,43 @@ export default class Board extends Component {
         } else if (blankSquares.includes(i)) {
             className = boardStyles.squareBlank;
         }
+        var pieceClassName = boardStyles.squarePiece;
+        if (this.props.isPlayerTurn && this.props.rolled && !this.props.moveablePositions.includes((playerPath.indexOf(i)+1))) {
+            pieceClassName = boardStyles.unmoveableSquarePiece;
+        }
+        const pos = playerPath.indexOf(i) + 1;
         return (
-            <Square position={(playerPath.indexOf(i)+1)}  movePiece={this.handleMovePiece} piece={this.props.gameState.squares[i]} opponentPiece={this.props.gameState.opponentSquares[i]} className={className} key={i} />
+            <Square position={pos} movePiece={this.handleMovePiece} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} className={className} pieceClassName={pieceClassName} setHighlightSquare={this.setHighlightSquare} highlight={(pos === this.state.highlightSquarePosition)} key={i} />
         );
     }
 
     onClick() {
-        if (this.props.isPlayerTurn && !this.props.gameState.rolled) {
+        if (this.props.isPlayerTurn && !this.props.rolled) {
             cloak.message('rolldice', _);
         }
     }
 
+    setHighlightSquare(pos) {
+        if ((pos === null) && (this.state.highlightSquarePosition !== null)) {
+            this.setState({
+                highlightSquarePosition: null
+            });
+            return;
+        }
+        if (this.props.isPlayerTurn && this.props.rolled) {
+            if(this.props.moveablePositions.includes(pos)) {
+                this.setState({
+                    highlightSquarePosition: pos + this.props.rollNumber
+                });
+            }
+        }
+    }
+
     handleMovePiece(position) {
-        if (this.props.isPlayerTurn && this.props.gameState.rolled && this.props.gameState.moveablePositions.includes(position)) {
+        if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(position)) {
+            this.setState({
+                highlightSquarePosition: null
+            });
             cloak.message('movepiece', position);
         }
     }
@@ -52,13 +82,18 @@ export default class Board extends Component {
         const oppPieceHolder = [];
         const squareCols = [];
         for (var i = 0; i < 7; i++) {
-            if (this.props.gameState.piecePositions[i] === 0) {
-                pieceHolder.push(<Piece position={this.props.gameState.piecePositions[i]} className={boardStyles.piece} movePiece={this.handleMovePiece} key={i}/>);
+            const pos = this.props.piecePositions[i];
+            if (pos === 0) {
+                if (this.props.isPlayerTurn && this.props.rolled && !this.props.moveablePositions.includes(pos)) {
+                    pieceHolder.push(<Piece position={pos} className={boardStyles.unmoveablePiece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
+                    continue;
+                }
+                pieceHolder.push(<Piece  position={pos} className={boardStyles.piece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
             }
         }
-        const oppPieceHolderSize = numberOfPieces - this.props.gameState.opponentSquares.filter((square) => {return square}).length - this.props.gameState.numOppPiecesFinished;
+        const oppPieceHolderSize = numberOfPieces - this.props.opponentSquares.filter((square) => {return square}).length - this.props.numOppPiecesFinished;
         for (var i = 0; i < oppPieceHolderSize; i++) {
-            oppPieceHolder.push(<Piece className={boardStyles.oppPiece} key={i}/>)
+            oppPieceHolder.push(<OpponentPiece className={boardStyles.oppPiece} key={i}/>)
         }
         for (var i = 0; i < 24; i += 3) {
             squareCols.push(
@@ -71,12 +106,14 @@ export default class Board extends Component {
         }
         return (
                 <div>
-                    <h3>Your finished pieces: {this.props.gameState.numPiecesFinished}</h3>
-                    <h4>Their finished pieces: {this.props.gameState.numOppPiecesFinished}</h4>
+                    <ul>
+                        <li>Your finished pieces: {this.props.numPiecesFinished}</li>
+                        <li>Their finished pieces: {this.props.numOppPiecesFinished}</li>
+                    </ul>
                     <div className={boardStyles.boardMainDiv}>
                         {squareCols}
                     </div>
-                    <button onClick={this.onClick} className={boardStyles.rollButton}>{this.props.gameState.rollNumber}</button>
+                    <button onClick={this.onClick} className={boardStyles.rollButton}>{this.props.rollNumber}</button>
                     <div className={boardStyles.oppPieceHolder}>
                         {oppPieceHolder}
                     </div>
@@ -87,3 +124,20 @@ export default class Board extends Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    //Roll states
+    rolled: state.game.rolled,
+    rollNumber: state.game.rollNumber,
+    //Game states
+    squares: state.game.squares,
+    opponentSquares: state.game.opponentSquares,
+    piecePositions: state.game.piecePositions,
+    moveablePositions: state.game.moveablePositions,
+    numOppPiecesFinished: state.game.numOppPiecesFinished,
+    numPiecesFinished: state.game.numPiecesFinished
+});
+
+export default connect(
+    mapStateToProps
+)(Board);

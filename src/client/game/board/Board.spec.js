@@ -1,51 +1,58 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-
+import _ from 'underscore';
+import configureStore from 'redux-mock-store'
 import Board from './Board';
 
+const middlewares = [];
+const mockStore = configureStore(middlewares);
+
 describe('<Board />', () => {
+    let wrapper;
+    let state;
     beforeEach(() => {
+        state = initialState;
         window.cloak = jasmine.createSpyObj('cloak', ['configure', 'run']);
     });
-
-    const DefaultBoardProps = {
-        rollNumber: 'Roll'
+    
+    const initialState = {
+        game: {
+            roomName: '',
+            //Identity states
+            id: null,
+            currentPlayer: null,
+            listOfPlayers: [],
+            //Game over states
+            gameOver : false,
+            forfeit: false,
+            winnerId: null,
+            //Roll states
+            rolled: true,
+            rollNumber: 'Roll',
+            opponentRollNumber: null,
+            //Game states
+            squares: Array(24).fill(false),
+            opponentSquares: Array(24).fill(false),
+            piecePositions: Array(7).fill(0),
+            moveablePositions: [],
+            numPiecesFinished: 0,
+            numOppPiecesFinished: 0,
+            //Notification states
+            notificationBool: false,
+            notificationText: null
+        }
     };
-
+    
     it('Default display for roll button should be (Roll)', () => {
-        const wrapper = shallow(<Board rollNumber={DefaultBoardProps.rollNumber}/>);
+        const store = mockStore(state);
+        wrapper = shallow(<Board store={store}/>).shallow();
         expect(wrapper.find("button").text()).toEqual('Roll');
     });
-
-    const RolledNumberProps = {
-        rollNumber: '3'
-    };
-
+    
     it('When a rolled value is passed to board, it is displayed in the button', () => {
-        const wrapper = shallow(<Board rollNumber={RolledNumberProps.rollNumber}/>);
+        state.game.rollNumber = '3';
+        const store = mockStore(state);
+        wrapper = shallow(<Board store={store}/>).shallow();
         expect(wrapper.find("button").text()).toEqual('3');
     });
-
-    const NotPlayerTurnProps = {
-        rolled: false,
-        isPlayerTurn: false
-    };
-
-    it('Clicking button when it a players turn should do nothing' , () => {
-        const wrapper = shallow(<Board isPlayerTurn={NotPlayerTurnProps.isPlayerTurn} rolled={NotPlayerTurnProps.rolled}/>);
-        wrapper.find("button").simulate('click');
-    });
-
-    const RolledPlayerTurnProps = {
-        rolled: true,
-        isPlayerTurn: true
-    };
-
-    it('Clicking button when it a players turn but he has already rolled should do nothing' , () => {
-        const wrapper = shallow(<Board isPlayerTurn={RolledPlayerTurnProps.isPlayerTurn} rolled={RolledPlayerTurnProps.rolled}/>);
-        wrapper.find("button").simulate('click');
-    });
-
-
-
 });

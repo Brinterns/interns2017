@@ -12,35 +12,34 @@
 .gameMain h1 {
     color: white;
     position: absolute;
-    top: 5%;
+    top: 7%;
     left: 50%;
     margin-right: -50%;
     margin: 0;
     transform: translate(-50%, 0%);
+    font-size: calc(10px + 2 * (1vw + 1vh - 1vmin));
     text-align: center;
 }
 
 .gameMain h2 {
     color: white;
     position: absolute;
+    font-size: calc(5px + 1.5 * (1vw + 1vh - 1vmin));
     margin-top : 1em;
     margin-left: 1em;
 }
 
-.gameMain h3 {
-    color: white;
+.gameMain ul {
     position: absolute;
-    margin-top : 3.5em;
+    top : 17%;
+    padding: 0;
     margin-left: 1em;
-    font-size: 2em;
+    list-style-type: none;
 }
 
-.gameMain h4 {
+.gameMain li {
     color: white;
-    position: absolute;
-    margin-top : 5em;
-    margin-left: 1em;
-    font-size: 2em;
+    font-size: calc(8px + 1.5 * (1vw + 1vh - 1vmin));
 }
 
 .notificationDiv {
@@ -56,17 +55,24 @@
     background-color: rgba(0,0,0,0.75) !important;
 }
 
+.turnNotif {
+    color: yellow;
+}
+
 .forfeitButton {
     background-color: #e81212;
     float: right;
     margin-top : 1em;
     margin-right: 3.5%;
-    border-radius: 1em;
+    border-radius: calc(0.6 * (1vw + 1vh - 1vmin));
     border-width: 0.05em;
     border-color: black;
+    font-size: calc(3px + 1 * (1vw + 1vh - 1vmin));
     font-weight: bold;
-    width: 9.2em;
-    height: 3em;
+    width: calc(7 * (1vw + 1vh - 1vmin));
+    height: calc(2.5 * (1vw + 1vh - 1vmin));
+    min-width: 60px;
+    min-height: 20px;
     outline: none;
 }
 
@@ -76,9 +82,9 @@
     left: 50%;
     margin-right: -50%;
     margin: 0;
-    width: 46em;
-    height: 14em;
-    border-radius: 3em;
+    width: calc(40 * (1vw + 1vh - 1vmin));
+    height: calc(15 * (1vw + 1vh - 1vmin));
+    border-radius: calc(2.5 * (1vw + 1vh - 1vmin));
     background-color: black;
     transform: translate(-50%, -50%);
 }
@@ -91,20 +97,20 @@
     margin-right: -50%;
     margin: 0;
     transform: translate(-50%, 0%);
+    font-size: calc(5px + 2 * (1vw + 1vh - 1vmin));
     text-align: center;
     width: 100%;
 }
 
 .notificationMenu button {
     position: absolute;
-    margin-right: 2em;
-    bottom: 28%;
-    width: 10em;
-    height: 2.2em;
+    bottom: 20%;
+    width: calc(20px + 7 * (1vw + 1vh - 1vmin));
+    height: auto;
     display: inline-block;
-    border-radius: 0.8em;
-    border-width: 0.05em;
+    border-radius: calc(0.6 * (1vw + 1vh - 1vmin));
     border-color: black;
+    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
     font-weight: bold;
     outline: none;
 }

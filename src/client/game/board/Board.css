@@ -10,7 +10,7 @@
     margin-right: auto;
     text-align: center;
     float: left;
-    top: 30%;
+    top: calc(50% - 1.5 * var(--squareSide) - calc(0.5 * (1vw + 1vh - 1vmin)));
     position: absolute;
 }
 
@@ -41,8 +41,8 @@
 .rollButton {
     bottom: 5%;
     right: 5%;
-    font-size: 3em;
-    border-radius: 1em;
+    font-size: calc(2.5 * (1vw + 1vh - 1vmin));
+    border-radius: calc(2.5 * (1vw + 1vh - 1vmin));
     height: calc(2 * var(--squareSide));
     width: calc(2 * var(--squareSide));
     position: absolute;
@@ -50,7 +50,7 @@
 }
 
 .pieceHolder {
-    bottom: 8%;
+    bottom: calc(50% - 2* (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));
     left: 5%;
     height: auto;
     width: auto;
@@ -58,7 +58,7 @@
 }
 
 .oppPieceHolder {
-    top: 15%;
+    top: calc(50% - 2* (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));
     right: 5%;
     height: auto;
     width: auto;
@@ -76,6 +76,19 @@
     margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
     display: inline-block;
 }
+
+.unmoveablePiece {
+    background-color: #639af2;
+    opacity: 0.6;
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-right: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    display: inline-block;
+}
+
 
 .oppPiece {
     background-color: grey;
@@ -98,9 +111,32 @@
     margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
 }
 
+.unmoveableSquarePiece {
+    position: absolute;
+    background-color: #639af2;
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    opacity: 0.6;
+}
+
 .squareOpponentPiece {
     position: absolute;
     background-color: grey;
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+}
+
+.moveHighlighter {
+    position: absolute;
+    background-color: none;
+    border: solid;
+    border-color: black;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
