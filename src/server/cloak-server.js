@@ -46,6 +46,9 @@ module.exports = function(expressServer) {
             challengeplayer: function(id, user) {
                 challengePlayer(id, user);
             },
+            cancelchallenge: function(_, user) {
+                cancelChallenge(user);
+            },
             challengerespond: function(accept, user) {
                 challengeRespond(accept, user);
             },
@@ -139,11 +142,10 @@ function challengePlayer(id, user) {
         user2.message('showchallenge', user2.data.challenger);
     }
     cloak.messageAll('updateusers', getLobbyUserInfo());
-    setTimeout(() => {
-        if ((user.getRoom().isLobby || user2.getRoom().isLobby) && user.data.challenging) {
-            challengeRespond(false, user2);
-        }
-    }, 5000);
+}
+
+function cancelChallenge(user) {
+    challengeRespond(false, cloak.getUser(user.data.challenging));
 }
 
 function challengeRespond(accept, user) {

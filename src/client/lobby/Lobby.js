@@ -15,6 +15,8 @@ export class Lobby extends Component {
         };
         this.onClick = this.onClick.bind(this);
         this.challengeUser = this.challengeUser.bind(this);
+        this.cancelChallenge = this.cancelChallenge.bind(this);
+        this.challengeRespond = this.challengeRespond.bind(this);
         this.handleToggleRules = this.handleToggleRules.bind(this);
         {this.getLobbyInfo()};
     }
@@ -48,6 +50,10 @@ export class Lobby extends Component {
         if (!(this.props.challenger || this.props.challenging)) {
             cloak.message('challengeplayer', user.id);
         }
+    }
+
+    cancelChallenge() {
+        cloak.message('cancelchallenge', _);
     }
 
     challengeRespond(accept) {
@@ -101,8 +107,9 @@ export class Lobby extends Component {
         let challengingDiv = null;
         if (this.props.challenging) {
             challengingDiv =
-                <div className={lobbyStyles.challengeWaiting}>
+                <div className={lobbyStyles.challengeMenu}>
                     <h1> Waiting for response... </h1>
+                    <button className={lobbyStyles.cancelButton} onClick={this.cancelChallenge}> Cancel </button>
                 </div>;
         }
 
