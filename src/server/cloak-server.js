@@ -1,5 +1,6 @@
 var cloak = require('cloak');
 var {getUsername} = require('./randomnames');
+var db = require('./db');
 
 let listOfLobbyUsers = [];
 let messages = [];
