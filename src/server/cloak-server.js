@@ -63,6 +63,7 @@ module.exports = function(expressServer) {
                 sendMessage(message, user);
             },
             rolldice: function(_, user) {
+                user.data.rolledDice = true;
                 const rollNumber = rollDice(user);
                 var opponent = user.getRoom().getMembers().filter((member) => {
                     return member.id !== user.id;
@@ -264,7 +265,9 @@ function reconnectUser(id, user) {
                 opponent.data.challenging = user.id;
             }
         } else {
-            user.data.lastRoll = null;
+            if (!user.data.rolledDice) {
+                user.data.lastRoll = null;
+            }
             if (user2[0].id === room.data.currentPlayer) {
                 room.data.currentPlayer = user.id;
             }
@@ -307,6 +310,7 @@ function rollDice(user) {
 }
 
 function endTurn(user) {
+    user.data.rolledDice = false;
     const room = user.getRoom();
     room.data.currentPlayer = room.getMembers().filter(function(userTemp) {
         return userTemp.id !== user.id;
@@ -382,6 +386,7 @@ function movePiece(position, user) {
     }
     if (rosettaSquares.includes(playerPath[position+user.data.lastRoll-1])) {
         room.messageMembers('currentplayer', room.data.currentPlayer);
+        user.data.rolledDice = false;
         return;
     }
     endTurn(user);
