@@ -52,6 +52,10 @@ export function RunCloakConfig() {
                 dispatch(updateRoomNames(roomNames));
             },
             userid: (id) => {
+                localStorage.setItem('userId', id);
+                if (!localStorage.getItem('dbId')) {
+                    localStorage.setItem('dbId', id);
+                }
                 dispatch(updateId(id));
                 dispatch(updateUserGameId(id));
             },

@@ -17,15 +17,14 @@ MongoClient.connect(dbUri, function(err, db) {
 
 var add = function(id) {
     return new Promise(function(resolve, reject) {
-        client.collection('users').insertOne({cloakid: id, wins:0, loses: 0}, function(err, thing) {
+        client.collection('users').insertOne({cloakid: id, wins:0, loses: 0}, function(err, user) {
             if (err) {
                 reject({
                     code: 500,
                     msg: err
-                })
+                });
             } else {
-                console.log("added user with id = " + id);
-                resolve(thing.insertedId);
+                resolve({wins: user.wins, loses: user.loses});
             }
         })
     })
@@ -37,20 +36,19 @@ module.exports.find = function(id) {
     return new Promise(function(resolve, reject) {
         client.collection('users').findOne({
             cloakid: id
-        }, function(err, idOut) {
+        }, function(err, user) {
             if (err) {
                 reject({
                     code: 500,
                     msg: err
-                })
-            } else if (idOut === null) {
+                });
+            } else if (user === null) {
                 add(id);
             } else {
-                console.log("Found user with id = " + id);
-                resolve(idOut);
+                resolve({wins: user.wins, loses: user.loses});
             }
-        })
-    })
+        });
+    });
 }
 
 module.exports.update = function(id, win, loss) {
@@ -58,6 +56,7 @@ module.exports.update = function(id, win, loss) {
         client.collection('users').update({
             cloakid: id
         },{
+            cloakid: id,
             wins: win,
             loses: loss
         }, function(err, out) {
@@ -69,7 +68,6 @@ module.exports.update = function(id, win, loss) {
             } else if (out === null) {
                 add(id);
             } else {
-                console.log("Updated win loss record of user with id = " + id);
                 resolve(out);
             }
         })

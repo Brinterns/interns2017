@@ -38,7 +38,8 @@ export class Lobby extends Component {
     getLobbyInfo() {
         RunCloakConfig();
         if(cloak.connected()) {
-            cloak.message('getlobbyinfo', _);
+            const dbId = localStorage.getItem('dbId');
+            cloak.message('getlobbyinfo', dbId);
         } else {
             this.reconnectWait();
         }

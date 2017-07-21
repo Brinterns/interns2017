@@ -10,10 +10,6 @@ export class Login extends Component {
         super(props);
         this.onSubmit = this.onSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        {this.getRecord};
-    }
-
-    getRecord() {
     }
 
     handleChange(event) {
