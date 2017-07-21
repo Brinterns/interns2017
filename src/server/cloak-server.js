@@ -1,5 +1,6 @@
 var cloak = require('cloak');
 var {getUsername} = require('./randomnames');
+var db = require('./db');
 
 let listOfLobbyUsers = [];
 let messages = [];
@@ -32,7 +33,8 @@ module.exports = function(expressServer) {
                 user.name = (msg === "") ? getUsername(getRandomIntInclusive(0,199)) : msg;
                 cloak.getLobby().addMember(user);
             },
-            getlobbyinfo: function(msg, user) {
+            getlobbyinfo: function(dbId, user) {
+                getRecord(dbId, user);
                 getLobbyInfo(user);
                 sendMessages();
             },
@@ -91,6 +93,19 @@ module.exports = function(expressServer) {
     });
     cloak.run();
 };
+
+function getRecord(dbId, user) {
+    if (dbId) {
+        db.find(dbId).then(function(resp) {
+            user.data.winLossRecord = resp;
+            cloak.messageAll('updateusers', getLobbyUserInfo());
+        });
+        user.data.dbId = dbId;
+    } else {
+        db.add(user.id);
+        user.data.dbId = user.id;
+    }
+}
 
 function sendMessages() {
     if (messages.length > 0) {
@@ -182,6 +197,8 @@ function win(winBool, user) {
         user.data.winLossRecord.loses++;
         user2.data.winLossRecord.wins++;
     }
+    db.update(user.data.dbId, user.data.winLossRecord.wins, user.data.winLossRecord.loses);
+    db.update(user2.data.dbId, user2.data.winLossRecord.wins, user2.data.winLossRecord.loses);
 }
 //whenever a username is changed/a player joins the lobby
 ///a player leaves the lobby the list of users is updated
