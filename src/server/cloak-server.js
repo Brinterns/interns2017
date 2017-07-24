@@ -248,7 +248,8 @@ function getLobbyUserInfo() {
         var userJson = {
             id: user.id,
             name: user.name,
-            ready: user.data.ready && !user.data.challenger && !user.data.challenging,
+            ready: user.data.ready,
+            inChallenge: user.data.challenger || user.data.challenging,
             winLossRecord: user.data.winLossRecord
         };
         listOfUserInfo.push(userJson);
