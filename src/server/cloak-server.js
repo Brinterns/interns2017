@@ -29,6 +29,9 @@ module.exports = function(expressServer) {
         pruneEmptyRooms: 1000,
         defaultRoomSize: 2,
         messages: {
+            previoususer: function(dbId, user) {
+                previousUser(dbId, user);
+            },
             setusername: function(msg, user) {
                 user.name = (msg === "") ? getUsername(getRandomIntInclusive(0,199)) : msg;
                 cloak.getLobby().addMember(user);
@@ -94,9 +97,19 @@ module.exports = function(expressServer) {
     cloak.run();
 };
 
+function previousUser(dbId, user) {
+    db.findName(dbId).then(function(resp) {
+        if (resp) {
+            user.name = resp.name;
+            cloak.getLobby().addMember(user);
+            user.message('gotolobby');
+        }
+    });
+}
+
 function getRecord(dbId, user) {
     if (dbId) {
-        db.find(dbId).then(function(resp) {
+        db.find(dbId, user.name).then(function(resp) {
             user.data.winLossRecord = resp;
             cloak.messageAll('updateusers', getLobbyUserInfo());
         });

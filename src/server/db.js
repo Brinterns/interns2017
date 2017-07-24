@@ -15,16 +15,16 @@ MongoClient.connect(dbUri, function(err, db) {
     console.log("DB client connected at: " + dbUri);
 });
 
-var add = function(id) {
+var add = function(id, name) {
     return new Promise(function(resolve, reject) {
-        client.collection('users').insertOne({cloakid: id, wins:0, loses: 0}, function(err, user) {
+        client.collection('users').insertOne({cloakid: id, name: name, wins:0, loses: 0}, function(err, user) {
             if (err) {
                 reject({
                     code: 500,
                     msg: err
                 });
             } else {
-                resolve({wins: user.wins, loses: user.loses});
+                resolve({wins: user.wins, name: user.name, loses: user.loses});
             }
         })
     })
@@ -32,7 +32,7 @@ var add = function(id) {
 
 module.exports.add = add;
 
-module.exports.find = function(id) {
+module.exports.find = function(id, name) {
     return new Promise(function(resolve, reject) {
         client.collection('users').findOne({
             cloakid: id
@@ -43,9 +43,26 @@ module.exports.find = function(id) {
                     msg: err
                 });
             } else if (user === null) {
-                add(id);
+                add(id, name);
             } else {
-                resolve({wins: user.wins, loses: user.loses});
+                resolve({wins: user.wins, name:user.name, loses: user.loses});
+            }
+        });
+    });
+}
+
+module.exports.findName = function(id) {
+    return new Promise(function(resolve, reject) {
+        client.collection('users').findOne({
+            cloakid: id
+        }, function(err, user) {
+            if (err) {
+                reject({
+                    code: 500,
+                    msg: err
+                });
+            } else {
+                resolve(user);
             }
         });
     });
