@@ -68,9 +68,6 @@ export class Lobby extends Component {
     }
 
     render() {
-
-        console.log("Player elo = " + this.props.elorank);
-
         let otherUsers = [];
         let name = '';
         this.props.listOfUsers.forEach((user) => {
@@ -121,6 +118,7 @@ export class Lobby extends Component {
             <div className={lobbyStyles.lobbyMain}>
                 <div className={lobbyStyles.userStats}>
                     <h1> {name} </h1>
+                    {this.props.elorank ? <h2> Rank: {this.props.elorank} </h2>: null}
                     {this.props.winLossRecord ? <h2> Wins: {this.props.winLossRecord.wins} Loses: {this.props.winLossRecord.loses} </h2>: null}
                 </div>
                 <button className={lobbyStyles.rules} onClick={this.handleToggleRules}> Rules </button>

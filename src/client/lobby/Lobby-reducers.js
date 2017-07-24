@@ -17,7 +17,8 @@ const initialState = {
     ready: false,
     challenger: null,
     challenging: false,
-    winLossRecord: null
+    winLossRecord: null,
+    elorank: null
 };
 
 const lobby = (state = initialState, action) => {
