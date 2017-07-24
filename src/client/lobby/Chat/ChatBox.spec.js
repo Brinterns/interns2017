@@ -46,14 +46,14 @@ describe('<ChatBox />', () => {
     it('Message message is displayed correctly', () => {
         const msgs = [message1, message2];
         const wrapper = shallow(<ChatBox messages={msgs}/>);
-        const expectedMessage = " " + message1.message;
+        const expectedMessage = " " + message1.message + " ";
         expect(wrapper.find("h2").first().text()).toEqual(expectedMessage);
     });
     
     it('Message username is displayed correctly', () => {
         const msgs = [message1, message2];
         const wrapper = shallow(<ChatBox messages={msgs}/>);
-        const expectedMessage = message1.userName + ": ";
+        const expectedMessage = " " + message1.userName + ": ";
         expect(wrapper.find("h1").first().text()).toEqual(expectedMessage);
     });
 
