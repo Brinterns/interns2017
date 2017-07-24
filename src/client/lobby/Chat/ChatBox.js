@@ -53,11 +53,17 @@ export default class ChatBox extends Component {
 
     render() {
         const messages = this.props.messages;
-        console.log(JSON.stringify(messages));
         const messageDisplay = (
             messages.map((messageData, i) => {
                     if (i === messages.length - 1) {
                         {this.scrollToBottom()}
+                    }
+                    if(messageData.userId === this.props.id) {
+                        return(
+                            <div key={i}>
+                                <h3>{messageData.message}</h3>
+                            </div>
+                        );
                     }
                     return(
                         <div key={i}>
