@@ -102,7 +102,7 @@ function getOpponent(user) {
 
 function previousUser(dbId, user) {
     if (dbId) {
-        db.findName(dbId).then(function(resp) {
+        db.find(dbId).then(function(resp) {
             if (resp) {
                 user.name = resp.name;
                 cloak.getLobby().addMember(user);
@@ -151,29 +151,31 @@ function getLobbyInfo(user) {
 
 function getRoomInfo(user) {
     const room = user.getRoom();
-    if (!room.data.currentPlayer) {
-        room.data.currentPlayer = room.getMembers()[1].id;
-    }
-    const opponent = getOpponent(user);
+    if (room) {
+        if (!room.data.currentPlayer) {
+            room.data.currentPlayer = room.getMembers()[1].id;
+        }
+        const opponent = getOpponent(user);
 
-    var gameStateJson = {
-        id: user.id,
-        roomName: room.name,
-        squares: user.data.squares,
-        piecePositions: user.data.piecePositions,
-        opponentSquares: reverseSquares(opponent.data.piecePositions),
-        finishedPieces: user.data.numPiecesFinished,
-        finishedOppPieces: opponent.data.numPiecesFinished,
-        winnerId: room.data.winnerId
+        var gameStateJson = {
+            id: user.id,
+            roomName: room.name,
+            squares: user.data.squares,
+            piecePositions: user.data.piecePositions,
+            opponentSquares: reverseSquares(opponent.data.piecePositions),
+            finishedPieces: user.data.numPiecesFinished,
+            finishedOppPieces: opponent.data.numPiecesFinished,
+            winnerId: room.data.winnerId
 
-    };
-    user.message('gamestate', JSON.stringify(gameStateJson));
-    user.message('currentplayer', room.data.currentPlayer);
-    if (user.data.lastRoll) {
-        user.message('rolledvalue', user.data.lastRoll);
-        checkMoves(user, user.data.lastRoll, opponent.data.squares);
+        };
+        user.message('gamestate', JSON.stringify(gameStateJson));
+        user.message('currentplayer', room.data.currentPlayer);
+        if (user.data.lastRoll) {
+            user.message('rolledvalue', user.data.lastRoll);
+            checkMoves(user, user.data.lastRoll, opponent.data.squares);
+        }
+        getRoomUserInfo(room);
     }
-    getRoomUserInfo(room);
 }
 
 function challengePlayer(id, user) {
@@ -330,6 +332,8 @@ function reconnectUser(id, user) {
             })[0].message('currentplayeronly', room.data.currentPlayer);
         }
         user2.delete();
+    } else {
+        user.message('gotologin');
     }
 }
 

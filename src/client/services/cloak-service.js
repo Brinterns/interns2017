@@ -36,9 +36,9 @@ import { browserHistory } from 'react-router';
 export function RunCloakConfig() {
     cloak.configure({
         messages: {
-            /***********************************************************/
-            /*                       Login messages                    */
-            /***********************************************************/
+            gotologin: () => {
+                browserHistory.push("/login");
+            },
             gotolobby: () => {
                 browserHistory.push("/lobby");
             },
