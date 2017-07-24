@@ -1,6 +1,6 @@
 var config = require('./config');
 var mongo = require('mongodb');
-var Promise = require("promise")
+var Promise = require("promise");
 
 var MongoClient = mongo.MongoClient, format = require('util').format;
 var client;
@@ -17,7 +17,14 @@ MongoClient.connect(dbUri, function(err, db) {
 
 var add = function(id, name) {
     return new Promise(function(resolve, reject) {
-        client.collection('users').insertOne({cloakid: id, name: name, wins: 0, loses: 0}, function(err, user) {
+        client.collection('users').insertOne({
+            cloakid: id,
+            name: name,
+            wins:0,
+            loses: 0,
+            elorank: 1200
+        },
+        function(err, user) {
             if (err) {
                 reject({
                     code: 500,
@@ -66,17 +73,19 @@ module.exports.findName = function(id) {
     });
 }
 
-module.exports.update = function(id, name, win, loss) {
+module.exports.update = function(userData, name) {
     return new Promise(function(resolve, reject) {
         client.collection('users').update({
-            cloakid: id
+            cloakid: userData.dbId
         },{
-            cloakid: id,
-            name: name,
-            wins: win,
-            loses: loss
+             $set: {
+                 name: name,
+                 wins: userData.winLossRecord.wins,
+                 loses: userData.winLossRecord.loses,
+                 elorank: userData.elorank
+             }
         }, function(err, out) {
-            if (err) {
+             if (err) {
                 reject({
                     code: 500,
                     msg: err

@@ -1,7 +1,7 @@
 var cloak = require('cloak');
 var {getUsername} = require('./randomnames');
 var db = require('./db');
-
+var EloRank = require('elo-rank');
 let listOfLobbyUsers = [];
 let messages = [];
 const maxMessages = 1000;
@@ -72,9 +72,7 @@ module.exports = function(expressServer) {
             rolldice: function(_, user) {
                 user.data.rolledDice = true;
                 const rollNumber = rollDice(user);
-                var opponent = user.getRoom().getMembers().filter((member) => {
-                    return member.id !== user.id;
-                })[0];
+                var opponent = getOpponent(user);
                 if (rollNumber === 0) {
                     endTurn(user);
                 } else {
@@ -96,6 +94,12 @@ module.exports = function(expressServer) {
     cloak.run();
 };
 
+function getOpponent(user) {
+    return user.getRoom().getMembers().filter((member) => {
+        return member.id !== user.id;
+    })[0];
+}
+
 function previousUser(dbId, user) {
     if (dbId) {
         db.findName(dbId).then(function(resp) {
@@ -115,7 +119,7 @@ function setUsername(name, user) {
     user.name = (name === "") ? getUsername(getRandomIntInclusive(0,199)) : name;
     db.find(user.data.dbId).then(function(resp) {
         if (resp) {
-            db.update(user.data.dbId, user.name, resp.wins, resp.loses);
+            db.update(user.data, user.name);
         } else {
             db.add(user.data.dbId, user.name);
         }
@@ -128,6 +132,7 @@ function getRecord(user) {
         db.find(user.data.dbId).then(function(resp) {
             user.data.winLossRecord.wins = resp.wins;
             user.data.winLossRecord.loses = resp.loses;
+            user.data.elorank = resp.elorank;
             cloak.messageAll('updateusers', getLobbyUserInfo());
         });
     }
@@ -149,9 +154,7 @@ function getRoomInfo(user) {
     if (!room.data.currentPlayer) {
         room.data.currentPlayer = room.getMembers()[1].id;
     }
-    const opponent = room.getMembers().filter((member) => {
-        return member.id !== user.id;
-    })[0];
+    const opponent = getOpponent(user);
 
     var gameStateJson = {
         id: user.id,
@@ -207,24 +210,33 @@ function challengeRespond(accept, user) {
     }
 }
 
+function calculateNewElo(playerRank, opponentRank, won) {
+    var elo = new EloRank(40);
+    return elo.updateRating(elo.getExpected(playerRank, opponentRank), won, playerRank);
+}
+
+
 function win(winBool, user) {
     var userRoom = user.getRoom();
-    var user2 = userRoom.getMembers().filter(function(usr) {
-        return usr.id !== user.id;
-    })[0];
+    var user2 = getOpponent(user);
+
     if (winBool) {
         userRoom.messageMembers('gameover', user.id);
         userRoom.data.winnerId = user.id;
         user.data.winLossRecord.wins++;
         user2.data.winLossRecord.loses++;
+        user.data.elorank = calculateNewElo(user.data.elorank, user2.data.elorank, 1);
+        user2.data.elorank = calculateNewElo(user2.data.elorank, user.data.elorank, 0);
     } else {
         userRoom.messageMembers('gameover', user2.id);
         userRoom.data.winnerId = user2.id;
         user.data.winLossRecord.loses++;
         user2.data.winLossRecord.wins++;
+        user.data.elorank = calculateNewElo(user.data.elorank, user2.data.elorank, 0);
+        user2.data.elorank = calculateNewElo(user2.data.elorank, user.data.elorank, 1);
     }
-    db.update(user.data.dbId, user.name, user.data.winLossRecord.wins, user.data.winLossRecord.loses);
-    db.update(user2.data.dbId, user2.name, user2.data.winLossRecord.wins, user2.data.winLossRecord.loses);
+    db.update(user.data, user.name);
+    db.update(user2.data, user2.name);
 }
 //whenever a username is changed/a player joins the lobby
 ///a player leaves the lobby the list of users is updated
@@ -244,13 +256,15 @@ function getLobbyUserInfo() {
     listOfLobbyUsers.forEach(function(user) {
         if (!user.data.winLossRecord) {
             user.data.winLossRecord = {wins: 0, loses: 0};
+            user.data.elorank = 1200;
         }
         var userJson = {
             id: user.id,
             name: user.name,
             ready: user.data.ready,
             inChallenge: user.data.challenger || user.data.challenging,
-            winLossRecord: user.data.winLossRecord
+            winLossRecord: user.data.winLossRecord,
+            elorank: user.data.elorank
         };
         listOfUserInfo.push(userJson);
     });
@@ -338,9 +352,7 @@ function rollDice(user) {
         total += getRandomIntInclusive(0,1);
     }
     user.message('rolledvalue', total);
-    user.getRoom().getMembers().filter((member) => {
-        return member.id !== user.id;
-    })[0].message('opponentroll', total);
+    getOpponent(user).message('opponentroll', total);
     user.data.lastRoll = total;
     return total;
 }
@@ -348,9 +360,7 @@ function rollDice(user) {
 function endTurn(user) {
     user.data.rolledDice = false;
     const room = user.getRoom();
-    room.data.currentPlayer = room.getMembers().filter(function(userTemp) {
-        return userTemp.id !== user.id;
-    })[0].id;
+    room.data.currentPlayer = getOpponent(user).id;
     room.messageMembers('currentplayer', room.data.currentPlayer);
 }
 
@@ -392,9 +402,7 @@ function canMove(squares, opponentSquares, nextPos, moveablePositions, position)
 
 function movePiece(position, user) {
     const room = user.getRoom();
-    var opponent = room.getMembers().filter((member) => {
-        return member.id !== user.id;
-    })[0];
+    var opponent = getOpponent(user);
     var nextPos = position + user.data.lastRoll;
     user.data.squares[playerPath[nextPos-1]] = true;
     if (position !== 0) {
