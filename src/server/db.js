@@ -15,10 +15,11 @@ MongoClient.connect(dbUri, function(err, db) {
     console.log("DB client connected at: " + dbUri);
 });
 
-var add = function(id) {
+var add = function(id, name) {
     return new Promise(function(resolve, reject) {
         client.collection('users').insertOne({
             cloakid: id,
+            name: name,
             wins:0,
             loses: 0,
             elorank: 1200
@@ -30,10 +31,7 @@ var add = function(id) {
                     msg: err
                 });
             } else {
-                resolve({
-                    winLossRecord: {wins: user.wins, loses: user.loses},
-                    elorank: user.elorank
-                });
+                resolve(user);
             }
         })
     })
@@ -41,7 +39,7 @@ var add = function(id) {
 
 module.exports.add = add;
 
-module.exports.find = function(id) {
+module.exports.find = function(id, name) {
     return new Promise(function(resolve, reject) {
         client.collection('users').findOne({
             cloakid: id
@@ -51,24 +49,37 @@ module.exports.find = function(id) {
                     code: 500,
                     msg: err
                 });
-            } else if (user === null) {
-                add(id);
             } else {
-                resolve({
-                    winLossRecord: {wins: user.wins, loses: user.loses},
-                    elorank: user.elorank
-                });
+                resolve(user);
             }
         });
     });
 }
 
-module.exports.update = function(userData) {
+module.exports.findName = function(id) {
+    return new Promise(function(resolve, reject) {
+        client.collection('users').findOne({
+            cloakid: id
+        }, function(err, user) {
+            if (err) {
+                reject({
+                    code: 500,
+                    msg: err
+                });
+            } else {
+                resolve(user);
+            }
+        });
+    });
+}
+
+module.exports.update = function(userData, name) {
     return new Promise(function(resolve, reject) {
         client.collection('users').update({
             cloakid: userData.dbId
         },{
              $set: {
+                 name: name,
                  wins: userData.winLossRecord.wins,
                  loses: userData.winLossRecord.loses,
                  elorank: userData.elorank
@@ -79,9 +90,7 @@ module.exports.update = function(userData) {
                     code: 500,
                     msg: err
                 })
-            } else if (out === null) {
-                add(userData.dbId);
-            } else {
+            }  else {
                 resolve(out);
             }
         })

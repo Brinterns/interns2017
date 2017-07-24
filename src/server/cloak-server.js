@@ -4,7 +4,7 @@ var db = require('./db');
 var EloRank = require('elo-rank');
 let listOfLobbyUsers = [];
 let messages = [];
-const maxMessages = 7;
+const maxMessages = 1000;
 
 //Game playing variables
 const rosettaSquares = [3,5,13,21,23];
@@ -29,12 +29,14 @@ module.exports = function(expressServer) {
         pruneEmptyRooms: 1000,
         defaultRoomSize: 2,
         messages: {
-            setusername: function(msg, user) {
-                user.name = (msg === "") ? getUsername(getRandomIntInclusive(0,199)) : msg;
-                cloak.getLobby().addMember(user);
+            previoususer: function(dbId, user) {
+                previousUser(dbId, user);
             },
-            getlobbyinfo: function(dbId, user) {
-                getRecord(dbId, user);
+            setusername: function(name, user) {
+                setUsername(name, user);
+            },
+            getlobbyinfo: function(_, user) {
+                getRecord(user);
                 getLobbyInfo(user);
                 sendMessages();
             },
@@ -98,17 +100,41 @@ function getOpponent(user) {
     })[0];
 }
 
-function getRecord(dbId, user) {
+function previousUser(dbId, user) {
     if (dbId) {
-        db.find(dbId).then(function(resp) {
-            user.data.winLossRecord = resp.winLossRecord;
-            user.data.elorank = resp.elorank;
-            cloak.messageAll('updateusers', getLobbyUserInfo());
+        db.findName(dbId).then(function(resp) {
+            if (resp) {
+                user.name = resp.name;
+                cloak.getLobby().addMember(user);
+                user.message('gotolobby');
+            }
         });
         user.data.dbId = dbId;
     } else {
-        db.add(user.id);
         user.data.dbId = user.id;
+    }
+}
+
+function setUsername(name, user) {
+    user.name = (name === "") ? getUsername(getRandomIntInclusive(0,199)) : name;
+    db.find(user.data.dbId).then(function(resp) {
+        if (resp) {
+            db.update(user.data, user.name);
+        } else {
+            db.add(user.data.dbId, user.name);
+        }
+    });
+    cloak.getLobby().addMember(user);
+}
+
+function getRecord(user) {
+    if (user.data.dbId) {
+        db.find(user.data.dbId).then(function(resp) {
+            user.data.winLossRecord.wins = resp.wins;
+            user.data.winLossRecord.loses = resp.loses;
+            user.data.elorank = resp.elorank;
+            cloak.messageAll('updateusers', getLobbyUserInfo());
+        });
     }
 }
 
@@ -209,8 +235,8 @@ function win(winBool, user) {
         user.data.elorank = calculateNewElo(user.data.elorank, user2.data.elorank, 0);
         user2.data.elorank = calculateNewElo(user2.data.elorank, user.data.elorank, 1);
     }
-    db.update(user.data);
-    db.update(user2.data);
+    db.update(user.data, user.name);
+    db.update(user2.data, user2.name);
 }
 //whenever a username is changed/a player joins the lobby
 ///a player leaves the lobby the list of users is updated
@@ -235,7 +261,8 @@ function getLobbyUserInfo() {
         var userJson = {
             id: user.id,
             name: user.name,
-            ready: user.data.ready && !user.data.challenger && !user.data.challenging,
+            ready: user.data.ready,
+            inChallenge: user.data.challenger || user.data.challenging,
             winLossRecord: user.data.winLossRecord,
             elorank: user.data.elorank
         };

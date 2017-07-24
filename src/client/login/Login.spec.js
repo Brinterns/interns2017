@@ -12,7 +12,7 @@ describe('<Login />', () => {
     let wrapper;
     let updateUsername;
     beforeEach(() => {
-        window.cloak = jasmine.createSpyObj('cloak', ['configure', 'run']);
+        window.cloak = jasmine.createSpyObj('cloak', ['configure', 'run', 'connected']);
         updateUsername = jasmine.createSpy('updateUsername');
     });
 

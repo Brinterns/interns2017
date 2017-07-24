@@ -4,12 +4,33 @@ import styles from './Login.css';
 import { connect } from 'react-redux';
 
 import { updateUsername } from './Login-actions';
+import { RunCloakConfig } from '../services/cloak-service';
 
 export class Login extends Component {
     constructor(props) {
         super(props);
         this.onSubmit = this.onSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        {this.isUser()};
+    }
+
+    reconnectWait() {
+        setTimeout(() => {
+            if (cloak.connected()) {
+                cloak.message('previoususer', localStorage.getItem('dbId'));
+            } else {
+                this.reconnectWait();
+            }
+        }, 100);
+    }
+
+    isUser() {
+        RunCloakConfig();
+        if(cloak.connected()) {
+            cloak.message('previoususer', localStorage.getItem('dbId'));
+        } else {
+            this.reconnectWait();
+        }
     }
 
     handleChange(event) {
