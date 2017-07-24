@@ -4,7 +4,7 @@ var db = require('./db');
 
 let listOfLobbyUsers = [];
 let messages = [];
-const maxMessages = 7;
+const maxMessages = 1000;
 
 //Game playing variables
 const rosettaSquares = [3,5,13,21,23];

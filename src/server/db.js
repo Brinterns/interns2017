@@ -74,13 +74,6 @@ module.exports.update = function(id, win, loss) {
     })
 }
 
-
-
-
-
-
-
-
 module.exports.collection = function(collection) {
     return client.collection(collection);
 }

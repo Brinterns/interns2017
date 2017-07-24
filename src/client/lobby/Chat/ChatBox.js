@@ -10,6 +10,7 @@ export default class ChatBox extends Component {
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
+    
     handleKeyPress(e) {
         if(e.key === 'Enter') {
             cloak.message('sendmessage', e.target.value);
@@ -32,10 +33,10 @@ export default class ChatBox extends Component {
             messageData.map((messageData, i) => {
                 return (
                     <div key={i} className={chatStyles.messagesDiv}>
-                        <h1>{messageData.userName}: </h1>
-                        <h2>&nbsp;&nbsp;{messageData.message}</h2>
+                        <h1> {messageData.userName}: </h1>
+                        <h2> &nbsp;&nbsp;{messageData.message} </h2>
                     </div>
-                )
+                );
             })
         );
         return (
