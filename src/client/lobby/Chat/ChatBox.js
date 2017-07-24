@@ -9,8 +9,8 @@ export default class ChatBox extends Component {
         };
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.scrollToBottom = this.scrollToBottom.bind(this);
     }
-    
     handleKeyPress(e) {
         if(e.key === 'Enter') {
             cloak.message('sendmessage', e.target.value);
@@ -27,21 +27,29 @@ export default class ChatBox extends Component {
         });
     }
 
+    scrollToBottom() {
+        var messagesDiv = document.getElementById("messagesdiv");
+        if (messagesDiv) {
+            messagesDiv.scrollTop  = messagesDiv.scrollHeight;
+        }
+    }
+
     render() {
         const messageData = this.props.messages;
         const messageDisplay = (
             messageData.map((messageData, i) => {
                 return (
                     <div key={i} className={chatStyles.messagesDiv}>
-                        <h1> {messageData.userName}: </h1>
-                        <h2> &nbsp;&nbsp;{messageData.message} </h2>
+                        <h1>{messageData.userName}: </h1>
+                        <h2>&nbsp;&nbsp;{messageData.message}</h2>
                     </div>
-                );
+                )
             })
         );
+        this.scrollToBottom();
         return (
             <div className={chatStyles.chatMain}>
-                <div className={chatStyles.sentMessages}>
+                <div id="messagesdiv" className={chatStyles.sentMessages}>
                     {messageDisplay}
                 </div>
                 <input type="text" onKeyPress={this.handleKeyPress} value={this.state.input} onChange={this.handleChange}/>
