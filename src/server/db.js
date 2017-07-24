@@ -56,11 +56,12 @@ module.exports.update = function(id, win, loss) {
         client.collection('users').update({
             cloakid: id
         },{
-            cloakid: id,
-            wins: win,
-            loses: loss
+             $set: {
+                 wins: win,
+                 loses: loss
+             }
         }, function(err, out) {
-            if (err) {
+             if (err) {
                 reject({
                     code: 500,
                     msg: err
