@@ -1,7 +1,7 @@
 var cloak = require('cloak');
 var {getUsername} = require('./randomnames');
 var db = require('./db');
-
+var EloRank = require('elo-rank');
 let listOfLobbyUsers = [];
 let messages = [];
 const maxMessages = 7;
@@ -97,7 +97,8 @@ module.exports = function(expressServer) {
 function getRecord(dbId, user) {
     if (dbId) {
         db.find(dbId).then(function(resp) {
-            user.data.winLossRecord = resp;
+            user.data.winLossRecord = resp.winLossRecord;
+            user.data.elorank = resp.elorank;
             cloak.messageAll('updateusers', getLobbyUserInfo());
         });
         user.data.dbId = dbId;
@@ -186,19 +187,24 @@ function win(winBool, user) {
     var user2 = userRoom.getMembers().filter(function(usr) {
         return usr.id !== user.id;
     })[0];
+    var elo = new EloRank(40);
     if (winBool) {
         userRoom.messageMembers('gameover', user.id);
         userRoom.data.winnerId = user.id;
         user.data.winLossRecord.wins++;
         user2.data.winLossRecord.loses++;
+        user.data.elorank = elo.updateRating(elo.getExpected(user.data.elorank, user2.data.elorank), 1, user.data.elorank);
+        user2.data.elorank = elo.updateRating(elo.getExpected(user2.data.elorank, user.data.elorank), 0, user2.data.elorank);
     } else {
         userRoom.messageMembers('gameover', user2.id);
         userRoom.data.winnerId = user2.id;
         user.data.winLossRecord.loses++;
         user2.data.winLossRecord.wins++;
+        user.data.elorank = elo.updateRating(elo.getExpected(user.data.elorank, user2.data.elorank), 0, user.data.elorank);
+        user2.data.elorank = elo.updateRating(elo.getExpected(user2.data.elorank, user.data.elorank), 1, user2.data.elorank);
     }
-    db.update(user.data.dbId, user.data.winLossRecord.wins, user.data.winLossRecord.loses);
-    db.update(user2.data.dbId, user2.data.winLossRecord.wins, user2.data.winLossRecord.loses);
+    db.update(user.data.dbId, user.data.winLossRecord.wins, user.data.winLossRecord.loses, user.data.elorank);
+    db.update(user2.data.dbId, user2.data.winLossRecord.wins, user2.data.winLossRecord.loses, user2.data.elorank);
 }
 //whenever a username is changed/a player joins the lobby
 ///a player leaves the lobby the list of users is updated
@@ -218,12 +224,14 @@ function getLobbyUserInfo() {
     listOfLobbyUsers.forEach(function(user) {
         if (!user.data.winLossRecord) {
             user.data.winLossRecord = {wins: 0, loses: 0};
+            user.data.elorank = 1200;
         }
         var userJson = {
             id: user.id,
             name: user.name,
             ready: user.data.ready && !user.data.challenger && !user.data.challenging,
-            winLossRecord: user.data.winLossRecord
+            winLossRecord: user.data.winLossRecord,
+            elorank: user.data.elorank
         };
         listOfUserInfo.push(userJson);
     });

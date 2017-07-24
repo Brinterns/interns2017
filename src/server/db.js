@@ -1,6 +1,6 @@
 var config = require('./config');
 var mongo = require('mongodb');
-var Promise = require("promise")
+var Promise = require("promise");
 
 var MongoClient = mongo.MongoClient, format = require('util').format;
 var client;
@@ -17,14 +17,23 @@ MongoClient.connect(dbUri, function(err, db) {
 
 var add = function(id) {
     return new Promise(function(resolve, reject) {
-        client.collection('users').insertOne({cloakid: id, wins:0, loses: 0}, function(err, user) {
+        client.collection('users').insertOne({
+            cloakid: id,
+            wins:0,
+            loses: 0,
+            elorank: 1200
+        },
+        function(err, user) {
             if (err) {
                 reject({
                     code: 500,
                     msg: err
                 });
             } else {
-                resolve({wins: user.wins, loses: user.loses});
+                resolve({
+                    winLossRecord: {wins: user.wins, loses: user.loses},
+                    elorank: user.elorank
+                });
             }
         })
     })
@@ -45,20 +54,24 @@ module.exports.find = function(id) {
             } else if (user === null) {
                 add(id);
             } else {
-                resolve({wins: user.wins, loses: user.loses});
+                resolve({
+                    winLossRecord: {wins: user.wins, loses: user.loses},
+                    elorank: user.elorank
+                });
             }
         });
     });
 }
 
-module.exports.update = function(id, win, loss) {
+module.exports.update = function(id, win, loss, elorank) {
     return new Promise(function(resolve, reject) {
         client.collection('users').update({
             cloakid: id
         },{
              $set: {
                  wins: win,
-                 loses: loss
+                 loses: loss,
+                 elorank: elorank
              }
         }, function(err, out) {
              if (err) {

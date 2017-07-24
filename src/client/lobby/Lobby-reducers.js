@@ -33,7 +33,10 @@ const lobby = (state = initialState, action) => {
                 ready: action.payload.ready,
                 winLossRecord: state.id ? action.payload.listOfUsers.filter(user => {
                     return state.id === user.id;
-                })[0].winLossRecord : null
+                })[0].winLossRecord : null,
+                elorank: state.id ? action.payload.listOfUsers.filter(user => {
+                    return state.id === user.id;
+                })[0].elorank : null
             });
         }
         case UPDATE_USER_ID: {

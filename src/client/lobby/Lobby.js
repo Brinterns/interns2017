@@ -68,6 +68,9 @@ export class Lobby extends Component {
     }
 
     render() {
+
+        console.log("Player elo = " + this.props.elorank);
+
         let otherUsers = [];
         let name = '';
         this.props.listOfUsers.forEach((user) => {
@@ -151,7 +154,8 @@ const mapStateToProps = state => ({
     challenger: state.lobby.challenger,
     listOfActiveGames: state.lobby.listOfActiveGames,
     messages: state.lobby.messages,
-    winLossRecord: state.lobby.winLossRecord
+    winLossRecord: state.lobby.winLossRecord,
+    elorank: state.lobby.elorank
 });
 
 export default connect(
