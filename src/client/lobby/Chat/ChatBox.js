@@ -5,11 +5,14 @@ export default class ChatBox extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            input: ''
+            input: '',
+            showChat: false
         };
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.scrollToBottom = this.scrollToBottom.bind(this);
+
+        this.handleClick = this.handleClick.bind(this);
     }
     handleKeyPress(e) {
         if(e.key === 'Enter') {
@@ -21,6 +24,13 @@ export default class ChatBox extends Component {
         }
     }
 
+    handleClick() {
+        this.setState({
+            showChat: !this.state.showChat
+        });
+    }
+
+
     handleChange(e) {
         this.setState ({
             input: e.target.value
@@ -28,31 +38,57 @@ export default class ChatBox extends Component {
     }
 
     scrollToBottom() {
-        var messagesDiv = document.getElementById("messagesdiv");
+        var messagesDiv = document.getElementById("messagediv");
         if (messagesDiv) {
             messagesDiv.scrollTop  = messagesDiv.scrollHeight;
+        } else {
+            setTimeout(() => {
+                messagesDiv = document.getElementById("messagediv");
+                if (messagesDiv) {
+                    messagesDiv.scrollTop  = messagesDiv.scrollHeight;
+                }
+            }, 10);
         }
     }
 
     render() {
-        const messageData = this.props.messages;
+        const messages = this.props.messages;
+        console.log(JSON.stringify(messages));
         const messageDisplay = (
-            messageData.map((messageData, i) => {
-                return (
-                    <div key={i} className={chatStyles.messagesDiv}>
-                        <h1>{messageData.userName}: </h1>
-                        <h2>&nbsp;&nbsp;{messageData.message}</h2>
-                    </div>
-                )
+            messages.map((messageData, i) => {
+                    if (i === messages.length - 1) {
+                        {this.scrollToBottom()}
+                    }
+                    return(
+                        <div key={i}>
+                            <h1>{messageData.userName}: </h1>
+                            <h2>{messageData.message}</h2>
+                        </div>
+                    );
             })
         );
-        this.scrollToBottom();
-        return (
-            <div className={chatStyles.chatMain}>
-                <div id="messagesdiv" className={chatStyles.sentMessages}>
+        const closedChatDiv = (
+            <div onClick={this.handleClick} className={chatStyles.closedChat}>
+                <p>Chat </p>
+            </div>
+        );
+
+        const openChatDiv = (
+            <div className={chatStyles.openChat}>
+                <div onClick={this.handleClick} className={chatStyles.openChatTop}>
+                    <p>Chat </p>
+                </div>
+                <div id="messagediv" className={chatStyles.messages}>
                     {messageDisplay}
                 </div>
                 <input type="text" onKeyPress={this.handleKeyPress} value={this.state.input} onChange={this.handleChange}/>
+            </div>
+        );
+        const divToDisplay = this.state.showChat ? openChatDiv : closedChatDiv;
+
+        return (
+            <div>
+                {divToDisplay}
             </div>
         );
     }

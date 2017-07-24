@@ -131,8 +131,13 @@ export class Lobby extends Component {
                         <h1> Active Games </h1>
                         {gamesDisplayList}
                     </div>
-                    <ChatBox id={this.props.id} messages={this.props.messages}/>
                 </div>
+
+                <ChatBox id={this.props.id} messages={this.props.messages}/>
+
+
+
+
                 <div className={lobbyStyles.readyOptions}>
                     <button className={buttonClass} onClick={this.onClick}>{this.props.ready ? 'Unready' : 'Ready'}</button>
                 </div>
