@@ -32,19 +32,11 @@ module.exports = function(expressServer) {
             previoususer: function(dbId, user) {
                 previousUser(dbId, user);
             },
-            setusername: function(msg, user) {
-                user.name = (msg === "") ? getUsername(getRandomIntInclusive(0,199)) : msg;
-                db.find(user.data.dbId).then(function(resp) {
-                    if (resp) {
-                        db.update(user.data.dbId, user.name, resp.wins, resp.loses);
-                    } else {
-                        db.add(user.data.dbId, user.name);
-                    }
-                });
-                cloak.getLobby().addMember(user);
+            setusername: function(name, user) {
+                setUsername(name, user);
             },
-            getlobbyinfo: function(dbId, user) {
-                getRecord(dbId, user);
+            getlobbyinfo: function(_, user) {
+                getRecord(user);
                 getLobbyInfo(user);
                 sendMessages();
             },
@@ -105,7 +97,6 @@ module.exports = function(expressServer) {
 };
 
 function previousUser(dbId, user) {
-    user.data.dbId = dbId;
     if (dbId) {
         db.findName(dbId).then(function(resp) {
             if (resp) {
@@ -114,12 +105,27 @@ function previousUser(dbId, user) {
                 user.message('gotolobby');
             }
         });
+        user.data.dbId = dbId;
+    } else {
+        user.data.dbId = user.id;
     }
 }
 
-function getRecord(dbId, user) {
-    if (dbId) {
-        db.find(dbId).then(function(resp) {
+function setUsername(name, user) {
+    user.name = (name === "") ? getUsername(getRandomIntInclusive(0,199)) : name;
+    db.find(user.data.dbId).then(function(resp) {
+        if (resp) {
+            db.update(user.data.dbId, user.name, resp.wins, resp.loses);
+        } else {
+            db.add(user.data.dbId, user.name);
+        }
+    });
+    cloak.getLobby().addMember(user);
+}
+
+function getRecord(user) {
+    if (user.data.dbId) {
+        db.find(user.data.dbId).then(function(resp) {
             user.data.winLossRecord.wins = resp.wins;
             user.data.winLossRecord.loses = resp.loses;
             cloak.messageAll('updateusers', getLobbyUserInfo());

@@ -17,8 +17,7 @@ export class Login extends Component {
     reconnectWait() {
         setTimeout(() => {
             if (cloak.connected()) {
-                const dbId = localStorage.getItem('dbId');
-                cloak.message('previoususer', dbId);
+                cloak.message('previoususer', localStorage.getItem('dbId'));
             } else {
                 this.reconnectWait();
             }
@@ -28,8 +27,7 @@ export class Login extends Component {
     isUser() {
         RunCloakConfig();
         if(cloak.connected()) {
-            const dbId = localStorage.getItem('dbId');
-            cloak.message('previoususer', dbId);
+            cloak.message('previoususer', localStorage.getItem('dbId'));
         } else {
             this.reconnectWait();
         }
