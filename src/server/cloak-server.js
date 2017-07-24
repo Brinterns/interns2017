@@ -34,6 +34,13 @@ module.exports = function(expressServer) {
             },
             setusername: function(msg, user) {
                 user.name = (msg === "") ? getUsername(getRandomIntInclusive(0,199)) : msg;
+                db.find(user.data.dbId).then(function(resp) {
+                    if (resp) {
+                        db.update(user.data.dbId, user.name, resp.wins, resp.loses);
+                    } else {
+                        db.add(user.data.dbId, user.name);
+                    }
+                });
                 cloak.getLobby().addMember(user);
             },
             getlobbyinfo: function(dbId, user) {
@@ -98,25 +105,25 @@ module.exports = function(expressServer) {
 };
 
 function previousUser(dbId, user) {
-    db.findName(dbId).then(function(resp) {
-        if (resp) {
-            user.name = resp.name;
-            cloak.getLobby().addMember(user);
-            user.message('gotolobby');
-        }
-    });
+    user.data.dbId = dbId;
+    if (dbId) {
+        db.findName(dbId).then(function(resp) {
+            if (resp) {
+                user.name = resp.name;
+                cloak.getLobby().addMember(user);
+                user.message('gotolobby');
+            }
+        });
+    }
 }
 
 function getRecord(dbId, user) {
     if (dbId) {
-        db.find(dbId, user.name).then(function(resp) {
-            user.data.winLossRecord = resp;
+        db.find(dbId).then(function(resp) {
+            user.data.winLossRecord.wins = resp.wins;
+            user.data.winLossRecord.loses = resp.loses;
             cloak.messageAll('updateusers', getLobbyUserInfo());
         });
-        user.data.dbId = dbId;
-    } else {
-        db.add(user.id);
-        user.data.dbId = user.id;
     }
 }
 
@@ -210,8 +217,8 @@ function win(winBool, user) {
         user.data.winLossRecord.loses++;
         user2.data.winLossRecord.wins++;
     }
-    db.update(user.data.dbId, user.data.winLossRecord.wins, user.data.winLossRecord.loses);
-    db.update(user2.data.dbId, user2.data.winLossRecord.wins, user2.data.winLossRecord.loses);
+    db.update(user.data.dbId, user.name, user.data.winLossRecord.wins, user.data.winLossRecord.loses);
+    db.update(user2.data.dbId, user2.name, user2.data.winLossRecord.wins, user2.data.winLossRecord.loses);
 }
 //whenever a username is changed/a player joins the lobby
 ///a player leaves the lobby the list of users is updated

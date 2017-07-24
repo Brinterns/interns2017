@@ -17,14 +17,14 @@ MongoClient.connect(dbUri, function(err, db) {
 
 var add = function(id, name) {
     return new Promise(function(resolve, reject) {
-        client.collection('users').insertOne({cloakid: id, name: name, wins:0, loses: 0}, function(err, user) {
+        client.collection('users').insertOne({cloakid: id, name: name, wins: 0, loses: 0}, function(err, user) {
             if (err) {
                 reject({
                     code: 500,
                     msg: err
                 });
             } else {
-                resolve({wins: user.wins, name: user.name, loses: user.loses});
+                resolve(user);
             }
         })
     })
@@ -42,10 +42,8 @@ module.exports.find = function(id, name) {
                     code: 500,
                     msg: err
                 });
-            } else if (user === null) {
-                add(id, name);
             } else {
-                resolve({wins: user.wins, name:user.name, loses: user.loses});
+                resolve(user);
             }
         });
     });
@@ -68,12 +66,13 @@ module.exports.findName = function(id) {
     });
 }
 
-module.exports.update = function(id, win, loss) {
+module.exports.update = function(id, name, win, loss) {
     return new Promise(function(resolve, reject) {
         client.collection('users').update({
             cloakid: id
         },{
             cloakid: id,
+            name: name,
             wins: win,
             loses: loss
         }, function(err, out) {
@@ -82,9 +81,7 @@ module.exports.update = function(id, win, loss) {
                     code: 500,
                     msg: err
                 })
-            } else if (out === null) {
-                add(id);
-            } else {
+            }  else {
                 resolve(out);
             }
         })
