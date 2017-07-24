@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import User from './User';
+import Player from './User/Player';
 import lobbyStyles from './Lobby.css';
 import ChatBox from './Chat/ChatBox';
 import Rules from '../rules/Rules';
@@ -117,7 +118,7 @@ export class Lobby extends Component {
         return (
             <div className={lobbyStyles.lobbyMain}>
                 <div className={lobbyStyles.userStats}>
-                    <h1> {name} </h1>
+                    <Player name={name} />
                     {this.props.elorank ? <h2> Rank: {this.props.elorank} </h2>: null}
                     {this.props.winLossRecord ? <h2> Wins: {this.props.winLossRecord.wins} Loses: {this.props.winLossRecord.loses} </h2>: null}
                 </div>
