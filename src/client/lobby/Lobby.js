@@ -118,6 +118,7 @@ export class Lobby extends Component {
             <div className={lobbyStyles.lobbyMain}>
                 <div className={lobbyStyles.userStats}>
                     <h1> {name} </h1>
+                    {this.props.elorank ? <h2> Rank: {this.props.elorank} </h2>: null}
                     {this.props.winLossRecord ? <h2> Wins: {this.props.winLossRecord.wins} Loses: {this.props.winLossRecord.loses} </h2>: null}
                 </div>
                 <button className={lobbyStyles.rules} onClick={this.handleToggleRules}> Rules </button>
@@ -151,7 +152,8 @@ const mapStateToProps = state => ({
     challenger: state.lobby.challenger,
     listOfActiveGames: state.lobby.listOfActiveGames,
     messages: state.lobby.messages,
-    winLossRecord: state.lobby.winLossRecord
+    winLossRecord: state.lobby.winLossRecord,
+    elorank: state.lobby.elorank
 });
 
 export default connect(
