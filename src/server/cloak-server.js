@@ -203,8 +203,8 @@ function win(winBool, user) {
         user.data.elorank = elo.updateRating(elo.getExpected(user.data.elorank, user2.data.elorank), 0, user.data.elorank);
         user2.data.elorank = elo.updateRating(elo.getExpected(user2.data.elorank, user.data.elorank), 1, user2.data.elorank);
     }
-    db.update(user.data.dbId, user.data.winLossRecord.wins, user.data.winLossRecord.loses, user.data.elorank);
-    db.update(user2.data.dbId, user2.data.winLossRecord.wins, user2.data.winLossRecord.loses, user2.data.elorank);
+    db.update(user.data);
+    db.update(user2.data);
 }
 //whenever a username is changed/a player joins the lobby
 ///a player leaves the lobby the list of users is updated

@@ -63,15 +63,15 @@ module.exports.find = function(id) {
     });
 }
 
-module.exports.update = function(id, win, loss, elorank) {
+module.exports.update = function(userData) {
     return new Promise(function(resolve, reject) {
         client.collection('users').update({
-            cloakid: id
+            cloakid: userData.dbId
         },{
              $set: {
-                 wins: win,
-                 loses: loss,
-                 elorank: elorank
+                 wins: userData.winLossRecord.wins,
+                 loses: userData.winLossRecord.loses,
+                 elorank: userData.elorank
              }
         }, function(err, out) {
              if (err) {
@@ -80,20 +80,13 @@ module.exports.update = function(id, win, loss, elorank) {
                     msg: err
                 })
             } else if (out === null) {
-                add(id);
+                add(userData.dbId);
             } else {
                 resolve(out);
             }
         })
     })
 }
-
-
-
-
-
-
-
 
 module.exports.collection = function(collection) {
     return client.collection(collection);
