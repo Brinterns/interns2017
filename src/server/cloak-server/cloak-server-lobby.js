@@ -1,4 +1,5 @@
 var cloak = require('cloak');
+var db = require('../db');
 var shared = require('./cloak-server-shared');
 
  function getLobbyInfo(user) {
@@ -35,6 +36,17 @@ function getLobbyUserInfo() {
     return JSON.stringify(listOfUserInfo);
 }
 
+function getRecord(user) {
+    if (user.data.dbId) {
+        db.find(user.data.dbId).then(function(resp) {
+            user.data.winLossRecord.wins = resp.wins;
+            user.data.winLossRecord.loses = resp.loses;
+            user.data.elorank = resp.elorank;
+            cloak.messageAll('updateusers', getLobbyUserInfo());
+        });
+    }
+}
+
 //updates lobby users with active game names
 function updateLobbyActiveGames() {
     let activeGameNames = [];
@@ -50,3 +62,4 @@ module.exports.updateLobbyUsers = updateLobbyUsers;
 module.exports.updateLobbyActiveGames = updateLobbyActiveGames;
 module.exports.getLobbyUserInfo = getLobbyUserInfo;
 module.exports.getLobbyInfo = getLobbyInfo;
+module.exports.getRecord = getRecord;

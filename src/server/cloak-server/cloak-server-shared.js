@@ -1,10 +1,17 @@
 var cloak = require('cloak');
 var db = require('../db');
+const maxMessages = 1000;
 
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getOpponent(user) {
+    return user.getRoom().getMembers().filter((member) => {
+        return member.id !== user.id;
+    })[0];
 }
 
 function sendMessage(message, user) {
@@ -111,6 +118,7 @@ function reconnectUser(id, user) {
 
 module.exports.getRandomIntInclusive = getRandomIntInclusive;
 module.exports.sendMessages = sendMessages;
+module.exports.getOpponent = getOpponent;
 module.exports.sendMessage = sendMessage;
 module.exports.reconnectUser = reconnectUser;
 module.exports.previousUser = previousUser;
