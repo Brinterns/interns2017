@@ -3,6 +3,7 @@ import { browserHistory } from 'react-router';
 import gameStyles from './Game.css';
 import Board from './board/Board';
 import { connect } from 'react-redux';
+import ChatBox from '../Chat/ChatBox';
 
 import { RunCloakConfig } from '../services/cloak-service';
 
@@ -104,6 +105,7 @@ export class Game extends Component {
                 <div className={gameStyles.notificationDiv}>
                     {this.props.notificationBool ? opponentRoll : null}
                 </div>
+                <ChatBox id={this.props.id} messages={this.props.messages}/>
                 {this.props.winnerId ? gameOverDiv : null}
                 {this.props.forfeit ? forfeitDiv : null}
             </div>
@@ -112,6 +114,7 @@ export class Game extends Component {
 }
 
 const mapStateToProps = state => ({
+    messages: state.game.messages,
     //Identity states
     id: state.game.id,
     currentPlayer: state.game.currentPlayer,

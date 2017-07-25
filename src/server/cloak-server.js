@@ -145,7 +145,9 @@ function sendMessages(room) {
     }
     if (room.data.messages.length > 0) {
         if (room.isLobby) {
-            room.messageMembers('updatemessages', JSON.stringify(room.data.messages));
+            room.messageMembers('updatelobbymessages', JSON.stringify(room.data.messages));
+        } else {
+            room.messageMembers('updategamemessages', JSON.stringify(room.data.messages));
         }
     }
 }
@@ -253,7 +255,7 @@ function win(winBool, user) {
 
 var roomExit = function(arg) {
     const users = this.getMembers();
-    if (users.length) {
+    if (users.length < 2) {
         var user = users[0];
         var opponentName;
         var opponentElo;
@@ -346,9 +348,11 @@ function getRoomUserInfo(room) {
 
 function updateMessagesId(prevId, user) {
     let userRoom = user.getRoom();
-    for (var i = 0; i < userRoom.data.messages.length; i ++) {
-        if (userRoom.data.messages[i].userId === prevId) {
-            userRoom.data.messages[i].userId = user.id;
+    if(userRoom.data.messages) {
+        for (var i = 0; i < userRoom.data.messages.length; i ++) {
+            if (userRoom.data.messages[i].userId === prevId) {
+                userRoom.data.messages[i].userId = user.id;
+            }
         }
     }
     sendMessages(userRoom);

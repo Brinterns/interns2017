@@ -56,24 +56,24 @@
 
 .message h1 {
     font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));
-    margin-top: 0;
-    margin-bottom: 0;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
     margin-left: calc(2px + 0.5 * (1vw + 1vh - 1vmin));
     margin-right: calc(2px + 0.5 * (1vw + 1vh - 1vmin));
-    color: green;
+    color: green !important;
 }
 
 .message h2 {
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-left: calc(4px + 1.3 * (1vw + 1vh - 1vmin));
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    margin-left: calc(4px + 1.3 * (1vw + 1vh - 1vmin)) !important;
     padding-left: calc(1px + 0.5 * (1vw + 1vh - 1vmin));
     padding-right: calc(1px + 0.5 * (1vw + 1vh - 1vmin));
-    background-color: white;
-    border-radius: 1em;
+    background-color: white !important;
+    border-radius: 1em !important;
     font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));
     max-width: calc(15 * (1vw + 1vh - 1vmin));
-    color: black;
+    color: black !important;
 }
 
 .container {

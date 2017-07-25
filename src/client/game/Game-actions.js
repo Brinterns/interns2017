@@ -19,12 +19,19 @@ export const RESET_ROLL_TEXT = namespace + 'RESET_ROLL_TEXT';
 export const OPPONENT_ROLLED_NUMBER = namespace + 'OPPONENT_ROLLED_NUMBER';
 export const RESET_NOTIFICATION_BOOL = namespace + 'RESET_NOTIFICATION_BOOL';
 export const RESET_STORE = namespace + 'RESET_STORE';
+export const UPDATE_MESSAGES = namespace + 'UPDATE_MESSAGES';
 
 export function updateUserGameId(id) {
-    localStorage.setItem('userId', id);
     return {
         type: UPDATE_USER_ID,
         payload: id
+    }
+}
+
+export function updateGameMessages(messages) {
+    return {
+        type: UPDATE_MESSAGES,
+        payload: messages
     }
 }
 

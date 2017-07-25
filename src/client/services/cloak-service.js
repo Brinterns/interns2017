@@ -1,5 +1,5 @@
 import {
-    updateMessages,
+    updateLobbyMessages,
     updateId,
     updateRoomNames,
     updateUsers,
@@ -9,6 +9,7 @@ import {
 
 import {
     updateUserGameId,
+    updateGameMessages,
     updateListOfPlayers,
     updateCurrentPlayer,
     updateCurrentPlayerOnly,
@@ -72,8 +73,8 @@ export function RunCloakConfig() {
             joingame: (roomId) => {
                 browserHistory.push('/game/' + roomId);
             },
-            updatemessages: (messages) => {
-                dispatch(updateMessages(JSON.parse(messages)));
+            updatelobbymessages: (messages) => {
+                dispatch(updateLobbyMessages(JSON.parse(messages)));
             },
             /***********************************************************/
             /*                       Game messages                     */
@@ -81,6 +82,9 @@ export function RunCloakConfig() {
             //Identity Messages
             updateplayers: (userinfo) => {
                 dispatch(updateListOfPlayers(JSON.parse(userinfo)));
+            },
+            updategamemessages: (messages) => {
+                dispatch(updateGameMessages(JSON.parse(messages)));
             },
             currentplayer: (current) => {
                 dispatch(updateCurrentPlayer(current));
@@ -107,7 +111,6 @@ export function RunCloakConfig() {
                 dispatch(gameOver(winnerId));
             },
             gotolobby: () => {
-                console.log("go to lobby");
                 dispatch(resetStore());
                 browserHistory.push('/lobby');
             },
