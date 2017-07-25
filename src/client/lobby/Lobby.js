@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import User from './User';
 import Player from './User/Player';
 import lobbyStyles from './Lobby.css';
-import ChatBox from './Chat/ChatBox';
+import ChatBox from '../Chat/ChatBox';
 import Rules from '../rules/Rules';
 
 import { RunCloakConfig } from '../services/cloak-service';
@@ -132,12 +132,7 @@ export class Lobby extends Component {
                         {gamesDisplayList}
                     </div>
                 </div>
-
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
-
-
-
-
                 <div className={lobbyStyles.readyOptions}>
                     <button className={buttonClass} onClick={this.onClick}>{this.props.ready ? 'Unready' : 'Ready'}</button>
                 </div>

@@ -60,13 +60,15 @@ export default class ChatBox extends Component {
                     }
                     if(messageData.userId === this.props.id) {
                         return(
-                            <div key={i}>
-                                <h3>{messageData.message}</h3>
+                            <div key={i} className={chatStyles.container}>
+                                <div className={chatStyles.message}>
+                                    <h3>{messageData.message}</h3>
+                                </div>
                             </div>
                         );
                     }
                     return(
-                        <div key={i}>
+                        <div className={chatStyles.message} key={i}>
                             <h1>{messageData.userName}: </h1>
                             <h2>{messageData.message}</h2>
                         </div>

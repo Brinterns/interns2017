@@ -1,68 +1,3 @@
-.chatMain {
-    flex-basis: 100%;
-    flex-grow: 1;
-    flex-shrink: 1;
-    height: 40%;
-    background-color: rgba(23, 114, 3, 0.15);
-    border-style: solid;
-    border-color: black;
-    border-top: none;
-    border-width: 0.12em;
-    border-bottom-left-radius: calc(2.5 * (1vw + 1vh - 1vmin));
-    border-bottom-right-radius: calc(2.5 * (1vw + 1vh - 1vmin));
-}
-
-@media (max-width: 1250px) {
-    .chatMain {
-        height: 33.33%;
-    }
-}
-
-.chatMain input {
-    width: 100%;
-    bottom: 0%;
-    height: 15%;
-    font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));
-    background-color: rgba(0, 0, 0, 0.5);
-    padding-left: 2em;
-    border: none;
-    outline: none;
-    color: white;
-    border-bottom-left-radius: calc(2.5 * (1vw + 1vh - 1vmin));
-    border-bottom-right-radius: calc(2.5 * (1vw + 1vh - 1vmin));
-}
-
-.sentMessages {
-    padding-top: 0;
-    padding-bottom: 0;
-    width: 100%;
-    height: 85%;
-    overflow-y : auto;
-}
-
-.messagesDiv {
-    padding-top: 0;
-    padding-bottom: 0;
-    height: calc(2.5 * (1vw + 1vh - 1vmin));
-}
-
-.messagesDiv h1 {
-    display: inline-block;
-    font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));
-    padding-left: 0.2em;
-    color: green;
-}
-
-.messagesDiv h2 {
-    display: inline-block;
-    font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));
-    color: white;
-}
-
-
-
-
-
 .closedChat {
     position: fixed;
     bottom: 0%;
@@ -118,7 +53,8 @@
     word-wrap: break-word
 }
 
-.messages h1 {
+
+.message h1 {
     font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));
     margin-top: 0;
     margin-bottom: 0;
@@ -127,7 +63,7 @@
     color: green;
 }
 
-.messages h2 {
+.message h2 {
     margin-top: 0;
     margin-bottom: 0;
     margin-left: calc(4px + 1.3 * (1vw + 1vh - 1vmin));
@@ -136,12 +72,15 @@
     background-color: white;
     border-radius: 1em;
     font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));
-    width: calc(15 * (1vw + 1vh - 1vmin));
+    max-width: calc(15 * (1vw + 1vh - 1vmin));
     color: black;
 }
 
-.messages h3 {
-    float: right;
+.container {
+    direction: rtl;
+}
+
+.message h3 {
     text-align: right;
     margin-right: calc(4px + 1.3 * (1vw + 1vh - 1vmin));
     padding-right: calc(1px + 0.5 * (1vw + 1vh - 1vmin));
@@ -149,6 +88,6 @@
     background-color: green;
     border-radius: 1em;
     font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));
-    width: calc(15 * (1vw + 1vh - 1vmin));
+    max-width: calc(15 * (1vw + 1vh - 1vmin));
     color: black;
 }
