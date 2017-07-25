@@ -12,6 +12,7 @@ import {
     updateListOfPlayers,
     updateCurrentPlayer,
     updateCurrentPlayerOnly,
+    opponentDisconnect,
     gameOver,
     rolledValue,
     setRoomName,
@@ -99,6 +100,9 @@ export function RunCloakConfig() {
                 dispatch(opponentRolled(value));
             },
             //End game messages
+            opponentdisconnect: () => {
+                dispatch(opponentDisconnect());
+            },
             gameover: (winnerId) => {
                 dispatch(gameOver(winnerId));
             },

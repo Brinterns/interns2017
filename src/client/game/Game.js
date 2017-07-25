@@ -59,7 +59,12 @@ export class Game extends Component {
 
     render() {
         const isPlayerTurn = (this.props.currentPlayer === this.props.id);
-        const gameOverTextChoice = (this.props.winnerId == this.props.id) ? "You Won!" : "You Lost";
+        var gameOverTextChoice;
+        if (this.props.opponentDisconnect) {
+            gameOverTextChoice = "Opponent Disconnected, You Won!";
+        } else {
+            gameOverTextChoice = (this.props.winnerId === this.props.id) ? "You Won!" : "You Lost";
+        }
         const gameOverDiv = (
             <div className={gameStyles.notificationMenu}>
                 <h1>{gameOverTextChoice}</h1>
@@ -120,7 +125,8 @@ const mapStateToProps = state => ({
     roomName: state.game.roomName,
     //Notification states
     notificationBool: state.game.notificationBool,
-    notificationText: state.game.notificationText
+    notificationText: state.game.notificationText,
+    opponentDisconnect: state.game.opponentDisconnect
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -275,6 +275,7 @@ var roomExit = function(arg) {
             }). then(() => {
                 db.update(userData, user.name).then(() => {
                     this.data.winnerId = user.id;
+                    user.message('opponentdisconnect');
                     user.message('gameover', this.data.winnerId);
                 });
             });
