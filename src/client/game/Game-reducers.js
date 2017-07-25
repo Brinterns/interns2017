@@ -1,5 +1,6 @@
 import {
     UPDATE_USER_ID,
+    UPDATE_MESSAGES,
     UPDATE_LIST_OF_PLAYERS,
     UPDATE_CURRENT_PLAYER,
     UPDATE_CURRENT_PLAYER_ONLY,
@@ -27,6 +28,7 @@ const updateState = (currentState, newState) => Object.assign({}, currentState, 
 
 const initialState = {
     roomName: '',
+    messages: [],
     //Identity states
     id: null,
     currentPlayer: null,
@@ -57,6 +59,11 @@ const game = (state = initialState, action) => {
         case SET_ROOM_NAME: {
             return updateState(state, {
                 roomName: action.payload
+            });
+        }
+        case UPDATE_MESSAGES: {
+            return updateState(state, {
+                messages: action.payload
             });
         }
         case UPDATE_LIST_OF_PLAYERS: {

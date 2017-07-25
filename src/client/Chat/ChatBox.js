@@ -69,8 +69,8 @@ export default class ChatBox extends Component {
                     }
                     return(
                         <div className={chatStyles.message} key={i}>
-                            <h1>{messageData.userName}: </h1>
-                            <h2>{messageData.message}</h2>
+                            <h4>{messageData.userName}: </h4>
+                            <h5>{messageData.message}</h5>
                         </div>
                     );
             })

@@ -3,7 +3,6 @@ var {getUsername} = require('./randomnames');
 var db = require('./db');
 var EloRank = require('elo-rank');
 let listOfLobbyUsers = [];
-let messages = [];
 const maxMessages = 1000;
 
 //Game playing variables
@@ -38,7 +37,7 @@ module.exports = function(expressServer) {
             getlobbyinfo: function(_, user) {
                 getRecord(user);
                 getLobbyInfo(user);
-                sendMessages();
+                sendMessages(user.getRoom());
             },
             getroominfo: function(msg, user) {
                 getRoomInfo(user);
@@ -105,10 +104,10 @@ function previousUser(dbId, prevId, user) {
     if (dbId) {
         db.find(dbId).then(function(resp) {
             if (resp) {
-                updateMessagesId(prevId, user.id);
                 user.name = resp.name;
                 cloak.getLobby().addMember(user);
                 user.message('gotolobby');
+                updateMessagesId(prevId, user);
             }
         });
         user.data.dbId = dbId;
@@ -140,9 +139,16 @@ function getRecord(user) {
     }
 }
 
-function sendMessages() {
-    if (messages.length > 0) {
-        cloak.getLobby().messageMembers('updatemessages', JSON.stringify(messages));
+function sendMessages(room) {
+    if (!room.data.messages) {
+        room.data.messages = [];
+    }
+    if (room.data.messages.length > 0) {
+        if (room.isLobby) {
+            room.messageMembers('updatelobbymessages', JSON.stringify(room.data.messages));
+        } else {
+            room.messageMembers('updategamemessages', JSON.stringify(room.data.messages));
+        }
     }
 }
 
@@ -249,7 +255,7 @@ function win(winBool, user) {
 
 var roomExit = function(arg) {
     const users = this.getMembers();
-    if (users.length) {
+    if (users.length === 1) {
         var user = users[0];
         var opponentName;
         var opponentElo;
@@ -292,7 +298,7 @@ var updateLobbyUsers = function(arg) {
     members.forEach(function(user) {
         listOfLobbyUsers.push(user);
     });
-    sendMessages();
+    sendMessages(cloak.getLobby());
     cloak.messageAll('updateusers', getLobbyUserInfo());
 };
 
@@ -340,13 +346,16 @@ function getRoomUserInfo(room) {
     room.messageMembers('updateplayers', JSON.stringify(listOfRoomUsers));
 }
 
-function updateMessagesId(prevId, newId) {
-    for (var i = 0; i < messages.length; i ++) {
-        if (messages[i].userId === prevId) {
-            messages[i].userId = newId;
+function updateMessagesId(prevId, user) {
+    let userRoom = user.getRoom();
+    if(userRoom.data.messages) {
+        for (var i = 0; i < userRoom.data.messages.length; i ++) {
+            if (userRoom.data.messages[i].userId === prevId) {
+                userRoom.data.messages[i].userId = user.id;
+            }
         }
     }
-    sendMessages();
+    sendMessages(userRoom);
 }
 
 function reconnectUser(id, user) {
@@ -357,7 +366,7 @@ function reconnectUser(id, user) {
         user.message('userid', user.id);
         const room = user2.getRoom();
         user.joinRoom(room);
-        updateMessagesId(id, user.id);
+        updateMessagesId(id, user);
         if (room.isLobby) {
             const challenging = user.data.challenging ? true : false;
             user.message('waitchallenge', challenging);
@@ -398,11 +407,15 @@ function sendMessage(message, user) {
         userName: user.name,
         userId: user.id
     };
-    messages.push(messageObj);
-    if (messages.length > maxMessages) {
-        messages.splice(0,1);
+    var userRoom = user.getRoom();
+    if (!userRoom.data.messages) {
+        userRoom.data.messages = [];
     }
-    sendMessages();
+    userRoom.data.messages.push(messageObj);
+    if (userRoom.data.messages.length > maxMessages) {
+        userRoom.data.messages.splice(0,1);
+    }
+    sendMessages(userRoom);
 }
 
 function rollDice(user) {

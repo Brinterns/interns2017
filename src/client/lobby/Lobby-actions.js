@@ -31,7 +31,7 @@ export function updateRoomNames(roomNames) {
     }
 }
 
-export function updateMessages(messages) {
+export function updateLobbyMessages(messages) {
     return {
         type: UPDATE_MESSAGES,
         payload: messages

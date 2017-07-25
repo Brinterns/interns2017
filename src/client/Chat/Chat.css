@@ -50,12 +50,13 @@
 .messages {
     overflow-y: auto;
     height: calc(17 * (1vw + 1vh - 1vmin));
-    word-wrap: break-word
+    word-wrap: break-word;
 }
 
 
-.message h1 {
+.message h4 {
     font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));
+    text-align: left;
     margin-top: 0;
     margin-bottom: 0;
     margin-left: calc(2px + 0.5 * (1vw + 1vh - 1vmin));
@@ -63,7 +64,7 @@
     color: green;
 }
 
-.message h2 {
+.message h5 {
     margin-top: 0;
     margin-bottom: 0;
     margin-left: calc(4px + 1.3 * (1vw + 1vh - 1vmin));
