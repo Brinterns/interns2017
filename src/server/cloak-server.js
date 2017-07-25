@@ -255,7 +255,7 @@ function win(winBool, user) {
 
 var roomExit = function(arg) {
     const users = this.getMembers();
-    if (users.length < 2) {
+    if (users.length === 1) {
         var user = users[0];
         var opponentName;
         var opponentElo;

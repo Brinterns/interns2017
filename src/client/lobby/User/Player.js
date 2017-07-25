@@ -20,9 +20,12 @@ export default class Player extends Component {
         if(e.target.id === "usernameinput") {
             return;
         }
-        this.setState({
-            clicked: false
-        });
+        if (this.refs.inputref) {
+            this.setState({
+                clicked: false
+            });
+        }
+
     }
 
     handleClick() {
@@ -33,7 +36,7 @@ export default class Player extends Component {
     }
 
     handleKeyPress(e) {
-        if(e.key === 'Enter') {
+        if (e.key === 'Enter') {
             this.setState({
                 clicked: false
             });
@@ -50,7 +53,7 @@ export default class Player extends Component {
     render() {
         return (
             <div>
-                {this.state.clicked ? <input id="usernameinput" onKeyPress={this.handleKeyPress} onChange={this.handleChange}value={this.state.input}/> : <h1 onClick={this.handleClick}> {this.props.name} </h1>}
+                {this.state.clicked ? <input ref="inputref" id="usernameinput" onKeyPress={this.handleKeyPress} onChange={this.handleChange}value={this.state.input}/> : <h1 onClick={this.handleClick}> {this.props.name} </h1>}
             </div>
         );
     }

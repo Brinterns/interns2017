@@ -68,7 +68,7 @@ describe('<ChatBox />', () => {
             showChat: true
         });
         const expectedMessage = message1.message;
-        expect(wrapper.find("h2").first().text()).toEqual(expectedMessage);
+        expect(wrapper.find("h5").first().text()).toEqual(expectedMessage);
     });
 
     it('Message username is displayed correctly', () => {
@@ -78,7 +78,7 @@ describe('<ChatBox />', () => {
             showChat: true
         });
         const expectedMessage = message1.userName + ": ";
-        expect(wrapper.find("h1").first().text()).toEqual(expectedMessage);
+        expect(wrapper.find("h4").first().text()).toEqual(expectedMessage);
     });
 
     it('Message by player is displayed correctly', () => {
