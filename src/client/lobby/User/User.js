@@ -20,7 +20,7 @@ export default class User extends Component {
         return (
             <div className={userStyles.user}>
                 <h1> {this.props.user.name} </h1>
-                <h2> Rank: {this.props.user.elorank} </h2>
+                <h2> Rating: {this.props.user.elorank} </h2>
                 <h2> W: {this.props.user.winLossRecord.wins} L: {this.props.user.winLossRecord.loses} </h2>
                 <div className = {userStyles.challengeButton}>
                     <button className={buttonClassname} onClick={this.onClick}>Challenge</button>

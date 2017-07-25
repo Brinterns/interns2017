@@ -76,73 +76,81 @@
 }
 
 .container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    background-color: yellow;
     position: absolute;
-    top: 60%;
+    top: 58.5%;
     left: 50%;
     margin: 0;
     width: 90%;
-    height: 70%;
+    height: 68%;
     transform: translate(-50%, -50%);
 }
 
-.userList {
-    flex-basis: 750px;
-    flex-grow: 1;
-    flex-shrink: 1;
-    height: 60%;
+.list {
+    display: inline-block;
+    height: 100%;
+    width: 50%;
     background-color: rgba(23, 114, 3, 0.15);
     overflow-y : auto;
     border-style: solid;
     border-color: black;
     border-width: 0.12em;
-    border-top-left-radius: calc(2.5 * (1vw + 1vh - 1vmin));
 }
 
-@media (max-width: 1250px) {
-    .userList {
-        height: 33.33%;
-        border-top-right-radius: calc(2.5 * (1vw + 1vh - 1vmin));
-    }
-}
-
-.userList h1 {
+.list h1 {
+    color: black;
     text-align: center;
-    margin-left: 1em;
     font-size: calc(12px + 1.75 * (1vw + 1vh - 1vmin));
 }
 
-.userList h2 {
+.list h2 {
+    color: black;
     text-align: center;
-    margin-left: 1em;
 }
 
-.gameList {
-    flex-basis: 375px;
-    flex-grow: 1;
-    flex-shrink: 1;
-    height: 60%;
-    background-color: rgba(23, 114, 3, 0.15);
+ .tabList {
+     padding: 0;
+     margin: 0;
+     width: 100%;
+     height: 10%;
+     border-style: solid;
+     border-bottom-style: none;
+     border-color: black;
+     text-align: center;
+     vertical-align: middle;
+ }
+
+ .tab {
+     display: inline-block;
+     margin: 0;
+     height: 100%;
+     width: 50%;
+     border-style: solid;
+     border-color: black;
+ }
+
+.tabPanel {
+    height: 90%;
+    width: 100%;
+    background-color: white;
     overflow-y : auto;
     border-style: solid;
     border-color: black;
-    border-left-style: none;
     border-width: 0.12em;
-    border-top-right-radius: calc(2.5 * (1vw + 1vh - 1vmin));
 }
 
-@media (max-width: 1250px) {
-    .gameList {
-        height: 33.33%;
-        border-top-style: none;
-        border-left-style: solid;
-        border-top-right-radius: 0;
-    }
+.gameTabPanel {
+    background-color: white;
+    overflow-y : auto;
+    text-align: center;
 }
 
-.gameList h1 {
+.gameTabPanel h1 {
+    color: black;
+    font-size: calc(5px + 1.5 * (1vw + 1vh - 1vmin));
+}
+
+/* .gameList h1 {
     text-align: center;
     margin-left: 1em;
     margin-bottom: 1em;
@@ -154,22 +162,26 @@
     font-size: calc(5px + 1.5 * (1vw + 1vh - 1vmin));
     margin-left: 1em;
     margin-top: 0.5em;
-}
+} */
 
 
 .user {
     margin-top: 2.0em;
     margin-bottom: 2.0em;
+    margin-left: 1em;
+    margin-right: 1em;
     border-bottom: dashed;
     display: block;
 }
 
 .user h1 {
+    color: black;
     display: inline;
     font-size: calc(5px + 1.5 * (1vw + 1vh - 1vmin));
 }
 
 .user h2 {
+    color: black;
     display: inline;
     font-size: calc(3px + (1vw + 1vh - 1vmin));
 }
