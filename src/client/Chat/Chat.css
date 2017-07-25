@@ -89,6 +89,6 @@
     background-color: green;
     border-radius: 1em;
     font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));
-    max-width: calc(15 * (1vw + 1vh - 1vmin)) !important;
+    max-width: calc(15 * (1vw + 1vh - 1vmin));
     color: black;
 }
