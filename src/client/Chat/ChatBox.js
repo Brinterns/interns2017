@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import chatStyles from './Chat.css';
+import send from '../images/icons/send.png';
 
 export default class ChatBox extends Component {
     constructor(props) {
@@ -11,7 +12,6 @@ export default class ChatBox extends Component {
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.scrollToBottom = this.scrollToBottom.bind(this);
-
         this.handleClick = this.handleClick.bind(this);
     }
     handleKeyPress(e) {
@@ -83,13 +83,17 @@ export default class ChatBox extends Component {
 
         const openChatDiv = (
             <div className={chatStyles.openChat}>
+
                 <div onClick={this.handleClick} className={chatStyles.openChatTop}>
                     <p>Chat </p>
                 </div>
                 <div id="messagediv" className={chatStyles.messages}>
                     {messageDisplay}
                 </div>
-                <input type="text" onKeyPress={this.handleKeyPress} value={this.state.input} onChange={this.handleChange}/>
+                <div className={chatStyles.openChatBottom}>
+                    <input type="text" placeholder="Type your message..." onKeyPress={this.handleKeyPress} value={this.state.input} onChange={this.handleChange}/>
+                    <img src={send} />
+                </div>
             </div>
         );
         const divToDisplay = this.state.showChat ? openChatDiv : closedChatDiv;
