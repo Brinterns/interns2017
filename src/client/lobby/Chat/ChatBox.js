@@ -40,8 +40,8 @@ export default class ChatBox extends Component {
             messageData.map((messageData, i) => {
                 return (
                     <div key={i} className={chatStyles.messagesDiv}>
-                        <h1>{messageData.userName}: </h1>
-                        <h2>&nbsp;&nbsp;{messageData.message}</h2>
+                        <h1> {messageData.userName}: </h1>
+                        <h2> &nbsp;&nbsp;{messageData.message} </h2>
                     </div>
                 )
             })

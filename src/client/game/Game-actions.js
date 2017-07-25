@@ -3,6 +3,7 @@ export const UPDATE_USER_ID = namespace + 'UPDATE_USER_ID';
 export const UPDATE_LIST_OF_PLAYERS = namespace + 'UPDATE_LIST_OF_PLAYERS';
 export const UPDATE_CURRENT_PLAYER = namespace + 'UPDATE_CURRENT_PLAYER';
 export const UPDATE_CURRENT_PLAYER_ONLY = namespace + 'UPDATE_CURRENT_PLAYER_ONLY';
+export const OPPONENT_DISCONNECT = namespace + 'OPPONENT_DISCONNECT';
 export const GAME_OVER = namespace + 'GAME_OVER';
 export const TOGGLE_FORFEIT = namespace + 'TOGGLE_FORFEIT';
 export const ROLLED_NUMBER = namespace + 'ROLLED_NUMBER';
@@ -84,6 +85,12 @@ export function updateCurrentPlayerOnly(current) {
     return {
         type: UPDATE_CURRENT_PLAYER_ONLY,
         payload: current
+    }
+}
+
+export function opponentDisconnect() {
+    return {
+        type: OPPONENT_DISCONNECT
     }
 }
 

@@ -88,7 +88,8 @@ module.exports = function(expressServer) {
             memberLeaves: updateLobbyUsers
         },
         room: {
-            close: updateLobbyActiveGames
+            close: updateLobbyActiveGames,
+            memberLeaves: roomExit
         },
     });
     cloak.run();
@@ -102,7 +103,7 @@ function getOpponent(user) {
 
 function previousUser(dbId, user) {
     if (dbId) {
-        db.findName(dbId).then(function(resp) {
+        db.find(dbId).then(function(resp) {
             if (resp) {
                 user.name = resp.name;
                 cloak.getLobby().addMember(user);
@@ -151,29 +152,31 @@ function getLobbyInfo(user) {
 
 function getRoomInfo(user) {
     const room = user.getRoom();
-    if (!room.data.currentPlayer) {
-        room.data.currentPlayer = room.getMembers()[1].id;
-    }
-    const opponent = getOpponent(user);
+    if (room) {
+        if (!room.data.currentPlayer) {
+            room.data.currentPlayer = room.getMembers()[1].id;
+        }
+        const opponent = getOpponent(user);
 
-    var gameStateJson = {
-        id: user.id,
-        roomName: room.name,
-        squares: user.data.squares,
-        piecePositions: user.data.piecePositions,
-        opponentSquares: reverseSquares(opponent.data.piecePositions),
-        finishedPieces: user.data.numPiecesFinished,
-        finishedOppPieces: opponent.data.numPiecesFinished,
-        winnerId: room.data.winnerId
+        var gameStateJson = {
+            id: user.id,
+            roomName: room.name,
+            squares: user.data.squares,
+            piecePositions: user.data.piecePositions,
+            opponentSquares: reverseSquares(opponent.data.piecePositions),
+            finishedPieces: user.data.numPiecesFinished,
+            finishedOppPieces: opponent.data.numPiecesFinished,
+            winnerId: room.data.winnerId
 
-    };
-    user.message('gamestate', JSON.stringify(gameStateJson));
-    user.message('currentplayer', room.data.currentPlayer);
-    if (user.data.lastRoll) {
-        user.message('rolledvalue', user.data.lastRoll);
-        checkMoves(user, user.data.lastRoll, opponent.data.squares);
+        };
+        user.message('gamestate', JSON.stringify(gameStateJson));
+        user.message('currentplayer', room.data.currentPlayer);
+        if (user.data.lastRoll) {
+            user.message('rolledvalue', user.data.lastRoll);
+            checkMoves(user, user.data.lastRoll, opponent.data.squares);
+        }
+        getRoomUserInfo(room);
     }
-    getRoomUserInfo(room);
 }
 
 function challengePlayer(id, user) {
@@ -202,6 +205,8 @@ function challengeRespond(accept, user) {
         cloak.messageAll('updateusers', getLobbyUserInfo());
         return;
     } else {
+        user.data.opponentDbId = user2.data.dbId;
+        user2.data.opponentDbId = user.data.dbId;
         let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
         userJoinRoom(user2, createdRoom);
         userJoinRoom(user, createdRoom);
@@ -219,6 +224,8 @@ function calculateNewElo(playerRank, opponentRank, won) {
 function win(winBool, user) {
     var userRoom = user.getRoom();
     var user2 = getOpponent(user);
+    user.data.opponentDbId = null;
+    user2.data.opponentDbId = null;
 
     if (winBool) {
         userRoom.messageMembers('gameover', user.id);
@@ -238,6 +245,44 @@ function win(winBool, user) {
     db.update(user.data, user.name);
     db.update(user2.data, user2.name);
 }
+
+var roomExit = function(arg) {
+    const users = this.getMembers();
+    if (users.length) {
+        var user = users[0];
+        var opponentName;
+        var opponentElo;
+        var opponentData;
+        var userData;
+        db.find(user.data.opponentDbId).then(resp => {
+            opponentName = resp.name;
+            opponentElo = resp.elorank;
+            opponentData = {
+                dbId: user.data.opponentDbId,
+                winLossRecord: {wins: resp.wins, loses: resp.loses + 1},
+                elorank: calculateNewElo(opponentElo, user.data.elorank, 0)
+            }
+        }).then(() => {
+            db.update(opponentData, opponentName).then(() => {
+                user.data.opponentDbId = null;
+                user.data.winLossRecord.wins++;
+                user.data.elorank = calculateNewElo(user.data.elorank, opponentElo, 1);
+                userData = {
+                    dbId: user.data.dbId,
+                    winLossRecord: user.data.winLossRecord,
+                    elorank: user.data.elorank
+                }
+            }). then(() => {
+                db.update(userData, user.name).then(() => {
+                    this.data.winnerId = user.id;
+                    user.message('opponentdisconnect');
+                    user.message('gameover', this.data.winnerId);
+                });
+            });
+        });
+    }
+}
+
 //whenever a username is changed/a player joins the lobby
 ///a player leaves the lobby the list of users is updated
 var updateLobbyUsers = function(arg) {
@@ -330,6 +375,8 @@ function reconnectUser(id, user) {
             })[0].message('currentplayeronly', room.data.currentPlayer);
         }
         user2.delete();
+    } else {
+        user.message('gotologin');
     }
 }
 

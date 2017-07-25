@@ -3,6 +3,7 @@ import {
     UPDATE_LIST_OF_PLAYERS,
     UPDATE_CURRENT_PLAYER,
     UPDATE_CURRENT_PLAYER_ONLY,
+    OPPONENT_DISCONNECT,
     GAME_OVER,
     TOGGLE_FORFEIT,
     ROLLED_NUMBER,
@@ -47,7 +48,8 @@ const initialState = {
     numOppPiecesFinished: 0,
     //Notification states
     notificationBool: false,
-    notificationText: null
+    notificationText: null,
+    opponentDisconnect: false
 };
 
 const game = (state = initialState, action) => {
@@ -76,6 +78,11 @@ const game = (state = initialState, action) => {
         case UPDATE_CURRENT_PLAYER_ONLY: {
             return updateState(state, {
                 currentPlayer: action.payload
+            });
+        }
+        case OPPONENT_DISCONNECT: {
+            return updateState(state, {
+                opponentDisconnect: true
             });
         }
         case GAME_OVER: {

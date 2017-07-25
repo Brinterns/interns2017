@@ -118,7 +118,7 @@ export class Lobby extends Component {
             <div className={lobbyStyles.lobbyMain}>
                 <div className={lobbyStyles.userStats}>
                     <Player name={name} />
-                    {this.props.elorank ? <h2> Rank: {this.props.elorank} </h2>: null}
+                    {this.props.elorank ? <h2> ELO Rating: {this.props.elorank} </h2>: null}
                     {this.props.winLossRecord ? <h2> Wins: {this.props.winLossRecord.wins} Loses: {this.props.winLossRecord.loses} </h2>: null}
                 </div>
                 <button className={lobbyStyles.rules} onClick={this.handleToggleRules}> Rules </button>
