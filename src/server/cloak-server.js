@@ -29,8 +29,8 @@ module.exports = function(expressServer) {
         pruneEmptyRooms: 1000,
         defaultRoomSize: 2,
         messages: {
-            previoususer: function(dbId, user) {
-                previousUser(dbId, user);
+            previoususer: function(idsIn, user) {
+                previousUser(idsIn[0],idsIn[1], user);
             },
             setusername: function(name, user) {
                 setUsername(name, user);
@@ -101,10 +101,11 @@ function getOpponent(user) {
     })[0];
 }
 
-function previousUser(dbId, user) {
+function previousUser(dbId, prevId, user) {
     if (dbId) {
         db.find(dbId).then(function(resp) {
             if (resp) {
+                updateMessagesId(prevId, user.id);
                 user.name = resp.name;
                 cloak.getLobby().addMember(user);
                 user.message('gotolobby');
@@ -339,6 +340,15 @@ function getRoomUserInfo(room) {
     room.messageMembers('updateplayers', JSON.stringify(listOfRoomUsers));
 }
 
+function updateMessagesId(prevId, newId) {
+    for (var i = 0; i < messages.length; i ++) {
+        if (messages[i].userId === prevId) {
+            messages[i].userId = newId;
+        }
+    }
+    sendMessages();
+}
+
 function reconnectUser(id, user) {
     var user2 = cloak.getUser(id);
     if (user2) {
@@ -347,6 +357,7 @@ function reconnectUser(id, user) {
         user.message('userid', user.id);
         const room = user2.getRoom();
         user.joinRoom(room);
+        updateMessagesId(id, user.id);
         if (room.isLobby) {
             const challenging = user.data.challenging ? true : false;
             user.message('waitchallenge', challenging);
@@ -359,6 +370,7 @@ function reconnectUser(id, user) {
                 var opponent = cloak.getUser(user.data.challenger);
                 opponent.data.challenging = user.id;
             }
+            user.message('gotolobby');
         } else {
             if (!user.data.rolledDice) {
                 user.data.lastRoll = null;

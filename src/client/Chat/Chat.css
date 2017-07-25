@@ -1,0 +1,93 @@
+.closedChat {
+    position: fixed;
+    bottom: 0%;
+    right: 0%;
+    background: #4286f4;
+    height: calc(3 * (1vw + 1vh - 1vmin));
+    width: calc(25 * (1vw + 1vh - 1vmin));
+    font-size: calc(2.0 * (1vw + 1vh - 1vmin));
+    color: black;
+}
+
+.closedChat:hover {
+    cursor: pointer;
+}
+
+.closedChat p {
+    margin-left: calc(1.0 * (1vw + 1vh - 1vmin));
+}
+
+
+.openChat {
+    position: fixed;
+    bottom: 0%;
+    right: 0%;
+    background: #E3DCD1;
+    height: calc(25 * (1vw + 1vh - 1vmin));
+    width: calc(25 * (1vw + 1vh - 1vmin));
+    font-size: calc(2.0 * (1vw + 1vh - 1vmin));
+    color: black;
+}
+
+.openChatTop {
+    top: 0%;
+    background: #4286f4;
+}
+
+.openChatTop:hover {
+    cursor: pointer;
+}
+.openChatTop p {
+    margin-left: calc(1.0 * (1vw + 1vh - 1vmin));
+}
+
+.openChat input {
+    position: absolute;
+    bottom: 0%;
+    width: calc(25 * (1vw + 1vh - 1vmin));
+}
+
+.messages {
+    overflow-y: auto;
+    height: calc(17 * (1vw + 1vh - 1vmin));
+    word-wrap: break-word
+}
+
+
+.message h1 {
+    font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: calc(2px + 0.5 * (1vw + 1vh - 1vmin));
+    margin-right: calc(2px + 0.5 * (1vw + 1vh - 1vmin));
+    color: green;
+}
+
+.message h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: calc(4px + 1.3 * (1vw + 1vh - 1vmin));
+    padding-left: calc(1px + 0.5 * (1vw + 1vh - 1vmin));
+    padding-right: calc(1px + 0.5 * (1vw + 1vh - 1vmin));
+    background-color: white;
+    border-radius: 1em;
+    font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));
+    max-width: calc(15 * (1vw + 1vh - 1vmin));
+    color: black;
+}
+
+.container {
+    direction: rtl;
+}
+
+.message h3 {
+    text-align: right;
+    margin-right: calc(4px + 1.3 * (1vw + 1vh - 1vmin));
+    padding-right: calc(1px + 0.5 * (1vw + 1vh - 1vmin));
+    padding-left: calc(1px + 0.5 * (1vw + 1vh - 1vmin));
+    background-color: green;
+    border-radius: 1em;
+    font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));
+    max-width: calc(15 * (1vw + 1vh - 1vmin));
+    color: black;
+}
