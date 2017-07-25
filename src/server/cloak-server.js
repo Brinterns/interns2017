@@ -370,6 +370,7 @@ function reconnectUser(id, user) {
                 var opponent = cloak.getUser(user.data.challenger);
                 opponent.data.challenging = user.id;
             }
+            user.message('gotolobby');
         } else {
             if (!user.data.rolledDice) {
                 user.data.lastRoll = null;
