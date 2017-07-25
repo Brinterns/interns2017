@@ -1,6 +1,9 @@
 var cloak = require('cloak');
-var {getUsername} = require('./randomnames');
-var db = require('./db');
+var db = require('../db');
+var lobbyFunctions = require('./cloak-server-lobby');
+var loginFunctions = require('./cloak-server-login');
+var sharedFunctions = require('./cloak-server-shared');
+var challengeFunctions = require('./cloak-server-challenge');
 var EloRank = require('elo-rank');
 let listOfLobbyUsers = [];
 const maxMessages = 1000;
@@ -29,31 +32,31 @@ module.exports = function(expressServer) {
         defaultRoomSize: 2,
         messages: {
             previoususer: function(idsIn, user) {
-                previousUser(idsIn[0],idsIn[1], user);
+                sharedFunctions.previousUser(idsIn[0],idsIn[1], user);
             },
             setusername: function(name, user) {
-                setUsername(name, user);
+                loginFunctions.setUsername(name, user);
             },
             getlobbyinfo: function(_, user) {
                 getRecord(user);
-                getLobbyInfo(user);
-                sendMessages(user.getRoom());
+                lobbyFunctions.getLobbyInfo(user);
+                sharedFunctions.sendMessages(user.getRoom());
             },
             getroominfo: function(msg, user) {
                 getRoomInfo(user);
             },
             userready: function(_, user) {
                 user.data.ready = !user.data.ready;
-                cloak.messageAll('updateusers', getLobbyUserInfo());
+                cloak.messageAll('updateusers', lobbyFunctions.getLobbyUserInfo());
             },
             challengeplayer: function(id, user) {
-                challengePlayer(id, user);
+                challengeFunctions.challengePlayer(id, user);
             },
             cancelchallenge: function(_, user) {
-                cancelChallenge(user);
+                challengeFunctions.cancelChallenge(user);
             },
             challengerespond: function(accept, user) {
-                challengeRespond(accept, user);
+                challengeFunctions.challengeRespond(accept, user);
             },
             leavegame: function(msg, user) {
                 cloak.getLobby().addMember(user);
@@ -63,10 +66,10 @@ module.exports = function(expressServer) {
                 win(winBool, user);
             },
             reconnectuser: function(id, user) {
-                reconnectUser(id, user);
+                sharedFunctions.reconnectUser(id, user);
             },
             sendmessage: function(message, user) {
-                sendMessage(message, user);
+                sharedFunctions.sendMessage(message, user);
             },
             rolldice: function(_, user) {
                 user.data.rolledDice = true;
@@ -83,11 +86,11 @@ module.exports = function(expressServer) {
             }
         },
         lobby: {
-            newMember: updateLobbyUsers,
-            memberLeaves: updateLobbyUsers
+            newMember: lobbyFunctions.updateLobbyUsers,
+            memberLeaves: lobbyFunctions.updateLobbyUsers
         },
         room: {
-            close: updateLobbyActiveGames,
+            close: lobbyFunctions.updateLobbyActiveGames,
             memberLeaves: roomExit
         },
     });
@@ -100,33 +103,8 @@ function getOpponent(user) {
     })[0];
 }
 
-function previousUser(dbId, prevId, user) {
-    if (dbId) {
-        db.find(dbId).then(function(resp) {
-            if (resp) {
-                user.name = resp.name;
-                cloak.getLobby().addMember(user);
-                user.message('gotolobby');
-                updateMessagesId(prevId, user);
-            }
-        });
-        user.data.dbId = dbId;
-    } else {
-        user.data.dbId = user.id;
-    }
-}
 
-function setUsername(name, user) {
-    user.name = (name === "") ? getUsername(getRandomIntInclusive(0,199)) : name;
-    db.find(user.data.dbId).then(function(resp) {
-        if (resp) {
-            db.update(user.data, user.name);
-        } else {
-            db.add(user.data.dbId, user.name);
-        }
-    });
-    cloak.getLobby().addMember(user);
-}
+
 
 function getRecord(user) {
     if (user.data.dbId) {
@@ -134,28 +112,13 @@ function getRecord(user) {
             user.data.winLossRecord.wins = resp.wins;
             user.data.winLossRecord.loses = resp.loses;
             user.data.elorank = resp.elorank;
-            cloak.messageAll('updateusers', getLobbyUserInfo());
+            cloak.messageAll('updateusers', lobbyFunctions.getLobbyUserInfo());
         });
     }
 }
 
-function sendMessages(room) {
-    if (!room.data.messages) {
-        room.data.messages = [];
-    }
-    if (room.data.messages.length > 0) {
-        if (room.isLobby) {
-            room.messageMembers('updatelobbymessages', JSON.stringify(room.data.messages));
-        } else {
-            room.messageMembers('updategamemessages', JSON.stringify(room.data.messages));
-        }
-    }
-}
 
-function getLobbyInfo(user) {
-    user.message('userid', user.id);
-    user.message('updateusers', getLobbyUserInfo());
-};
+
 
 function getRoomInfo(user) {
     const room = user.getRoom();
@@ -186,41 +149,7 @@ function getRoomInfo(user) {
     }
 }
 
-function challengePlayer(id, user) {
-    var user2 = cloak.getUser(id);
-    if (!user.data.challenging && !user.data.challenger && !user2.data.challenging && !user2.data.challenger) {
-        user.data.challenging = user2.id;
-        user2.data.challenger = user.id;
-        user.message('waitchallenge', true);
-        user2.message('showchallenge', user2.data.challenger);
-    }
-    cloak.messageAll('updateusers', getLobbyUserInfo());
-}
 
-function cancelChallenge(user) {
-    challengeRespond(false, cloak.getUser(user.data.challenging));
-}
-
-function challengeRespond(accept, user) {
-    const challenger = user.data.challenger;
-    var user2 = cloak.getUser(challenger);
-    user.data.challenger = null;
-    user2.data.challenging = null;
-    user.message('showchallenge', user.data.challenger);
-    user2.message('waitchallenge', false);
-    if (!accept) {
-        cloak.messageAll('updateusers', getLobbyUserInfo());
-        return;
-    } else {
-        user.data.opponentDbId = user2.data.dbId;
-        user2.data.opponentDbId = user.data.dbId;
-        let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
-        userJoinRoom(user2, createdRoom);
-        userJoinRoom(user, createdRoom);
-        createdRoom.messageMembers('joingame', createdRoom.id);
-        updateLobbyActiveGames();
-    }
-}
 
 function calculateNewElo(playerRank, opponentRank, won) {
     var elo = new EloRank(40);
@@ -290,49 +219,6 @@ var roomExit = function(arg) {
     }
 }
 
-//whenever a username is changed/a player joins the lobby
-///a player leaves the lobby the list of users is updated
-var updateLobbyUsers = function(arg) {
-    listOfLobbyUsers = [];
-    var members = this.getMembers();
-    members.forEach(function(user) {
-        listOfLobbyUsers.push(user);
-    });
-    sendMessages(cloak.getLobby());
-    cloak.messageAll('updateusers', getLobbyUserInfo());
-};
-
-//all clients are updated with the list of usernames currently in the lobby
-function getLobbyUserInfo() {
-    let listOfUserInfo = [];
-    listOfLobbyUsers.forEach(function(user) {
-        if (!user.data.winLossRecord) {
-            user.data.winLossRecord = {wins: 0, loses: 0};
-            user.data.elorank = 1200;
-        }
-        var userJson = {
-            id: user.id,
-            name: user.name,
-            ready: user.data.ready,
-            inChallenge: user.data.challenger || user.data.challenging,
-            winLossRecord: user.data.winLossRecord,
-            elorank: user.data.elorank
-        };
-        listOfUserInfo.push(userJson);
-    });
-    updateLobbyActiveGames();
-    return JSON.stringify(listOfUserInfo);
-}
-//updates lobby users with active game names
-function updateLobbyActiveGames() {
-    let activeGameNames = [];
-    cloak.getRooms().forEach(function(room) {
-        if(room.members.length > 0) {
-            activeGameNames.push(room.name);
-        }
-    });
-    cloak.getLobby().messageMembers('updaterooms', activeGameNames);
-}
 //returns the ids and names of users in a room
 function getRoomUserInfo(room) {
     let listOfRoomUsers = [];
@@ -346,82 +232,12 @@ function getRoomUserInfo(room) {
     room.messageMembers('updateplayers', JSON.stringify(listOfRoomUsers));
 }
 
-function updateMessagesId(prevId, user) {
-    let userRoom = user.getRoom();
-    if(userRoom.data.messages) {
-        for (var i = 0; i < userRoom.data.messages.length; i ++) {
-            if (userRoom.data.messages[i].userId === prevId) {
-                userRoom.data.messages[i].userId = user.id;
-            }
-        }
-    }
-    sendMessages(userRoom);
-}
 
-function reconnectUser(id, user) {
-    var user2 = cloak.getUser(id);
-    if (user2) {
-        user.name = user2.name;
-        user.data = user2.data;
-        user.message('userid', user.id);
-        const room = user2.getRoom();
-        user.joinRoom(room);
-        updateMessagesId(id, user);
-        if (room.isLobby) {
-            const challenging = user.data.challenging ? true : false;
-            user.message('waitchallenge', challenging);
-            user.message('showchallenge', user.data.challenger);
-            if (user.data.challenging) {
-                var opponent = cloak.getUser(user.data.challenging);
-                opponent.data.challenger = user.id;
-                opponent.message('showchallenge', opponent.data.challenger);
-            } else if (user.data.challenger) {
-                var opponent = cloak.getUser(user.data.challenger);
-                opponent.data.challenging = user.id;
-            }
-            user.message('gotolobby');
-        } else {
-            if (!user.data.rolledDice) {
-                user.data.lastRoll = null;
-            }
-            if (user2.id === room.data.currentPlayer) {
-                room.data.currentPlayer = user.id;
-            }
-            if (user2.id === room.data.winnerId) {
-                room.data.winnerId = user.id;
-            }
-            user.message('currentplayer', room.data.currentPlayer);
-            room.getMembers().filter(member => {
-                return (member.id !== user.id) && (member.id !== user2.id);
-            })[0].message('currentplayeronly', room.data.currentPlayer);
-        }
-        user2.delete();
-    } else {
-        user.message('gotologin');
-    }
-}
-
-function sendMessage(message, user) {
-    var messageObj = {
-        message: message,
-        userName: user.name,
-        userId: user.id
-    };
-    var userRoom = user.getRoom();
-    if (!userRoom.data.messages) {
-        userRoom.data.messages = [];
-    }
-    userRoom.data.messages.push(messageObj);
-    if (userRoom.data.messages.length > maxMessages) {
-        userRoom.data.messages.splice(0,1);
-    }
-    sendMessages(userRoom);
-}
 
 function rollDice(user) {
     var total = 0;
     for (var i = 0; i < 4; i ++) {
-        total += getRandomIntInclusive(0,1);
+        total += sharedFunctions.getRandomIntInclusive(0,1);
     }
     user.message('rolledvalue', total);
     getOpponent(user).message('opponentroll', total);
@@ -434,21 +250,6 @@ function endTurn(user) {
     const room = user.getRoom();
     room.data.currentPlayer = getOpponent(user).id;
     room.messageMembers('currentplayer', room.data.currentPlayer);
-}
-
-function userJoinRoom(user, room) {
-    room.addMember(user);
-    user.data.ready = false;
-    user.data.squares = Array(24).fill(false);
-    user.data.piecePositions = Array(numberOfPieces).fill(0);
-    user.data.numPiecesFinished = 0;
-    user.data.lastRoll = null;
-}
-//Game Functions
-function getRandomIntInclusive(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
 }
 
 function checkMoves(user, rollNumber, opponentSquares) {
