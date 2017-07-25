@@ -107,6 +107,7 @@ export function RunCloakConfig() {
                 dispatch(gameOver(winnerId));
             },
             gotolobby: () => {
+                console.log("go to lobby");
                 dispatch(resetStore());
                 browserHistory.push('/lobby');
             },
