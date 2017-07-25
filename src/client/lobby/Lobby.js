@@ -135,8 +135,12 @@ export class Lobby extends Component {
                 </div> */}
                 <Tabs className={lobbyStyles.container} selectedTabPanelClassName={lobbyStyles.tabPanel} >
                     <TabList className={lobbyStyles.tabList}>
-                        <Tab className={lobbyStyles.tab}> Lobby </Tab>
-                        <Tab className={lobbyStyles.tab}> Active Games </Tab>
+                        <Tab className={lobbyStyles.tab}>
+                            <h1> Lobby </h1>
+                        </Tab>
+                        <Tab className={lobbyStyles.tab}>
+                            <h1> Active Games </h1>
+                        </Tab>
                     </TabList>
                     <TabPanel>
                         {userDisplayList}
