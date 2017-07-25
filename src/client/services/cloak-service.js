@@ -12,6 +12,7 @@ import {
     updateListOfPlayers,
     updateCurrentPlayer,
     updateCurrentPlayerOnly,
+    opponentDisconnect,
     gameOver,
     rolledValue,
     setRoomName,
@@ -36,11 +37,8 @@ import { browserHistory } from 'react-router';
 export function RunCloakConfig() {
     cloak.configure({
         messages: {
-            /***********************************************************/
-            /*                       Login messages                    */
-            /***********************************************************/
-            gotolobby: () => {
-                browserHistory.push("/lobby");
+            gotologin: () => {
+                browserHistory.push("/login");
             },
             /***********************************************************/
             /*                       Lobby messages                    */
@@ -102,6 +100,9 @@ export function RunCloakConfig() {
                 dispatch(opponentRolled(value));
             },
             //End game messages
+            opponentdisconnect: () => {
+                dispatch(opponentDisconnect());
+            },
             gameover: (winnerId) => {
                 dispatch(gameOver(winnerId));
             },

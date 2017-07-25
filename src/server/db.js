@@ -56,23 +56,6 @@ module.exports.find = function(id, name) {
     });
 }
 
-module.exports.findName = function(id) {
-    return new Promise(function(resolve, reject) {
-        client.collection('users').findOne({
-            cloakid: id
-        }, function(err, user) {
-            if (err) {
-                reject({
-                    code: 500,
-                    msg: err
-                });
-            } else {
-                resolve(user);
-            }
-        });
-    });
-}
-
 module.exports.update = function(userData, name) {
     return new Promise(function(resolve, reject) {
         client.collection('users').update({
