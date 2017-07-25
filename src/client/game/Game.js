@@ -67,7 +67,7 @@ export class Game extends Component {
         }
         const gameOverDiv = (
             <div className={gameStyles.notificationMenu}>
-                <h1>{gameOverTextChoice}</h1>
+                <h1> {gameOverTextChoice} </h1>
                 <button className={gameStyles.returnButton} onClick={this.returnToLobby}> Return To Lobby </button>
             </div>
         );
