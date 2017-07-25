@@ -39,9 +39,6 @@ export function RunCloakConfig() {
             gotologin: () => {
                 browserHistory.push("/login");
             },
-            gotolobby: () => {
-                browserHistory.push("/lobby");
-            },
             /***********************************************************/
             /*                       Lobby messages                    */
             /***********************************************************/
