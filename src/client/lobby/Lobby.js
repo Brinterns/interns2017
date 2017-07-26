@@ -87,7 +87,7 @@ export class Lobby extends Component {
         );
         const gamesDisplayList = (
             this.props.listOfActiveGames.map((gameName, i) => {
-                return <h1 key={i}>{gameName}</h1>;
+                return <div key={i} className={lobbyStyles.game}><h1>{gameName}</h1></div>;
             })
         );
         const buttonClass = this.props.ready ? lobbyStyles.unready : null;
@@ -133,10 +133,12 @@ export class Lobby extends Component {
                         {gamesDisplayList}
                     </div>
                 </div> */}
-                <Tabs className={lobbyStyles.container} selectedTabPanelClassName={lobbyStyles.tabPanel} >
+                <Tabs className={lobbyStyles.container} selectedTabClassName={lobbyStyles.selectedTab} selectedTabPanelClassName={lobbyStyles.tabPanel}>
                     <TabList className={lobbyStyles.tabList}>
                         <Tab className={lobbyStyles.tab}>
-                            <h1> Lobby </h1>
+                            <div>
+                                <h1> Lobby </h1>
+                            </div>
                         </Tab>
                         <Tab className={lobbyStyles.tab}>
                             <h1> Active Games </h1>
