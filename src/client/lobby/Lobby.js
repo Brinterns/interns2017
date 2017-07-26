@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import User from './User';
 import Player from './User/Player';
 import lobbyStyles from './Lobby.css';
@@ -12,14 +13,31 @@ export class Lobby extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            screenWidth: 0,
             rules: false
         };
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.onClick = this.onClick.bind(this);
         this.challengeUser = this.challengeUser.bind(this);
         this.cancelChallenge = this.cancelChallenge.bind(this);
         this.challengeRespond = this.challengeRespond.bind(this);
         this.handleToggleRules = this.handleToggleRules.bind(this);
         {this.getLobbyInfo()};
+    }
+
+    componentDidMount() {
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateWindowDimensions);
+    }
+
+    updateWindowDimensions() {
+        this.setState({
+            screenWidth: window.innerWidth
+        });
     }
 
     onClick(e) {
@@ -86,7 +104,7 @@ export class Lobby extends Component {
         );
         const gamesDisplayList = (
             this.props.listOfActiveGames.map((gameName, i) => {
-                return <h2 key={i}>{gameName}</h2>;
+                return <div key={i} className={lobbyStyles.game}><h1>{gameName}</h1></div>;
             })
         );
         const buttonClass = this.props.ready ? lobbyStyles.unready : null;
@@ -114,24 +132,54 @@ export class Lobby extends Component {
                 </div>;
         }
 
+        const normalDisplay =
+            <div className={lobbyStyles.container}>
+                <div className={lobbyStyles.tabList}>
+                    <div className={lobbyStyles.tab}>
+                        <div>
+                            <h1> Lobby </h1>
+                        </div>
+                    </div>
+                    <div className={lobbyStyles.tab}>
+                        <h1> Active Games </h1>
+                    </div>
+                </div>
+                <div className={lobbyStyles.tabPanel}>
+                    {userDisplayList}
+                </div>
+                <div className={lobbyStyles.gameTabPanel}>
+                    {gamesDisplayList}
+                </div>
+            </div>;
+        const tabbedDisplay =
+            <Tabs className={lobbyStyles.container} selectedTabClassName={lobbyStyles.selectedTab} selectedTabPanelClassName={lobbyStyles.tabPanel}>
+                <TabList className={lobbyStyles.tabList}>
+                    <Tab className={lobbyStyles.tab}>
+                        <div>
+                            <h1> Lobby </h1>
+                        </div>
+                    </Tab>
+                    <Tab className={lobbyStyles.tab}>
+                        <h1> Active Games </h1>
+                    </Tab>
+                </TabList>
+                <TabPanel>
+                    {userDisplayList}
+                </TabPanel>
+                <TabPanel className={lobbyStyles.gameTabPanel}>
+                    {gamesDisplayList}
+                </TabPanel>
+            </Tabs>;
+
         return (
             <div className={lobbyStyles.lobbyMain}>
                 <div className={lobbyStyles.userStats}>
                     <Player name={name} />
-                    {this.props.elorank ? <h2> ELO Rating: {this.props.elorank} </h2>: null}
+                    {this.props.elorank ? <h2> Rating: {this.props.elorank} </h2>: null}
                     {this.props.winLossRecord ? <h2> Wins: {this.props.winLossRecord.wins} Loses: {this.props.winLossRecord.loses} </h2>: null}
                 </div>
                 <button className={lobbyStyles.rules} onClick={this.handleToggleRules}> Rules </button>
-                <div className={lobbyStyles.container}>
-                    <div className ={lobbyStyles.userList}>
-                        <h1> Lobby </h1>
-                        {userDisplayList}
-                    </div>
-                    <div className ={lobbyStyles.gameList}>
-                        <h1> Active Games </h1>
-                        {gamesDisplayList}
-                    </div>
-                </div>
+                {(this.state.screenWidth >= 600) ? normalDisplay : tabbedDisplay}
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
                 <div className={lobbyStyles.readyOptions}>
                     <button className={buttonClass} onClick={this.onClick}>{this.props.ready ? 'Unready' : 'Ready'}</button>
