@@ -31,7 +31,7 @@ export class Lobby extends Component {
     }
 
     componentWillUnmount() {
-    window.removeEventListener('resize', this.updateWindowDimensions);
+        window.removeEventListener('resize', this.updateWindowDimensions);
     }
 
     updateWindowDimensions() {
