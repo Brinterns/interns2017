@@ -49,8 +49,9 @@ export class Login extends Component {
                 <div className={styles.backgroundBlock}>
                     <div className={styles.inputbox}>
                         <form onSubmit={this.onSubmit}>
+                            <div className={styles.canvas}/>
                             <input className={styles.nameField}  type="text" placeholder="Username" value={this.props.username} onChange={this.handleChange}/>
-                            <input className={styles.submitButton} type="submit" value="Submit"/>
+                            <input className={styles.submitButton} type="submit" value="Continue"/>
                         </form>
                     </div>
                 </div>
