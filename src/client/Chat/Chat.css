@@ -1,5 +1,9 @@
 :root {
-    --boxwidth: calc(25 * (1vw + 1vh - 1vmin));
+    --boxWidth: calc(25 * (1vw + 1vh - 1vmin));
+    --messageWidth : calc(22 * (1vw + 1vh - 1vmin));
+    --messageLRMargins: calc(1.5 * (1vw + 1vh - 1vmin));
+    --messageLRPaddings: calc(0.5 * (1vw + 1vh - 1vmin));
+    --bordersWidth: calc(0.15 * (1vw + 1vh - 1vmin));
 }
 
 .closedChat {
@@ -8,7 +12,7 @@
     right: 2.5%;
     background: #a8a6a6;
     height: calc(3 * (1vw + 1vh - 1vmin));
-    width: var(--boxwidth);
+    width: var(--boxWidth);
     color: black;
     /*Border*/
     border-color: black;
@@ -31,7 +35,33 @@
 
 .closedChat p {
     display: inline-block;
+    margin-right: calc(1.0 * (1vw + 1vh - 1vmin));
     margin-left: calc(1.0 * (1vw + 1vh - 1vmin));
+}
+
+.notifyMain {
+    background-color: #FAD000;
+    animation: blinker 2s linear;
+}
+
+.chatNotifier {
+    display: inline-block;
+    color: white;
+    margin-left: none !important;
+    margin-right: none !important;
+}
+
+.chatNotifier p {
+    vertical-align: middle;
+    text-align: center;
+    width: 70%;
+    font-size: calc(1.3 * (1vw + 1vh - 1vmin));
+    background-color: #0265CB;
+    border-radius: 50%;
+}
+
+@keyframes blinker {
+  50% { opacity: 0; }
 }
 
 
@@ -41,7 +71,7 @@
     right: 2.5%;
     background: #d1d1d1;
     height: calc(25 * (1vw + 1vh - 1vmin));
-    width: var(--boxwidth);
+    width: var(--boxWidth);
     color: black;
     font-size: calc(1.0 * (1vw + 1vh - 1vmin));
     /*Border*/
@@ -113,39 +143,46 @@
     word-wrap: break-word;
 }
 
-
-.message h4 {
-    font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));
-    text-align: left;
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-left: calc(2px + 0.5 * (1vw + 1vh - 1vmin));
-    margin-right: calc(2px + 0.5 * (1vw + 1vh - 1vmin));
-    color: green;
+.playerMesssge {
+    margin-bottom: calc(0.5 * (1vw + 1vh - 1vmin));
+    background-color: white;
+    margin-left: var(--messageLRMargins);
+    margin-right: var(--messageLRMargins);
+    padding-left: var(--messageLRPaddings);
+    padding-right: var(--messageLRPaddings);
+    border: solid;
+    border-color: black;
+    border-width: var(--bordersWidth);
 }
 
-.message h5 {
-    margin-top: 0;
-    margin-bottom: 0;
-    margin-left: calc(4px + 1.3 * (1vw + 1vh - 1vmin));
-    padding-left: calc(1px + 0.5 * (1vw + 1vh - 1vmin));
-    padding-right: calc(1px + 0.5 * (1vw + 1vh - 1vmin));
+.opponentMessage {
+    margin-bottom: calc(0.5 * (1vw + 1vh - 1vmin));
     background-color: white;
-    border-radius: 1em;
+    margin-left: var(--messageLRMargins);
+    margin-right: var(--messageLRMargins);
+    padding-left: var(--messageLRPaddings);
+    padding-right: var(--messageLRPaddings);
+    border: solid;
+    border-color: black;
+    border-width: var(--bordersWidth);
+}
+.playerMesssge h3 {
+    margin-top: calc(calc(12px + 0.5 * (1vw + 1vh - 1vmin))/2);
     font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));
-    max-width: calc(15 * (1vw + 1vh - 1vmin));
     color: black;
 }
 
-.container {
-    direction: rtl;
-    padding-right: calc(2 * (1vw + 1vh - 1vmin));
-    padding-left: calc(2 * (1vw + 1vh - 1vmin));
-    background-color: white;
+/*opponent name*/
+.opponentMessage h4 {
+    font-size: calc(12px + 0.35 * (1vw + 1vh - 1vmin));
+    margin-bottom: 0;
+    font-style: italic;
+    font-weight: bold;
+    color: #0265CB;
 }
 
-.message h3 {
-    text-align: right;
+/*opponent msg*/
+.opponentMessage h5 {
     font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));
     color: black;
 }

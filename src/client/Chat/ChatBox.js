@@ -8,27 +8,39 @@ export default class ChatBox extends Component {
         super(props);
         this.state = {
             input: '',
-            showChat: false
+            showChat: false,
+            numMsgSeen: this.props.messages.length
         };
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);
         this.scrollToBottom = this.scrollToBottom.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
     handleKeyPress(e) {
         if(e.key === 'Enter') {
-            cloak.message('sendmessage', e.target.value);
-            e.target.value = '';
-            this.setState({
-                input: ''
-            });
+            this.sendMessage();
         }
+    }
+
+    sendMessage() {
+        cloak.message('sendmessage', this.state.input);
+        this.setState({
+            input: ''
+        });
+        document.getElementById("msginput").value = '';
     }
 
     handleClick() {
         this.setState({
             showChat: !this.state.showChat
         });
+        //when chat gets closed, update last num messages seen
+        if (this.state.showChat) {
+            this.setState({
+                numMsgSeen: this.props.messages.length
+            });
+        }
     }
 
 
@@ -48,7 +60,7 @@ export default class ChatBox extends Component {
                 if (messagesDiv) {
                     messagesDiv.scrollTop  = messagesDiv.scrollHeight;
                 }
-            }, 10);
+            }, 25);
         }
     }
 
@@ -56,12 +68,10 @@ export default class ChatBox extends Component {
         const messages = this.props.messages;
         const messageDisplay = (
             messages.map((messageData, i) => {
-                    if (i === messages.length - 1) {
-                        {this.scrollToBottom()}
-                    }
+                    {this.scrollToBottom()}
                     if(messageData.userId === this.props.id) {
                         return(
-                            <div key={i} className={chatStyles.container}>
+                            <div key={i} className={chatStyles.playerMesssge}>
                                 <div className={chatStyles.message}>
                                     <h3>{messageData.message}</h3>
                                 </div>
@@ -69,18 +79,27 @@ export default class ChatBox extends Component {
                         );
                     }
                     return(
-                        <div className={chatStyles.message} key={i}>
-                            <h4>{messageData.userName}: </h4>
+                        <div className={chatStyles.opponentMessage} key={i}>
                             <h5>{messageData.message}</h5>
+                            <h4>{messageData.userName}</h4>
                         </div>
                     );
             })
         );
+        const difference = this.props.messages.length - this.state.numMsgSeen;
+        const msgNotifier = (
+            <div className={chatStyles.chatNotifier}>
+                <p>{difference}</p>
+            </div>
+        );
+        const closedChatClass = (difference > 0) ? chatStyles.notifyMain : "";
+
         const closedChatDiv = (
             <div onClick={this.handleClick} className={chatStyles.closedChat}>
-                <div>
+                <div className={closedChatClass}>
                     <img src={message} />
-                    <p>Chat </p>
+                    <p>Chat</p>
+                    {difference > 0 ? msgNotifier : null }
                 </div>
             </div>
         );
@@ -95,8 +114,8 @@ export default class ChatBox extends Component {
                     {messageDisplay}
                 </div>
                 <div className={chatStyles.openChatBottom}>
-                    <input type="text" placeholder="Type your message..." onKeyPress={this.handleKeyPress} value={this.state.input} onChange={this.handleChange}/>
-                    <img src={send} />
+                    <input id="msginput" type="text" placeholder="Type your message..." onKeyPress={this.handleKeyPress} value={this.state.input} onChange={this.handleChange}/>
+                    <img src={send} onClick={this.sendMessage}/>
                 </div>
             </div>
         );
