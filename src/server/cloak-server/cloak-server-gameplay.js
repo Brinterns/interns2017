@@ -1,5 +1,7 @@
 var cloak = require('cloak');
 var shared = require('./cloak-server-shared');
+var gameRoomFunctions = require('./cloak-server-gameroom');
+
 //Game playing variables
 const rosettaSquares = [3,5,13,21,23];
 const numberOfPieces = 7;
