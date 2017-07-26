@@ -171,63 +171,72 @@
     font-size: calc(5px + 1.5 * (1vw + 1vh - 1vmin));
 }
 
-/* .gameList h1 {
-    text-align: center;
-    margin-left: 1em;
-    margin-bottom: 1em;
-    font-size: calc(12px + 1.75 * (1vw + 1vh - 1vmin));
-}
-
-.gameList h2 {
-    color: white;
-    font-size: calc(5px + 1.5 * (1vw + 1vh - 1vmin));
-    margin-left: 1em;
-    margin-top: 0.5em;
-} */
-
-
 .user {
+    width: 95%;
     display: block;
     padding: 2em;
-    margin-top: 2em;
-    margin-bottom: 2em;
-    margin-left: 2em;
-    margin-right: 2em;
+    margin-top: 1.75%;
+    margin-bottom: 1.75%;
+    margin-left: 2.5%;
     border-style: solid;
     border-color: black;
     background-color: #FAD000;
 }
 
+.userDetails {
+    width: 50%;
+    display: inline-block;
+}
+
 .user h1 {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 0.5em;
     color: black;
-    display: inline;
+    display: block;
     font-size: calc(5px + 1.5 * (1vw + 1vh - 1vmin));
 }
 
 .user h2 {
+    margin: 0;
     color: #a8a6a6;
-    display: inline;
+    display: block;
     font-size: calc(3px + (1vw + 1vh - 1vmin));
 }
 
 .game {
+    width: 95%;
     padding: 2em;
-    margin-top: 2em;
-    margin-bottom: 2em;
-    margin-left: 2em;
-    margin-right: 2em;
+    margin-top: 1.75%;
+    margin-bottom: 1.75%;
+    margin-left: 2.5%;
     border-style: solid;
     border-color: black;
     background-color: #FAD000;
 }
 
-.challengeButton {
+/* .challengeButton {
+    background-color: black;
+    height: 100%;
+    position: relative;
+    transform: translate(0%, -50%);
+    top: 50%;
+    margin: 0;
     float: right;
     margin-left: calc(1 * (1vw + 1vh - 1vmin));
     margin-right: calc(1 * (1vw + 1vh - 1vmin));
+} */
+
+.challengeButton {
+    position: relative;
+    width: 50%;
+    display: inline-block;
+    /* transform: translate(0%, -30%);
+    top: 50%; */
 }
 
 .challengeButton button {
+    float: right;
     outline: none;
     background-color: #03b733;
     border-color: black;
