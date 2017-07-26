@@ -95,7 +95,7 @@ export class Game extends Component {
                 opponentRoll = (<p className={isPlayerTurn ? gameStyles.turnNotif : null}>{this.props.notificationText}</p>);
             }
         }
-
+        
         return (
             <div className={gameStyles.gameMain}>
                 <h2> {currentPlayerText} </h2>
