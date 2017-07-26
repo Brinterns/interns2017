@@ -63,16 +63,18 @@
 
 .rules {
     position: absolute;
-    top: 15%;
+    top: 18%;
     right: 5%;
-    border-color: black;
-    color: white;
-    background-color: #4286f4;
+    transform: translate(0%, -50%);
+    border-style: solid;
+    border-color: #FAD000;
+    border-width: 0.1em;
+    color: #FAD000;
+    background-color: #0265CB;
     outline: none;
     font-size: calc(2 * (1vw + 1vh - 1vmin));
-    width: 4em;
+    width: 5em;
     height: 2em;
-    border-radius: calc(1 * (1vw + 1vh - 1vmin));
 }
 
 .container {
@@ -197,24 +199,24 @@
     background-color: #FAD000;
 }
 
-.userDetails {
-    width: 50%;
-    display: inline-block;
-}
-
 .user h1 {
     margin: 0;
     margin-bottom: 0.5em;
     color: black;
     display: block;
-    font-size: calc(5px + 1.5 * (1vw + 1vh - 1vmin));
+    font-size: calc(10px + 1.5 * (1vw + 1vh - 1vmin));
 }
 
 .user h2 {
     margin: 0;
     color: #a8a6a6;
     display: block;
-    font-size: calc(3px + (1vw + 1vh - 1vmin));
+    font-size: calc(7px + (1vw + 1vh - 1vmin));
+}
+
+.userDetails {
+    width: 50%;
+    display: inline-block;
 }
 
 .game {
@@ -231,7 +233,7 @@
     margin: 0;
     color: black;
     display: block;
-    font-size: calc(5px + 1.5 * (1vw + 1vh - 1vmin));
+    font-size: calc(10px + 1.5 * (1vw + 1vh - 1vmin));
 }
 
 .challengeButton {
