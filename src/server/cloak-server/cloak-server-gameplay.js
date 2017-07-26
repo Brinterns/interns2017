@@ -102,6 +102,7 @@ function reverseSquares(positions) {
     return reverse;
 }
 
+module.exports.endTurn = endTurn;
 module.exports.rollDice = rollDice;
 module.exports.movePiece = movePiece;
 module.exports.reverseSquares = reverseSquares;
