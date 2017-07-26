@@ -4,7 +4,7 @@
 
 .closedChat {
     position: fixed;
-    bottom: 0%;
+    bottom: calc(0.075 * (1vw + 1vh - 1vmin));
     right: 2.5%;
     background: #a8a6a6;
     height: calc(3 * (1vw + 1vh - 1vmin));
@@ -13,8 +13,8 @@
     /*Border*/
     border-color: black;
     border: solid;
-    border-width: calc(0.15 * (1vw + 1vh - 1vmin));
     border-bottom: none;
+    border-width: calc(0.15 * (1vw + 1vh - 1vmin));
     font-size: calc(2.0 * (1vw + 1vh - 1vmin));
 }
 
@@ -22,14 +22,22 @@
     cursor: pointer;
 }
 
+.closedChat img {
+    height: calc(2.0 * (1vw + 1vh - 1vmin));
+    width: calc(2.0 * (1vw + 1vh - 1vmin));
+    margin-left: calc(1.0 * (1vw + 1vh - 1vmin));
+    vertical-align: middle;
+}
+
 .closedChat p {
+    display: inline-block;
     margin-left: calc(1.0 * (1vw + 1vh - 1vmin));
 }
 
 
 .openChat {
     position: fixed;
-    bottom: 0%;
+    bottom: calc(0.075 * (1vw + 1vh - 1vmin));
     right: 2.5%;
     background: #d1d1d1;
     height: calc(25 * (1vw + 1vh - 1vmin));
@@ -41,18 +49,29 @@
     border: solid;
     border-width: calc(0.15 * (1vw + 1vh - 1vmin));
     border-bottom: none;
+    vertical-align: middle;
 }
 
 .openChatTop {
     top: 0%;
     background: #a8a6a6;
+    height: calc(3 * (1vw + 1vh - 1vmin));
+    font-size: calc(2.0 * (1vw + 1vh - 1vmin));
 }
 
 .openChatTop:hover {
     cursor: pointer;
 }
+
+.openChatTop img {
+    height: calc(2.0 * (1vw + 1vh - 1vmin));
+    width: calc(2.0 * (1vw + 1vh - 1vmin));
+    margin-left: calc(1.0 * (1vw + 1vh - 1vmin));
+    vertical-align: middle;
+}
+
 .openChatTop p {
-    font-size: calc(2.0 * (1vw + 1vh - 1vmin));
+    display: inline-block;
     margin-left: calc(1.0 * (1vw + 1vh - 1vmin));
 }
 
@@ -61,7 +80,7 @@
     background: #a8a6a6;
     height: calc(4 * (1vw + 1vh - 1vmin));
     /*lineheight = height - inputheight/2 for vertically aligning input box*/
-    line-height: calc(3.0 * (1vw + 1vh - 1vmin));
+    line-height: calc(3.5 * (1vw + 1vh - 1vmin));
     /*Border*/
     border-color: black;
     border-top: solid;
@@ -120,16 +139,13 @@
 
 .container {
     direction: rtl;
+    padding-right: calc(2 * (1vw + 1vh - 1vmin));
+    padding-left: calc(2 * (1vw + 1vh - 1vmin));
+    background-color: white;
 }
 
 .message h3 {
     text-align: right;
-    margin-right: calc(4px + 1.3 * (1vw + 1vh - 1vmin));
-    padding-right: calc(1px + 0.5 * (1vw + 1vh - 1vmin));
-    padding-left: calc(1px + 0.5 * (1vw + 1vh - 1vmin));
-    background-color: green;
-    border-radius: 1em;
     font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));
-    max-width: calc(15 * (1vw + 1vh - 1vmin));
     color: black;
 }

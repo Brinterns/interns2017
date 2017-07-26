@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import chatStyles from './Chat.css';
 import send from '../images/icons/send.png';
+import message from '../images/icons/msg.png';
 
 export default class ChatBox extends Component {
     constructor(props) {
@@ -77,14 +78,17 @@ export default class ChatBox extends Component {
         );
         const closedChatDiv = (
             <div onClick={this.handleClick} className={chatStyles.closedChat}>
-                <p>Chat </p>
+                <div>
+                    <img src={message} />
+                    <p>Chat </p>
+                </div>
             </div>
         );
 
         const openChatDiv = (
             <div className={chatStyles.openChat}>
-
                 <div onClick={this.handleClick} className={chatStyles.openChatTop}>
+                    <img src={message} />
                     <p>Chat </p>
                 </div>
                 <div id="messagediv" className={chatStyles.messages}>
