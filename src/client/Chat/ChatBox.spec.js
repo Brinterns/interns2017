@@ -77,7 +77,7 @@ describe('<ChatBox />', () => {
         wrapper.setState({
             showChat: true
         });
-        const expectedMessage = message1.userName + ": ";
+        const expectedMessage = message1.userName;
         expect(wrapper.find("h4").first().text()).toEqual(expectedMessage);
     });
 
@@ -89,6 +89,16 @@ describe('<ChatBox />', () => {
         });
         const expectedMessage = message3.message;
         expect(wrapper.find("h3").first().text()).toEqual(expectedMessage);
+    });
+
+    it('Correct notification number is displayed for unread messages', () => {
+        const msgs = [message1, message2, message3];
+        let wrapper = shallow(<ChatBox id={'4'} messages={msgs}/>);
+        wrapper.setState({
+            showChat: false,
+            numMsgSeen: 1
+        });
+        expect(wrapper.find("p").at(1).text()).toEqual('2');
     });
 
 

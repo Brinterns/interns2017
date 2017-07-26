@@ -52,7 +52,7 @@ function calculateNewElo(playerRank, opponentRank, won) {
 
 function win(winBool, user) {
     var userRoom = user.getRoom();
-    var user2 = sharedFunctions.getOpponent(user);
+    var user2 = shared.getOpponent(user);
     user.data.opponentDbId = null;
     user2.data.opponentDbId = null;
     if (winBool) {
@@ -76,7 +76,7 @@ function win(winBool, user) {
 
 var roomExit = function(arg) {
     const users = this.getMembers();
-    if (users.length === 1) {
+    if ((users.length === 1) && !users[0].getRoom().data.winnerId) {
         var user = users[0];
         var opponentName;
         var opponentElo;
