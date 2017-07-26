@@ -85,29 +85,7 @@
     transform: translate(-50%, -50%);
 }
 
-.list {
-    display: inline-block;
-    height: 100%;
-    width: 50%;
-    background-color: rgba(23, 114, 3, 0.15);
-    overflow-y : auto;
-    border-style: solid;
-    border-color: black;
-    border-width: 0.12em;
-}
-
-.list h1 {
-    color: black;
-    text-align: center;
-    font-size: calc(12px + 1.75 * (1vw + 1vh - 1vmin));
-}
-
-.list h2 {
-    color: black;
-    text-align: center;
-}
-
- .tabList {
+.tabList {
      padding: 0;
      margin: 0;
      width: 100%;
@@ -115,18 +93,24 @@
      border-style: solid;
      border-bottom-style: none;
      border-color: black;
-     vertical-align: middle;
- }
+     border-width: 0.12em;
+}
 
- .tab {
+.tab {
      display: inline-block;
      background-color: grey;
      height: 100%;
      width: 50%;
      text-align: center;
- }
+}
 
- .tab h1 {
+@media (min-width: 600px) {
+    .tab {
+        background-color: #a8a6a6;
+    }
+}
+
+.tab h1 {
      position: relative;
      top: 50%;
      transform: translate(0%, -50%);
@@ -134,9 +118,15 @@
      color: black;
      font-size: calc(12px + 1.5 * (1vw + 1vh - 1vmin));
      cursor: pointer;
- }
+}
 
- .tab div {
+@media (min-width: 600px) {
+    .tab h1 {
+        cursor: auto;
+    }
+}
+
+.tab div {
      height: 100%;
      width: 100%;
      position: relative;
@@ -144,13 +134,15 @@
      transform: translate(0%, -50%);
      border-right-style: solid;
      border-right-color: black;
- }
+     border-right-width: 0.12em;
+}
 
- .selectedTab {
+.selectedTab {
      background-color: #a8a6a6;
- }
+}
 
 .tabPanel {
+    display: inline-block;
     background-color: white;
     height: 90%;
     width: 100%;
@@ -160,10 +152,33 @@
     border-width: 0.12em;
 }
 
+@media (min-width: 600px) {
+    .tabPanel {
+        width: 50%;
+    }
+}
+
+.tabPanelRight {
+    border-left-style: none;
+}
+
 .gameTabPanel {
+    display: inline-block;
     background-color: white;
     overflow-y : auto;
     text-align: center;
+}
+
+@media (min-width: 600px) {
+    .gameTabPanel {
+        height: 90%;
+        width: 50%;
+        border-top-style: solid;
+        border-bottom-style: solid;
+        border-right-style: solid;
+        border-color: black;
+        border-width: 0.12em;
+    }
 }
 
 .gameTabPanel h1 {
@@ -219,24 +234,10 @@
     font-size: calc(5px + 1.5 * (1vw + 1vh - 1vmin));
 }
 
-/* .challengeButton {
-    background-color: black;
-    height: 100%;
-    position: relative;
-    transform: translate(0%, -50%);
-    top: 50%;
-    margin: 0;
-    float: right;
-    margin-left: calc(1 * (1vw + 1vh - 1vmin));
-    margin-right: calc(1 * (1vw + 1vh - 1vmin));
-} */
-
 .challengeButton {
     position: relative;
     width: 50%;
     display: inline-block;
-    /* transform: translate(0%, -30%);
-    top: 50%; */
 }
 
 .challengeButton button {

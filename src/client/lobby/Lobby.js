@@ -123,17 +123,25 @@ export class Lobby extends Component {
                     {this.props.winLossRecord ? <h2> Wins: {this.props.winLossRecord.wins} Loses: {this.props.winLossRecord.loses} </h2>: null}
                 </div>
                 <button className={lobbyStyles.rules} onClick={this.handleToggleRules}> Rules </button>
-                {/* <div className={lobbyStyles.container}>
-                    <div className ={lobbyStyles.userList}>
-                        <h1> Lobby </h1>
+                <div className={lobbyStyles.container}>
+                    <div className={lobbyStyles.tabList}>
+                        <div className={lobbyStyles.tab}>
+                            <div>
+                                <h1> Lobby </h1>
+                            </div>
+                        </div>
+                        <div className={lobbyStyles.tab}>
+                            <h1> Active Games </h1>
+                        </div>
+                    </div>
+                    <div className={lobbyStyles.tabPanel}>
                         {userDisplayList}
                     </div>
-                    <div className ={lobbyStyles.gameList}>
-                        <h1> Active Games </h1>
+                    <div className={lobbyStyles.gameTabPanel}>
                         {gamesDisplayList}
                     </div>
-                </div> */}
-                <Tabs className={lobbyStyles.container} selectedTabClassName={lobbyStyles.selectedTab} selectedTabPanelClassName={lobbyStyles.tabPanel}>
+                </div>
+                {/* <Tabs className={lobbyStyles.container} selectedTabClassName={lobbyStyles.selectedTab} selectedTabPanelClassName={lobbyStyles.tabPanel}>
                     <TabList className={lobbyStyles.tabList}>
                         <Tab className={lobbyStyles.tab}>
                             <div>
@@ -150,7 +158,7 @@ export class Lobby extends Component {
                     <TabPanel className={lobbyStyles.gameTabPanel}>
                         {gamesDisplayList}
                     </TabPanel>
-                </Tabs>
+                </Tabs> */}
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
                 <div className={lobbyStyles.readyOptions}>
                     <button className={buttonClass} onClick={this.onClick}>{this.props.ready ? 'Unready' : 'Ready'}</button>
