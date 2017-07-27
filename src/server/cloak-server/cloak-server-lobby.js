@@ -27,7 +27,8 @@ function getLobbyUserInfo() {
             name: user.name,
             inChallenge: user.data.challenger || user.data.challenging,
             winLossRecord: user.data.winLossRecord,
-            elorank: user.data.elorank
+            elorank: user.data.elorank,
+            avatar: user.data.avatar
         };
         listOfUserInfo.push(userJson);
     });
