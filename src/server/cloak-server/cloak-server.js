@@ -21,6 +21,9 @@ module.exports = function(expressServer) {
             setusername: function(name, user) {
                 loginFunctions.setUsername(name, user);
             },
+            setavatar: function(url, user) {
+                loginFunctions.setAvatar(url, user);
+            },
             getlobbyinfo: function(_, user) {
                 lobbyFunctions.getRecord(user);
                 lobbyFunctions.getLobbyInfo(user);

@@ -15,4 +15,18 @@ function setUsername(name, user) {
     cloak.getLobby().addMember(user);
 }
 
+function setAvatar(avatar, user) {
+    console.log("set avatar");
+    db.find(user.data.dbId).then(function(resp) {
+        if (resp) {
+            db.updateAvatar(user.data, avatar);
+        } else {
+            setTimeout(() => {
+                setAvatar(avatar, user);
+            }, 10)
+        }
+    });
+}
+
 module.exports.setUsername = setUsername;
+module.exports.setAvatar = setAvatar;

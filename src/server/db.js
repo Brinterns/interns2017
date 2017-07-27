@@ -22,7 +22,8 @@ var add = function(id, name) {
             name: name,
             wins:0,
             loses: 0,
-            elorank: 1200
+            elorank: 1200,
+            avatar: null
         },
         function(err, user) {
             if (err) {
@@ -66,6 +67,27 @@ module.exports.update = function(userData, name) {
                  wins: userData.winLossRecord.wins,
                  loses: userData.winLossRecord.loses,
                  elorank: userData.elorank
+             }
+        }, function(err, out) {
+             if (err) {
+                reject({
+                    code: 500,
+                    msg: err
+                })
+            }  else {
+                resolve(out);
+            }
+        })
+    })
+}
+
+module.exports.updateAvatar = function(userData, avatar) {
+    return new Promise(function(resolve, reject) {
+        client.collection('users').update({
+            cloakid: userData.dbId
+        },{
+             $set: {
+                 avatar: avatar
              }
         }, function(err, out) {
              if (err) {
