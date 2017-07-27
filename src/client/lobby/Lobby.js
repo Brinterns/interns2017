@@ -67,7 +67,7 @@ export class Lobby extends Component {
     }
 
     challengeRespond(accept) {
-        cloak.message('challengerespond', accept);
+        // cloak.message('challengerespond', accept);
     }
 
     handleToggleRules() {
@@ -95,7 +95,7 @@ export class Lobby extends Component {
                 const challenged = this.props.challengers.filter(id => {
                     return user.id === id;
                 }).length ? true : false;
-                return <User key={i} user={user} challenging={challenging} challenged={challenged} challengeUser={this.challengeUser} cancelChallenge={this.cancelChallenge} />;
+                return <User key={i} user={user} challenging={challenging} challenged={challenged} challengeUser={this.challengeUser} cancelChallenge={this.cancelChallenge} challengeRespond={this.challengeRespond} />;
             })
         );
         const gamesDisplayList = (

@@ -14,7 +14,7 @@ function challengePlayer(id, user) {
     user2.data.challengers.push(user.id);
     user.message('updatechallenging', user.data.challenging);
     user.message('updateusers', lobbyFunctions.getLobbyUserInfo());
-    user2.message('updatechallengers', user.data.challengers);
+    user2.message('updatechallengers', user2.data.challengers);
     user2.message('updateusers', lobbyFunctions.getLobbyUserInfo());
 }
 
