@@ -63,6 +63,9 @@
     left: 50%;
     width: calc(38.5 * (1vw + 1vh - 1vmin));
     height: calc(14 * (1vw + 1vh - 1vmin));
+    border-style: solid;
+    border-color: black;
+    border-width: 0.12em;
 }
 
 .page1Img {
@@ -82,7 +85,10 @@
     transform: translate(-50%, 0%);
     left: 50%;
     width: calc(19.4 * (1vw + 1vh - 1vmin));
-    height: calc(10 * (1vw + 1vh - 1vmin)); 
+    height: calc(10 * (1vw + 1vh - 1vmin));
+    border-style: solid;
+    border-color: black;
+    border-width: 0.12em;
 }
 
 .page4Img {
@@ -98,7 +104,7 @@
 .page0Text {
     position: absolute;
     top: calc(15% + 15 * (1vw + 1vh - 1vmin));
-    color: white;
+    color: black;
     font-size: calc(1px + 2 * (1vw + 1vh - 1vmin));
     margin-left: 10%;
     margin-right: 10%;
@@ -107,7 +113,7 @@
 .pageText {
     position: absolute;
     top: 10%;
-    color: white;
+    color: black;
     font-size: calc(2 * (1vw + 1vh - 1vmin));
     margin-left: 10%;
     margin-right: 10%;

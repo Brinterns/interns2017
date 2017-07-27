@@ -3,7 +3,6 @@ import pageStyles from './Rules.css';
 import p0img from '../images/rules/page0Img.png';
 import p1img from '../images/rules/page1Img.png';
 import p3img from '../images/rules/page3Img.png';
-import p4img from '../images/rules/page4Img.png';
 
 export function getPage(i, toggleRules, prevPage, nextPage) {
     var page = null;
@@ -19,9 +18,6 @@ export function getPage(i, toggleRules, prevPage, nextPage) {
             break;
         case 3:
             page = getPage3(toggleRules, prevPage, nextPage);
-            break;
-        case 4:
-            page = getPage4(toggleRules, prevPage);
             break;
         default:
             page = null;
@@ -89,22 +85,6 @@ function getPage3(toggleRules, prevPage, nextPage) {
             </ul>
             <img src={p3img} className={pageStyles.page3Img} />
             <button className={pageStyles.prev} onClick={prevPage}> &#60; </button>
-            <button className={pageStyles.next} onClick={nextPage}> &gt; </button>
-        </div>
-    );
-}
-
-function getPage4(toggleRules, prevPage) {
-    return (
-        <div className={pageStyles.rulesWindow}>
-            <button className={pageStyles.exit} onClick={toggleRules}> &#x2716; </button>
-            <ul className={pageStyles.pageText}>
-                <li> Once you are ready to play, clicking the green ready button above allows you to be challenged by other users </li>
-                <li> Once a user is ready to challenge, the challenge button next to their name will light up </li>
-                <li> This button can then be clicked to start a game with that user </li>
-            </ul>
-            <img src={p4img} className={pageStyles.page4Img} />
-            <button className={pageStyles.prev} onClick={prevPage}> &gt; </button>
         </div>
     );
 }
