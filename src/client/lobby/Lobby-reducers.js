@@ -3,8 +3,8 @@ import {
     UPDATE_USER_ID,
     UPDATE_ROOM_NAMES,
     UPDATE_USERS,
-    WAIT_CHALLENGE,
-    SHOW_CHALLENGE
+    UPDATE_CHALLENGING,
+    UPDATE_CHALLENGERS
 } from './Lobby-actions';
 
 const updateState = (currentState, newState) => Object.assign({}, currentState, newState);
@@ -14,9 +14,8 @@ const initialState = {
     listOfUsers: [],
     listOfActiveGames: [],
     messages: [],
-    ready: false,
-    challenger: null,
-    challenging: false,
+    challengers: [],
+    challenging: [],
     winLossRecord: null,
     elorank: null
 };
@@ -30,12 +29,11 @@ const lobby = (state = initialState, action) => {
         }
         case UPDATE_USERS: {
             return updateState(state, {
-                listOfUsers: action.payload.listOfUsers,
-                ready: action.payload.ready,
-                winLossRecord: state.id ? action.payload.listOfUsers.filter(user => {
+                listOfUsers: action.payload,
+                winLossRecord: state.id ? action.payload.filter(user => {
                     return state.id === user.id;
                 })[0].winLossRecord : null,
-                elorank: state.id ? action.payload.listOfUsers.filter(user => {
+                elorank: state.id ? action.payload.filter(user => {
                     return state.id === user.id;
                 })[0].elorank : null
             });
@@ -50,14 +48,14 @@ const lobby = (state = initialState, action) => {
                 listOfActiveGames: action.payload
             });
         }
-        case WAIT_CHALLENGE: {
+        case UPDATE_CHALLENGING: {
             return updateState(state, {
-                challenging: action.payload
+                challenging: action.payload ? action.payload : []
             });
         }
-        case SHOW_CHALLENGE: {
+        case UPDATE_CHALLENGERS: {
             return updateState(state, {
-                challenger: action.payload
+                challengers: action.payload ? action.payload : []
             });
         }
         default: {

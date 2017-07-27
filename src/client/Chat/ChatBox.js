@@ -20,6 +20,7 @@ export default class ChatBox extends Component {
         this.scrollToBottom = this.scrollToBottom.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
+    
     handleKeyPress(e) {
         if(e.key === 'Enter') {
             this.sendMessage();
