@@ -30,6 +30,16 @@
     font-size: calc(18px + 2 * (1vw + 1vh - 1vmin));
 }
 
+.pageHolder {
+    position: relative;
+    margin: 0;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    max-width: 85%;
+    max-height: 85%;
+}
+
 .exit {
     position: relative;
     float: right;
@@ -56,9 +66,8 @@
 }
 
 .page0Img {
-    position: absolute;
-    top: 10%;
-    margin-right: -50%;
+    position: relative;
+    margin: 0;
     transform: translate(-50%, 0%);
     left: 50%;
     width: calc(38.5 * (1vw + 1vh - 1vmin));
@@ -69,19 +78,16 @@
 }
 
 .page1Img {
-    position: absolute;
-    bottom: 8%;
-    margin-right: -50%;
+    position: relative;
     transform: translate(-50%, 0%);
     left: 50%;
     width: calc(38.4 * (1vw + 1vh - 1vmin));
     height: calc(8 * (1vw + 1vh - 1vmin)); 
+    margin-top: calc(1.5 * (1vw + 1vh - 1vmin));
 }
 
 .page3Img {
-    position: absolute;
-    bottom: 12%;
-    margin-right: -50%;
+    position: relative;
     transform: translate(-50%, 0%);
     left: 50%;
     width: calc(19.4 * (1vw + 1vh - 1vmin));
@@ -89,32 +95,25 @@
     border-style: solid;
     border-color: black;
     border-width: 0.12em;
-}
-
-.page4Img {
-    position: absolute;
-    bottom: 25%;
-    margin-right: -50%;
-    transform: translate(-50%, 0%);
-    left: 50%;
-    width: calc(24 * (1vw + 1vh - 1vmin));
-    height: calc(5 * (1vw + 1vh - 1vmin));  
+    margin-top: calc(2 * (1vw + 1vh - 1vmin));
 }
 
 .page0Text {
-    position: absolute;
-    top: calc(15% + 15 * (1vw + 1vh - 1vmin));
+    position: relative;
+    transform: translate(-50%, 0%);
+    top: calc(3 * (1vw + 1vh - 1vmin));
+    left: 50%;
     color: black;
     font-size: calc(1px + 2 * (1vw + 1vh - 1vmin));
-    margin-left: 10%;
-    margin-right: 10%;
+    margin: 0;
 }
 
 .pageText {
-    position: absolute;
-    top: 10%;
+    position: relative;
+    margin: 0;
+    top: 0;
+    transform: translate(-50%, 0%);
+    left: 50%;
     color: black;
     font-size: calc(2 * (1vw + 1vh - 1vmin));
-    margin-left: 10%;
-    margin-right: 10%;
 }
