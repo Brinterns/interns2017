@@ -22,13 +22,12 @@ function cancelChallenge(id, user) {
     challengeRespond(user.id, cloak.getUser(id), false);
 }
 
-function userJoinRoom(user, room) {
-    room.addMember(user);
-    user.data.ready = false;
-    user.data.squares = Array(24).fill(false);
-    user.data.piecePositions = Array(numberOfPieces).fill(0);
-    user.data.numPiecesFinished = 0;
-    user.data.lastRoll = null;
+function acceptChallenge(id, user) {
+    challengeRespond(id, user, true);
+}
+
+function declineChallenge(id, user) {
+    challengeRespond(id, user, false);
 }
 
 function challengeRespond(challengerId, user, accept) {
@@ -45,19 +44,29 @@ function challengeRespond(challengerId, user, accept) {
     } else {
         user.data.opponentDbId = user2.data.dbId;
         user2.data.opponentDbId = user.data.dbId;
+        if (!user.data.challenging) {
+            user.data.challenging = [];
+        }
+        if (!user2.data.challengers) {
+            user2.data.challengers = [];
+        }
         user.data.challengers.forEach(challenger => {
-            if (challenger.id !== challengerId) {
-                challengeRespond(challenger.id, user, false);
+            if (challenger !== challengerId) {
+                console.log("Here 1");
+                challengeRespond(challenger, user, false);
             }
         });
         user.data.challenging.forEach(challenging => {
+            console.log("Here 2");
             challengeRespond(user.id, cloak.getUser(challenging), false);
         });
         user2.data.challengers.forEach(challenger => {
+            console.log("Here 3");
             challengeRespond(challenger.id, user, false);
         });
         user2.data.challenging.forEach(challenging => {
-            if (challenging.id !== user.id) {
+            if (challenging !== user.id) {
+                console.log("Here 4");
                 challengeRespond(user.id, cloak.getUser(challenging), false);
             }
         });
@@ -69,6 +78,16 @@ function challengeRespond(challengerId, user, accept) {
     }
 }
 
+function userJoinRoom(user, room) {
+    room.addMember(user);
+    user.data.ready = false;
+    user.data.squares = Array(24).fill(false);
+    user.data.piecePositions = Array(numberOfPieces).fill(0);
+    user.data.numPiecesFinished = 0;
+    user.data.lastRoll = null;
+}
+
 module.exports.challengePlayer = challengePlayer;
 module.exports.cancelChallenge = cancelChallenge;
-module.exports.challengeRespond = challengeRespond;
+module.exports.acceptChallenge = acceptChallenge;
+module.exports.declineChallenge = declineChallenge;

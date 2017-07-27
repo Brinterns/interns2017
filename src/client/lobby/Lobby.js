@@ -66,8 +66,12 @@ export class Lobby extends Component {
         cloak.message('cancelchallenge', id);
     }
 
-    challengeRespond(accept) {
-        // cloak.message('challengerespond', accept);
+    challengeRespond(accept, id) {
+        if (accept) {
+            cloak.message('acceptchallenge', id);
+        } else {
+            cloak.message('declinechallenge', id);
+        }
     }
 
     handleToggleRules() {
