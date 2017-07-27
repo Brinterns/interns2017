@@ -1,128 +1,119 @@
-.rulesWindow {
+.container {
+    padding: calc(0.5 * (1vw + 1vh - 1vmin));
+    margin: 0;
     position: absolute;
-    top: 60%;
+    top: 58.5%;
     left: 50%;
-    margin-right: -50%;
+    width: 90%;
+    height: 68%;
+    transform: translate(-50%, -50%);
+    background-color: #FAD000;
+}
+
+.rulesWindow {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border-style: solid;
+    border-color: black;
+    border-width: 0.12em;
+}
+
+.rulesWindow button {
+    color: black;
+    outline: none;
+    background: none;
+    border: none;
+    font-size: calc(18px + 2 * (1vw + 1vh - 1vmin));
+}
+
+.pageHolder {
+    position: relative;
     margin: 0;
     transform: translate(-50%, -50%);
-    width: 90%;
-    height: 70%;
-    background-color: rgb(17, 72, 111);
-    border-style: solid;
-    border-width: 0.3em;
-    border-radius: calc(2.5 * (1vw + 1vh - 1vmin));
+    left: 50%;
+    top: 50%;
+    max-width: 85%;
+    max-height: 85%;
 }
 
 .exit {
     position: relative;
     float: right;
-    margin-top: 2%;
-    margin-right: 3%;
-    width: calc(3 * (1vw + 1vh - 1vmin));
-    height: calc(3 * (1vw + 1vh - 1vmin));
-    border: solid;
-    border-radius: calc(0.75 * (1vw + 1vh - 1vmin));
-    border-width: calc(0.15 * (1vw + 1vh - 1vmin));
-    border-color: black;
-    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
-    font-weight: bold;
-    text-align: center;
-    background-color: #e81212;
-    color: black;
-    outline: none;
+    margin-top: calc(0.5 * (1vw + 1vh - 1vmin));
+    margin-right: calc(1.5 * (1vw + 1vh - 1vmin));
 }
 
 .prev {
     position: absolute;
-    margin-bottom: 2%;
-    margin-left: 3%;
-    width: calc(5 * (1vw + 1vh - 1vmin));
-    height: calc(3 * (1vw + 1vh - 1vmin)); 
-    border: solid;
+    left: 0;
     bottom: 0;
-    border-radius: calc(0.75 * (1vw + 1vh - 1vmin));
-    border-width: calc(0.15 * (1vw + 1vh - 1vmin));
-    border-color: black;
-    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
+    margin-bottom: calc(0.5 * (1vw + 1vh - 1vmin));
+    margin-left: calc(1.5 * (1vw + 1vh - 1vmin));
     font-weight: bold;
-    background-color: #03b733;
-    color: black;
-    outline: none;
 }
 
 .next {
     position: absolute;
     right: 0;
-    margin-bottom: 2%;
-    margin-right: 3%;
-    width: calc(5 * (1vw + 1vh - 1vmin));
-    height: calc(3 * (1vw + 1vh - 1vmin)); 
-    border: solid;
     bottom: 0;
-    border-radius: calc(0.75 * (1vw + 1vh - 1vmin));
-    border-width: calc(0.15 * (1vw + 1vh - 1vmin));
-    border-color: black;
-    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
+    margin-bottom: calc(0.5 * (1vw + 1vh - 1vmin));
+    margin-right: calc(1.5 * (1vw + 1vh - 1vmin));
     font-weight: bold;
-    background-color: #03b733;
-    color: black;
-    outline: none;
 }
 
 .page0Img {
-    position: absolute;
-    top: 10%;
-    margin-right: -50%;
+    position: relative;
+    margin: 0;
     transform: translate(-50%, 0%);
     left: 50%;
     width: calc(38.5 * (1vw + 1vh - 1vmin));
     height: calc(14 * (1vw + 1vh - 1vmin));
+    border-style: solid;
+    border-color: black;
+    border-width: 0.12em;
 }
 
 .page1Img {
-    position: absolute;
-    bottom: 8%;
-    margin-right: -50%;
+    position: relative;
     transform: translate(-50%, 0%);
     left: 50%;
     width: calc(38.4 * (1vw + 1vh - 1vmin));
     height: calc(8 * (1vw + 1vh - 1vmin)); 
+    margin-top: calc(1.5 * (1vw + 1vh - 1vmin));
 }
 
 .page3Img {
-    position: absolute;
-    bottom: 12%;
-    margin-right: -50%;
+    position: relative;
     transform: translate(-50%, 0%);
     left: 50%;
     width: calc(19.4 * (1vw + 1vh - 1vmin));
-    height: calc(10 * (1vw + 1vh - 1vmin)); 
-}
-
-.page4Img {
-    position: absolute;
-    bottom: 25%;
-    margin-right: -50%;
-    transform: translate(-50%, 0%);
-    left: 50%;
-    width: calc(24 * (1vw + 1vh - 1vmin));
-    height: calc(5 * (1vw + 1vh - 1vmin));  
+    height: calc(10 * (1vw + 1vh - 1vmin));
+    border-style: solid;
+    border-color: black;
+    border-width: 0.12em;
+    margin-top: calc(2 * (1vw + 1vh - 1vmin));
 }
 
 .page0Text {
-    position: absolute;
-    top: calc(15% + 15 * (1vw + 1vh - 1vmin));
-    color: white;
+    position: relative;
+    transform: translate(-50%, 0%);
+    top: calc(3 * (1vw + 1vh - 1vmin));
+    left: 50%;
+    color: black;
     font-size: calc(1px + 2 * (1vw + 1vh - 1vmin));
-    margin-left: 10%;
-    margin-right: 10%;
+    margin: 0;
 }
 
 .pageText {
-    position: absolute;
-    top: 10%;
-    color: white;
+    position: relative;
+    margin: 0;
+    top: 0;
+    transform: translate(-50%, 0%);
+    left: 50%;
+    color: black;
     font-size: calc(2 * (1vw + 1vh - 1vmin));
-    margin-left: 10%;
-    margin-right: 10%;
 }
