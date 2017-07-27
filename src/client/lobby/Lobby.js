@@ -158,9 +158,12 @@ export class Lobby extends Component {
         return (
             <div className={lobbyStyles.lobbyMain}>
                 <div className={lobbyStyles.userStats}>
-                    <Player name={name} />
-                    {this.props.elorank ? <h2> Rating: {this.props.elorank} </h2>: null}
-                    {this.props.winLossRecord ? <h2> Wins: {this.props.winLossRecord.wins} Loses: {this.props.winLossRecord.loses} </h2>: null}
+                    <canvas id="myavatar" className={lobbyStyles.canvas}/>
+                    <div className={lobbyStyles.userText}>
+                        <Player name={name} />
+                        {this.props.elorank ? <h2> Rating: {this.props.elorank} </h2>: null}
+                        {this.props.winLossRecord ? <h2> Wins: {this.props.winLossRecord.wins} Loses: {this.props.winLossRecord.loses} </h2>: null}
+                    </div>
                 </div>
                 <button className={lobbyStyles.rules} onClick={this.handleToggleRules}> Rules </button>
                 {(this.state.screenWidth >= 600) ? normalDisplay : tabbedDisplay}
