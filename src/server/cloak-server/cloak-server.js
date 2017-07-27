@@ -29,15 +29,11 @@ module.exports = function(expressServer) {
             getroominfo: function(msg, user) {
                 gameRoomFunctions.getRoomInfo(user);
             },
-            userready: function(_, user) {
-                user.data.ready = !user.data.ready;
-                cloak.messageAll('updateusers', lobbyFunctions.getLobbyUserInfo());
-            },
             challengeplayer: function(id, user) {
                 challengeFunctions.challengePlayer(id, user);
             },
-            cancelchallenge: function(_, user) {
-                challengeFunctions.cancelChallenge(user);
+            cancelchallenge: function(id, user) {
+                challengeFunctions.cancelChallenge(id, user);
             },
             challengerespond: function(accept, user) {
                 challengeFunctions.challengeRespond(accept, user);

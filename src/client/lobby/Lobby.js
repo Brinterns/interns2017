@@ -17,7 +17,6 @@ export class Lobby extends Component {
             rules: false
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-        this.onClick = this.onClick.bind(this);
         this.challengeUser = this.challengeUser.bind(this);
         this.cancelChallenge = this.cancelChallenge.bind(this);
         this.challengeRespond = this.challengeRespond.bind(this);
@@ -40,12 +39,6 @@ export class Lobby extends Component {
         });
     }
 
-    onClick(e) {
-        if (!(this.props.challenger || this.props.challenging)) {
-            cloak.message('userready', _);
-        }
-    }
-
     reconnectWait() {
         setTimeout(() => {
             if (cloak.connected()) {
@@ -65,14 +58,12 @@ export class Lobby extends Component {
         }
     }
 
-    challengeUser(user) {
-        if (!(this.props.challenger || this.props.challenging)) {
-            cloak.message('challengeplayer', user.id);
-        }
+    challengeUser(id) {
+        cloak.message('challengeplayer', id);
     }
 
-    cancelChallenge() {
-        cloak.message('cancelchallenge', _);
+    cancelChallenge(id) {
+        cloak.message('cancelchallenge', id);
     }
 
     challengeRespond(accept) {
@@ -98,8 +89,13 @@ export class Lobby extends Component {
 
         const userDisplayList = (
             otherUsers.map((user, i) => {
-                const canChallenge = this.props.challenging || ((this.props.challenger === null) ? true : false);
-                return <User key={i} user={user} canChallenge={canChallenge} challengeUser={this.challengeUser} />;
+                const challenging = this.props.challenging.filter(id => {
+                    return user.id === id;
+                }).length ? true : false;
+                const challenged = this.props.challengers.filter(id => {
+                    return user.id === id;
+                }).length ? true : false;
+                return <User key={i} user={user} challenging={challenging} challenged={challenged} challengeUser={this.challengeUser} cancelChallenge={this.cancelChallenge} />;
             })
         );
         const gamesDisplayList = (
@@ -107,30 +103,6 @@ export class Lobby extends Component {
                 return <div key={i} className={lobbyStyles.game}><h1>{gameName}</h1></div>;
             })
         );
-        const buttonClass = this.props.ready ? lobbyStyles.unready : null;
-
-        let challengedDiv = null;
-        if (this.props.challenger) {
-            const opponent = this.props.listOfUsers.filter(user => {
-                return user.id === this.props.challenger;
-            })[0];
-            if (opponent) {
-                challengedDiv =
-                    <div className={lobbyStyles.challengeMenu}>
-                        <h1> {opponent.name} has challenged you </h1>
-                        <button className={lobbyStyles.acceptButton} onClick={() => {this.challengeRespond(true)}}> Accept </button>
-                        <button className={lobbyStyles.declineButton} onClick={() => {this.challengeRespond(false)}}> Decline </button>
-                    </div>;
-            }
-        }
-        let challengingDiv = null;
-        if (this.props.challenging) {
-            challengingDiv =
-                <div className={lobbyStyles.challengeMenu}>
-                    <h1> Waiting for response... </h1>
-                    <button className={lobbyStyles.cancelButton} onClick={this.cancelChallenge}> Cancel </button>
-                </div>;
-        }
 
         const normalDisplay =
             <div className={lobbyStyles.container}>
@@ -181,12 +153,7 @@ export class Lobby extends Component {
                 <button className={lobbyStyles.rules} onClick={this.handleToggleRules}> Rules </button>
                 {(this.state.screenWidth >= 600) ? normalDisplay : tabbedDisplay}
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
-                <div className={lobbyStyles.readyOptions}>
-                    <button className={buttonClass} onClick={this.onClick}>{this.props.ready ? 'Unready' : 'Ready'}</button>
-                </div>
                 {this.state.rules ? <Rules toggleRules={this.handleToggleRules} /> : null}
-                {challengingDiv}
-                {challengedDiv}
             </div>
         );
     }
@@ -195,9 +162,8 @@ export class Lobby extends Component {
 const mapStateToProps = state => ({
     id: state.lobby.id,
     listOfUsers: state.lobby.listOfUsers,
-    ready: state.lobby.ready,
     challenging: state.lobby.challenging,
-    challenger: state.lobby.challenger,
+    challengers: state.lobby.challengers,
     listOfActiveGames: state.lobby.listOfActiveGames,
     messages: state.lobby.messages,
     winLossRecord: state.lobby.winLossRecord,

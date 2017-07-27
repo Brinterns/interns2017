@@ -238,30 +238,22 @@
     font-size: calc(10px + 1.5 * (1vw + 1vh - 1vmin));
 }
 
-.challengeButton {
+.buttonDiv {
     position: relative;
     width: 50%;
     display: inline-block;
 }
 
-.challengeButton button {
+.buttonDiv button {
+    padding: calc(3px + 0.5 * (1vw + 1vh - 1vmin));
     float: right;
     outline: none;
-    background-color: #03b733;
-    border-color: black;
-    height: calc(2 * (1vw + 1vh - 1vmin));
-    width: calc(6 * (1vw + 1vh - 1vmin));
-    min-height: 20px;
-    min-width: 70px;
-    border-radius: 10em;
-    font-size: calc(8px + 0.5 * (1vw + 1vh - 1vmin));
+    background-color: #0265CB;
+    border-style: none;
+    color: white;
+    font-size: calc(10px + 0.5 * (1vw + 1vh - 1vmin));
     font-weight: bold;
     text-align: center;
-}
-
-.inactiveChallenge {
-    opacity: 0.5;
-    cursor: default;
 }
 
 .challengeMenu {
