@@ -83,12 +83,24 @@ export class Lobby extends Component {
     render() {
         let otherUsers = [];
         let name = '';
+        let myCanvas = null;
         this.props.listOfUsers.forEach((user) => {
             if (this.props.id != user.id) {
                 otherUsers.push(user);
                 return;
             }
             name = user.name;
+            if (user.avatar) {
+                myCanvas = document.getElementById('myavatar');
+                if (myCanvas) {
+                    var ctx = myCanvas.getContext('2d');
+                    var img = new Image;
+                    img.onload = function(){
+                      ctx.drawImage(img,0,0);
+                    };
+                    img.src = user.avatar;
+                }
+            }
         });
 
         const userDisplayList = (
