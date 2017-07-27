@@ -107,7 +107,7 @@ export class Lobby extends Component {
             otherUsers.map((user, i) => {
                 const challenging = (this.props.challenging.indexOf(user.id) >= 0);
                 const challenged = (this.props.challengers.indexOf(user.id) >= 0);
-                return <User key={i} user={user} challenging={challenging} challenged={challenged} challengeUser={this.challengeUser} cancelChallenge={this.cancelChallenge} challengeRespond={this.challengeRespond} />;
+                return <User index={i} key={i} user={user} challenging={challenging} challenged={challenged} challengeUser={this.challengeUser} cancelChallenge={this.cancelChallenge} challengeRespond={this.challengeRespond} />;
             })
         );
         const gamesDisplayList = (

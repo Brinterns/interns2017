@@ -242,6 +242,8 @@
     display: inline-block;
 }
 
+
+
 .game {
     padding: calc(1.5 * (1vw + 1vh - 1vmin));
     margin-top: calc(1.5 * (1vw + 1vh - 1vmin));

@@ -9,6 +9,18 @@ export default class User extends Component {
     }
 
     render() {
+        const canvasId = "useravatar" + this.props.index;
+        if (this.props.user.avatar) {
+            var myCanvas = document.getElementById(canvasId);
+            if (myCanvas) {
+                var ctx = myCanvas.getContext('2d');
+                var img = new Image;
+                img.onload = function(){
+                  ctx.drawImage(img,0,0);
+                };
+                img.src = this.props.user.avatar;
+            }
+        }
         var challengeButtons;
         if (this.props.challenging) {
             challengeButtons =
@@ -27,10 +39,10 @@ export default class User extends Component {
                     <button onClick={() => {this.props.challengeUser(this.props.user.id)}}> Challenge </button>
                 </div>;
         }
-
         return (
             <div className={userStyles.user}>
                 <div className={userStyles.userDetails}>
+                    <canvas id={canvasId} className={userStyles.canvas}/>
                     <h1> {this.props.user.name} </h1>
                     <h2> Rating: {this.props.user.elorank} </h2>
                     <h2> W: {this.props.user.winLossRecord.wins} L: {this.props.user.winLossRecord.loses} </h2>
