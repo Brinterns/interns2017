@@ -246,7 +246,11 @@
 }
 
 .buttonDiv button {
-    padding: calc(3px + 0.5 * (1vw + 1vh - 1vmin));
+    padding: 0;
+    height: calc(3.5 * (1vw + 1vh - 1vmin));
+    width: calc(8 * (1vw + 1vh - 1vmin));
+    min-height: 35px;
+    min-width: 80px;
     float: right;
     outline: none;
     background-color: #0265CB;
@@ -259,21 +263,15 @@
 
 .acceptButton {
     background-color: #03b733 !important;
-    padding: 0 !important;
-    outline: none;
-    height: calc(3 * (1vw + 1vh - 1vmin));
-    width: calc(3 * (1vw + 1vh - 1vmin));
-    min-height: 25px;
-    min-width: 25px;
-    margin-right: calc(0.5 * (1vw + 1vh - 1vmin)); 
+    width: calc(3.5 * (1vw + 1vh - 1vmin)) !important;
+    min-height: 35px !important;
+    min-width: 35px !important;
+    margin-right: calc(5px + 0.7 * (1vw + 1vh - 1vmin));
 }
 
 .declineButton {
     background-color: #e81212 !important;
-    padding: 0 !important;
-    outline: none;
-    height: calc(3 * (1vw + 1vh - 1vmin));
-    width: calc(3 * (1vw + 1vh - 1vmin));
-    min-height: 25px;
-    min-width: 25px;
+    width: calc(3.5 * (1vw + 1vh - 1vmin)) !important;
+    min-height: 35px !important;
+    min-width: 35px !important;
 }
