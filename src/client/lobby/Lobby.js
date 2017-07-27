@@ -93,12 +93,8 @@ export class Lobby extends Component {
 
         const userDisplayList = (
             otherUsers.map((user, i) => {
-                const challenging = this.props.challenging.filter(id => {
-                    return user.id === id;
-                }).length ? true : false;
-                const challenged = this.props.challengers.filter(id => {
-                    return user.id === id;
-                }).length ? true : false;
+                const challenging = (this.props.challenging.indexOf(user.id) >= 0);
+                const challenged = (this.props.challengers.indexOf(user.id) >= 0);
                 return <User key={i} user={user} challenging={challenging} challenged={challenged} challengeUser={this.challengeUser} cancelChallenge={this.cancelChallenge} challengeRespond={this.challengeRespond} />;
             })
         );
