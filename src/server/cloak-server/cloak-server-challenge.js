@@ -52,24 +52,22 @@ function challengeRespond(challengerId, user, accept) {
         }
         user.data.challengers.forEach(challenger => {
             if (challenger !== challengerId) {
-                console.log("Here 1");
                 challengeRespond(challenger, user, false);
             }
         });
         user.data.challenging.forEach(challenging => {
-            console.log("Here 2");
             challengeRespond(user.id, cloak.getUser(challenging), false);
         });
         user2.data.challengers.forEach(challenger => {
-            console.log("Here 3");
             challengeRespond(challenger.id, user, false);
         });
         user2.data.challenging.forEach(challenging => {
             if (challenging !== user.id) {
-                console.log("Here 4");
                 challengeRespond(user.id, cloak.getUser(challenging), false);
             }
         });
+        user.data.challengers = [];
+        user2.data.challenging = [];
         let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
         userJoinRoom(user2, createdRoom);
         userJoinRoom(user, createdRoom);

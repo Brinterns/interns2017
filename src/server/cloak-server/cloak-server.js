@@ -44,6 +44,8 @@ module.exports = function(expressServer) {
             leavegame: function(msg, user) {
                 cloak.getLobby().addMember(user);
                 user.message('gotolobby');
+                user.message('updatechallenging', user.data.challenging);
+                user.message('updatechallengers', user.data.challengesr);
             },
             win: function(winBool, user) {
                 gameRoomFunctions.win(winBool, user);
