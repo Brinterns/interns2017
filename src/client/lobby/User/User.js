@@ -13,7 +13,7 @@ export default class User extends Component {
         if (this.props.challenging) {
             challengeButtons =
                 <div className={userStyles.buttonDiv}>
-                    <button className={userStyles.cancelButton} onClick={() => {this.props.cancelChallenge(this.props.user.id)}}> Cancel </button>
+                    <button onClick={() => {this.props.cancelChallenge(this.props.user.id)}}> Cancel </button>
                 </div>;
         } else if (this.props.challenged) {
             challengeButtons =
