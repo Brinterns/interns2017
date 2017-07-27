@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 import { updateUsername } from './Login-actions';
 import { RunCloakConfig } from '../services/cloak-service';
 import {SketchField, Tools} from 'react-sketch';
+import bin from '../images/icons/bin.png';
+import redo from '../images/icons/redo.png';
+import undo from '../images/icons/undo.png';
 
 export class Login extends Component {
     constructor(props) {
@@ -64,11 +67,11 @@ export class Login extends Component {
                 <div className={styles.backgroundBlock}>
                     <div className={styles.inputbox}>
                         <div  className={styles.canvas}>
-                            <button onClick={this.clearImg}>Clear</button>
-                            <button onClick={this.undoImg}>Undo</button>
-                            <button onClick={this.redoImg}>Redo</button>
-                            <SketchField width='200px'
-                             height='150px'
+                            <img onClick={this.clearImg} src={bin}/>
+                            <img onClick={this.undoImg} src={undo}/>
+                            <img onClick={this.redoImg} src={redo}/>
+                            <SketchField
+                            className={styles.drawingCanvas}
                              ref={(c) => this._sketch = c}
                              tool={Tools.Pencil}
                              lineColor='black'

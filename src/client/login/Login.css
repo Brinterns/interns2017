@@ -35,9 +35,9 @@
     min-width: 250px;
 }
 
-.test {
-        width: 50px;
-        height: 50px;
+.drawingCanvas {
+    height: calc(11.5 * (1vw + 1vh - 1vmin)) !important;
+    min-height: 100px !important;
 }
 
 .canvas {
@@ -50,6 +50,13 @@
     width: calc(20 * (1vw + 1vh - 1vmin));
     min-height: 140px;
     min-width: 200px;
+}
+
+.canvas img {
+    cursor: pointer;
+    margin-right: calc(0.5 * (1vw + 1vh - 1vmin));
+    height: calc(2.0 * (1vw + 1vh - 1vmin));
+    width: calc(2.0 * (1vw + 1vh - 1vmin));
 }
 
 .inputbox {
