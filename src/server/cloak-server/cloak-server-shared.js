@@ -61,6 +61,7 @@ function previousUser(dbId, prevId, user) {
         db.find(dbId).then(function(resp) {
             if (resp) {
                 user.name = resp.name;
+                user.data.avatar = resp.avatar;
                 cloak.getLobby().addMember(user);
                 user.message('gotolobby');
                 updateMessagesId(prevId, user);
