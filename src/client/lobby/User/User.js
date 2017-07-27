@@ -6,26 +6,35 @@ import userStyles from '../Lobby.css';
 export default class User extends Component {
     constructor(props) {
         super(props);
-        this.onClick = this.onClick.bind(this);
-    }
-
-    onClick() {
-        if (this.props.user.ready) {
-            this.props.challengeUser(this.props.user);
-        }
     }
 
     render() {
-        const buttonClassname = (!this.props.user.ready || !this.props.canChallenge || this.props.user.inChallenge) ? userStyles.inactiveChallenge : null;
+        var challengeButtons;
+        if (this.props.challenging) {
+            challengeButtons =
+                <div className={userStyles.buttonDiv}>
+                    <button onClick={() => {this.props.cancelChallenge(this.props.user.id)}}> Cancel </button>
+                </div>;
+        } else if (this.props.challenged) {
+            challengeButtons =
+                <div className={userStyles.buttonDiv}>
+                    <button className={userStyles.declineButton} onClick={() => {this.props.challengeRespond(false, this.props.user.id)}}> &#x2716; </button>
+                    <button className={userStyles.acceptButton} onClick={() => {this.props.challengeRespond(true, this.props.user.id)}}> &#10004; </button>
+                </div>;
+        } else {
+            challengeButtons =
+                <div className={userStyles.buttonDiv}>
+                    <button onClick={() => {this.props.challengeUser(this.props.user.id)}}> Challenge </button>
+                </div>;
+        }
+
         return (
             <div className={userStyles.user}>
                 <div className={userStyles.userDetails}>
                     <h1> {this.props.user.name} </h1>
                     <h2> Rating: {this.props.user.elorank} W: {this.props.user.winLossRecord.wins} L: {this.props.user.winLossRecord.loses} </h2>
                 </div>
-                <div className = {userStyles.challengeButton}>
-                    <button className={buttonClassname} onClick={this.onClick}>Challenge</button>
-                </div>
+                {challengeButtons}
             </div>
         );
     }

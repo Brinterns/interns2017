@@ -3,8 +3,8 @@ import {
     updateId,
     updateRoomNames,
     updateUsers,
-    waitChallenge,
-    showChallenge
+    updateChallenging,
+    updateChallengers
 } from '../lobby/Lobby-actions';
 
 import {
@@ -46,11 +46,11 @@ export function RunCloakConfig() {
             /***********************************************************/
             updateusers: (userInfo) => {
                 const info = JSON.parse(userInfo);
-                const ready = info.filter((user) => {
+                const user = info.filter((user) => {
                     return user.id === localStorage.getItem('userId');
                 })[0];
-                if (ready) {
-                    dispatch(updateUsers(info, ready.ready));
+                if (user) {
+                    dispatch(updateUsers(info));
                 }
             },
             updaterooms: (roomNames) => {
@@ -64,11 +64,11 @@ export function RunCloakConfig() {
                 dispatch(updateId(id));
                 dispatch(updateUserGameId(id));
             },
-            waitchallenge: (challenging) => {
-                dispatch(waitChallenge(challenging));
+            updatechallenging: (challenging) => {
+                dispatch(updateChallenging(challenging));
             },
-            showchallenge: (id) => {
-                dispatch(showChallenge(id));
+            updatechallengers: (challengers) => {
+                dispatch(updateChallengers(challengers));
             },
             joingame: (roomId) => {
                 browserHistory.push('/game/' + roomId);

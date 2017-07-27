@@ -25,7 +25,6 @@ function getLobbyUserInfo() {
         var userJson = {
             id: user.id,
             name: user.name,
-            ready: user.data.ready,
             inChallenge: user.data.challenger || user.data.challenging,
             winLossRecord: user.data.winLossRecord,
             elorank: user.data.elorank

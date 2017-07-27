@@ -61,6 +61,7 @@ describe('<ChatBox />', () => {
         });
         expect(wrapper.find("div").length).toEqual(defaultDivs + msgs.length);
     });
+    
     it('Message message is displayed correctly', () => {
         const msgs = [message1, message2];
         const wrapper = shallow(<ChatBox id={4} messages={msgs}/>);
@@ -100,6 +101,4 @@ describe('<ChatBox />', () => {
         });
         expect(wrapper.find("p").at(1).text()).toEqual('2');
     });
-
-
 });

@@ -3,8 +3,8 @@ export const UPDATE_MESSAGES = namespace + 'UPDATE_MESSAGES';
 export const UPDATE_USER_ID = namespace + 'UPDATE_USER_ID';
 export const UPDATE_ROOM_NAMES = namespace + 'UPDATE_ROOM_NAMES';
 export const UPDATE_USERS = namespace + 'UPDATE_USERS';
-export const WAIT_CHALLENGE = namespace + 'WAIT_CHALLENGE';
-export const SHOW_CHALLENGE = namespace + 'SHOW_CHALLENGE';
+export const UPDATE_CHALLENGING = namespace + 'UPDATE_CHALLENGING';
+export const UPDATE_CHALLENGERS = namespace + 'UPDATE_CHALLENGERS';
 
 export function updateId(id) {
     localStorage.setItem('userId', id);
@@ -14,13 +14,10 @@ export function updateId(id) {
     }
 }
 
-export function updateUsers(listOfUsers, ready) {
+export function updateUsers(listOfUsers) {
     return {
         type: UPDATE_USERS,
-        payload: {
-            listOfUsers: listOfUsers,
-            ready: ready
-        }
+        payload: listOfUsers
     }
 }
 
@@ -38,16 +35,16 @@ export function updateLobbyMessages(messages) {
     }
 }
 
-export function showChallenge(id) {
+export function updateChallenging(challenging) {
     return {
-        type: SHOW_CHALLENGE,
-        payload: id
+        type: UPDATE_CHALLENGING,
+        payload: challenging
     }
 }
 
-export function waitChallenge(challenging) {
+export function updateChallengers(challengers) {
     return {
-        type: WAIT_CHALLENGE,
-        payload: challenging
+        type: UPDATE_CHALLENGERS,
+        payload: challengers
     }
 }

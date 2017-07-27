@@ -4,17 +4,76 @@ const numberOfPieces = 7;
 
 function challengePlayer(id, user) {
     var user2 = cloak.getUser(id);
-    if (!user.data.challenging && !user.data.challenger && !user2.data.challenging && !user2.data.challenger) {
-        user.data.challenging = user2.id;
-        user2.data.challenger = user.id;
-        user.message('waitchallenge', true);
-        user2.message('showchallenge', user2.data.challenger);
+    if (!user.data.challenging) {
+        user.data.challenging = [];
     }
-    cloak.messageAll('updateusers', lobbyFunctions.getLobbyUserInfo());
+    if (!user2.data.challengers) {
+        user2.data.challengers = [];
+    }
+    user.data.challenging.push(id);
+    user2.data.challengers.push(user.id);
+    user.message('updatechallenging', user.data.challenging);
+    user.message('updateusers', lobbyFunctions.getLobbyUserInfo());
+    user2.message('updatechallengers', user2.data.challengers);
+    user2.message('updateusers', lobbyFunctions.getLobbyUserInfo());
 }
 
-function cancelChallenge(user) {
-    challengeRespond(false, cloak.getUser(user.data.challenging));
+function cancelChallenge(id, user) {
+    challengeRespond(user.id, cloak.getUser(id), false);
+}
+
+function acceptChallenge(id, user) {
+    challengeRespond(id, user, true);
+}
+
+function declineChallenge(id, user) {
+    challengeRespond(id, user, false);
+}
+
+function challengeRespond(challengerId, user, accept) {
+    var user2 = cloak.getUser(challengerId);
+    if (!accept) {
+        user.data.challengers = user.data.challengers.filter(challenger => {
+            return challenger !== challengerId;
+        });
+        user2.data.challenging = user2.data.challenging.filter(challenging => {
+            return challenging !== user.id;
+        });
+        user.message('updatechallengers', user.data.challengers);
+        user2.message('updatechallenging', user.data.challenging);
+    } else {
+        user.data.opponentDbId = user2.data.dbId;
+        user2.data.opponentDbId = user.data.dbId;
+        if (!user.data.challenging) {
+            user.data.challenging = [];
+        }
+        if (!user2.data.challengers) {
+            user2.data.challengers = [];
+        }
+        user.data.challengers.forEach(challenger => {
+            if (challenger !== challengerId) {
+                challengeRespond(challenger, user, false);
+            }
+        });
+        user.data.challenging.forEach(challenging => {
+            challengeRespond(user.id, cloak.getUser(challenging), false);
+        });
+        user2.data.challengers.forEach(challenger => {
+            challengeRespond(challenger.id, user, false);
+        });
+        user2.data.challenging.forEach(challenging => {
+            if (challenging !== user.id) {
+                challengeRespond(user.id, cloak.getUser(challenging), false);
+            }
+        });
+        user.data.challengers = [];
+        user2.data.challenging = [];
+        let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
+        userJoinRoom(user2, createdRoom);
+        userJoinRoom(user, createdRoom);
+        createdRoom.messageMembers('joingame', createdRoom.id);
+        lobbyFunctions.updateLobbyActiveGames();
+    }
 }
 
 function userJoinRoom(user, room) {
@@ -26,27 +85,7 @@ function userJoinRoom(user, room) {
     user.data.lastRoll = null;
 }
 
-function challengeRespond(accept, user) {
-    const challenger = user.data.challenger;
-    var user2 = cloak.getUser(challenger);
-    user.data.challenger = null;
-    user2.data.challenging = null;
-    user.message('showchallenge', user.data.challenger);
-    user2.message('waitchallenge', false);
-    if (!accept) {
-        cloak.messageAll('updateusers', lobbyFunctions.getLobbyUserInfo());
-        return;
-    } else {
-        user.data.opponentDbId = user2.data.dbId;
-        user2.data.opponentDbId = user.data.dbId;
-        let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
-        userJoinRoom(user2, createdRoom);
-        userJoinRoom(user, createdRoom);
-        createdRoom.messageMembers('joingame', createdRoom.id);
-        lobbyFunctions.updateLobbyActiveGames();
-    }
-}
-
 module.exports.challengePlayer = challengePlayer;
 module.exports.cancelChallenge = cancelChallenge;
-module.exports.challengeRespond = challengeRespond;
+module.exports.acceptChallenge = acceptChallenge;
+module.exports.declineChallenge = declineChallenge;

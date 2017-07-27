@@ -82,18 +82,24 @@ function reconnectUser(id, user) {
         user.joinRoom(room);
         updateMessagesId(id, user);
         if (room.isLobby) {
-            const challenging = user.data.challenging ? true : false;
-            user.message('waitchallenge', challenging);
-            user.message('showchallenge', user.data.challenger);
-            if (user.data.challenging) {
-                var opponent = cloak.getUser(user.data.challenging);
-                opponent.data.challenger = user.id;
-                opponent.message('showchallenge', opponent.data.challenger);
-            } else if (user.data.challenger) {
-                var opponent = cloak.getUser(user.data.challenger);
-                opponent.data.challenging = user.id;
+            if (!user.data.challengers) {
+                user.data.challengers = [];
             }
-            user.message('gotolobby');
+            if (!user.data.challenging) {
+                user.data.challenging = [];
+            }
+            user.message('updatechallengers', user.data.challengers);
+            user.message('updatechallenging', user.data.challenging);
+            user.data.challengers.forEach(challengerId => {
+                var challenger = cloak.getUser(challengerId);
+                challenger.data.challenging[challenger.data.challenging.indexOf(user2.id)] = user.id;
+                challenger.message('updatechallenging', challenger.data.challenging);
+            });
+            user.data.challenging.forEach(challengingId => {
+                var challenging = cloak.getUser(challengingId);
+                challenging.data.challengers[challenging.data.challengers.indexOf(user2.id)] = user.id;
+                challenging.message('updatechallengers', challenging.data.challengers);
+            });
         } else {
             if (!user.data.rolledDice) {
                 user.data.lastRoll = null;

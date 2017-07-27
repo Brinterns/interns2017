@@ -29,22 +29,23 @@ module.exports = function(expressServer) {
             getroominfo: function(msg, user) {
                 gameRoomFunctions.getRoomInfo(user);
             },
-            userready: function(_, user) {
-                user.data.ready = !user.data.ready;
-                cloak.messageAll('updateusers', lobbyFunctions.getLobbyUserInfo());
-            },
             challengeplayer: function(id, user) {
                 challengeFunctions.challengePlayer(id, user);
             },
-            cancelchallenge: function(_, user) {
-                challengeFunctions.cancelChallenge(user);
+            cancelchallenge: function(id, user) {
+                challengeFunctions.cancelChallenge(id, user);
             },
-            challengerespond: function(accept, user) {
-                challengeFunctions.challengeRespond(accept, user);
+            acceptchallenge: function(id, user) {
+                challengeFunctions.acceptChallenge(id, user);
+            },
+            declinechallenge: function(id, user) {
+                challengeFunctions.declineChallenge(id, user);
             },
             leavegame: function(msg, user) {
                 cloak.getLobby().addMember(user);
                 user.message('gotolobby');
+                user.message('updatechallenging', user.data.challenging);
+                user.message('updatechallengers', user.data.challengesr);
             },
             win: function(winBool, user) {
                 gameRoomFunctions.win(winBool, user);
