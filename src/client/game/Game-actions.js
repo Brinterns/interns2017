@@ -3,6 +3,7 @@ export const UPDATE_USER_ID = namespace + 'UPDATE_USER_ID';
 export const UPDATE_LIST_OF_PLAYERS = namespace + 'UPDATE_LIST_OF_PLAYERS';
 export const UPDATE_CURRENT_PLAYER = namespace + 'UPDATE_CURRENT_PLAYER';
 export const UPDATE_CURRENT_PLAYER_ONLY = namespace + 'UPDATE_CURRENT_PLAYER_ONLY';
+export const OPPONENT_DISCONNECT = namespace + 'OPPONENT_DISCONNECT';
 export const GAME_OVER = namespace + 'GAME_OVER';
 export const TOGGLE_FORFEIT = namespace + 'TOGGLE_FORFEIT';
 export const ROLLED_NUMBER = namespace + 'ROLLED_NUMBER';
@@ -18,12 +19,19 @@ export const RESET_ROLL_TEXT = namespace + 'RESET_ROLL_TEXT';
 export const OPPONENT_ROLLED_NUMBER = namespace + 'OPPONENT_ROLLED_NUMBER';
 export const RESET_NOTIFICATION_BOOL = namespace + 'RESET_NOTIFICATION_BOOL';
 export const RESET_STORE = namespace + 'RESET_STORE';
+export const UPDATE_MESSAGES = namespace + 'UPDATE_MESSAGES';
 
 export function updateUserGameId(id) {
-    localStorage.setItem('userId', id);
     return {
         type: UPDATE_USER_ID,
         payload: id
+    }
+}
+
+export function updateGameMessages(messages) {
+    return {
+        type: UPDATE_MESSAGES,
+        payload: messages
     }
 }
 
@@ -84,6 +92,12 @@ export function updateCurrentPlayerOnly(current) {
     return {
         type: UPDATE_CURRENT_PLAYER_ONLY,
         payload: current
+    }
+}
+
+export function opponentDisconnect() {
+    return {
+        type: OPPONENT_DISCONNECT
     }
 }
 

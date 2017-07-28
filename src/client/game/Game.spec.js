@@ -1,8 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import _ from 'underscore';
 import configureStore from 'redux-mock-store'
-import Board from './Board';
+import Game from './Game';
 
 const middlewares = [];
 const mockStore = configureStore(middlewares);
@@ -12,9 +11,9 @@ describe('<Board />', () => {
     let state;
     beforeEach(() => {
         state = initialState;
-        window.cloak = jasmine.createSpyObj('cloak', ['configure', 'run']);
+        window.cloak = jasmine.createSpyObj('cloak', ['configure', 'run', 'connected']);
     });
-    
+
     const initialState = {
         game: {
             roomName: '',
@@ -43,17 +42,12 @@ describe('<Board />', () => {
             opponentDisconnect: false
         }
     };
-    
-    it('Default display for roll button should be (Roll)', () => {
+
+    it('Shows the right message if opponent disconnects', () => {
+        state.game.winnerId = 1;
+        state.game.opponentDisconnect = true;
         const store = mockStore(state);
-        wrapper = shallow(<Board store={store}/>).shallow();
-        expect(wrapper.find("button").text()).toEqual('Roll');
-    });
-    
-    it('When a rolled value is passed to board, it is displayed in the button', () => {
-        state.game.rollNumber = '3';
-        const store = mockStore(state);
-        wrapper = shallow(<Board store={store}/>).shallow();
-        expect(wrapper.find("button").text()).toEqual('3');
-    });
+        wrapper = shallow(<Game store={store}/>).shallow();
+        expect(wrapper.find("h1").last().text()).toEqual(' Opponent Disconnected, You Won! ');
+    })
 });

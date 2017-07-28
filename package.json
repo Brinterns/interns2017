@@ -1,6 +1,6 @@
 {
   "name": "interns2017",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Interns 2017",
   "main": "app.js",
   "engines": {
@@ -23,6 +23,7 @@
     "cloak": "^1.0.0",
     "css-loader": "^0.23.1",
     "del": "^2.2.0",
+    "elo-rank": "^1.0.3",
     "express": "^4.13.4",
     "extract-text-webpack-plugin": "^1.0.1",
     "gulp": "gulpjs/gulp#4.0",
@@ -47,6 +48,8 @@
     "react-router": "^3.0.0",
     "react-router-dom": "^4.1.1",
     "react-router-redux": "^4.0.8",
+    "react-sketch": "^0.3.3",
+    "react-tabs": "^1.1.0",
     "react-test-renderer": "^15.6.1",
     "redux": "^3.5.2",
     "sass-loader": "^3.2.0",

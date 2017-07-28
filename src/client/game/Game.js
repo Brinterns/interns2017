@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import gameStyles from './Game.css';
+import Rules from '../rules/Rules';
 import Board from './board/Board';
 import { connect } from 'react-redux';
+import ChatBox from '../Chat/ChatBox';
 
 import { RunCloakConfig } from '../services/cloak-service';
 
@@ -13,10 +15,20 @@ import {
 export class Game extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            rules: false
+        };
+        this.handleToggleRules = this.handleToggleRules.bind(this);
         this.onWin = this.onWin.bind(this);
         this.onClickForfeit = this.onClickForfeit.bind(this);
         this.returnToLobby = this.returnToLobby.bind(this);
         {this.getGameInfo()};
+    }
+
+    handleToggleRules() {
+        this.setState({
+            rules: !this.state.rules
+        });
     }
 
     onWin(winBool) {
@@ -59,10 +71,15 @@ export class Game extends Component {
 
     render() {
         const isPlayerTurn = (this.props.currentPlayer === this.props.id);
-        const gameOverTextChoice = (this.props.winnerId == this.props.id) ? "You Won!" : "You Lost";
+        var gameOverTextChoice;
+        if (this.props.opponentDisconnect) {
+            gameOverTextChoice = "Opponent Disconnected, You Won!";
+        } else {
+            gameOverTextChoice = (this.props.winnerId === this.props.id) ? "You Won!" : "You Lost";
+        }
         const gameOverDiv = (
             <div className={gameStyles.notificationMenu}>
-                <h1>{gameOverTextChoice}</h1>
+                <h1> {gameOverTextChoice} </h1>
                 <button className={gameStyles.returnButton} onClick={this.returnToLobby}> Return To Lobby </button>
             </div>
         );
@@ -89,24 +106,30 @@ export class Game extends Component {
                 opponentRoll = (<p className={isPlayerTurn ? gameStyles.turnNotif : null}>{this.props.notificationText}</p>);
             }
         }
-
+        
         return (
-            <div className={gameStyles.gameMain}>
-                <h2> {currentPlayerText} </h2>
-                <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
-                <h1> {this.props.roomName} </h1>
-                <Board gameState={this.state} isPlayerTurn={isPlayerTurn}/>
+            <div>
+                <div className={gameStyles.gameMain}>
+                    <h2> {currentPlayerText} </h2>
+                    <button className={gameStyles.buttonDiv} onClick={this.onClickForfeit}> Forfeit </button>
+                    <button className={gameStyles.buttonDiv} onClick={this.handleToggleRules}> Rules </button>
+                    <h1> {this.props.roomName} </h1>
+                    <Board gameState={this.state} isPlayerTurn={isPlayerTurn}/>
+                    <ChatBox id={this.props.id} messages={this.props.messages}/>
+                    {this.props.winnerId ? gameOverDiv : null}
+                    {this.props.forfeit ? forfeitDiv : null}
+                </div>
+                {this.state.rules && !this.props.winnerId ? <Rules toggleRules={this.handleToggleRules} /> : null}
                 <div className={gameStyles.notificationDiv}>
                     {this.props.notificationBool ? opponentRoll : null}
                 </div>
-                {this.props.winnerId ? gameOverDiv : null}
-                {this.props.forfeit ? forfeitDiv : null}
             </div>
         );
     }
 }
 
 const mapStateToProps = state => ({
+    messages: state.game.messages,
     //Identity states
     id: state.game.id,
     currentPlayer: state.game.currentPlayer,
@@ -120,7 +143,8 @@ const mapStateToProps = state => ({
     roomName: state.game.roomName,
     //Notification states
     notificationBool: state.game.notificationBool,
-    notificationText: state.game.notificationText
+    notificationText: state.game.notificationText,
+    opponentDisconnect: state.game.opponentDisconnect
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -1,17 +1,19 @@
 import {
-    updateMessages,
+    updateLobbyMessages,
     updateId,
     updateRoomNames,
     updateUsers,
-    waitChallenge,
-    showChallenge
+    updateChallenging,
+    updateChallengers
 } from '../lobby/Lobby-actions';
 
 import {
     updateUserGameId,
+    updateGameMessages,
     updateListOfPlayers,
     updateCurrentPlayer,
     updateCurrentPlayerOnly,
+    opponentDisconnect,
     gameOver,
     rolledValue,
     setRoomName,
@@ -36,16 +38,19 @@ import { browserHistory } from 'react-router';
 export function RunCloakConfig() {
     cloak.configure({
         messages: {
+            gotologin: () => {
+                browserHistory.push("/login");
+            },
             /***********************************************************/
             /*                       Lobby messages                    */
             /***********************************************************/
             updateusers: (userInfo) => {
                 const info = JSON.parse(userInfo);
-                const ready = info.filter((user) => {
+                const user = info.filter((user) => {
                     return user.id === localStorage.getItem('userId');
                 })[0];
-                if (ready) {
-                    dispatch(updateUsers(info, ready.ready));
+                if (user) {
+                    dispatch(updateUsers(info));
                 }
             },
             updaterooms: (roomNames) => {
@@ -59,17 +64,17 @@ export function RunCloakConfig() {
                 dispatch(updateId(id));
                 dispatch(updateUserGameId(id));
             },
-            waitchallenge: (challenging) => {
-                dispatch(waitChallenge(challenging));
+            updatechallenging: (challenging) => {
+                dispatch(updateChallenging(challenging));
             },
-            showchallenge: (id) => {
-                dispatch(showChallenge(id));
+            updatechallengers: (challengers) => {
+                dispatch(updateChallengers(challengers));
             },
             joingame: (roomId) => {
                 browserHistory.push('/game/' + roomId);
             },
-            updatemessages: (messages) => {
-                dispatch(updateMessages(JSON.parse(messages)));
+            updatelobbymessages: (messages) => {
+                dispatch(updateLobbyMessages(JSON.parse(messages)));
             },
             /***********************************************************/
             /*                       Game messages                     */
@@ -77,6 +82,9 @@ export function RunCloakConfig() {
             //Identity Messages
             updateplayers: (userinfo) => {
                 dispatch(updateListOfPlayers(JSON.parse(userinfo)));
+            },
+            updategamemessages: (messages) => {
+                dispatch(updateGameMessages(JSON.parse(messages)));
             },
             currentplayer: (current) => {
                 dispatch(updateCurrentPlayer(current));
@@ -96,6 +104,9 @@ export function RunCloakConfig() {
                 dispatch(opponentRolled(value));
             },
             //End game messages
+            opponentdisconnect: () => {
+                dispatch(opponentDisconnect());
+            },
             gameover: (winnerId) => {
                 dispatch(gameOver(winnerId));
             },

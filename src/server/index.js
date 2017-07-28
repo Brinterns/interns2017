@@ -1,3 +1,3 @@
 var server = require('./server');
 
-require('./cloak-server')(server);
+require('./cloak-server/cloak-server')(server);

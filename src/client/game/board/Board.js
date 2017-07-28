@@ -14,7 +14,7 @@ const playerPath = [
     14,  17,  20,  23,
     22,  19,  16,  13,
     10,  7,  4,  1,
-    2,  5
+    2,  5,  8
 ];
 
 export class Board extends Component {
