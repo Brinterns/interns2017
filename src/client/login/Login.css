@@ -32,7 +32,6 @@
 
 .backgroundBlock {
     background-color: white;
-    border-radius: 1em;
     box-shadow: 1px 5px 10px black;
     /*positioning*/
     position: absolute;
