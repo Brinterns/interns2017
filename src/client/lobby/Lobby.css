@@ -291,17 +291,25 @@
     text-align: center;
 }
 
+.buttonHolder {
+    padding: 0;
+    height: calc(3.5 * (1vw + 1vh - 1vmin));
+    width: calc(8 * (1vw + 1vh - 1vmin));
+    min-height: 35px;
+    min-width: 80px;
+    float: right;
+}
+
 .acceptButton {
     background-color: #03b733 !important;
-    width: calc(3.5 * (1vw + 1vh - 1vmin)) !important;
+    width: calc(4 * (1vw + 1vh - 1vmin)) !important;
     min-height: 35px !important;
-    min-width: 35px !important;
-    margin-right: calc(5px + 0.7 * (1vw + 1vh - 1vmin));
+    min-width: 40px !important;
 }
 
 .declineButton {
     background-color: #e81212 !important;
-    width: calc(3.5 * (1vw + 1vh - 1vmin)) !important;
+    width: calc(4 * (1vw + 1vh - 1vmin)) !important;
     min-height: 35px !important;
-    min-width: 35px !important;
+    min-width: 40px !important;
 }
