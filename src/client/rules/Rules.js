@@ -34,7 +34,7 @@ export default class Rules extends Component {
     
     render() {
         return (
-            <div>
+            <div className={rulesStyles.container}>
                 {pages.getPage(this.state.page, this.toggleRules, this.prevPage, this.nextPage)}
             </div>
         );
