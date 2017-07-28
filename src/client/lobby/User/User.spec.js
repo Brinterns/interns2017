@@ -21,11 +21,16 @@ describe('<User />', () => {
         expect(wrapper.find("h1").text()).toEqual(" " + userProp.name + " ");
     });
 
-    it('Shows the right ELO rating and win/loss record', () => {
+    it('Shows the right ELO rating', () => {
         user.elorank = 1198;
+        const wrapper = shallow(<User user={user} />);
+        expect(wrapper.find("h2").at(0).text()).toEqual(" Rating: 1198 ");
+    });
+
+    it('Shows the right ELO rating', () => {
         user.winLossRecord = {wins: 2, loses: 1};
         const wrapper = shallow(<User user={user} />);
-        expect(wrapper.find("h2").text()).toEqual(" Rating: 1198 W: 2 L: 1 ");
+        expect(wrapper.find("h2").at(1).text()).toEqual(" W: 2 L: 1 ");
     });
 
     it('Shows the right button when the user is not in a challenge', () => {

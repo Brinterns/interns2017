@@ -59,9 +59,9 @@ describe('<ChatBox />', () => {
         wrapper.setState({
             showChat: true
         });
-        expect(wrapper.find("div").length).toEqual(defaultDivs + msgs.length);
+        expect(wrapper.find("div").length).toEqual(defaultDivs + msgs.length*2);
     });
-    
+
     it('Message message is displayed correctly', () => {
         const msgs = [message1, message2];
         const wrapper = shallow(<ChatBox id={4} messages={msgs}/>);

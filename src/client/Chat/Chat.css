@@ -170,7 +170,8 @@
 }
 
 .playerMesssge {
-    margin-bottom: calc(0.5 * (1vw + 1vh - 1vmin));
+    margin-top: calc(0.35 * (1vw + 1vh - 1vmin));
+    margin-bottom:calc(0.35 * (1vw + 1vh - 1vmin));
     background-color: white;
     margin-left: var(--messageLRMargins);
     margin-right: var(--messageLRMargins);
@@ -182,16 +183,39 @@
 }
 
 .opponentMessage {
-    margin-bottom: calc(0.5 * (1vw + 1vh - 1vmin));
+    display: inline-block;
     background-color: white;
-    margin-left: var(--messageLRMargins);
-    margin-right: var(--messageLRMargins);
-    padding-left: var(--messageLRPaddings);
+    margin-left: calc(0.3 * (1vw + 1vh - 1vmin));
     padding-right: var(--messageLRPaddings);
     border: solid;
     border-color: black;
     border-width: var(--bordersWidth);
+    width: calc(17.75 * (1vw + 1vh - 1vmin));
+    min-width: 136px;
+    padding-left: var(--messageLRPaddings);
 }
+
+.opponent {
+    word-wrap: break-word;
+    margin-top: calc(0.35 * (1vw + 1vh - 1vmin));
+    margin-bottom:calc(0.35 * (1vw + 1vh - 1vmin));
+}
+
+.avatar {
+    display: inline-block;
+    vertical-align: top;
+    height: calc(2.5 * (1vw + 1vh - 1vmin));
+    width: calc(2.5  * (1vw + 1vh - 1vmin));
+    min-height: 25px;
+    min-width: 25px;
+    background-color: white;
+    margin-left: var(--messageLRMargins);
+    /*borders*/
+    border-width: var(--bordersWidth);
+    border-color: black;
+    border-style: solid;
+}
+
 .playerMesssge h3 {
     margin-top: calc(calc(12px + 0.5 * (1vw + 1vh - 1vmin))/2);
     font-size: calc(12px + 0.5 * (1vw + 1vh - 1vmin));

@@ -20,7 +20,7 @@ export default class ChatBox extends Component {
         this.scrollToBottom = this.scrollToBottom.bind(this);
         this.handleClick = this.handleClick.bind(this);
     }
-    
+
     handleKeyPress(e) {
         if(e.key === 'Enter') {
             this.sendMessage();
@@ -82,10 +82,25 @@ export default class ChatBox extends Component {
                             </div>
                         );
                     }
+                    const canvasId = "msgcanvas" + i;
+                    setTimeout (() => {
+                        var myCanvas = document.getElementById(canvasId);
+                        if (myCanvas) {
+                            var ctx = myCanvas.getContext('2d');
+                            var img = new Image;
+                            img.onload = function(){
+                              ctx.drawImage(img,0,0);
+                            };
+                            img.src = messageData.avatar;
+                        }
+                    }, 50);
                     return(
-                        <div className={chatStyles.opponentMessage} key={i}>
-                            <h5>{messageData.message}</h5>
-                            <h4>{messageData.userName}</h4>
+                        <div key={i} className={chatStyles.opponent}>
+                            <canvas id={canvasId} className={chatStyles.avatar}/>
+                            <div className={chatStyles.opponentMessage}>
+                                <h5>{messageData.message}</h5>
+                                <h4>{messageData.userName}</h4>
+                            </div>
                         </div>
                     );
             })
