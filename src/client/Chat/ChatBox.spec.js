@@ -33,7 +33,7 @@ describe('<ChatBox />', () => {
     it('Clicking on chat should set open chat state to true', () => {
         const msgs = [];
         let wrapper = shallow (<ChatBox messages={msgs}/>);
-        wrapper.find('.Chat__closedChat___1rQBV').simulate("click");
+        wrapper.find('div').at(1).simulate("click");
         expect(wrapper.state().showChat).toEqual(true);
     });
 
