@@ -28,6 +28,10 @@ export default class ChatBox extends Component {
     }
 
     sendMessage() {
+
+        if (!(this.state.input).replace(/\s/g, '').length) {
+            return;
+        }
         cloak.message('sendmessage', this.state.input);
         this.setState({
             input: ''
