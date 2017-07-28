@@ -13,6 +13,7 @@ function setUsername(name, user) {
             db.add(user.data.dbId, user.name);
         }
     });
+    shared.updateMessagesId(user.id, user);
     cloak.getLobby().addMember(user);
 }
 

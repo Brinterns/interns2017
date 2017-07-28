@@ -18,7 +18,8 @@ function sendMessage(message, user) {
     var messageObj = {
         message: message,
         userName: user.name,
-        userId: user.id
+        userId: user.id,
+        avatar: user.data.avatar
     };
     var userRoom = user.getRoom();
     if (!userRoom.data.messages) {
@@ -50,6 +51,8 @@ function updateMessagesId(prevId, user) {
         for (var i = 0; i < userRoom.data.messages.length; i ++) {
             if (userRoom.data.messages[i].userId === prevId) {
                 userRoom.data.messages[i].userId = user.id;
+                userRoom.data.messages[i].userName = user.name;
+                userRoom.data.messages[i].avatar = user.data.avatar;
             }
         }
     }
@@ -123,7 +126,8 @@ function reconnectUser(id, user) {
 }
 
 
-module.exports.getRandomIntInclusive = getRandomIntInclusive;
+module.exports.getRandomIntInclusive = getRandomIntInclusive
+module.exports.updateMessagesId = updateMessagesId;
 module.exports.sendMessages = sendMessages;
 module.exports.getOpponent = getOpponent;
 module.exports.sendMessage = sendMessage;
