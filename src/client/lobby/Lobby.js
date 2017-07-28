@@ -122,7 +122,7 @@ export class Lobby extends Component {
                 <div className={lobbyStyles.tabList}>
                     <div className={lobbyStyles.tab}>
                         <div>
-                            <h1> Lobby </h1>
+                            <h1> Users </h1>
                         </div>
                     </div>
                     <div className={lobbyStyles.tab}>
@@ -141,7 +141,7 @@ export class Lobby extends Component {
                 <TabList className={lobbyStyles.tabList}>
                     <Tab className={lobbyStyles.tab}>
                         <div>
-                            <h1> Lobby </h1>
+                            <h1> Users </h1>
                         </div>
                     </Tab>
                     <Tab className={lobbyStyles.tab}>
