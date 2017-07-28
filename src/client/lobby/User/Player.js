@@ -45,9 +45,11 @@ export default class Player extends Component {
     }
 
     handleChange(e) {
-        this.setState({
-            input: e.target.value
-        });
+        if (e.target.value.length <= 14) {
+            this.setState({
+                input: e.target.value
+            });
+        }
     }
 
     render() {

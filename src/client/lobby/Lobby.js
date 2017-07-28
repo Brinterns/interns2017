@@ -107,7 +107,7 @@ export class Lobby extends Component {
             otherUsers.map((user, i) => {
                 const challenging = (this.props.challenging.indexOf(user.id) >= 0);
                 const challenged = (this.props.challengers.indexOf(user.id) >= 0);
-                return <User key={i} user={user} challenging={challenging} challenged={challenged} challengeUser={this.challengeUser} cancelChallenge={this.cancelChallenge} challengeRespond={this.challengeRespond} />;
+                return <User index={i} key={i} user={user} challenging={challenging} challenged={challenged} challengeUser={this.challengeUser} cancelChallenge={this.cancelChallenge} challengeRespond={this.challengeRespond} />;
             })
         );
         const gamesDisplayList = (
@@ -158,12 +158,15 @@ export class Lobby extends Component {
         return (
             <div className={lobbyStyles.lobbyMain}>
                 <div className={lobbyStyles.userStats}>
-                    <Player name={name} />
-                    {this.props.elorank ? <h2> Rating: {this.props.elorank} </h2>: null}
-                    {this.props.winLossRecord ? <h2> Wins: {this.props.winLossRecord.wins} Loses: {this.props.winLossRecord.loses} </h2>: null}
+                    <canvas id="myavatar" className={lobbyStyles.canvas}/>
+                    <div className={lobbyStyles.userText}>
+                        <Player name={name} />
+                        {this.props.elorank ? <h2> Rating: {this.props.elorank} </h2>: null}
+                        {this.props.winLossRecord ? <h2> Wins: {this.props.winLossRecord.wins} Loses: {this.props.winLossRecord.loses} </h2>: null}
+                    </div>
                 </div>
                 <button className={lobbyStyles.rules} onClick={this.handleToggleRules}> Rules </button>
-                {(this.state.screenWidth >= 600) ? normalDisplay : tabbedDisplay}
+                {(this.state.screenWidth >= 800) ? normalDisplay : tabbedDisplay}
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
                 {this.state.rules ? <Rules toggleRules={this.handleToggleRules} /> : null}
             </div>

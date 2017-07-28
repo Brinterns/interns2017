@@ -51,7 +51,9 @@ export class Login extends Component {
         }
     }
     handleChange(event) {
-        this.props.updateUsername(event.target.value);
+        if (event.target.value.length <= 14) {
+            this.props.updateUsername(event.target.value);
+        }
     }
 
     onSubmit() {
