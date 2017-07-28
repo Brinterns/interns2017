@@ -141,7 +141,7 @@ function getUsername(i) {
         "gibbonpeacock",
         "boronfolderol",
         "modularpickled",
-        "dividerswise",
+        "dividerswise"
     ];
     return usernames[i];
 }
