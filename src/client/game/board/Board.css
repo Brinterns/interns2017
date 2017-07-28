@@ -39,14 +39,21 @@
 }
 
 .rollButton {
-    bottom: 5%;
-    right: 5%;
+    top: 50%;
+    transform: translate(0%,-50%);
+    left: 5%;
     font-size: calc(2.5 * (1vw + 1vh - 1vmin));
     border-radius: calc(2.5 * (1vw + 1vh - 1vmin));
     height: calc(2 * var(--squareSide));
     width: calc(2 * var(--squareSide));
     position: absolute;
     outline: none;
+}
+
+@media (max-width: 800px) {
+    .rollButton {
+        top: 90%;
+    }
 }
 
 .pieceHolder {
@@ -91,7 +98,7 @@
 
 
 .oppPiece {
-    background-color: grey;
+    background-color: #a8a6a6;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
@@ -124,7 +131,7 @@
 
 .squareOpponentPiece {
     position: absolute;
-    background-color: grey;
+    background-color: #a8a6a6;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
