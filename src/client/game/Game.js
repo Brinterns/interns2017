@@ -14,10 +14,20 @@ import {
 export class Game extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            rules: false
+        };
+        this.handleToggleRules = this.handleToggleRules.bind(this);
         this.onWin = this.onWin.bind(this);
         this.onClickForfeit = this.onClickForfeit.bind(this);
         this.returnToLobby = this.returnToLobby.bind(this);
         {this.getGameInfo()};
+    }
+
+    handleToggleRules() {
+        this.setState({
+            rules: !this.state.rules
+        });
     }
 
     onWin(winBool) {
@@ -99,7 +109,8 @@ export class Game extends Component {
         return (
             <div className={gameStyles.gameMain}>
                 <h2> {currentPlayerText} </h2>
-                <button className={gameStyles.forfeitButton} onClick={this.onClickForfeit}> FORFEIT </button>
+                <button className={gameStyles.buttonDiv} onClick={this.onClickForfeit}> Forfeit </button>
+                <button className={gameStyles.buttonDiv} onClick={this.handleToggleRules}> Rules </button>
                 <h1> {this.props.roomName} </h1>
                 <Board gameState={this.state} isPlayerTurn={isPlayerTurn}/>
                 <div className={gameStyles.notificationDiv}>

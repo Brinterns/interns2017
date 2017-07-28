@@ -59,21 +59,21 @@
     color: yellow;
 }
 
-.forfeitButton {
-    background-color: #e81212;
+.buttonDiv {
+    padding-right: 0.9em;
+    padding-left: 0.9em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    margin-top: 0.5em;
+    margin-right: 0.5em;
     float: right;
-    margin-top : 1em;
-    margin-right: 3.5%;
-    border-radius: calc(0.6 * (1vw + 1vh - 1vmin));
-    border-width: 0.05em;
-    border-color: black;
-    font-size: calc(3px + 1 * (1vw + 1vh - 1vmin));
-    font-weight: bold;
-    width: calc(7 * (1vw + 1vh - 1vmin));
-    height: calc(2.5 * (1vw + 1vh - 1vmin));
-    min-width: 60px;
-    min-height: 20px;
+    border-style: solid;
+    border-color: #FAD000;
+    border-width: 0.1em;
+    color: #FAD000;
+    background-color: #0265CB;
     outline: none;
+    font-size: calc(2 * (1vw + 1vh - 1vmin));
 }
 
 .notificationMenu {
