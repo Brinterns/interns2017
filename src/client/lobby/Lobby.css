@@ -86,6 +86,10 @@
 
 .rules {
     position: absolute;
+    padding-right: 0.9em;
+    padding-left: 0.9em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
     top: 18%;
     right: 5%;
     transform: translate(0%, -50%);
@@ -96,8 +100,6 @@
     background-color: #0265CB;
     outline: none;
     font-size: calc(2 * (1vw + 1vh - 1vmin));
-    width: 5em;
-    height: 2em;
 }
 
 .container {
