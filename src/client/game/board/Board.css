@@ -56,7 +56,6 @@
     }
 }
 
-
 .pieceHolder {
     bottom: calc(50% - 2* (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));
     left: 5%;
