@@ -93,12 +93,14 @@ export class Lobby extends Component {
             if (user.avatar) {
                 myCanvas = document.getElementById('myavatar');
                 if (myCanvas) {
-                    var ctx = myCanvas.getContext('2d');
-                    var img = new Image;
-                    img.onload = function(){
-                      ctx.drawImage(img,0,0);
-                    };
-                    img.src = user.avatar;
+                    setTimeout (() => {
+                        var ctx = myCanvas.getContext('2d');
+                        var img = new Image;
+                        img.onload = function(){
+                          ctx.drawImage(img,0,0);
+                        };
+                        img.src = user.avatar;
+                    },50);
                 }
             }
         });
