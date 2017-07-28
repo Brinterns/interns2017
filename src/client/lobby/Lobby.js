@@ -6,6 +6,7 @@ import Player from './User/Player';
 import lobbyStyles from './Lobby.css';
 import ChatBox from '../Chat/ChatBox';
 import Rules from '../rules/Rules';
+import logo from '../images/logo.png';
 
 import { RunCloakConfig } from '../services/cloak-service';
 
@@ -123,7 +124,7 @@ export class Lobby extends Component {
                 <div className={lobbyStyles.tabList}>
                     <div className={lobbyStyles.tab}>
                         <div>
-                            <h1> Lobby </h1>
+                            <h1> Users </h1>
                         </div>
                     </div>
                     <div className={lobbyStyles.tab}>
@@ -142,7 +143,7 @@ export class Lobby extends Component {
                 <TabList className={lobbyStyles.tabList}>
                     <Tab className={lobbyStyles.tab}>
                         <div>
-                            <h1> Lobby </h1>
+                            <h1> Users </h1>
                         </div>
                     </Tab>
                     <Tab className={lobbyStyles.tab}>
@@ -159,6 +160,10 @@ export class Lobby extends Component {
 
         return (
             <div className={lobbyStyles.lobbyMain}>
+                <div className={lobbyStyles.gameTitle}>
+                    <img src={logo} />
+                    <h1> The Royal Game of Ur </h1>
+                </div>
                 <div className={lobbyStyles.userStats}>
                     <canvas id="myavatar" className={lobbyStyles.canvas}/>
                     <div className={lobbyStyles.userText}>

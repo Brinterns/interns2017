@@ -43,7 +43,7 @@ export default class User extends Component {
             <div className={userStyles.user}>
                 <div className={userStyles.userDetails}>
                     <canvas id={canvasId} className={userStyles.canvas}/>
-                    <div className={userStyles.otherUserText}>
+                    <div className={userStyles.userDetailsText}>
                         <h1> {this.props.user.name} </h1>
                         <h2> Rating: {this.props.user.elorank} </h2>
                         <h2> W: {this.props.user.winLossRecord.wins} L: {this.props.user.winLossRecord.loses} </h2>

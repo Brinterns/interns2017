@@ -17,6 +17,27 @@
     color: #FAD000;
 }
 
+.gameTitle {
+    float: right;
+    margin: 0;
+    padding-top: calc(0.5 * (1vw + 1vh - 1vmin));
+    padding-right: calc(1 * (1vw + 1vh - 1vmin));
+}
+
+.gameTitle img {
+    display: inline-block;
+    height: calc(6 * (1vw + 1vh - 1vmin));
+    width: calc(6 * (1vw + 1vh - 1vmin));
+}
+
+.gameTitle h1 {
+    display: inline-block;
+    color: #FAD000;
+    margin-left: calc(1vw + 1vh - 1vmin);
+    font-size: calc(3 * (1vw + 1vh - 1vmin));
+    vertical-align: middle;
+}
+
 .userStats {
     border: solid;
     border-color: #FAD000;
@@ -52,6 +73,7 @@
 
 .canvas {
     display: inline-block;
+    vertical-align: top;
     height: calc(7.5 * (1vw + 1vh - 1vmin));
     width: calc(7.5 * (1vw + 1vh - 1vmin));
     margin-top: 0;
@@ -224,10 +246,9 @@
     display: inline-block;
 }
 
-.otherUserText {
+.userDetailsText {
     display: inline-block;
 }
-
 
 .game {
     padding: calc(1.5 * (1vw + 1vh - 1vmin));

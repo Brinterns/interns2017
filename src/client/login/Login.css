@@ -9,12 +9,25 @@
     background-color: #0265CB;
 }
 
-.pageBackground h1 {
+.gameTitle {
+    float: right;
+    margin: 0;
+    padding-top: calc(0.5 * (1vw + 1vh - 1vmin));
+    padding-right: calc(1 * (1vw + 1vh - 1vmin));
+}
+
+.gameTitle img {
+    display: inline-block;
+    height: calc(6 * (1vw + 1vh - 1vmin));
+    width: calc(6 * (1vw + 1vh - 1vmin));
+}
+
+.gameTitle h1 {
+    display: inline-block;
     color: #FAD000;
-    text-align: right;
-    margin-top: calc(4 * (1vw + 1vh - 1vmin));
-    margin-right: calc(3 * (1vw + 1vh - 1vmin));
-    font-size: calc(5 * (1vw + 1vh - 1vmin));
+    margin-left: calc(1vw + 1vh - 1vmin);
+    font-size: calc(3 * (1vw + 1vh - 1vmin));
+    vertical-align: middle;
 }
 
 .backgroundBlock {
