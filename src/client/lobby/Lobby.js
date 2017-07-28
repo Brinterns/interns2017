@@ -166,7 +166,7 @@ export class Lobby extends Component {
                     </div>
                 </div>
                 <button className={lobbyStyles.rules} onClick={this.handleToggleRules}> Rules </button>
-                {(this.state.screenWidth >= 600) ? normalDisplay : tabbedDisplay}
+                {(this.state.screenWidth >= 800) ? normalDisplay : tabbedDisplay}
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
                 {this.state.rules ? <Rules toggleRules={this.handleToggleRules} /> : null}
             </div>

@@ -5,7 +5,7 @@ var shared = require('./cloak-server-shared');
 var lobbyFunctions = require('./cloak-server-lobby');
 
 function setUsername(name, user) {
-    user.name = (name === "") ? getUsername(shared.getRandomIntInclusive(0,199)) : name;
+    user.name = (name === "") ? getUsername(shared.getRandomIntInclusive(0,140)) : name;
     db.find(user.data.dbId).then(function(resp) {
         if (resp) {
             db.update(user.data, user.name);
