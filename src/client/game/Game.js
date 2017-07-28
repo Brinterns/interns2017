@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import gameStyles from './Game.css';
+import Rules from '../rules/Rules';
 import Board from './board/Board';
 import { connect } from 'react-redux';
 import ChatBox from '../Chat/ChatBox';
@@ -107,18 +108,21 @@ export class Game extends Component {
         }
         
         return (
-            <div className={gameStyles.gameMain}>
-                <h2> {currentPlayerText} </h2>
-                <button className={gameStyles.buttonDiv} onClick={this.onClickForfeit}> Forfeit </button>
-                <button className={gameStyles.buttonDiv} onClick={this.handleToggleRules}> Rules </button>
-                <h1> {this.props.roomName} </h1>
-                <Board gameState={this.state} isPlayerTurn={isPlayerTurn}/>
+            <div>
+                <div className={gameStyles.gameMain}>
+                    <h2> {currentPlayerText} </h2>
+                    <button className={gameStyles.buttonDiv} onClick={this.onClickForfeit}> Forfeit </button>
+                    <button className={gameStyles.buttonDiv} onClick={this.handleToggleRules}> Rules </button>
+                    <h1> {this.props.roomName} </h1>
+                    <Board gameState={this.state} isPlayerTurn={isPlayerTurn}/>
+                    <ChatBox id={this.props.id} messages={this.props.messages}/>
+                    {this.props.winnerId ? gameOverDiv : null}
+                    {this.props.forfeit ? forfeitDiv : null}
+                </div>
+                {this.state.rules && !this.props.winnerId ? <Rules toggleRules={this.handleToggleRules} /> : null}
                 <div className={gameStyles.notificationDiv}>
                     {this.props.notificationBool ? opponentRoll : null}
                 </div>
-                <ChatBox id={this.props.id} messages={this.props.messages}/>
-                {this.props.winnerId ? gameOverDiv : null}
-                {this.props.forfeit ? forfeitDiv : null}
             </div>
         );
     }
