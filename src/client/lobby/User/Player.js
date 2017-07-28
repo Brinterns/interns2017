@@ -55,7 +55,7 @@ export default class Player extends Component {
     render() {
         return (
             <div>
-                {this.state.clicked ? <input ref="inputref" id="usernameinput" onKeyPress={this.handleKeyPress} onChange={this.handleChange}value={this.state.input}/> : <h1 onClick={this.handleClick}> {this.props.name} </h1>}
+                {this.state.clicked ? <input ref="inputref" id="usernameinput" onKeyPress={this.handleKeyPress} onChange={this.handleChange}value={this.state.input}/> : <h1 className={userStyles.username} onClick={this.handleClick}> {this.props.name} </h1>}
             </div>
         );
     }
