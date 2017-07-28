@@ -313,3 +313,7 @@
     min-height: 35px !important;
     min-width: 40px !important;
 }
+
+.username:hover {
+    cursor: pointer;
+}
