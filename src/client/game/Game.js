@@ -80,11 +80,9 @@ export class Game extends Component {
 
     render() {
         const isPlayerTurn = (this.props.currentPlayer === this.props.id);
-        var gameOverTextChoice;
-        if (this.props.opponentDisconnect && !this.props.winnerId) {
-            gameOverTextChoice = "Opponent Disconnected, You Won!";
-        } else {
-            gameOverTextChoice = (this.props.winnerId === this.props.id) ? "You Won!" : "You Lost";
+        var gameOverTextChoice = (this.props.winnerId === this.props.id) ? "You Won!" : "You Lost";
+        if (this.props.opponentDisconnect) {
+            gameOverTextChoice = "Opponent Disconnected, " + gameOverTextChoice;
         }
         var challengeButton;
         if (this.props.challengerId === this.props.id) {
@@ -137,7 +135,7 @@ export class Game extends Component {
                     <h1> {this.props.roomName} </h1>
                     <Board gameState={this.state} isPlayerTurn={isPlayerTurn}/>
                     <ChatBox id={this.props.id} messages={this.props.messages}/>
-                    {this.props.winnerId ? gameOverDiv : null}
+                    {(this.props.winnerId) ? gameOverDiv : null}
                     {this.props.forfeit ? forfeitDiv : null}
                 </div>
                 {this.state.rules && !this.props.winnerId ? <Rules toggleRules={this.handleToggleRules} /> : null}
