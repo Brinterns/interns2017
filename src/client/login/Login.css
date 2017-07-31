@@ -41,15 +41,20 @@
     margin: 0;
     transform: translate(-50%, -50%);
     /*Dimensions*/
-    height: calc(30 * (1vw + 1vh - 1vmin));
+    height: calc(35 * (1vw + 1vh - 1vmin));
     width: calc(35 * (1vw + 1vh - 1vmin));
-    min-height: 250px;
-    min-width: 250px;
+    min-height: 320px;
+    min-width: 275px;
 }
 
 .drawingCanvas {
-    height: calc(11.5 * (1vw + 1vh - 1vmin)) !important;
-    min-height: 100px !important;
+    height: calc(18 * (1vw + 1vh - 1vmin)) !important;
+    padding-left: calc(1 * (1vw + 1vh - 1vmin)) !important;
+    padding-top: calc(1 * (1vw + 1vh - 1vmin)) !important;
+    width: calc(18 * (1vw + 1vh - 1vmin)) !important;
+    min-height: 195px;
+    min-width: 195px;
+
 }
 
 .canvas {
@@ -58,14 +63,15 @@
     border-width: calc(0.15 * (1vw + 1vh - 1vmin));
     margin-bottom: calc(2.0 * (1vw + 1vh - 1vmin));
     /*dimensions*/
-    height: calc(14 * (1vw + 1vh - 1vmin));
-    width: calc(20 * (1vw + 1vh - 1vmin));
-    min-height: 140px;
+    height: calc(20 * (1vw + 1vh - 1vmin)) !important;
+    width: calc(20 * (1vw + 1vh - 1vmin)) !important;
+    min-height: 200px;
     min-width: 200px;
 }
 
-.canvas img {
+.inputbox img {
     cursor: pointer;
+    margin-top: calc(0.5 * (1vw + 1vh - 1vmin));
     margin-right: calc(0.5 * (1vw + 1vh - 1vmin));
     height: calc(2.0 * (1vw + 1vh - 1vmin));
     width: calc(2.0 * (1vw + 1vh - 1vmin));

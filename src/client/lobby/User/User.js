@@ -16,7 +16,7 @@ export default class User extends Component {
                 var ctx = myCanvas.getContext('2d');
                 var img = new Image;
                 img.onload = function(){
-                  ctx.drawImage(img,0,0);
+                  ctx.drawImage(img, 0, 0, 300, 150);
                 };
                 img.src = this.props.user.avatar;
             }

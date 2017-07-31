@@ -60,6 +60,7 @@ export class Login extends Component {
     onSubmit() {
         cloak.message('setusername', this.props.username);
         cloak.message('setavatar', this._sketch.toDataURL());
+
         browserHistory.push("/lobby");
     }
 
@@ -72,10 +73,10 @@ export class Login extends Component {
                 </div>
                 <div className={loginStyles.backgroundBlock}>
                     <div className={loginStyles.inputbox}>
+                        <img onClick={this.clearImg} src={bin}/>
+                        <img onClick={this.undoImg} src={undo}/>
+                        <img onClick={this.redoImg} src={redo}/>
                         <div  className={loginStyles.canvas}>
-                            <img onClick={this.clearImg} src={bin}/>
-                            <img onClick={this.undoImg} src={undo}/>
-                            <img onClick={this.redoImg} src={redo}/>
                             <SketchField
                             className={loginStyles.drawingCanvas}
                              ref={(c) => this._sketch = c}
