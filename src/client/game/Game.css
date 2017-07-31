@@ -84,18 +84,20 @@
     margin: 0;
     width: calc(40 * (1vw + 1vh - 1vmin));
     height: calc(15 * (1vw + 1vh - 1vmin));
-    border-radius: calc(2.5 * (1vw + 1vh - 1vmin));
-    background-color: black;
+    background-color: white;
+    border-style: solid;
+    border-color: #FAD000;
+    border-width: calc(0.5 * (1vw + 1vh - 1vmin));
     transform: translate(-50%, -50%);
 }
 
 .notificationMenu h1 {
-    color: white;
+    color: black;
     position: absolute;
-    top: 10%;
+    top: 0;
     left: 50%;
-    margin-right: -50%;
     margin: 0;
+    margin-top: 1em;
     transform: translate(-50%, 0%);
     font-size: calc(5px + 2 * (1vw + 1vh - 1vmin));
     text-align: center;
@@ -104,15 +106,18 @@
 
 .notificationMenu button {
     position: absolute;
-    bottom: 20%;
-    width: calc(20px + 7 * (1vw + 1vh - 1vmin));
-    height: auto;
     display: inline-block;
-    border-radius: calc(0.6 * (1vw + 1vh - 1vmin));
-    border-color: black;
-    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
-    font-weight: bold;
+    padding-right: 0.9em;
+    padding-left: 0.9em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    margin-bottom: 1em;
+    bottom: 0;
+    border-style: none;
+    color: white;
+    background-color: #0265CB;
     outline: none;
+    font-size: calc(2 * (1vw + 1vh - 1vmin));
 }
 
 .yesButton {
@@ -128,9 +133,7 @@
 }
 
 .returnButton {
-    margin-right: -50%;
-    left: 50%;
-    margin: 0;
+    position: relative;
     transform: translate(-50%, 0%);
-    outline: none;
+    left: 50%;
 }
