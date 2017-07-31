@@ -383,7 +383,7 @@
     height: calc(30 * (1vw + 1vh - 1vmin)) !important;
     background-color: white;
     border-color: #FAD000;
-    outline: medium solid black;
+    outline: 0.15em solid black;
     border-width: calc(0.5 * (1vw + 1vh - 1vmin));
     border-style: solid;
     min-height: 195px;

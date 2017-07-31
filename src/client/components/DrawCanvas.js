@@ -14,6 +14,17 @@ export default class DrawCanvas extends Component {
         this.undoImg = this.undoImg.bind(this);
         this.redoImg = this.redoImg.bind(this);
         this.clearImg = this.clearImg.bind(this);
+        {this.setBackground()}
+    }
+
+    setBackground() {
+        setTimeout(() => {
+            if (this.refs.drawCanvas) {
+                this.refs.drawCanvas.setBackgroundFromDataUrl(this.props.defaultData);
+            } else {
+                setBackground();
+            }
+        },50);
     }
 
     clearImg() {
@@ -27,15 +38,14 @@ export default class DrawCanvas extends Component {
     redoImg() {
         this.refs.drawCanvas.redo();
     }
-    render() {
 
+    render() {
         const updateCanvasButtons = (
             <div className={CanvasStyles.drawCanvas}>
                 <img onClick={this.props.upload} src={upload}/>
                 <img onClick={this.props.close} className={CanvasStyles.closeButton} src={closeButton}/>
             </div>
         );
-
         return (
             <div className={this.props.className}>
                 <img onClick={this.clearImg} src={bin}/>
@@ -44,11 +54,12 @@ export default class DrawCanvas extends Component {
                 {this.props.edit ? updateCanvasButtons : null}
                 <div className={this.props.canvasClassName}>
                     <SketchField
-                    className={this.props.sketcherClassName}
-                     ref="drawCanvas"
-                     tool={Tools.Pencil}
-                     lineColor='black'
-                     lineWidth={3}/>
+                    className={""+this.props.sketcherClassName}
+                    defaultDataType="url"
+                    ref="drawCanvas"
+                    tool={Tools.Pencil}
+                    lineColor='black'
+                    lineWidth={3}/>
                 </div>
             </div>
         );
