@@ -3,7 +3,7 @@ import {SketchField, Tools} from 'react-sketch';
 import bin from '../images/icons/bin.png';
 import redo from '../images/icons/redo.png';
 import undo from '../images/icons/undo.png';
-import closeButton from '../images/icons/closeButton.png';
+import closeButton from '../images/icons/closebutton.png';
 import upload from '../images/icons/upload.png';
 
 import CanvasStyles from './Components.css';
