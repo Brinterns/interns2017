@@ -85,6 +85,19 @@
     cursor: pointer;
 }
 
+.canvasOther {
+    display: inline-block;
+    vertical-align: top;
+    height: calc(7.5 * (1vw + 1vh - 1vmin));
+    width: calc(7.5 * (1vw + 1vh - 1vmin));
+    margin-top: 0;
+    background-color: white;
+    border: solid;
+    border-color: black;
+    border-width: 0.12em;
+    margin-right: calc(1.5 * (1vw + 1vh - 1vmin));
+}
+
 .rules {
     position: absolute;
     padding-right: 0.9em;
