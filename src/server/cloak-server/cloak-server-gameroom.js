@@ -77,8 +77,8 @@ function win(winBool, user) {
 
 var roomExit = function(arg) {
     const users = this.getMembers();
-    this.data.opponentDisconnect = true;
     if ((users.length === 1) && !users[0].getRoom().data.winnerId) {
+        this.data.opponentDisconnect = true;
         var user = users[0];
         var opponentName;
         var opponentElo;
