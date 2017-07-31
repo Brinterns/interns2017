@@ -45,7 +45,10 @@ module.exports = function(expressServer) {
                 challengeFunctions.declineChallenge(id, user);
             },
             rechallenge: function(_, user) {
-                challengeFunctions.reChallenge(user)
+                challengeFunctions.reChallenge(user);
+            },
+            rechallengeresponse: function(accept, user) {
+                challengeFunctions.reChallengeResponse(accept, user);
             },
             leavegame: function(msg, user) {
                 cloak.getLobby().addMember(user);

@@ -50,6 +50,10 @@ export class Game extends Component {
         cloak.message('rechallenge', _);
     }
 
+    reChallengeResponse(accept) {
+        cloak.message('rechallengeresponse', accept);
+    }
+
     returnToLobby() {
         cloak.message('leavegame', _);
     }
@@ -84,7 +88,7 @@ export class Game extends Component {
         }
         var challengeButton;
         if (this.props.challengerId === this.props.id) {
-            challengeButton = <button className={gameStyles.reChallenge}> Cancel </button>;
+            challengeButton = <button className={gameStyles.reChallenge} onClick={() => {this.reChallengeResponse(false)}}> Cancel </button>;
         } else if (this.props.challengerId) {
             challengeButton = <div>
                     <button className={gameStyles.acceptButton}> &#10004; </button>

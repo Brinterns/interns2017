@@ -37,6 +37,16 @@ function reChallenge(user) {
     room.messageMembers('challengerid', room.data.challengerId);
 }
 
+function reChallengeResponse(accept, user) {
+    if (accept) {
+
+    } else {
+        const room = user.getRoom();
+        room.data.challengerId = null;
+        room.messageMembers('challengerid', room.data.challengerId);
+    }
+}
+
 function challengeRespond(challengerId, user, accept) {
     var user2 = cloak.getUser(challengerId);
     if (!accept) {
@@ -98,3 +108,4 @@ module.exports.cancelChallenge = cancelChallenge;
 module.exports.acceptChallenge = acceptChallenge;
 module.exports.declineChallenge = declineChallenge;
 module.exports.reChallenge = reChallenge;
+module.exports.reChallengeResponse = reChallengeResponse;
