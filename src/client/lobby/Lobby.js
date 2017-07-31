@@ -7,6 +7,7 @@ import lobbyStyles from './Lobby.css';
 import ChatBox from '../Chat/ChatBox';
 import Rules from '../rules/Rules';
 import logo from '../images/logo.png';
+import pencil from '../images/icons/pencil.png';
 import DrawCanvas from '../components/DrawCanvas';
 
 
@@ -101,12 +102,14 @@ export class Lobby extends Component {
         let otherUsers = [];
         let name = '';
         let myCanvas = null;
+        let userAvatar = null;
         this.props.listOfUsers.forEach((user) => {
             if (this.props.id != user.id) {
                 otherUsers.push(user);
                 return;
             }
             name = user.name;
+            userAvatar = user.avatar;
             if (user.avatar) {
                 myCanvas = document.getElementById('myavatar');
                 if (myCanvas) {
@@ -182,7 +185,10 @@ export class Lobby extends Component {
                     <h1> The Royal Game of Ur </h1>
                 </div>
                 <div className={lobbyStyles.userStats}>
-                    <canvas onClick={this.handleAvatarClick} id="myavatar" className={lobbyStyles.canvas}/>
+                    <div className={lobbyStyles.canvas}>
+                        <img  onClick={this.handleAvatarClick}src={pencil} />
+                        <canvas onClick={this.handleAvatarClick} id="myavatar" />
+                    </div>
                     <div className={lobbyStyles.userText}>
                         <Player name={name} />
                         {this.props.elorank ? <h2> Rating: {this.props.elorank} </h2>: null}
@@ -192,7 +198,7 @@ export class Lobby extends Component {
                 <button className={lobbyStyles.rules} onClick={this.handleToggleRules}> Rules </button>
                 {(this.state.screenWidth >= 800) ? normalDisplay : tabbedDisplay}
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
-                {this.state.drawCanvas ? <DrawCanvas edit={true} ref="sketcher" sketcherClassName={lobbyStyles.drawCanvas} className={lobbyStyles.mainDrawingCanvas} upload={this.upload} close={this.handleAvatarClick}/> : null}
+                {this.state.drawCanvas ? <DrawCanvas defaultData={userAvatar} edit={true} ref="sketcher" sketcherClassName={lobbyStyles.drawCanvas} className={lobbyStyles.mainDrawingCanvas} upload={this.upload} close={this.handleAvatarClick}/> : null}
                 {this.state.rules ? <Rules toggleRules={this.handleToggleRules} /> : null}
             </div>
         );
