@@ -71,15 +71,6 @@
     margin-left: calc(1vw + 1vh - 1vmin);
 }
 
-.drawingCanvas {
-    height: calc(18 * (1vw + 1vh - 1vmin)) !important;
-    padding-left: calc(1 * (1vw + 1vh - 1vmin)) !important;
-    padding-top: calc(1 * (1vw + 1vh - 1vmin)) !important;
-    width: calc(18 * (1vw + 1vh - 1vmin)) !important;
-    min-height: 195px;
-    min-width: 195px;
-}
-
 .canvas {
     display: inline-block;
     vertical-align: top;
@@ -91,6 +82,7 @@
     border-color: black;
     border-width: 0.12em;
     margin-right: calc(1.5 * (1vw + 1vh - 1vmin));
+    cursor: pointer;
 }
 
 .rules {
@@ -325,4 +317,37 @@
 
 .username:hover {
     cursor: pointer;
+}
+
+.mainDrawingCanvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    margin: 0;
+    transform: translate(-50%, -50%);
+    width: calc(30 * (1vw + 1vh - 1vmin)) !important;
+    height: calc(30 * (1vw + 1vh - 1vmin)) !important;
+    background-color: white;
+    border-color: #FAD000;
+    outline: medium solid black;
+    border-width: calc(0.5 * (1vw + 1vh - 1vmin));
+    border-style: solid;
+    min-height: 195px;
+    min-width: 195px;
+}
+
+.mainDrawingCanvas img {
+    cursor: pointer;
+    margin-top: calc(0.5 * (1vw + 1vh - 1vmin));
+    margin-right: calc(0.5 * (1vw + 1vh - 1vmin));
+    height: calc(2.5 * (1vw + 1vh - 1vmin));
+    width: calc(2.5 * (1vw + 1vh - 1vmin));
+}
+
+.drawCanvas {
+    height: calc(26.0 * (1vw + 1vh - 1vmin)) !important;
+    width: calc(29.0 * (1vw + 1vh - 1vmin)) !important;
+    min-height: 170px;
+    min-width: 190px;
 }

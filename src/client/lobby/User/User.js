@@ -13,12 +13,15 @@ export default class User extends Component {
         if (this.props.user.avatar) {
             var myCanvas = document.getElementById(canvasId);
             if (myCanvas) {
-                var ctx = myCanvas.getContext('2d');
-                var img = new Image;
-                img.onload = function(){
-                  ctx.drawImage(img, 0, 0, 300, 150);
-                };
-                img.src = this.props.user.avatar;
+                setTimeout (() => {
+                    var ctx = myCanvas.getContext('2d');
+                    ctx.clearRect(0,0,myCanvas.width, myCanvas.height);
+                    var img = new Image;
+                    img.onload = function(){
+                      ctx.drawImage(img, 0, 0, 300, 150);
+                    };
+                    img.src = this.props.user.avatar;
+                },50);
             }
         }
         var challengeButtons;
