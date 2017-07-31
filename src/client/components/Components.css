@@ -1,0 +1,8 @@
+.drawCanvas {
+    display: inline-block;
+    float: right;
+}
+
+.drawCanvas img {
+    margin-left: calc(0.5 * (1vw + 1vh - 1vmin)) !important;
+}

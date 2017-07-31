@@ -45,6 +45,9 @@
     padding: calc(0.5 * (1vw + 1vh - 1vmin));
     margin-left: calc(0.5 * (1vw + 1vh - 1vmin));
     margin-top: calc(0.5 * (1vw + 1vh - 1vmin);
+    padding-right: auto;
+    width: calc(45 * (1vw + 1vh - 1vmin);
+    min-width: calc(230px + 5 * (1vw + 1vh - 1vmin);
     display: inline-block;
 }
 
@@ -55,7 +58,7 @@
 }
 
 .userStats input {
-    width: calc(24.2 * (1vw + 1vh - 1vmin));
+    width: calc(27.5 * (1vw + 1vh - 1vmin));
     font-size: calc(5px + 2.8 * (1vw + 1vh - 1vmin));
     height: calc(9.5px + 2.8 * (1vw + 1vh - 1vmin));
     margin-bottom: calc(0.6 * (1vw + 1vh - 1vmin));
@@ -72,6 +75,37 @@
 }
 
 .canvas {
+    display: inline-block;
+    vertical-align: top;
+    height: calc(7.5 * (1vw + 1vh - 1vmin));
+    width: calc(7.5 * (1vw + 1vh - 1vmin));
+    margin-top: 0;
+    background-color: white;
+    border: solid;
+    border-color: black;
+    border-width: 0.12em;
+    margin-right: calc(1.5 * (1vw + 1vh - 1vmin));
+    cursor: pointer;
+    position:relative;
+}
+
+.canvas canvas {
+    height: calc(7.5 * (1vw + 1vh - 1vmin));
+    width: calc(7.5 * (1vw + 1vh - 1vmin));
+}
+
+.canvas img {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background-color: #a8a6a6;
+    border-bottom: solid thin black;
+    border-left: solid thin black;
+    width: calc(1.5 * (1vw + 1vh - 1vmin)) !important;
+    height: calc(1.5 * (1vw + 1vh - 1vmin)) !important;
+}
+
+.canvasOther {
     display: inline-block;
     vertical-align: top;
     height: calc(7.5 * (1vw + 1vh - 1vmin));
@@ -315,6 +349,59 @@
     min-width: 40px !important;
 }
 
+
 .username:hover {
     cursor: pointer;
+}
+
+.normal {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.overlay {
+    display: none;
+}
+
+.overlay img {
+    margin-left: calc(0.75 * (1vw + 1vh - 1vmin)) !important;
+    width: calc(1.5 * (1vw + 1vh - 1vmin)) !important;
+    height: calc(1.5 * (1vw + 1vh - 1vmin)) !important;
+}
+
+.username:hover .overlay {
+    display: inline-block;
+}
+
+.mainDrawingCanvas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    margin: 0;
+    transform: translate(-50%, -50%);
+    width: calc(30 * (1vw + 1vh - 1vmin)) !important;
+    height: calc(30 * (1vw + 1vh - 1vmin)) !important;
+    background-color: white;
+    border-color: #FAD000;
+    outline: 0.15em solid black;
+    border-width: calc(0.5 * (1vw + 1vh - 1vmin));
+    border-style: solid;
+    min-height: 195px;
+    min-width: 195px;
+}
+
+.mainDrawingCanvas img {
+    cursor: pointer;
+    margin-top: calc(0.5 * (1vw + 1vh - 1vmin));
+    margin-right: calc(0.5 * (1vw + 1vh - 1vmin));
+    height: calc(2.5 * (1vw + 1vh - 1vmin));
+    width: calc(2.5 * (1vw + 1vh - 1vmin));
+}
+
+.drawCanvas {
+    height: calc(26.0 * (1vw + 1vh - 1vmin)) !important;
+    width: calc(29.0 * (1vw + 1vh - 1vmin)) !important;
+    min-height: 170px;
+    min-width: 190px;
 }

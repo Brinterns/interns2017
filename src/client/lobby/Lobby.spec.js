@@ -31,4 +31,12 @@ describe('<Lobby />', () => {
         wrapper = shallow(<Lobby store={store}/>).shallow();
         expect(wrapper.find("h2").first().text()).toEqual(" Wins: 4 Loses: 1 ");
     });
+
+    it("Clicking avatar opens up avatar editor", () => {
+        const store = mockStore(state);
+        wrapper = shallow(<Lobby store={store}/>).shallow();
+        wrapper.find("canvas").at(0).simulate("click");
+        expect(wrapper.state().drawCanvas).toEqual(true);
+    });
+
 });
