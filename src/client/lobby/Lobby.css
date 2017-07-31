@@ -71,6 +71,15 @@
     margin-left: calc(1vw + 1vh - 1vmin);
 }
 
+.drawingCanvas {
+    height: calc(18 * (1vw + 1vh - 1vmin)) !important;
+    padding-left: calc(1 * (1vw + 1vh - 1vmin)) !important;
+    padding-top: calc(1 * (1vw + 1vh - 1vmin)) !important;
+    width: calc(18 * (1vw + 1vh - 1vmin)) !important;
+    min-height: 195px;
+    min-width: 195px;
+}
+
 .canvas {
     display: inline-block;
     vertical-align: top;

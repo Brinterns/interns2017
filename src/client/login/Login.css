@@ -47,16 +47,6 @@
     min-width: 275px;
 }
 
-.drawingCanvas {
-    height: calc(18 * (1vw + 1vh - 1vmin)) !important;
-    padding-left: calc(1 * (1vw + 1vh - 1vmin)) !important;
-    padding-top: calc(1 * (1vw + 1vh - 1vmin)) !important;
-    width: calc(18 * (1vw + 1vh - 1vmin)) !important;
-    min-height: 195px;
-    min-width: 195px;
-
-}
-
 .canvas {
     border: black;
     border: solid;
@@ -67,6 +57,15 @@
     width: calc(20 * (1vw + 1vh - 1vmin)) !important;
     min-height: 200px;
     min-width: 200px;
+}
+
+.drawingCanvas {
+    height: calc(18 * (1vw + 1vh - 1vmin)) !important;
+    padding-left: calc(1 * (1vw + 1vh - 1vmin)) !important;
+    padding-top: calc(1 * (1vw + 1vh - 1vmin)) !important;
+    width: calc(18 * (1vw + 1vh - 1vmin)) !important;
+    min-height: 195px;
+    min-width: 195px;
 }
 
 .inputbox img {
