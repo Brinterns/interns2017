@@ -104,6 +104,7 @@ function reconnectUser(id, user) {
                 challenging.data.challengers[challenging.data.challengers.indexOf(user2.id)] = user.id;
                 challenging.message('updatechallengers', challenging.data.challengers);
             });
+            user.message('gotolobby');
         } else {
             if (!user.data.rolledDice) {
                 user.data.lastRoll = null;

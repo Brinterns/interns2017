@@ -19,7 +19,7 @@ function getRoomUserInfo(room) {
 
 function getRoomInfo(user) {
     const room = user.getRoom();
-    if (room) {
+    if (room && !room.isLobby) {
         if (!room.data.currentPlayer) {
             room.data.currentPlayer = room.getMembers()[1].id;
         }
