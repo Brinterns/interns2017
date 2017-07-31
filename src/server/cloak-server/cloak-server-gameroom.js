@@ -30,14 +30,14 @@ function getRoomInfo(user) {
             roomName: room.name,
             squares: user.data.squares,
             piecePositions: user.data.piecePositions,
-            opponentSquares: gameplay.reverseSquares(opponent.data.piecePositions),
+            opponentSquares: opponent ? gameplay.reverseSquares(opponent.data.piecePositions) : null,
             finishedPieces: user.data.numPiecesFinished,
-            finishedOppPieces: opponent.data.numPiecesFinished,
+            finishedOppPieces: opponent ? opponent.data.numPiecesFinished : null,
             winnerId: room.data.winnerId
         };
         user.message('gamestate', JSON.stringify(gameStateJson));
         user.message('currentplayer', room.data.currentPlayer);
-        if (user.data.lastRoll) {
+        if (opponent && user.data.lastRoll) {
             user.message('rolledvalue', user.data.lastRoll);
             gameplay.checkMoves(user, user.data.lastRoll, opponent.data.squares);
         }
