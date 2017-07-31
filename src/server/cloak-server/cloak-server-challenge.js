@@ -1,5 +1,6 @@
 var cloak = require('cloak');
 var lobbyFunctions = require('./cloak-server-lobby');
+var gameRoomFunctions = require('./cloak-server-gameroom');
 var shared = require('./cloak-server-shared');
 const numberOfPieces = 7;
 
@@ -39,7 +40,14 @@ function reChallenge(user) {
 
 function reChallengeResponse(accept, user) {
     if (accept) {
-
+        var user2 = shared.getOpponent(user);
+        let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
+        createdRoom.data.opponentDisconnect = false;
+        userJoinRoom(user, createdRoom);
+        userJoinRoom(user2, createdRoom);
+        createdRoom.messageMembers('joingame', createdRoom.id);
+        gameRoomFunctions.getRoomInfo(user);
+        gameRoomFunctions.getRoomInfo(user2);
     } else {
         const room = user.getRoom();
         room.data.challengerId = null;
@@ -87,8 +95,8 @@ function challengeRespond(challengerId, user, accept) {
         user2.data.challenging = [];
         let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
         createdRoom.data.opponentDisconnect = false;
-        userJoinRoom(user2, createdRoom);
         userJoinRoom(user, createdRoom);
+        userJoinRoom(user2, createdRoom);
         createdRoom.messageMembers('joingame', createdRoom.id);
         lobbyFunctions.updateLobbyActiveGames();
     }
@@ -96,7 +104,6 @@ function challengeRespond(challengerId, user, accept) {
 
 function userJoinRoom(user, room) {
     room.addMember(user);
-    user.data.ready = false;
     user.data.squares = Array(24).fill(false);
     user.data.piecePositions = Array(numberOfPieces).fill(0);
     user.data.numPiecesFinished = 0;

@@ -86,7 +86,7 @@ module.exports = function(expressServer) {
         room: {
             close: lobbyFunctions.updateLobbyActiveGames,
             memberLeaves: gameRoomFunctions.roomExit
-        },
+        }
     });
     cloak.run();
 };

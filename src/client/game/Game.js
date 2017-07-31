@@ -91,7 +91,7 @@ export class Game extends Component {
             challengeButton = <button className={gameStyles.reChallenge} onClick={() => {this.reChallengeResponse(false)}}> Cancel </button>;
         } else if (this.props.challengerId) {
             challengeButton = <div>
-                    <button className={gameStyles.acceptButton}> &#10004; </button>
+                    <button className={gameStyles.acceptButton} onClick={() => {this.reChallengeResponse(true)}}> &#10004; </button>
                     <button className={gameStyles.declineButton} onClick={() => {this.reChallengeResponse(false)}}> &#x2716; </button>
                 </div>;
         } else {

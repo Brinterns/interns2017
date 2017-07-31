@@ -72,6 +72,7 @@ export function RunCloakConfig() {
                 dispatch(updateChallengers(challengers));
             },
             joingame: (roomId) => {
+                dispatch(resetStore());
                 browserHistory.push('/game/' + roomId);
             },
             updatelobbymessages: (messages) => {
