@@ -116,9 +116,12 @@ function reconnectUser(id, user) {
                 room.data.winnerId = user.id;
             }
             user.message('currentplayer', room.data.currentPlayer);
-            room.getMembers().filter(member => {
+            const opponent = room.getMembers().filter(member => {
                 return (member.id !== user.id) && (member.id !== user2.id);
-            })[0].message('currentplayeronly', room.data.currentPlayer);
+            })[0];
+            if (opponent) {
+                opponent.message('currentplayeronly', room.data.currentPlayer);
+            }
         }
         user2.delete();
     } else {

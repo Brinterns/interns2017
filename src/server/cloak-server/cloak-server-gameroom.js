@@ -30,14 +30,15 @@ function getRoomInfo(user) {
             roomName: room.name,
             squares: user.data.squares,
             piecePositions: user.data.piecePositions,
-            opponentSquares: gameplay.reverseSquares(opponent.data.piecePositions),
+            opponentSquares: opponent ? gameplay.reverseSquares(opponent.data.piecePositions) : [],
             finishedPieces: user.data.numPiecesFinished,
-            finishedOppPieces: opponent.data.numPiecesFinished,
-            winnerId: room.data.winnerId
+            finishedOppPieces: opponent ? opponent.data.numPiecesFinished : null,
+            winnerId: room.data.winnerId,
+            opponentDisconnect: room.data.opponentDisconnect
         };
         user.message('gamestate', JSON.stringify(gameStateJson));
         user.message('currentplayer', room.data.currentPlayer);
-        if (user.data.lastRoll) {
+        if (opponent && user.data.lastRoll) {
             user.message('rolledvalue', user.data.lastRoll);
             gameplay.checkMoves(user, user.data.lastRoll, opponent.data.squares);
         }
@@ -77,6 +78,7 @@ function win(winBool, user) {
 var roomExit = function(arg) {
     const users = this.getMembers();
     if ((users.length === 1) && !users[0].getRoom().data.winnerId) {
+        this.data.opponentDisconnect = true;
         var user = users[0];
         var opponentName;
         var opponentElo;
@@ -108,6 +110,10 @@ var roomExit = function(arg) {
                 });
             });
         });
+    } else if (users.length === 1) {
+        const user = users[0];
+        this.data.opponentDisconnect = true;
+        user.message('opponentdisconnect');
     }
 }
 

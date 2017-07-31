@@ -7,18 +7,16 @@ describe('<User />', () => {
     var user;
     beforeEach(() => {
         window.cloak = jasmine.createSpyObj('cloak', ['configure', 'run']);
-        user = userProp;
+        user = {
+            name: "Samuel",
+            elorank: 1200,
+            winLossRecord: {wins: 0, loses: 0}
+        };
     });
-
-    const userProp = {
-        name: "Samuel",
-        elorank: 1200,
-        winLossRecord: {wins: 0, loses: 0}
-    };
 
     it('Given username is displayed correctly', () => {
         const wrapper = shallow(<User user={user} />);
-        expect(wrapper.find("h1").text()).toEqual(" " + userProp.name + " ");
+        expect(wrapper.find("h1").text()).toEqual(" " + user.name + " ");
     });
 
     it('Shows the right ELO rating', () => {
@@ -27,7 +25,7 @@ describe('<User />', () => {
         expect(wrapper.find("h2").at(0).text()).toEqual(" Rating: 1198 ");
     });
 
-    it('Shows the right ELO rating', () => {
+    it('Shows the right win/loss record', () => {
         user.winLossRecord = {wins: 2, loses: 1};
         const wrapper = shallow(<User user={user} />);
         expect(wrapper.find("h2").at(1).text()).toEqual(" W: 2 L: 1 ");

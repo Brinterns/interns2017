@@ -21,6 +21,7 @@ export class Game extends Component {
         this.handleToggleRules = this.handleToggleRules.bind(this);
         this.onWin = this.onWin.bind(this);
         this.onClickForfeit = this.onClickForfeit.bind(this);
+        this.reChallenge = this.reChallenge.bind(this);
         this.returnToLobby = this.returnToLobby.bind(this);
         {this.getGameInfo()};
     }
@@ -43,6 +44,14 @@ export class Game extends Component {
             return;
         }
         this.props.toggleForfeit();
+    }
+
+    reChallenge() {
+        cloak.message('rechallenge', _);
+    }
+
+    reChallengeResponse(accept) {
+        cloak.message('rechallengeresponse', accept);
     }
 
     returnToLobby() {
@@ -71,23 +80,33 @@ export class Game extends Component {
 
     render() {
         const isPlayerTurn = (this.props.currentPlayer === this.props.id);
-        var gameOverTextChoice;
+        var gameOverTextChoice = (this.props.winnerId === this.props.id) ? "You Won!" : "You Lost";
         if (this.props.opponentDisconnect) {
-            gameOverTextChoice = "Opponent Disconnected, You Won!";
+            gameOverTextChoice = "Opponent Disconnected, " + gameOverTextChoice;
+        }
+        var challengeButton;
+        if (this.props.challengerId === this.props.id) {
+            challengeButton = <button className={gameStyles.reChallenge} onClick={() => {this.reChallengeResponse(false)}}> Cancel </button>;
+        } else if (this.props.challengerId) {
+            challengeButton = <div>
+                    <button className={gameStyles.acceptButton} onClick={() => {this.reChallengeResponse(true)}}> &#10004; </button>
+                    <button className={gameStyles.declineButton} onClick={() => {this.reChallengeResponse(false)}}> &#x2716; </button>
+                </div>;
         } else {
-            gameOverTextChoice = (this.props.winnerId === this.props.id) ? "You Won!" : "You Lost";
+            challengeButton = <button className={gameStyles.reChallenge} onClick={this.reChallenge}> Re-Challenge </button>;
         }
         const gameOverDiv = (
             <div className={gameStyles.notificationMenu}>
                 <h1> {gameOverTextChoice} </h1>
                 <button className={gameStyles.returnButton} onClick={this.returnToLobby}> Return To Lobby </button>
+                {(!this.props.opponentDisconnect && (this.props.listOfPlayers.length > 1)) ? challengeButton : null}
             </div>
         );
         const forfeitDiv = (
             <div className={gameStyles.notificationMenu}>
-                <h1>Are you sure you want to forfeit?</h1>
-                <button className={gameStyles.yesButton} onClick={() => this.onWin(false)}>Yes</button>
-                <button className={gameStyles.noButton} onClick={this.onClickForfeit}>No</button>
+                <h1> Are you sure you want to forfeit? </h1>
+                <button className={gameStyles.acceptButton} onClick={() => this.onWin(false)}> &#10004; </button>
+                <button className={gameStyles.declineButton} onClick={this.onClickForfeit}> &#x2716; </button>
             </div>
         );
         let currentPlayerText = null;
@@ -116,7 +135,7 @@ export class Game extends Component {
                     <h1> {this.props.roomName} </h1>
                     <Board gameState={this.state} isPlayerTurn={isPlayerTurn}/>
                     <ChatBox id={this.props.id} messages={this.props.messages}/>
-                    {this.props.winnerId ? gameOverDiv : null}
+                    {(this.props.winnerId) ? gameOverDiv : null}
                     {this.props.forfeit ? forfeitDiv : null}
                 </div>
                 {this.state.rules && !this.props.winnerId ? <Rules toggleRules={this.handleToggleRules} /> : null}
@@ -144,7 +163,8 @@ const mapStateToProps = state => ({
     //Notification states
     notificationBool: state.game.notificationBool,
     notificationText: state.game.notificationText,
-    opponentDisconnect: state.game.opponentDisconnect
+    opponentDisconnect: state.game.opponentDisconnect,
+    challengerId: state.game.challengerId
 });
 
 const mapDispatchToProps = dispatch => ({
