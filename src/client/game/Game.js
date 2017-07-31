@@ -21,6 +21,7 @@ export class Game extends Component {
         this.handleToggleRules = this.handleToggleRules.bind(this);
         this.onWin = this.onWin.bind(this);
         this.onClickForfeit = this.onClickForfeit.bind(this);
+        this.reChallenge = this.reChallenge.bind(this);
         this.returnToLobby = this.returnToLobby.bind(this);
         {this.getGameInfo()};
     }
@@ -43,6 +44,10 @@ export class Game extends Component {
             return;
         }
         this.props.toggleForfeit();
+    }
+
+    reChallenge() {
+        cloak.message('rechallenge', _);
     }
 
     returnToLobby() {
@@ -77,16 +82,27 @@ export class Game extends Component {
         } else {
             gameOverTextChoice = (this.props.winnerId === this.props.id) ? "You Won!" : "You Lost";
         }
+        var challengeButton;
+        if (this.props.challengerId === this.props.id) {
+            challengeButton = <button className={gameStyles.reChallenge}> Cancel </button>;
+        } else if (this.props.challengerId) {
+            challengeButton = <div>
+                    <button className={gameStyles.acceptButton}> &#10004; </button>
+                    <button className={gameStyles.declineButton}> &#x2716; </button>
+                </div>;
+        } else {
+            challengeButton = <button className={gameStyles.reChallenge} onClick={this.reChallenge}> Re-Challenge </button>;
+        }
         const gameOverDiv = (
             <div className={gameStyles.notificationMenu}>
                 <h1> {gameOverTextChoice} </h1>
                 <button className={gameStyles.returnButton} onClick={this.returnToLobby}> Return To Lobby </button>
-                {(!this.props.opponentDisconnect && (this.props.listOfPlayers.length > 1)) ? <button className={gameStyles.reChallenge}> Re-Challenge </button> : null}
+                {(!this.props.opponentDisconnect && (this.props.listOfPlayers.length > 1)) ? challengeButton : null}
             </div>
         );
         const forfeitDiv = (
             <div className={gameStyles.notificationMenu}>
-                <h1>Are you sure you want to forfeit?</h1>
+                <h1> Are you sure you want to forfeit? </h1>
                 <button className={gameStyles.acceptButton} onClick={() => this.onWin(false)}> &#10004; </button>
                 <button className={gameStyles.declineButton} onClick={this.onClickForfeit}> &#x2716; </button>
             </div>
@@ -145,7 +161,8 @@ const mapStateToProps = state => ({
     //Notification states
     notificationBool: state.game.notificationBool,
     notificationText: state.game.notificationText,
-    opponentDisconnect: state.game.opponentDisconnect
+    opponentDisconnect: state.game.opponentDisconnect,
+    challengerId: state.game.challengerId
 });
 
 const mapDispatchToProps = dispatch => ({

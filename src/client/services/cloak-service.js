@@ -15,6 +15,7 @@ import {
     updateCurrentPlayerOnly,
     opponentDisconnect,
     gameOver,
+    challengerId,
     rolledValue,
     setRoomName,
     updateGameState,
@@ -113,6 +114,9 @@ export function RunCloakConfig() {
             gotolobby: () => {
                 dispatch(resetStore());
                 browserHistory.push('/lobby');
+            },
+            challengerid: (id) => {
+                dispatch(challengerId(id));
             },
             //Game state messages
             gamestate: (json) => {

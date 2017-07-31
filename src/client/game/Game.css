@@ -120,20 +120,26 @@
     font-size: calc(2 * (1vw + 1vh - 1vmin));
 }
 
+.notificationMenu div {
+    position: relative;
+    transform: translate(0%, -50%);
+    top: 73% !important;
+}
+
 .acceptButton {
     padding: 0 !important;
-    left: 20%;
+    left: 35%;
     background-color: #03b733 !important;
-    height: calc(4 * (1vw + 1vh - 1vmin));
-    width: calc(4 * (1vw + 1vh - 1vmin));
+    height: calc(3.5 * (1vw + 1vh - 1vmin));
+    width: calc(3.5 * (1vw + 1vh - 1vmin));
 }
 
 .declineButton {
     padding: 0 !important;
-    right: 20%;
+    right: 35%;
     background-color: #e81212 !important;
-    height: calc(4 * (1vw + 1vh - 1vmin));
-    width: calc(4 * (1vw + 1vh - 1vmin));
+    height: calc(3.5 * (1vw + 1vh - 1vmin));
+    width: calc(3.5 * (1vw + 1vh - 1vmin));
 }
 
 .reChallenge {

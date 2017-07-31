@@ -1,5 +1,6 @@
 var cloak = require('cloak');
 var lobbyFunctions = require('./cloak-server-lobby');
+var shared = require('./cloak-server-shared');
 const numberOfPieces = 7;
 
 function challengePlayer(id, user) {
@@ -28,6 +29,12 @@ function acceptChallenge(id, user) {
 
 function declineChallenge(id, user) {
     challengeRespond(id, user, false);
+}
+
+function reChallenge(user) {
+    const room = user.getRoom();
+    room.data.challengerId = user.id;
+    room.messageMembers('challengerid', room.data.challengerId);
 }
 
 function challengeRespond(challengerId, user, accept) {
@@ -90,3 +97,4 @@ module.exports.challengePlayer = challengePlayer;
 module.exports.cancelChallenge = cancelChallenge;
 module.exports.acceptChallenge = acceptChallenge;
 module.exports.declineChallenge = declineChallenge;
+module.exports.reChallenge = reChallenge;
