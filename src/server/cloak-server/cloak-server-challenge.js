@@ -40,7 +40,7 @@ function challengeRespond(challengerId, user, accept) {
             return challenging !== user.id;
         });
         user.message('updatechallengers', user.data.challengers);
-        user2.message('updatechallenging', user.data.challenging);
+        user2.message('updatechallenging', user2.data.challenging);
     } else {
         user.data.opponentDbId = user2.data.dbId;
         user2.data.opponentDbId = user.data.dbId;
