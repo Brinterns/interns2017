@@ -45,6 +45,8 @@
     padding: calc(0.5 * (1vw + 1vh - 1vmin));
     margin-left: calc(0.5 * (1vw + 1vh - 1vmin));
     margin-top: calc(0.5 * (1vw + 1vh - 1vmin);
+    width: calc(38 * (1vw + 1vh - 1vmin);
+    min-width: 180px;
     display: inline-block;
 }
 
