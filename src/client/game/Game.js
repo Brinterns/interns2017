@@ -72,7 +72,7 @@ export class Game extends Component {
     render() {
         const isPlayerTurn = (this.props.currentPlayer === this.props.id);
         var gameOverTextChoice;
-        if (this.props.opponentDisconnect) {
+        if (this.props.opponentDisconnect && !this.props.winnerId) {
             gameOverTextChoice = "Opponent Disconnected, You Won!";
         } else {
             gameOverTextChoice = (this.props.winnerId === this.props.id) ? "You Won!" : "You Lost";
@@ -81,6 +81,7 @@ export class Game extends Component {
             <div className={gameStyles.notificationMenu}>
                 <h1> {gameOverTextChoice} </h1>
                 <button className={gameStyles.returnButton} onClick={this.returnToLobby}> Return To Lobby </button>
+                {(!this.props.opponentDisconnect && (this.props.listOfPlayers.length > 1)) ? <button className={gameStyles.reChallenge}> Re-Challenge </button> : null}
             </div>
         );
         const forfeitDiv = (

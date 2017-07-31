@@ -124,7 +124,6 @@
     padding: 0 !important;
     left: 20%;
     background-color: #03b733 !important;
-    outline: none;
     height: calc(4 * (1vw + 1vh - 1vmin));
     width: calc(4 * (1vw + 1vh - 1vmin));
 }
@@ -133,13 +132,19 @@
     padding: 0 !important;
     right: 20%;
     background-color: #e81212 !important;
-    outline: none;
     height: calc(4 * (1vw + 1vh - 1vmin));
     width: calc(4 * (1vw + 1vh - 1vmin));
 }
 
+.reChallenge {
+    transform: translate(-50%, -50%);
+    height: calc(3.5 * (1vw + 1vh - 1vmin));
+    left: 50%;
+    top: 50%;
+}
+
 .returnButton {
-    position: relative;
     transform: translate(-50%, 0%);
+    height: calc(3.5 * (1vw + 1vh - 1vmin));
     left: 50%;
 }

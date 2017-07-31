@@ -110,6 +110,10 @@ var roomExit = function(arg) {
                 });
             });
         });
+    } else if (users.length === 1) {
+        const user = users[0];
+        this.data.opponentDisconnect = true;
+        user.message('opponentdisconnect');
     }
 }
 
