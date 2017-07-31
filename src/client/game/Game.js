@@ -86,8 +86,8 @@ export class Game extends Component {
         const forfeitDiv = (
             <div className={gameStyles.notificationMenu}>
                 <h1>Are you sure you want to forfeit?</h1>
-                <button className={gameStyles.yesButton} onClick={() => this.onWin(false)}>Yes</button>
-                <button className={gameStyles.noButton} onClick={this.onClickForfeit}>No</button>
+                <button className={gameStyles.acceptButton} onClick={() => this.onWin(false)}> &#10004; </button>
+                <button className={gameStyles.declineButton} onClick={this.onClickForfeit}> &#x2716; </button>
             </div>
         );
         let currentPlayerText = null;

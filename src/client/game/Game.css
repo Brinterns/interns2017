@@ -97,9 +97,9 @@
     top: 0;
     left: 50%;
     margin: 0;
-    margin-top: 1em;
+    margin-top: calc(1.5 * (1vw + 1vh - 1vmin));
     transform: translate(-50%, 0%);
-    font-size: calc(5px + 2 * (1vw + 1vh - 1vmin));
+    font-size: calc(5px + 2.5 * (1vw + 1vh - 1vmin));
     text-align: center;
     width: 100%;
 }
@@ -111,7 +111,7 @@
     padding-left: 0.9em;
     padding-top: 0.25em;
     padding-bottom: 0.25em;
-    margin-bottom: 1em;
+    margin-bottom: calc(1.5 * (1vw + 1vh - 1vmin));
     bottom: 0;
     border-style: none;
     color: white;
@@ -120,16 +120,22 @@
     font-size: calc(2 * (1vw + 1vh - 1vmin));
 }
 
-.yesButton {
+.acceptButton {
+    padding: 0 !important;
     left: 20%;
-    background-color: #e81212;
+    background-color: #03b733 !important;
     outline: none;
+    height: calc(4 * (1vw + 1vh - 1vmin));
+    width: calc(4 * (1vw + 1vh - 1vmin));
 }
 
-.noButton {
+.declineButton {
+    padding: 0 !important;
     right: 20%;
-    background-color: #03b733;
+    background-color: #e81212 !important;
     outline: none;
+    height: calc(4 * (1vw + 1vh - 1vmin));
+    width: calc(4 * (1vw + 1vh - 1vmin));
 }
 
 .returnButton {
