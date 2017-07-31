@@ -182,7 +182,8 @@ const game = (state = initialState, action) => {
                 opponentSquares: action.payload.opponentSquares,
                 numPiecesFinished: action.payload.finishedPieces,
                 numOppPiecesFinished: action.payload.finishedOppPieces,
-                winnerId: action.payload.winnerId
+                winnerId: action.payload.winnerId,
+                opponentDisconnect: action.payload.opponentDisconnect
             });
         }
         case RESET_STORE: {

@@ -30,10 +30,11 @@ function getRoomInfo(user) {
             roomName: room.name,
             squares: user.data.squares,
             piecePositions: user.data.piecePositions,
-            opponentSquares: opponent ? gameplay.reverseSquares(opponent.data.piecePositions) : null,
+            opponentSquares: opponent ? gameplay.reverseSquares(opponent.data.piecePositions) : [],
             finishedPieces: user.data.numPiecesFinished,
             finishedOppPieces: opponent ? opponent.data.numPiecesFinished : null,
-            winnerId: room.data.winnerId
+            winnerId: room.data.winnerId,
+            opponentDisconnect: room.data.opponentDisconnect
         };
         user.message('gamestate', JSON.stringify(gameStateJson));
         user.message('currentplayer', room.data.currentPlayer);
@@ -76,6 +77,7 @@ function win(winBool, user) {
 
 var roomExit = function(arg) {
     const users = this.getMembers();
+    this.data.opponentDisconnect = true;
     if ((users.length === 1) && !users[0].getRoom().data.winnerId) {
         var user = users[0];
         var opponentName;
