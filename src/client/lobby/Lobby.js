@@ -7,6 +7,8 @@ import lobbyStyles from './Lobby.css';
 import ChatBox from '../Chat/ChatBox';
 import Rules from '../rules/Rules';
 import logo from '../images/logo.png';
+import DrawCanvas from '../components/DrawCanvas';
+
 
 import { RunCloakConfig } from '../services/cloak-service';
 
@@ -15,6 +17,7 @@ export class Lobby extends Component {
         super(props);
         this.state = {
             screenWidth: 0,
+            drawCanvas: false,
             rules: false
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
@@ -22,6 +25,8 @@ export class Lobby extends Component {
         this.cancelChallenge = this.cancelChallenge.bind(this);
         this.challengeRespond = this.challengeRespond.bind(this);
         this.handleToggleRules = this.handleToggleRules.bind(this);
+        this.handleAvatarClick = this.handleAvatarClick.bind(this);
+        this.upload = this.upload.bind(this);
         {this.getLobbyInfo()};
     }
 
@@ -81,6 +86,17 @@ export class Lobby extends Component {
         });
     }
 
+    handleAvatarClick() {
+        this.setState({
+            drawCanvas: !this.state.drawCanvas
+        });
+    }
+
+    upload() {
+        this.handleAvatarClick();
+        cloak.message('setavatar', this.refs.sketcher.refs.drawCanvas.toDataURL());
+    }
+
     render() {
         let otherUsers = [];
         let name = '';
@@ -96,9 +112,10 @@ export class Lobby extends Component {
                 if (myCanvas) {
                     setTimeout (() => {
                         var ctx = myCanvas.getContext('2d');
+                        ctx.clearRect(0,0,myCanvas.width, myCanvas.height);
                         var img = new Image;
                         img.onload = function(){
-                          ctx.drawImage(img,0,0);
+                          ctx.drawImage(img, 0, 0, 300, 150);
                         };
                         img.src = user.avatar;
                     },50);
@@ -165,7 +182,7 @@ export class Lobby extends Component {
                     <h1> The Royal Game of Ur </h1>
                 </div>
                 <div className={lobbyStyles.userStats}>
-                    <canvas id="myavatar" className={lobbyStyles.canvas}/>
+                    <canvas onClick={this.handleAvatarClick} id="myavatar" className={lobbyStyles.canvas}/>
                     <div className={lobbyStyles.userText}>
                         <Player name={name} />
                         {this.props.elorank ? <h2> Rating: {this.props.elorank} </h2>: null}
@@ -175,6 +192,7 @@ export class Lobby extends Component {
                 <button className={lobbyStyles.rules} onClick={this.handleToggleRules}> Rules </button>
                 {(this.state.screenWidth >= 800) ? normalDisplay : tabbedDisplay}
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
+                {this.state.drawCanvas ? <DrawCanvas edit={true} ref="sketcher" sketcherClassName={lobbyStyles.drawCanvas} className={lobbyStyles.mainDrawingCanvas} upload={this.upload} close={this.handleAvatarClick}/> : null}
                 {this.state.rules ? <Rules toggleRules={this.handleToggleRules} /> : null}
             </div>
         );
