@@ -21,15 +21,15 @@ function challengePlayer(id, user) {
 }
 
 function cancelChallenge(id, user) {
-    challengeRespond(user.id, cloak.getUser(id), false);
+    challengeRespond(user, cloak.getUser(id), false);
 }
 
 function acceptChallenge(id, user) {
-    challengeRespond(id, user, true);
+    challengeRespond(cloak.getUser(id), user, true);
 }
 
 function declineChallenge(id, user) {
-    challengeRespond(id, user, false);
+    challengeRespond(cloak.getUser(id), user, false);
 }
 
 function reChallenge(user) {
@@ -40,7 +40,7 @@ function reChallenge(user) {
 
 function reChallengeResponse(accept, user) {
     if (accept) {
-        challengeRespond(shared.getOpponent(user).id, user, accept);
+        challengeRespond(shared.getOpponent(user), user, accept);
     } else {
         const room = user.getRoom();
         room.data.challengerId = null;
@@ -48,11 +48,10 @@ function reChallengeResponse(accept, user) {
     }
 }
 
-function challengeRespond(challengerId, user, accept) {
-    var user2 = cloak.getUser(challengerId);
+function challengeRespond(user2, user, accept) {
     if (!accept) {
         user.data.challengers = user.data.challengers.filter(challenger => {
-            return challenger !== challengerId;
+            return challenger !== user2.id;
         });
         user2.data.challenging = user2.data.challenging.filter(challenging => {
             return challenging !== user.id;
@@ -69,19 +68,19 @@ function challengeRespond(challengerId, user, accept) {
             user2.data.challengers = [];
         }
         user.data.challengers.forEach(challenger => {
-            if (challenger !== challengerId) {
-                challengeRespond(challenger, user, false);
+            if (challenger !== user2.id) {
+                challengeRespond(cloak.getUser(challenger), user, false);
             }
         });
         user.data.challenging.forEach(challenging => {
-            challengeRespond(user.id, cloak.getUser(challenging), false);
+            challengeRespond(user, cloak.getUser(challenging), false);
         });
         user2.data.challengers.forEach(challenger => {
-            challengeRespond(challenger.id, user, false);
+            challengeRespond(cloak.getUser(challenger), user, false);
         });
         user2.data.challenging.forEach(challenging => {
             if (challenging !== user.id) {
-                challengeRespond(user.id, cloak.getUser(challenging), false);
+                challengeRespond(user2, cloak.getUser(challenging), false);
             }
         });
         user.data.challengers = [];
