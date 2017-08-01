@@ -40,14 +40,7 @@ function reChallenge(user) {
 
 function reChallengeResponse(accept, user) {
     if (accept) {
-        var user2 = shared.getOpponent(user);
-        let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
-        createdRoom.data.opponentDisconnect = false;
-        userJoinRoom(user, createdRoom);
-        userJoinRoom(user2, createdRoom);
-        createdRoom.messageMembers('joingame', createdRoom.id);
-        gameRoomFunctions.getRoomInfo(user);
-        gameRoomFunctions.getRoomInfo(user2);
+        challengeRespond(shared.getOpponent(user).id, user, accept);
     } else {
         const room = user.getRoom();
         room.data.challengerId = null;
@@ -100,6 +93,8 @@ function challengeRespond(challengerId, user, accept) {
         createdRoom.messageMembers('joingame', createdRoom.id);
         lobbyFunctions.updateLobbyActiveGames();
         lobbyFunctions.updateLobbyUsers();
+        gameRoomFunctions.getRoomInfo(user);
+        gameRoomFunctions.getRoomInfo(user2);
     }
 }
 
