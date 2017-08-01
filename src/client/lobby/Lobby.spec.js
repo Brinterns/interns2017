@@ -38,5 +38,4 @@ describe('<Lobby />', () => {
         wrapper.find("canvas").at(0).simulate("click");
         expect(wrapper.state().drawCanvas).toEqual(true);
     });
-
 });
