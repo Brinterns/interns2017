@@ -44,6 +44,7 @@ export default class ChatBox extends Component {
             emojis: false
         });
         document.getElementById("msginput").value = '';
+        setTimeout(()=>{this.scrollToBottom()},1000);
     }
 
     handleClick() {
@@ -104,7 +105,7 @@ export default class ChatBox extends Component {
         const messages = this.props.messages;
         const messageDisplay = (
             messages.map((messageData, i) => {
-                    {this.scrollToBottom()}
+                {this.scrollToBottom()}
                     if(messageData.userId === this.props.id) {
                         return(
                             <div key={i} className={chatStyles.playerMesssge}>
@@ -124,6 +125,9 @@ export default class ChatBox extends Component {
                               ctx.drawImage(img, 0, 0, 300, 150);
                             };
                             img.src = messageData.avatar;
+                        }
+                        if (i === (messages.length - 1)) {
+                            {this.scrollToBottom()}
                         }
                     }, 50);
                     return(
