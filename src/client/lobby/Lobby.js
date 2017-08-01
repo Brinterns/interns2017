@@ -104,7 +104,7 @@ export class Lobby extends Component {
         let myCanvas = null;
         let userAvatar = null;
         this.props.listOfUsers.forEach((user) => {
-            if (this.props.id != user.id) {
+            if (this.props.id !== user.id) {
                 otherUsers.push(user);
                 return;
             }
@@ -117,7 +117,7 @@ export class Lobby extends Component {
                         var ctx = myCanvas.getContext('2d');
                         ctx.clearRect(0,0,myCanvas.width, myCanvas.height);
                         var img = new Image;
-                        img.onload = function(){
+                        img.onload = function() {
                           ctx.drawImage(img, 0, 0, 300, 150);
                         };
                         img.src = user.avatar;

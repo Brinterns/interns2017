@@ -24,8 +24,7 @@ var add = function(id, name) {
             loses: 0,
             elorank: 1200,
             avatar: null
-        },
-        function(err, user) {
+        }, function(err, user) {
             if (err) {
                 reject({
                     code: 500,
@@ -34,11 +33,19 @@ var add = function(id, name) {
             } else {
                 resolve(user);
             }
-        })
-    })
+        });
+    });
 }
 
 module.exports.add = add;
+
+module.exports.getSize = function() {
+    return client.collection('users').count();
+}
+
+module.exports.getAllUsers = function() {
+    return client.collection('users').find();
+}
 
 module.exports.find = function(id, name) {
     return new Promise(function(resolve, reject) {
@@ -98,8 +105,8 @@ module.exports.updateAvatar = function(userData, avatar) {
             }  else {
                 resolve(out);
             }
-        })
-    })
+        });
+    });
 }
 
 module.exports.collection = function(collection) {
