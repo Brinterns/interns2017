@@ -5,7 +5,7 @@ import ChatBox from './ChatBox';
 
 describe('<ChatBox />', () => {
     beforeEach(() => {
-        window.cloak = jasmine.createSpyObj('cloak', ['configure', 'run']);
+        window.cloak = jasmine.createSpyObj('cloak', ['configure', 'run', 'message']);
     });
 
     const message1 = {
@@ -100,5 +100,24 @@ describe('<ChatBox />', () => {
             numMsgSeen: 1
         });
         expect(wrapper.find("p").at(1).text()).toEqual('2');
+    });
+
+    it('Message is sent and input reset on clicking send message icon', () => {
+        let wrapper = shallow(<ChatBox id={'4'} messages={[]}/>);
+        wrapper.setState({
+            showChat: true,
+            input: 'wadwadwadwad'
+        });
+        wrapper.find("img").at(2).simulate("click");
+        expect(wrapper.state().input).toEqual('');
+    });
+
+    it('Show emojis set to true on clicking smiley emoji', () => {
+        let wrapper = shallow(<ChatBox id={'7'} messages={[]}/>);
+        wrapper.setState({
+            showChat: true
+        });
+        wrapper.find("img").at(1).simulate("click");
+        expect(wrapper.state().emojis).toEqual(true);
     });
 });

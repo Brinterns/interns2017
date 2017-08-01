@@ -43,7 +43,10 @@ export default class ChatBox extends Component {
             input: '',
             emojis: false
         });
-        document.getElementById("msginput").value = '';
+        var input = document.getElementById("msginput");
+        if (input) {
+            input.value = '';
+        }
         setTimeout(()=>{this.scrollToBottom()},1000);
     }
 
@@ -92,7 +95,6 @@ export default class ChatBox extends Component {
         });
         emojidictionary.emojis.forEach((emoji_d) => {
             if (emoji_d.name === emoji.shortname) {
-                console.log(emoji_d.name);
                 this.setState({
                     input: this.state.input + emoji_d.unicode
                 });
