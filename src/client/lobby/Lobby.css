@@ -20,14 +20,15 @@
 .gameTitle {
     float: right;
     margin: 0;
+    margin-top: calc(0.5 * (1vw + 1vh - 1vmin));
     padding-top: calc(0.5 * (1vw + 1vh - 1vmin));
     padding-right: calc(1 * (1vw + 1vh - 1vmin));
 }
 
 .gameTitle img {
     display: inline-block;
-    height: calc(6 * (1vw + 1vh - 1vmin));
-    width: calc(6 * (1vw + 1vh - 1vmin));
+    height: calc(6.2 * (1vw + 1vh - 1vmin));
+    width: calc(6.2 * (1vw + 1vh - 1vmin));
 }
 
 .gameTitle h1 {
@@ -41,32 +42,32 @@
 .userStats {
     border: solid;
     border-color: #FAD000;
-    display: block;
+    border-width: 0.12em;
     padding: calc(0.5 * (1vw + 1vh - 1vmin));
     margin-left: calc(0.5 * (1vw + 1vh - 1vmin));
-    margin-top: calc(0.5 * (1vw + 1vh - 1vmin);
+    margin-top: calc(0.5 * (1vw + 1vh - 1vmin));
     padding-right: auto;
-    width: calc(45 * (1vw + 1vh - 1vmin);
-    min-width: calc(230px + 5 * (1vw + 1vh - 1vmin);
+    width: calc(40 * (1vw + 1vh - 1vmin));
+    min-width: 200px;
     display: inline-block;
 }
 
 .userStats h1 {
     margin-top: 0;
-    font-size: calc(5px + 2.8 * (1vw + 1vh - 1vmin));
+    font-size: calc(5px + 2.2 * (1vw + 1vh - 1vmin));
     margin-bottom: calc(0.5 * (1vw + 1vh - 1vmin));
 }
 
 .userStats input {
     width: calc(27.5 * (1vw + 1vh - 1vmin));
-    font-size: calc(5px + 2.8 * (1vw + 1vh - 1vmin));
-    height: calc(9.5px + 2.8 * (1vw + 1vh - 1vmin));
-    margin-bottom: calc(0.6 * (1vw + 1vh - 1vmin));
+    font-size: calc(5px + 2.2 * (1vw + 1vh - 1vmin));
+    height: calc(9px + 2.2 * (1vw + 1vh - 1vmin));
+    margin-bottom: calc(0.5 * (1vw + 1vh - 1vmin));
 }
 
 .userStats h2 {
     margin: 0;
-    font-size: calc(3px + 1.8 * (1vw + 1vh - 1vmin));
+    font-size: calc(3px + 1.2 * (1vw + 1vh - 1vmin));
 }
 
 .userText {
@@ -77,8 +78,10 @@
 .canvas {
     display: inline-block;
     vertical-align: top;
-    height: calc(7.5 * (1vw + 1vh - 1vmin));
-    width: calc(7.5 * (1vw + 1vh - 1vmin));
+    height: calc(6.2 * (1vw + 1vh - 1vmin));
+    width: calc(6.2 * (1vw + 1vh - 1vmin));
+    min-height: 40px;
+    min-width: 40px;
     margin-top: 0;
     background-color: white;
     border: solid;
@@ -86,12 +89,14 @@
     border-width: 0.12em;
     margin-right: calc(1.5 * (1vw + 1vh - 1vmin));
     cursor: pointer;
-    position:relative;
+    position: relative;
 }
 
 .canvas canvas {
-    height: calc(7.5 * (1vw + 1vh - 1vmin));
-    width: calc(7.5 * (1vw + 1vh - 1vmin));
+    height: calc(6.2 * (1vw + 1vh - 1vmin));
+    width: calc(6.2 * (1vw + 1vh - 1vmin));
+    min-height: 40px;
+    min-width: 40px;
 }
 
 .canvas img {
