@@ -5,6 +5,9 @@ import message from '../images/icons/msg.png';
 import emoji from '../images/icons/emoji.png';
 import Picker from '../mod/emojipicker/lib/Picker';
 import {emojify} from 'react-emojione';
+var emoji2 = require('node-emoji');
+import emojione from 'emojione';
+import emojidictionary from './emojidictionary.json';
 
 export default class ChatBox extends Component {
     constructor(props) {
@@ -86,6 +89,15 @@ export default class ChatBox extends Component {
     addEmoji (emoji) {
         this.setState({
             input: this.state.input + emoji.shortname
+        });
+        emojidictionary.emojis.forEach((emoji_d) => {
+            if (emoji_d.name === emoji.shortname) {
+                console.log(emoji_d.name);
+                this.setState({
+                    input: this.state.input + emoji_d.unicode
+                });
+                return;
+            }
         });
      }
 
