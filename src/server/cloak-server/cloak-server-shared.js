@@ -1,5 +1,6 @@
 var cloak = require('cloak');
 var db = require('../db');
+var lobbyFunctions = require('./cloak-server-lobby');
 const maxMessages = 1000;
 
 function getRandomIntInclusive(min, max) {
