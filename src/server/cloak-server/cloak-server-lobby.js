@@ -2,7 +2,7 @@ var cloak = require('cloak');
 var db = require('../db');
 var shared = require('./cloak-server-shared');
 
- function getLobbyInfo(user) {
+function getLobbyInfo(user) {
     user.message('userid', user.id);
     user.message('updateusers', getLobbyUserInfo());
 };
@@ -17,7 +17,11 @@ function updateLobbyUsers(arg) {
 //all clients are updated with the list of usernames currently in the lobbyfunction()
 function getLobbyUserInfo() {
     let listOfUserInfo = [];
-    cloak.getLobby().getMembers().forEach(function(user) {
+    cloak.getUsers().forEach(function(user) {
+        const room = user.getRoom();
+        if (!room) {
+            return;
+        }
         if (!user.data.winLossRecord) {
             user.data.winLossRecord = {wins: 0, loses: 0};
             user.data.elorank = 1200;
@@ -28,7 +32,8 @@ function getLobbyUserInfo() {
             inChallenge: user.data.challenger || user.data.challenging,
             winLossRecord: user.data.winLossRecord,
             elorank: user.data.elorank,
-            avatar: user.data.avatar
+            avatar: user.data.avatar,
+            inLobby: room.isLobby
         };
         listOfUserInfo.push(userJson);
     });

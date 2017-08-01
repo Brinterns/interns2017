@@ -1,5 +1,6 @@
 var cloak = require('cloak');
 var db = require('../db');
+var lobbyFunctions = require('./cloak-server-lobby');
 const maxMessages = 1000;
 
 function getRandomIntInclusive(min, max) {
@@ -124,6 +125,7 @@ function reconnectUser(id, user) {
             }
         }
         user2.delete();
+        lobbyFunctions.getLobbyInfo(user);
     } else {
         user.message('gotologin');
     }
