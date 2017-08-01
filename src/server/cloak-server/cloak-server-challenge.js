@@ -99,6 +99,7 @@ function challengeRespond(challengerId, user, accept) {
         userJoinRoom(user2, createdRoom);
         createdRoom.messageMembers('joingame', createdRoom.id);
         lobbyFunctions.updateLobbyActiveGames();
+        lobbyFunctions.updateLobbyUsers();
     }
 }
 

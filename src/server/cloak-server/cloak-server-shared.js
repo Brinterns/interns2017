@@ -125,7 +125,6 @@ function reconnectUser(id, user) {
             }
         }
         user2.delete();
-        lobbyFunctions.getLobbyInfo(user);
     } else {
         user.message('gotologin');
     }
