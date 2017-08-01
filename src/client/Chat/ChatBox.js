@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import chatStyles from './Chat.css';
 import send from '../images/icons/send.png';
 import message from '../images/icons/msg.png';
+import emoji from '../images/icons/emoji.png';
+import Picker from '../mod/emojipicker/lib/Picker';
+import {emojify} from 'react-emojione';
 
 export default class ChatBox extends Component {
     constructor(props) {
@@ -9,7 +12,8 @@ export default class ChatBox extends Component {
         this.state = {
             input: '',
             showChat: false,
-            numMsgSeen: this.props.messages.length
+            numMsgSeen: this.props.messages.length,
+            emojis: false
         };
         setTimeout(() => {
             this.setState({ numMsgSeen: this.props.messages.length});
@@ -19,6 +23,7 @@ export default class ChatBox extends Component {
         this.sendMessage = this.sendMessage.bind(this);
         this.scrollToBottom = this.scrollToBottom.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.toggleEmojis = this.toggleEmojis.bind(this);
     }
 
     handleKeyPress(e) {
@@ -28,13 +33,13 @@ export default class ChatBox extends Component {
     }
 
     sendMessage() {
-
         if (!(this.state.input).replace(/\s/g, '').length) {
             return;
         }
         cloak.message('sendmessage', this.state.input);
         this.setState({
-            input: ''
+            input: '',
+            emojis: false
         });
         document.getElementById("msginput").value = '';
     }
@@ -72,6 +77,18 @@ export default class ChatBox extends Component {
         }
     }
 
+    toggleEmojis() {
+        this.setState({
+            emojis: !this.state.emojis
+        });
+    }
+
+    addEmoji (emoji) {
+        this.setState({
+            input: this.state.input + emoji.shortname
+        });
+     }
+
     render() {
         const messages = this.props.messages;
         const messageDisplay = (
@@ -81,7 +98,7 @@ export default class ChatBox extends Component {
                         return(
                             <div key={i} className={chatStyles.playerMesssge}>
                                 <div className={chatStyles.message}>
-                                    <h3>{messageData.message}</h3>
+                                    <h3>{emojify(messageData.message)}</h3>
                                 </div>
                             </div>
                         );
@@ -102,7 +119,7 @@ export default class ChatBox extends Component {
                         <div key={i} className={chatStyles.opponent}>
                             <canvas id={canvasId} className={chatStyles.avatar}/>
                             <div className={chatStyles.opponentMessage}>
-                                <h5>{messageData.message}</h5>
+                                <h5>{emojify(messageData.message)}</h5>
                                 <h4>{messageData.userName}</h4>
                             </div>
                         </div>
@@ -126,7 +143,6 @@ export default class ChatBox extends Component {
                 </div>
             </div>
         );
-
         const openChatDiv = (
             <div className={chatStyles.openChat}>
                 <div onClick={this.handleClick} className={chatStyles.openChatTop}>
@@ -134,10 +150,11 @@ export default class ChatBox extends Component {
                     <p>Chat </p>
                 </div>
                 <div id="messagediv" className={chatStyles.messages}>
-                    {messageDisplay}
+                    {this.state.emojis ? <Picker onEmojiSelected={this.addEmoji.bind(this)} /> : messageDisplay}
                 </div>
                 <div className={chatStyles.openChatBottom}>
                     <input id="msginput" type="text" placeholder="Type your message..." onKeyPress={this.handleKeyPress} value={this.state.input} onChange={this.handleChange}/>
+                    <img src={emoji} onClick={this.toggleEmojis}/>
                     <img src={send} onClick={this.sendMessage}/>
                 </div>
             </div>

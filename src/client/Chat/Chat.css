@@ -161,8 +161,10 @@
     cursor: pointer;
 }
 
+
 .messages {
     overflow-y: auto;
+    overflow-x: hidden;
     /*Dimensions*/
     height: calc(18 * (1vw + 1vh - 1vmin));
     min-height: 200px;
