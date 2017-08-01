@@ -5,7 +5,6 @@ import message from '../images/icons/msg.png';
 import emoji from '../images/icons/emoji.png';
 import Picker from '../mod/emojipicker/lib/Picker';
 import {emojify} from 'react-emojione';
-var emoji2 = require('node-emoji');
 import emojione from 'emojione';
 import emojidictionary from './emojidictionary.json';
 
@@ -165,8 +164,10 @@ export default class ChatBox extends Component {
                     {this.state.emojis ? <Picker onEmojiSelected={this.addEmoji.bind(this)} /> : messageDisplay}
                 </div>
                 <div className={chatStyles.openChatBottom}>
-                    <input id="msginput" type="text" placeholder="Type your message..." onKeyPress={this.handleKeyPress} value={this.state.input} onChange={this.handleChange}/>
-                    <img src={emoji} onClick={this.toggleEmojis}/>
+                    <div className={chatStyles.inputArea}>
+                        <input id="msginput" type="text" placeholder="Type your message..." onKeyPress={this.handleKeyPress} value={this.state.input} onChange={this.handleChange}/>
+                        <img src={emoji} onClick={this.toggleEmojis}/>
+                    </div>
                     <img src={send} onClick={this.sendMessage}/>
                 </div>
             </div>

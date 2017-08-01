@@ -133,24 +133,59 @@
     min-height: 30px;
     /*lineheight = height - inputheight/2 for vertically aligning input box*/
     line-height: calc(3.5 * (1vw + 1vh - 1vmin));
+    vertical-align: top !important;
 }
 
-.openChatBottom input {
-    vertical-align: middle;
+.inputArea {
+    display: inline-block;
+    vertical-align: middle !important;
+    background-color: white;
+    /*dimensions*/
+    width: calc(19 * (1vw + 1vh - 1vmin));
+    height: calc(2.2 * (1vw + 1vh - 1vmin)) !important;
+    min-height: 20px;
+    min-width: 160px;
     margin-left: calc(1px + 1 * (1vw + 1vh - 1vmin));
-    padding: calc(0.5 * (1vw + 1vh - 1vmin));
-    /*Border*/
+    /*border*/
+    overflow: hidden;
     border: solid;
     border-width: calc(0.1 * (1vw + 1vh - 1vmin));
+}
+
+.inputArea input{
+    vertical-align: top !important;
+    display: inline-block;
+    height: calc(2.0 * (1vw + 1vh - 1vmin)) !important;
+    width: calc(16.5 * (1vw + 1vh - 1vmin));
+    min-width: 140px;
+    min-height: 16px;
+    margin: 0 !important;
+    margin-left: calc(0.1 * (1vw + 1vh - 1vmin)) !important;
+    margin-top: calc(0.1 * (1vw + 1vh - 1vmin)) !important;
+    background-color: white;
+    border: none;
+    overflow: auto;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.inputArea img {
+    vertical-align: top !important;
+    margin-left: 0 !important;
+    background: none !important;
     /*Dimensions*/
     height: calc(2.0 * (1vw + 1vh - 1vmin));
-    width: calc(19 * (1vw + 1vh - 1vmin));
-    min-height: 17px;
-    min-width: 160px;
+    width: calc(2.0 * (1vw + 1vh - 1vmin));
+    min-height: 15px !important;
+    min-width: 15px !important;
 }
+
 .openChatBottom img {
     vertical-align: middle;
     margin-left: calc(1.0 * (1vw + 1vh - 1vmin));
+    background: none;
     /*Dimensions*/
     height: calc(2.0 * (1vw + 1vh - 1vmin));
     width: calc(2.0 * (1vw + 1vh - 1vmin));
