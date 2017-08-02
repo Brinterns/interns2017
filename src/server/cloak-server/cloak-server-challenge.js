@@ -90,10 +90,12 @@ function challengeRespond(user, user2, accept) {
         userJoinRoom(user, createdRoom);
         userJoinRoom(user2, createdRoom);
         createdRoom.messageMembers('joingame', createdRoom.id);
-        lobbyFunctions.updateLobbyActiveGames();
-        lobbyFunctions.updateLobbyUsers();
-        gameRoomFunctions.getRoomInfo(user);
-        gameRoomFunctions.getRoomInfo(user2);
+        setTimeout(function() {
+            lobbyFunctions.updateLobbyActiveGames();
+            lobbyFunctions.updateLobbyUsers();
+            gameRoomFunctions.getRoomInfo(user);
+            gameRoomFunctions.getRoomInfo(user2);
+        }, 100);
     }
 }
 
