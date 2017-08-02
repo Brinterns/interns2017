@@ -11,7 +11,7 @@ function getLobbyInfo(user) {
 
 //whenever a username is changed/a player joins the lobby
 ///a player leaves the lobby the list of users is updated
-function updateLobbyUsers(arg) {
+function updateLobbyUsers() {
     shared.sendMessages(cloak.getLobby());
     getLobbyUserInfo().then(function(listOfUserInfo) {
         cloak.messageAll('updateusers', listOfUserInfo);
@@ -64,7 +64,6 @@ function getLobbyUserInfo() {
                             }
                             if (count === (size - 1)) {
                                 resolve(JSON.stringify(listOfUserInfo));
-                                 
                             }
                             count++;
                         }); 
