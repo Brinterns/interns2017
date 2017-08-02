@@ -19,7 +19,8 @@ export class Lobby extends Component {
         this.state = {
             screenWidth: 0,
             drawCanvas: false,
-            rules: false
+            rules: false,
+            filterOnline: false
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.challengeUser = this.challengeUser.bind(this);
@@ -28,6 +29,7 @@ export class Lobby extends Component {
         this.handleToggleRules = this.handleToggleRules.bind(this);
         this.handleAvatarClick = this.handleAvatarClick.bind(this);
         this.upload = this.upload.bind(this);
+        this.filterOnline = this.filterOnline.bind(this);
         {this.getLobbyInfo()};
     }
 
@@ -98,6 +100,12 @@ export class Lobby extends Component {
         cloak.message('setavatar', this.refs.sketcher.refs.drawCanvas.toDataURL());
     }
 
+    filterOnline() {
+        this.setState({
+            filterOnline: !this.state.filterOnline
+        });
+    }
+
     render() {
         let otherUsers = [];
         let name = '';
@@ -105,7 +113,9 @@ export class Lobby extends Component {
         let userAvatar = null;
         this.props.listOfUsers.forEach((user) => {
             if (this.props.id !== user.id) {
-                otherUsers.push(user);
+                if (!(this.state.filterOnline && !user.online)) {
+                    otherUsers.push(user);
+                }
                 return;
             }
             name = user.name;
@@ -152,6 +162,7 @@ export class Lobby extends Component {
                     </div>
                 </div>
                 <div className={lobbyStyles.tabPanel}>
+                    <div className={lobbyStyles.tabPanelFilter}><span><input type="checkbox" onClick={this.filterOnline} /> Online only </span></div>
                     {userDisplayList}
                 </div>
                 <div className={lobbyStyles.gameTabPanel}>
@@ -171,6 +182,7 @@ export class Lobby extends Component {
                     </Tab>
                 </TabList>
                 <TabPanel>
+                    <div className={lobbyStyles.tabPanelFilter}><span><input type="checkbox" onClick={this.filterOnline} /> Online only </span></div>
                     {userDisplayList}
                 </TabPanel>
                 <TabPanel className={lobbyStyles.gameTabPanel}>

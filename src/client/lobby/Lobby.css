@@ -226,6 +226,13 @@
     }
 }
 
+.tabPanelFilter {
+    text-align: right;
+    vertical-align: middle;
+    margin-top: calc(0.5 * (1vw + 1vh - 1vmin));
+    margin-right: calc(1.5 * (1vw + 1vh - 1vmin));
+}
+
 .tabPanelRight {
     border-left-style: none;
 }
