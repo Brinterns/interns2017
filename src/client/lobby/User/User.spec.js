@@ -10,7 +10,8 @@ describe('<User />', () => {
         user = {
             name: "Samuel",
             elorank: 1200,
-            winLossRecord: {wins: 0, loses: 0}
+            winLossRecord: {wins: 0, loses: 0},
+            inLobby: true
         };
     });
 
@@ -45,5 +46,11 @@ describe('<User />', () => {
         const wrapper = shallow(<User user={user} challenged={true} />);
         expect(wrapper.find("button").first().text()).toEqual(" \u2716 ");
         expect(wrapper.find("button").last().text()).toEqual(" \u2714 ");
+    });
+
+    it('Shows the right button when the other user is in a game', () => {
+        user.inLobby = false;
+        const wrapper = shallow(<User user={user} challenging={true} />);
+        expect(wrapper.find("button").text()).toEqual(" In Game ");
     });
 });

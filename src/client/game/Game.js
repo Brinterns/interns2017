@@ -82,7 +82,7 @@ export class Game extends Component {
         const isPlayerTurn = (this.props.currentPlayer === this.props.id);
         var gameOverTextChoice = (this.props.winnerId === this.props.id) ? "You Won!" : "You Lost";
         if (this.props.opponentDisconnect) {
-            gameOverTextChoice = "Opponent Disconnected, " + gameOverTextChoice;
+            gameOverTextChoice = "Opponent Left, " + gameOverTextChoice;
         }
         var challengeButton;
         if (this.props.challengerId === this.props.id) {

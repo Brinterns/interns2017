@@ -25,7 +25,12 @@ export default class User extends Component {
             }
         }
         var challengeButtons;
-        if (this.props.challenging) {
+        if (!this.props.user.inLobby) {
+            challengeButtons =
+                <div className={userStyles.buttonDiv}>
+                    <button> In Game </button>
+                </div>;
+        } else if (this.props.challenging) {
             challengeButtons =
                 <div className={userStyles.buttonDiv}>
                     <button onClick={() => {this.props.cancelChallenge(this.props.user.id)}}> Cancel </button>

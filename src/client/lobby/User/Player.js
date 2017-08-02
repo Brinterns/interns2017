@@ -59,9 +59,7 @@ export default class Player extends Component {
                 {this.state.clicked ? <input ref="inputref" id="usernameinput" onKeyPress={this.handleKeyPress} onChange={this.handleChange}value={this.state.input}/> :
                 <div className={userStyles.username}>
                     <div className={userStyles.normal}>
-                        <h1 onClick={this.handleClick}>
-                            {this.props.name}
-                        </h1>
+                        <h1 onClick={this.handleClick}> {this.props.name} </h1>
                     </div>
                     <div className={userStyles.overlay}>
                         <img src={pencil} />

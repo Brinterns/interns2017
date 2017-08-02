@@ -48,7 +48,7 @@ describe('<Board />', () => {
         state.game.opponentDisconnect = true;
         const store = mockStore(state);
         wrapper = shallow(<Game store={store}/>).shallow();
-        expect(wrapper.find("h1").last().text()).toEqual(' Opponent Disconnected, You Won! ');
+        expect(wrapper.find("h1").last().text()).toEqual(' Opponent Left, You Won! ');
     });
 
     it('Shows re-challenge button at the end of the game', () => {

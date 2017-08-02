@@ -21,15 +21,15 @@ function challengePlayer(id, user) {
 }
 
 function cancelChallenge(id, user) {
-    challengeRespond(user.id, cloak.getUser(id), false);
+    challengeRespond(cloak.getUser(id), user, false);
 }
 
 function acceptChallenge(id, user) {
-    challengeRespond(id, user, true);
+    challengeRespond(user, cloak.getUser(id), true);
 }
 
 function declineChallenge(id, user) {
-    challengeRespond(id, user, false);
+    challengeRespond(user, cloak.getUser(id), false);
 }
 
 function reChallenge(user) {
@@ -40,14 +40,7 @@ function reChallenge(user) {
 
 function reChallengeResponse(accept, user) {
     if (accept) {
-        var user2 = shared.getOpponent(user);
-        let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
-        createdRoom.data.opponentDisconnect = false;
-        userJoinRoom(user, createdRoom);
-        userJoinRoom(user2, createdRoom);
-        createdRoom.messageMembers('joingame', createdRoom.id);
-        gameRoomFunctions.getRoomInfo(user);
-        gameRoomFunctions.getRoomInfo(user2);
+        challengeRespond(user, shared.getOpponent(user), accept);
     } else {
         const room = user.getRoom();
         room.data.challengerId = null;
@@ -55,11 +48,10 @@ function reChallengeResponse(accept, user) {
     }
 }
 
-function challengeRespond(challengerId, user, accept) {
-    var user2 = cloak.getUser(challengerId);
+function challengeRespond(user, user2, accept) {
     if (!accept) {
         user.data.challengers = user.data.challengers.filter(challenger => {
-            return challenger !== challengerId;
+            return challenger !== user2.id;
         });
         user2.data.challenging = user2.data.challenging.filter(challenging => {
             return challenging !== user.id;
@@ -76,19 +68,19 @@ function challengeRespond(challengerId, user, accept) {
             user2.data.challengers = [];
         }
         user.data.challengers.forEach(challenger => {
-            if (challenger !== challengerId) {
-                challengeRespond(challenger, user, false);
+            if (challenger !== user2.id) {
+                challengeRespond(user, cloak.getUser(challenger), false);
             }
         });
         user.data.challenging.forEach(challenging => {
-            challengeRespond(user.id, cloak.getUser(challenging), false);
+            challengeRespond(cloak.getUser(challenging), user, false);
         });
         user2.data.challengers.forEach(challenger => {
-            challengeRespond(challenger.id, user, false);
+            challengeRespond(user, cloak.getUser(challenger), false);
         });
         user2.data.challenging.forEach(challenging => {
             if (challenging !== user.id) {
-                challengeRespond(user.id, cloak.getUser(challenging), false);
+                challengeRespond(cloak.getUser(challenging), user2, false);
             }
         });
         user.data.challengers = [];
@@ -99,6 +91,9 @@ function challengeRespond(challengerId, user, accept) {
         userJoinRoom(user2, createdRoom);
         createdRoom.messageMembers('joingame', createdRoom.id);
         lobbyFunctions.updateLobbyActiveGames();
+        lobbyFunctions.updateLobbyUsers();
+        gameRoomFunctions.getRoomInfo(user);
+        gameRoomFunctions.getRoomInfo(user2);
     }
 }
 
