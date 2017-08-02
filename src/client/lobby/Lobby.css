@@ -93,10 +93,10 @@
 }
 
 .canvas canvas {
-    height: calc(6.2 * (1vw + 1vh - 1vmin));
-    width: calc(6.2 * (1vw + 1vh - 1vmin));
-    min-height: 40px;
-    min-width: 40px;
+    height: calc(5.95 * (1vw + 1vh - 1vmin));
+    width: calc(5.95 * (1vw + 1vh - 1vmin));
+    min-height: 36px;
+    min-width: 36px;
 }
 
 .canvas img {
