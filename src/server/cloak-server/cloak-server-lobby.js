@@ -69,12 +69,11 @@ function getLobbyUserInfo() {
                                 listOfUserInfo.push(dbUserJson);
                             }
                             if (count === (size - 1)) {
-                                var sortedlist = Object.assign([], listOfUserInfo);
-                                sortedlist.sort(function(a, b) {
+                                var sortedList = Object.assign([], listOfUserInfo);
+                                sortedList.sort(function(a, b) {
                                     return b.elorank - a.elorank;
                                 });
-                                sortedlist.sort();
-                                const ranks = sortedlist.map(function(item) {
+                                const ranks = sortedList.map(function(item) {
                                     return item.elorank;
                                 });
                                 for (var i = 0; i < listOfUserInfo.length; i++) {

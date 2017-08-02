@@ -7,6 +7,8 @@ import lobbyStyles from './Lobby.css';
 import ChatBox from '../Chat/ChatBox';
 import Rules from '../rules/Rules';
 import logo from '../images/logo.png';
+import trophy from '../images/icons/trophy.png';
+import trophygold from '../images/icons/trophygold.png';
 import pencil from '../images/icons/pencil.png';
 import DrawCanvas from '../components/DrawCanvas';
 
@@ -20,7 +22,8 @@ export class Lobby extends Component {
             screenWidth: 0,
             drawCanvas: false,
             rules: false,
-            filterOnline: false
+            filterOnline: false,
+            sortRank: false
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.challengeUser = this.challengeUser.bind(this);
@@ -112,7 +115,14 @@ export class Lobby extends Component {
         let myCanvas = null;
         let userAvatar = null;
         let rank = '';
-        this.props.listOfUsers.forEach((user) => {
+
+        var sortedList = Object.assign([], this.props.listOfUsers);
+        if (this.state.sortRank) {
+            sortedList.sort(function(a, b) {
+                return a.rank - b.rank;
+            });
+        }
+        sortedList.forEach((user) => {
             if (this.props.id !== user.id) {
                 if (!(this.state.filterOnline && !user.online)) {
                     otherUsers.push(user);
@@ -164,6 +174,9 @@ export class Lobby extends Component {
                     </div>
                 </div>
                 <div className={lobbyStyles.tabPanel}>
+                    <div className={lobbyStyles.tabPanelSort}>
+                        <img src={this.state.sortRank ? trophygold : trophy} onClick={() => {this.setState({sortRank: !this.state.sortRank})}} />
+                    </div>
                     <div className={lobbyStyles.tabPanelFilter}><span><input type="checkbox" onClick={this.filterOnline} /> Online only </span></div>
                     {userDisplayList}
                 </div>
@@ -184,6 +197,9 @@ export class Lobby extends Component {
                     </Tab>
                 </TabList>
                 <TabPanel>
+                    <div className={lobbyStyles.tabPanelSort}>
+                        <img src={this.state.sortRank ? trophygold : trophy} onClick={() => {this.setState({sortRank: !this.state.sortRank})}} />
+                    </div>
                     <div className={lobbyStyles.tabPanelFilter}><span><input type="checkbox" onClick={this.filterOnline} /> Online only </span></div>
                     {userDisplayList}
                 </TabPanel>

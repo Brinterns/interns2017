@@ -226,11 +226,27 @@
     }
 }
 
-.tabPanelFilter {
-    text-align: right;
-    vertical-align: middle;
+.tabPanelSort {
+    display: inline-block;
+    width: 50%;
     margin-top: calc(0.5 * (1vw + 1vh - 1vmin));
-    margin-right: calc(1.5 * (1vw + 1vh - 1vmin));
+    cursor: pointer;
+}
+
+.tabPanelSort img {
+    margin-left: calc(1.5 * (1vw + 1vh - 1vmin));
+    height: calc(2 * (1vw + 1vh - 1vmin)) !important;
+    width: calc(2 * (1vw + 1vh - 1vmin)) !important;
+    min-height: 22.5px;
+    min-width: 22.5px;
+}
+
+.tabPanelFilter {
+    padding-right: calc(1.5 * (1vw + 1vh - 1vmin));
+    display: inline-block;
+    width: 50%;
+    text-align: right;
+    margin-top: calc(0.5 * (1vw + 1vh - 1vmin));
 }
 
 .tabPanelRight {
