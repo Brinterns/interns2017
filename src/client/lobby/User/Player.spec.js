@@ -14,7 +14,7 @@ describe('<Player />', () => {
 
     it('Given username is displayed correctly', () => {
         const wrapper = shallow (<Player name={PlayerProp.name}/>);
-        expect(wrapper.find("h1").text()).toEqual(" Foo ");
+        expect(wrapper.find("h1").text()).toEqual("Foo");
     });
 
     it('Clicking on name should set clicked state to true', () => {

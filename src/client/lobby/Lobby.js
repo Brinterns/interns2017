@@ -198,7 +198,7 @@ export class Lobby extends Component {
                 </div>
                 <div className={lobbyStyles.userStats}>
                     <div className={lobbyStyles.canvas}>
-                        <img  onClick={this.handleAvatarClick}src={pencil} />
+                        <img onClick={this.handleAvatarClick}src={pencil} />
                         <canvas onClick={this.handleAvatarClick} id="myavatar" />
                     </div>
                     <div className={lobbyStyles.userText}>
