@@ -254,17 +254,29 @@
     font-size: calc(5px + 1.5 * (1vw + 1vh - 1vmin));
 }
 
-.user {
-    display: block;
-    padding: calc(0.75 * (1vw + 1vh - 1vmin));
+.onlineBackground {
+    background-color: #FFE562;
     margin-top: calc(0.75 * (1vw + 1vh - 1vmin));
     margin-bottom: calc(0.75 * (1vw + 1vh - 1vmin));
     margin-left: calc(1.5 * (1vw + 1vh - 1vmin));
     margin-right: calc(1.5 * (1vw + 1vh - 1vmin));
+}
+
+.offlineBackground {
+    background-color: grey;
+    margin-top: calc(0.75 * (1vw + 1vh - 1vmin));
+    margin-bottom: calc(0.75 * (1vw + 1vh - 1vmin));
+    margin-left: calc(1.5 * (1vw + 1vh - 1vmin));
+    margin-right: calc(1.5 * (1vw + 1vh - 1vmin));
+}
+
+.user {
+    display: block;
+    margin: 0;
+    padding: calc(0.75 * (1vw + 1vh - 1vmin));
     border-style: solid;
     border-color: black;
     border-width: 0.12em;
-    background-color: #FFE562;
 }
 
 .user h1 {
@@ -284,6 +296,11 @@
 
 .userDetails {
     width: 72.5%;
+    display: inline-block;
+}
+
+.userDetailsFull {
+    width: 100%;
     display: inline-block;
 }
 

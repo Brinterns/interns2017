@@ -118,7 +118,7 @@ export class Lobby extends Component {
                         ctx.clearRect(0,0,myCanvas.width, myCanvas.height);
                         var img = new Image;
                         img.onload = function() {
-                          ctx.drawImage(img, 0, 0, 300, 150);
+                            ctx.drawImage(img, 0, 0, 300, 150);
                         };
                         img.src = user.avatar;
                     },50);
