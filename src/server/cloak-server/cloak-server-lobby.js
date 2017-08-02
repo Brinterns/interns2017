@@ -45,9 +45,10 @@ function getLobbyUserInfo() {
             }
             if (index === (cloakUsers.length - 1)) {
                 resolve(new Promise(function(resolve, reject) {
-                    db.getSize().then(function(size) {
+                    const allUsers = db.getAllUsers();
+                    allUsers.count().then(function(size) {
                         let count = 0;
-                        db.getAllUsers().forEach(function(dbUser) {
+                        allUsers.forEach(function(dbUser) {
                             if (!listOfDbIds.includes(dbUser.cloakid)) {
                                 var dbUserJson = {
                                     id: null,

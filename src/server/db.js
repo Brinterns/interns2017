@@ -39,10 +39,6 @@ var add = function(id, name) {
 
 module.exports.add = add;
 
-module.exports.getSize = function() {
-    return client.collection('users').count();
-}
-
 module.exports.getAllUsers = function() {
     return client.collection('users').find();
 }
