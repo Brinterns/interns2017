@@ -42,7 +42,11 @@ function getLobbyUserInfo() {
                     online: true,
                     rank: null
                 };
-                listOfUserInfo.push(userJson);
+                if (room.isLobby) {
+                    listOfUserInfo.unshift(userJson);
+                } else {
+                    listOfUserInfo.push(userJson);
+                }
             }
             if (index === (cloakUsers.length - 1)) {
                 resolve(new Promise(function(resolve, reject) {
