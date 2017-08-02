@@ -7,6 +7,8 @@ import lobbyStyles from './Lobby.css';
 import ChatBox from '../Chat/ChatBox';
 import Rules from '../rules/Rules';
 import logo from '../images/logo.png';
+import trophy from '../images/icons/trophy.png';
+import trophygold from '../images/icons/trophygold.png';
 import pencil from '../images/icons/pencil.png';
 import DrawCanvas from '../components/DrawCanvas';
 
@@ -20,7 +22,8 @@ export class Lobby extends Component {
             screenWidth: 0,
             drawCanvas: false,
             rules: false,
-            filterOnline: false
+            filterOnline: false,
+            sortRank: false
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.challengeUser = this.challengeUser.bind(this);
@@ -111,7 +114,15 @@ export class Lobby extends Component {
         let name = '';
         let myCanvas = null;
         let userAvatar = null;
-        this.props.listOfUsers.forEach((user) => {
+        let rank = '';
+
+        var sortedList = Object.assign([], this.props.listOfUsers);
+        if (this.state.sortRank) {
+            sortedList.sort(function(a, b) {
+                return a.rank - b.rank;
+            });
+        }
+        sortedList.forEach((user) => {
             if (this.props.id !== user.id) {
                 if (!(this.state.filterOnline && !user.online)) {
                     otherUsers.push(user);
@@ -120,6 +131,7 @@ export class Lobby extends Component {
             }
             name = user.name;
             userAvatar = user.avatar;
+            rank = user.rank;
             if (user.avatar) {
                 myCanvas = document.getElementById('myavatar');
                 if (myCanvas) {
@@ -162,6 +174,9 @@ export class Lobby extends Component {
                     </div>
                 </div>
                 <div className={lobbyStyles.tabPanel}>
+                    <div className={lobbyStyles.tabPanelSort}>
+                        <img src={this.state.sortRank ? trophygold : trophy} onClick={() => {this.setState({sortRank: !this.state.sortRank})}} />
+                    </div>
                     <div className={lobbyStyles.tabPanelFilter}><span><input type="checkbox" onClick={this.filterOnline} /> Online only </span></div>
                     {userDisplayList}
                 </div>
@@ -182,6 +197,9 @@ export class Lobby extends Component {
                     </Tab>
                 </TabList>
                 <TabPanel>
+                    <div className={lobbyStyles.tabPanelSort}>
+                        <img src={this.state.sortRank ? trophygold : trophy} onClick={() => {this.setState({sortRank: !this.state.sortRank})}} />
+                    </div>
                     <div className={lobbyStyles.tabPanelFilter}><span><input type="checkbox" onClick={this.filterOnline} /> Online only </span></div>
                     {userDisplayList}
                 </TabPanel>
@@ -203,7 +221,7 @@ export class Lobby extends Component {
                     </div>
                     <div className={lobbyStyles.userText}>
                         <Player name={name} />
-                        {this.props.elorank ? <h2> Rating: {this.props.elorank} </h2>: null}
+                        {this.props.elorank ? <h2> Rating: {this.props.elorank} #{rank} </h2>: null}
                         {this.props.winLossRecord ? <h2> Wins: {this.props.winLossRecord.wins} Loses: {this.props.winLossRecord.loses} </h2>: null}
                     </div>
                 </div>

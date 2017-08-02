@@ -59,7 +59,7 @@ export default class User extends Component {
                         <canvas id={canvasId} className={userStyles.canvasOther}/>
                         <div className={userStyles.userDetailsText}>
                             <h1> {displayName} </h1>
-                            <h2> Rating: {this.props.user.elorank} </h2>
+                            <h2> Rating: {this.props.user.elorank} #{this.props.user.rank} </h2>
                             <h2> W: {this.props.user.winLossRecord.wins} L: {this.props.user.winLossRecord.loses} </h2>
                         </div>
                     </div>
