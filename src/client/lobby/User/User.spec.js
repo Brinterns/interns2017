@@ -12,7 +12,8 @@ describe('<User />', () => {
             elorank: 1200,
             winLossRecord: {wins: 0, loses: 0},
             inLobby: true,
-            online: true
+            online: true,
+            rank: 5
         };
     });
 
@@ -21,10 +22,10 @@ describe('<User />', () => {
         expect(wrapper.find("h1").text()).toEqual(" " + user.name + " ");
     });
 
-    it('Shows the right ELO rating', () => {
+    it('Shows the right ELO rating and rank', () => {
         user.elorank = 1198;
         const wrapper = shallow(<User user={user} />);
-        expect(wrapper.find("h2").at(0).text()).toEqual(" Rating: 1198 ");
+        expect(wrapper.find("h2").at(0).text()).toEqual(" Rating: 1198 #5 ");
     });
 
     it('Shows the right win/loss record', () => {
