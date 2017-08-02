@@ -26,10 +26,7 @@ export default class User extends Component {
         }
         var challengeButtons;
         if (!this.props.user.inLobby) {
-            challengeButtons =
-                <div className={userStyles.buttonDiv}>
-                    <button> In Game </button>
-                </div>;
+            challengeButtons = null;
         } else if (this.props.challenging) {
             challengeButtons =
                 <div className={userStyles.buttonDiv}>
@@ -49,17 +46,25 @@ export default class User extends Component {
                     <button onClick={() => {this.props.challengeUser(this.props.user.id)}}> Challenge </button>
                 </div>;
         }
+        var displayName = this.props.user.name;
+        if (!this.props.user.online) {
+            displayName += " (Offline)";
+        } else if (!this.props.user.inLobby) {
+            displayName += " (In-Game)";
+        }
         return (
-            <div className={userStyles.user}>
-                <div className={userStyles.userDetails}>
-                    <canvas id={canvasId} className={userStyles.canvasOther}/>
-                    <div className={userStyles.userDetailsText}>
-                        <h1> {this.props.user.name} </h1>
-                        <h2> Rating: {this.props.user.elorank} </h2>
-                        <h2> W: {this.props.user.winLossRecord.wins} L: {this.props.user.winLossRecord.loses} </h2>
+            <div className={this.props.user.online ? userStyles.onlineBackground : userStyles.offlineBackground}>
+                <div className={userStyles.user}>
+                    <div className={this.props.user.inLobby ? userStyles.userDetails : userStyles.userDetailsFull}>
+                        <canvas id={canvasId} className={userStyles.canvasOther}/>
+                        <div className={userStyles.userDetailsText}>
+                            <h1> {displayName} </h1>
+                            <h2> Rating: {this.props.user.elorank} </h2>
+                            <h2> W: {this.props.user.winLossRecord.wins} L: {this.props.user.winLossRecord.loses} </h2>
+                        </div>
                     </div>
+                    {challengeButtons}
                 </div>
-                {challengeButtons}
             </div>
         );
     }

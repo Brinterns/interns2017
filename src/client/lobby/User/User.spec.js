@@ -11,7 +11,8 @@ describe('<User />', () => {
             name: "Samuel",
             elorank: 1200,
             winLossRecord: {wins: 0, loses: 0},
-            inLobby: true
+            inLobby: true,
+            online: true
         };
     });
 
@@ -48,9 +49,16 @@ describe('<User />', () => {
         expect(wrapper.find("button").last().text()).toEqual(" \u2714 ");
     });
 
-    it('Shows the right button when the other user is in a game', () => {
+    it('Shows the right name when the other user is in a game', () => {
         user.inLobby = false;
         const wrapper = shallow(<User user={user} challenging={true} />);
-        expect(wrapper.find("button").text()).toEqual(" In Game ");
+        expect(wrapper.find("h1").text()).toEqual(" " + user.name + " (In-Game) ");
+    });
+
+    it('Shows the right name when the other user is offline', () => {
+        user.online = false;
+        user.inLobby = false;
+        const wrapper = shallow(<User user={user} challenging={true} />);
+        expect(wrapper.find("h1").text()).toEqual(" " + user.name + " (Offline) ");
     });
 });

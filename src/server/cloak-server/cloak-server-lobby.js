@@ -4,41 +4,75 @@ var shared = require('./cloak-server-shared');
 
 function getLobbyInfo(user) {
     user.message('userid', user.id);
-    user.message('updateusers', getLobbyUserInfo());
+    getLobbyUserInfo().then(function(listOfUserInfo) {
+        user.message('updateusers', listOfUserInfo);
+    });
 };
 
 //whenever a username is changed/a player joins the lobby
 ///a player leaves the lobby the list of users is updated
-function updateLobbyUsers(arg) {
+function updateLobbyUsers() {
     shared.sendMessages(cloak.getLobby());
-    cloak.messageAll('updateusers', getLobbyUserInfo());
+    getLobbyUserInfo().then(function(listOfUserInfo) {
+        cloak.messageAll('updateusers', listOfUserInfo);
+    });
 };
 
 //all clients are updated with the list of usernames currently in the lobbyfunction()
 function getLobbyUserInfo() {
-    let listOfUserInfo = [];
-    cloak.getUsers().forEach(function(user) {
-        const room = user.getRoom();
-        if (!room) {
-            return;
-        }
-        if (!user.data.winLossRecord) {
-            user.data.winLossRecord = {wins: 0, loses: 0};
-            user.data.elorank = 1200;
-        }
-        var userJson = {
-            id: user.id,
-            name: user.name,
-            inChallenge: user.data.challenger || user.data.challenging,
-            winLossRecord: user.data.winLossRecord,
-            elorank: user.data.elorank,
-            avatar: user.data.avatar,
-            inLobby: room.isLobby
-        };
-        listOfUserInfo.push(userJson);
+    return new Promise(function(resolve, reject) {
+        let listOfUserInfo = [];
+        let listOfDbIds = [];
+        cloak.getUsers().forEach(function(user, index, cloakUsers) {
+            const room = user.getRoom();
+            if (room) {
+                listOfDbIds.push(user.data.dbId);
+                if (!user.data.winLossRecord) {
+                    user.data.winLossRecord = {wins: 0, loses: 0};
+                    user.data.elorank = 1200;
+                }
+                var userJson = {
+                    id: user.id,
+                    name: user.name,
+                    inChallenge: user.data.challenger || user.data.challenging,
+                    winLossRecord: user.data.winLossRecord,
+                    elorank: user.data.elorank,
+                    avatar: user.data.avatar,
+                    inLobby: room.isLobby,
+                    online: true
+                };
+                listOfUserInfo.push(userJson);
+            }
+            if (index === (cloakUsers.length - 1)) {
+                resolve(new Promise(function(resolve, reject) {
+                    const allUsers = db.getAllUsers();
+                    allUsers.count().then(function(size) {
+                        let count = 0;
+                        allUsers.forEach(function(dbUser) {
+                            if (!listOfDbIds.includes(dbUser.cloakid)) {
+                                var dbUserJson = {
+                                    id: null,
+                                    name: dbUser.name,
+                                    inChallenge: false,
+                                    winLossRecord: {wins: dbUser.wins, loses: dbUser.loses},
+                                    elorank: dbUser.elorank,
+                                    avatar: dbUser.avatar,
+                                    inLobby: false,
+                                    online: false
+                                }
+                                listOfUserInfo.push(dbUserJson);
+                            }
+                            if (count === (size - 1)) {
+                                resolve(JSON.stringify(listOfUserInfo));
+                            }
+                            count++;
+                        }); 
+                    });
+                }));
+            }
+        });
+        updateLobbyActiveGames();
     });
-    updateLobbyActiveGames();
-    return JSON.stringify(listOfUserInfo);
 }
 
 function getRecord(user) {
@@ -47,7 +81,9 @@ function getRecord(user) {
             user.data.winLossRecord.wins = resp.wins;
             user.data.winLossRecord.loses = resp.loses;
             user.data.elorank = resp.elorank;
-            cloak.messageAll('updateusers', getLobbyUserInfo());
+            getLobbyUserInfo().then(function(listOfUserInfo) {
+                cloak.messageAll('updateusers', listOfUserInfo);
+            });
         });
     }
 }
