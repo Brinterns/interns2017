@@ -111,6 +111,7 @@ export class Lobby extends Component {
         let name = '';
         let myCanvas = null;
         let userAvatar = null;
+        let rank = '';
         this.props.listOfUsers.forEach((user) => {
             if (this.props.id !== user.id) {
                 if (!(this.state.filterOnline && !user.online)) {
@@ -120,6 +121,7 @@ export class Lobby extends Component {
             }
             name = user.name;
             userAvatar = user.avatar;
+            rank = user.rank;
             if (user.avatar) {
                 myCanvas = document.getElementById('myavatar');
                 if (myCanvas) {
@@ -203,7 +205,7 @@ export class Lobby extends Component {
                     </div>
                     <div className={lobbyStyles.userText}>
                         <Player name={name} />
-                        {this.props.elorank ? <h2> Rating: {this.props.elorank} </h2>: null}
+                        {this.props.elorank ? <h2> Rating: {this.props.elorank} #{rank} </h2>: null}
                         {this.props.winLossRecord ? <h2> Wins: {this.props.winLossRecord.wins} Loses: {this.props.winLossRecord.loses} </h2>: null}
                     </div>
                 </div>

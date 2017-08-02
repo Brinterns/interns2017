@@ -39,7 +39,8 @@ function getLobbyUserInfo() {
                     elorank: user.data.elorank,
                     avatar: user.data.avatar,
                     inLobby: room.isLobby,
-                    online: true
+                    online: true,
+                    rank: null
                 };
                 listOfUserInfo.push(userJson);
             }
@@ -58,15 +59,27 @@ function getLobbyUserInfo() {
                                     elorank: dbUser.elorank,
                                     avatar: dbUser.avatar,
                                     inLobby: false,
-                                    online: false
+                                    online: false,
+                                    rank: null
                                 }
                                 listOfUserInfo.push(dbUserJson);
                             }
                             if (count === (size - 1)) {
+                                var sortedlist = Object.assign([], listOfUserInfo);
+                                sortedlist.sort(function(a, b) {
+                                    return b.elorank - a.elorank;
+                                });
+                                sortedlist.sort();
+                                const ranks = sortedlist.map(function(item) {
+                                    return item.elorank;
+                                });
+                                for (var i = 0; i < listOfUserInfo.length; i++) {
+                                    listOfUserInfo[i].rank = ranks.indexOf(listOfUserInfo[i].elorank) + 1;
+                                }
                                 resolve(JSON.stringify(listOfUserInfo));
                             }
                             count++;
-                        }); 
+                        });
                     });
                 }));
             }
