@@ -48,9 +48,9 @@
 }
 
 .canvas {
-    border: black;
-    border: solid;
-    border-width: calc(0.15 * (1vw + 1vh - 1vmin));
+    outline-style: solid;
+    outline-color: black;
+    outline-width: calc(0.15 * (1vw + 1vh - 1vmin));
     margin-bottom: calc(2.0 * (1vw + 1vh - 1vmin));
     /*dimensions*/
     height: calc(20 * (1vw + 1vh - 1vmin)) !important;
@@ -60,12 +60,10 @@
 }
 
 .drawingCanvas {
-    height: calc(18 * (1vw + 1vh - 1vmin)) !important;
-    padding-left: calc(1 * (1vw + 1vh - 1vmin)) !important;
-    padding-top: calc(1 * (1vw + 1vh - 1vmin)) !important;
-    width: calc(18 * (1vw + 1vh - 1vmin)) !important;
-    min-height: 195px;
-    min-width: 195px;
+    height: calc(20.1 * (1vw + 1vh - 1vmin)) !important;
+    width: calc(20.1 * (1vw + 1vh - 1vmin)) !important;
+    min-height: 201px;
+    min-width: 201px;
 }
 
 .inputbox img {
