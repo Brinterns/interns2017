@@ -29,19 +29,6 @@
     margin-left: 1em;
 }
 
-.gameMain ul {
-    position: absolute;
-    top : 17%;
-    padding: 0;
-    margin-left: 1em;
-    list-style-type: none;
-}
-
-.gameMain li {
-    color: white;
-    font-size: calc(8px + 1.5 * (1vw + 1vh - 1vmin));
-}
-
 .notificationDiv {
     color: white;
     position: absolute;
