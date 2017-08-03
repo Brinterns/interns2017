@@ -45,13 +45,13 @@ describe('<Board />', () => {
     it('Default display for roll button should be (Roll)', () => {
         const store = mockStore(state);
         wrapper = shallow(<Board store={store}/>).shallow();
-        expect(wrapper.find("button").text()).toEqual('Roll');
+        expect(wrapper.find("button").text()).toEqual(' Roll ');
     });
     
     it('When a rolled value is passed to board, it is displayed in the button', () => {
         state.game.rollNumber = '3';
         const store = mockStore(state);
         wrapper = shallow(<Board store={store}/>).shallow();
-        expect(wrapper.find("button").text()).toEqual('3');
+        expect(wrapper.find("button").text()).toEqual(' 3 ');
     });
 });
