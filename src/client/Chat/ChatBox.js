@@ -8,9 +8,6 @@ import {emojify} from 'react-emojione';
 import emojione from 'emojione';
 import emojidictionary from './emojidictionary.json';
 
-import EmojiPicker from '../mod/emojipick/EmojiPicker';
-
-let first = [];
 export default class ChatBox extends Component {
     constructor(props) {
         super(props);
@@ -93,14 +90,6 @@ export default class ChatBox extends Component {
     }
 
     addEmoji (emoji) {
-        if (first.indexOf(emoji.shortname) === -1) {
-            first.push(emoji.shortname);
-        } else {
-            console.log(first);
-        }
-
-
-
         this.setState({
             input: this.state.input + emoji.shortname
         });
@@ -193,7 +182,6 @@ export default class ChatBox extends Component {
 
         return (
             <div>
-            <EmojiPicker/>
                 {divToDisplay}
             </div>
         );
