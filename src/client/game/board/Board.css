@@ -150,3 +150,11 @@
     margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
     margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
 }
+
+.displayNumber {
+    position: relative !important;
+    transform: translate(-50%, -50%) !important;
+    top: 50% !important;
+    left: 50% !important;
+    color: black !important;
+}

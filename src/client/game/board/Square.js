@@ -11,8 +11,8 @@ export default class Square extends Component {
     render() {
         return (
             <div className={this.props.className}>
-                {this.props.piece ? <Piece setHighlightSquare={this.props.setHighlightSquare} position={this.props.position} className={this.props.pieceClassName} movePiece={this.props.movePiece}/> : null}
-                {this.props.opponentPiece ? <OpponentPiece className={boardStyles.squareOpponentPiece}/> : null}
+                {this.props.piece ? <Piece displayNumber={this.props.displayNumber} setHighlightSquare={this.props.setHighlightSquare} position={this.props.position} className={this.props.pieceClassName} movePiece={this.props.movePiece}/> : null}
+                {this.props.opponentPiece ? <OpponentPiece displayNumber={this.props.displayNumber} className={boardStyles.squareOpponentPiece}/> : null}
                 {this.props.highlight ? <div className={boardStyles.moveHighlighter}/> : null}
             </div>
         );

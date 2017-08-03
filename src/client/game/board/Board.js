@@ -41,8 +41,14 @@ export class Board extends Component {
         if ((pos !== 15) && this.props.isPlayerTurn && this.props.rolled && !this.props.moveablePositions.includes(pos)) {
             pieceClassName = boardStyles.unmoveableSquarePiece;
         }
+        var displayNumber = null;
+        if ((i === 8) && this.props.numPiecesFinished) {
+            displayNumber = this.props.numPiecesFinished;
+        } else if ((i === 6) && this.props.numOppPiecesFinished) {
+            displayNumber = this.props.numOppPiecesFinished;
+        }
         return (
-            <Square position={pos} movePiece={this.handleMovePiece} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} className={className} pieceClassName={pieceClassName} setHighlightSquare={this.setHighlightSquare} highlight={(pos === this.state.highlightSquarePosition)} key={i} />
+            <Square position={pos} displayNumber={displayNumber} movePiece={this.handleMovePiece} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} className={className} pieceClassName={pieceClassName} setHighlightSquare={this.setHighlightSquare} highlight={(pos === this.state.highlightSquarePosition)} key={i} />
         );
     }
 
@@ -106,10 +112,6 @@ export class Board extends Component {
         }
         return (
                 <div>
-                    {/* <ul>
-                        <li>Your finished pieces: {this.props.numPiecesFinished}</li>
-                        <li>Their finished pieces: {this.props.numOppPiecesFinished}</li>
-                    </ul> */}
                     <div className={boardStyles.boardMainDiv}>
                         {squareCols}
                     </div>
