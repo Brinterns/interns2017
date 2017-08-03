@@ -1,7 +1,14 @@
+.emojiDiv {
+    height: calc(18 * (1vw + 1vh - 1vmin));
+    min-height: 200px;
+}
+
 .categoryPicker {
     font-size: calc(1px + 0.1 * (1vw + 1vh - 1vmin)) !important;
-    padding-left: calc(1.2 * (1vw + 1vh - 1vmin));
-    padding-right: calc(1.2 * (1vw + 1vh - 1vmin));
+    height: calc(1.7 * (1vw + 1vh - 1vmin)) !important;
+    padding-left: calc(1.5 * (1vw + 1vh - 1vmin)) !important;
+    padding-right: calc(0.75 * (1vw + 1vh - 1vmin)) !important;
+    min-height: 25px;
 }
 
 .categoryPicker h1 {
@@ -24,8 +31,14 @@
 }
 
 .emojiDisplay {
+    position: relative;
+    padding: calc(1 * (1vw + 1vh - 1vmin));
+    padding-right: calc(0.5 * (1vw + 1vh - 1vmin)) !important;
+    height: calc(15.3 * (1vw + 1vh - 1vmin));
     margin-top: 1em;
+    overflow-y: scroll;
     background-color: white;
+    min-height: 150px;
 }
 
 .emojiDisplay h1 {

@@ -50,7 +50,7 @@ export default class EmojiPicker extends Component {
         );
 
         return (
-            <div>
+            <div className={emojiStyles.emojiDiv}>
                 {categoryPicker}
                 <div className={emojiStyles.emojiDisplay}>
                     {emojiDisplay}

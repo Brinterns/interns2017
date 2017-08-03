@@ -94,22 +94,9 @@ export default class ChatBox extends Component {
     }
 
     addEmoji (emojiShortname) {
-        // if (first.indexOf(emoji.shortname) === -1) {
-        //     first.push(emoji.shortname);
-        // } else {
-        //     console.log(first);
-        // }
         this.setState({
             input: this.state.input + emojiShortname
         });
-        // emojidictionary.emojis.forEach((emoji_d) => {
-        //     if (emoji_d.name === emoji.shortname) {
-        //         this.setState({
-        //             input: this.state.input + emoji_d.unicode
-        //         });
-        //         return;
-        //     }
-        // });
      }
 
     render() {;
@@ -176,9 +163,12 @@ export default class ChatBox extends Component {
                     <img src={message} />
                     <p>Chat </p>
                 </div>
-                <div id="messagediv" className={chatStyles.messages}>
-                    {this.state.emojis ? <EmojiPicker onEmojiSelected={this.addEmoji}/> : messageDisplay}
-                </div>
+                {this.state.emojis ? <EmojiPicker onEmojiSelected={this.addEmoji}/> : null}
+                {this.state.emojis ? null :
+                    <div id="messagediv" className={chatStyles.messages}>
+                         {messageDisplay}
+                    </div>
+                }
                 <div className={chatStyles.openChatBottom}>
                     <div className={chatStyles.inputArea}>
                         <input id="msginput" type="text" placeholder="Type your message..." onKeyPress={this.handleKeyPress} value={this.state.input} onChange={this.handleChange}/>
