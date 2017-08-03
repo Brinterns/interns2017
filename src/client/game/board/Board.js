@@ -43,9 +43,9 @@ export class Board extends Component {
         }
         var displayNumber = null;
         if ((i === 8) && this.props.numPiecesFinished) {
-            displayNumber = this.props.numPiecesFinished;
+            displayNumber = (this.props.numPiecesFinished > 1) ? this.props.numPiecesFinished : null;
         } else if ((i === 6) && this.props.numOppPiecesFinished) {
-            displayNumber = this.props.numOppPiecesFinished;
+            displayNumber = (this.props.numOppPiecesFinished > 1) ? this.props.numOppPiecesFinished : null;
         }
         return (
             <Square position={pos} displayNumber={displayNumber} movePiece={this.handleMovePiece} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} className={className} pieceClassName={pieceClassName} setHighlightSquare={this.setHighlightSquare} highlight={(pos === this.state.highlightSquarePosition)} key={i} />
