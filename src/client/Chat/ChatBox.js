@@ -16,9 +16,9 @@ export default class ChatBox extends Component {
         super(props);
         this.state = {
             input: '',
-            showChat: false,
+            showChat: true,
             numMsgSeen: this.props.messages.length,
-            emojis: false
+            emojis: true
         };
         setTimeout(() => {
             this.setState({ numMsgSeen: this.props.messages.length});
@@ -29,6 +29,7 @@ export default class ChatBox extends Component {
         this.scrollToBottom = this.scrollToBottom.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.toggleEmojis = this.toggleEmojis.bind(this);
+        this.addEmoji = this.addEmoji.bind(this);
     }
 
     handleKeyPress(e) {
@@ -92,26 +93,23 @@ export default class ChatBox extends Component {
         });
     }
 
-    addEmoji (emoji) {
-        if (first.indexOf(emoji.shortname) === -1) {
-            first.push(emoji.shortname);
-        } else {
-            console.log(first);
-        }
-
-
-
+    addEmoji (emojiShortname) {
+        // if (first.indexOf(emoji.shortname) === -1) {
+        //     first.push(emoji.shortname);
+        // } else {
+        //     console.log(first);
+        // }
         this.setState({
-            input: this.state.input + emoji.shortname
+            input: this.state.input + emojiShortname
         });
-        emojidictionary.emojis.forEach((emoji_d) => {
-            if (emoji_d.name === emoji.shortname) {
-                this.setState({
-                    input: this.state.input + emoji_d.unicode
-                });
-                return;
-            }
-        });
+        // emojidictionary.emojis.forEach((emoji_d) => {
+        //     if (emoji_d.name === emoji.shortname) {
+        //         this.setState({
+        //             input: this.state.input + emoji_d.unicode
+        //         });
+        //         return;
+        //     }
+        // });
      }
 
     render() {
@@ -171,6 +169,7 @@ export default class ChatBox extends Component {
                 </div>
             </div>
         );
+        // <Picker onEmojiSelected={this.addEmoji.bind(this)} />
         const openChatDiv = (
             <div className={chatStyles.openChat}>
                 <div onClick={this.handleClick} className={chatStyles.openChatTop}>
@@ -178,7 +177,7 @@ export default class ChatBox extends Component {
                     <p>Chat </p>
                 </div>
                 <div id="messagediv" className={chatStyles.messages}>
-                    {this.state.emojis ? <Picker onEmojiSelected={this.addEmoji.bind(this)} /> : messageDisplay}
+                    {this.state.emojis ? <EmojiPicker onEmojiSelected={this.addEmoji}/> : messageDisplay}
                 </div>
                 <div className={chatStyles.openChatBottom}>
                     <div className={chatStyles.inputArea}>
@@ -193,7 +192,6 @@ export default class ChatBox extends Component {
 
         return (
             <div>
-            <EmojiPicker/>
                 {divToDisplay}
             </div>
         );
