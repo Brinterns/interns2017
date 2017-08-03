@@ -88,9 +88,9 @@
     display: inline-block;
 }
 
-.unmoveablePiece {
+.moveablePiece {
     background-color: #639af2;
-    opacity: 0.6;
+    box-shadow: 0 0 16px #FAD000, inset 0 0 16px #FAD000;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
@@ -122,15 +122,15 @@
     margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
 }
 
-.unmoveableSquarePiece {
+.moveableSquarePiece {
     position: absolute;
     background-color: #639af2;
+    box-shadow: 0 0 12px #FAD000, inset 0 0 12px #FAD000;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
     margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
     margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
-    opacity: 0.6;
 }
 
 .squareOpponentPiece {
