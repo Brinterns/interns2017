@@ -125,7 +125,7 @@ export class Game extends Component {
                 opponentRoll = (<p className={isPlayerTurn ? gameStyles.turnNotif : null}>{this.props.notificationText}</p>);
             }
         }
-        
+
         return (
             <div>
                 <div className={gameStyles.gameMain}>
@@ -134,10 +134,10 @@ export class Game extends Component {
                     <button className={gameStyles.buttonDiv} onClick={this.handleToggleRules}> Rules </button>
                     <h1> {this.props.roomName} </h1>
                     <Board gameState={this.state} isPlayerTurn={isPlayerTurn}/>
-                    <ChatBox id={this.props.id} messages={this.props.messages}/>
                     {(this.props.winnerId) ? gameOverDiv : null}
                     {this.props.forfeit ? forfeitDiv : null}
                 </div>
+                <ChatBox id={this.props.id} messages={this.props.messages}/>
                 {this.state.rules && !this.props.winnerId ? <Rules toggleRules={this.handleToggleRules} /> : null}
                 <div className={gameStyles.notificationDiv}>
                     {this.props.notificationBool ? opponentRoll : null}

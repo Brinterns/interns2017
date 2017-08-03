@@ -3,10 +3,9 @@ import chatStyles from './Chat.css';
 import send from '../images/icons/send.png';
 import message from '../images/icons/msg.png';
 import emoji from '../images/icons/emoji.png';
-import Picker from '../mod/emojipicker/lib/Picker';
 import {emojify} from 'react-emojione';
 import emojione from 'emojione';
-import emojidictionary from './emojidictionary.json';
+import EmojiPicker from '../mod/emojipick/EmojiPicker';
 
 export default class ChatBox extends Component {
     constructor(props) {
@@ -26,6 +25,7 @@ export default class ChatBox extends Component {
         this.scrollToBottom = this.scrollToBottom.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.toggleEmojis = this.toggleEmojis.bind(this);
+        this.addEmoji = this.addEmoji.bind(this);
     }
 
     handleKeyPress(e) {
@@ -89,17 +89,9 @@ export default class ChatBox extends Component {
         });
     }
 
-    addEmoji (emoji) {
+    addEmoji (emojiShortname) {
         this.setState({
-            input: this.state.input + emoji.shortname
-        });
-        emojidictionary.emojis.forEach((emoji_d) => {
-            if (emoji_d.name === emoji.shortname) {
-                this.setState({
-                    input: this.state.input + emoji_d.unicode
-                });
-                return;
-            }
+            input: this.state.input + emojiShortname
         });
      }
 
@@ -166,9 +158,12 @@ export default class ChatBox extends Component {
                     <img src={message} />
                     <p>Chat </p>
                 </div>
-                <div id="messagediv" className={chatStyles.messages}>
-                    {this.state.emojis ? <Picker onEmojiSelected={this.addEmoji.bind(this)} /> : messageDisplay}
-                </div>
+                {this.state.emojis ? <EmojiPicker onEmojiSelected={this.addEmoji}/> : null}
+                {this.state.emojis ? null :
+                    <div id="messagediv" className={chatStyles.messages}>
+                         {messageDisplay}
+                    </div>
+                }
                 <div className={chatStyles.openChatBottom}>
                     <div className={chatStyles.inputArea}>
                         <input id="msginput" type="text" placeholder="Type your message..." onKeyPress={this.handleKeyPress} value={this.state.input} onChange={this.handleChange}/>
