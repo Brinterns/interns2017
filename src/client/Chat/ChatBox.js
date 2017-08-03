@@ -95,7 +95,7 @@ export default class ChatBox extends Component {
         });
      }
 
-    render() {;
+    render() {
         const messages = this.props.messages;
         const messageDisplay = (
             messages.map((messageData, i) => {
