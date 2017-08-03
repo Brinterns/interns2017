@@ -3,11 +3,9 @@ import chatStyles from './Chat.css';
 import send from '../images/icons/send.png';
 import message from '../images/icons/msg.png';
 import emoji from '../images/icons/emoji.png';
-import Picker from '../mod/emojipicker/lib/Picker';
 import {emojify} from 'react-emojione';
 import emojione from 'emojione';
 import emojidictionary from './emojidictionary.json';
-
 import EmojiPicker from '../mod/emojipick/EmojiPicker';
 
 let first = [];
@@ -156,7 +154,6 @@ export default class ChatBox extends Component {
                 </div>
             </div>
         );
-        // <Picker onEmojiSelected={this.addEmoji.bind(this)} />
         const openChatDiv = (
             <div className={chatStyles.openChat}>
                 <div onClick={this.handleClick} className={chatStyles.openChatTop}>
