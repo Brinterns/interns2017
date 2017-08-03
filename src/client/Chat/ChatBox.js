@@ -16,9 +16,9 @@ export default class ChatBox extends Component {
         super(props);
         this.state = {
             input: '',
-            showChat: true,
+            showChat: false,
             numMsgSeen: this.props.messages.length,
-            emojis: true
+            emojis: false
         };
         setTimeout(() => {
             this.setState({ numMsgSeen: this.props.messages.length});

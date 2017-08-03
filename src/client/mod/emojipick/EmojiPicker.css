@@ -1,18 +1,19 @@
 .emojiDiv {
     height: calc(18 * (1vw + 1vh - 1vmin));
     min-height: 200px;
+    overflow-y: scroll;
 }
 
 .categoryPicker {
+    display: inline-block;
     font-size: calc(1px + 0.1 * (1vw + 1vh - 1vmin)) !important;
-    height: calc(1.7 * (1vw + 1vh - 1vmin)) !important;
-    padding-left: calc(1.5 * (1vw + 1vh - 1vmin)) !important;
-    padding-right: calc(0.75 * (1vw + 1vh - 1vmin)) !important;
-    min-height: 25px;
+    width: calc(1.7 * (1vw + 1vh - 1vmin)) !important;
+    min-width: 23px;
+    height: calc(17.5 * (1vw + 1vh - 1vmin)) !important;
 }
 
 .categoryPicker h1 {
-    margin: calc(7px + 0.1 * (1vw + 1vh - 1vmin)) calc(1.2 * (1vw + 1vh - 1vmin)) 0 0 !important;
+    margin: calc(7px + 0.1 * (1vw + 1vh - 1vmin)) 0 0 0 !important;
     display: inline-block;
     padding: 0 !important;
     opacity: 0.5 !important;
@@ -27,19 +28,26 @@
     opacity: 1 !important;
     cursor: pointer;
     font-size: calc(0.025 * (1vw + 1vh - 1vmin)) !important;
-    border-bottom: solid black;
+    border-right: solid medium grey;
 }
 
 .emojiDisplay {
-    position: relative;
-    padding: calc(1 * (1vw + 1vh - 1vmin));
-    padding-right: calc(0.5 * (1vw + 1vh - 1vmin)) !important;
-    height: calc(15.3 * (1vw + 1vh - 1vmin));
+    vertical-align: top;
+    display: inline-block;
+    height: calc(18 * (1vw + 1vh - 1vmin));
+    margin-left: 1em;
     margin-top: 1em;
-    overflow-y: scroll;
-    background-color: white;
+    width: calc(20 * (1vw + 1vh - 1vmin)) !important;
+    min-width: 155px;
     min-height: 150px;
 }
+
+@media (max-width: 450px) {
+    .emojiDisplay {
+        margin-left: 2.5em !important;
+    }
+}
+
 
 .emojiDisplay h1 {
     display: inline-block;
