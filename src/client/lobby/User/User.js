@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import userStyles from '../Lobby.css';
-
+import {emojify} from 'react-emojione';
 
 export default class User extends Component {
     constructor(props) {
@@ -13,16 +13,21 @@ export default class User extends Component {
         if (this.props.user.avatar) {
             var myCanvas = document.getElementById(canvasId);
             if (myCanvas) {
-                var ctx = myCanvas.getContext('2d');
-                var img = new Image;
-                img.onload = function(){
-                  ctx.drawImage(img,0,0);
-                };
-                img.src = this.props.user.avatar;
+                setTimeout (() => {
+                    var ctx = myCanvas.getContext('2d');
+                    ctx.clearRect(0,0,myCanvas.width, myCanvas.height);
+                    var img = new Image;
+                    img.onload = function(){
+                      ctx.drawImage(img, 0, 0, 300, 150);
+                    };
+                    img.src = this.props.user.avatar;
+                },50);
             }
         }
         var challengeButtons;
-        if (this.props.challenging) {
+        if (!this.props.user.inLobby) {
+            challengeButtons = null;
+        } else if (this.props.challenging) {
             challengeButtons =
                 <div className={userStyles.buttonDiv}>
                     <button onClick={() => {this.props.cancelChallenge(this.props.user.id)}}> Cancel </button>
@@ -41,17 +46,25 @@ export default class User extends Component {
                     <button onClick={() => {this.props.challengeUser(this.props.user.id)}}> Challenge </button>
                 </div>;
         }
+        var displayName = this.props.user.name;
+        if (!this.props.user.online) {
+            displayName += " (Offline)";
+        } else if (!this.props.user.inLobby) {
+            displayName += " (In-Game)";
+        }
         return (
-            <div className={userStyles.user}>
-                <div className={userStyles.userDetails}>
-                    <canvas id={canvasId} className={userStyles.canvas}/>
-                    <div className={userStyles.userDetailsText}>
-                        <h1> {this.props.user.name} </h1>
-                        <h2> Rating: {this.props.user.elorank} </h2>
-                        <h2> W: {this.props.user.winLossRecord.wins} L: {this.props.user.winLossRecord.loses} </h2>
+            <div className={this.props.user.online ? userStyles.onlineBackground : userStyles.offlineBackground}>
+                <div className={userStyles.user}>
+                    <div className={this.props.user.inLobby ? userStyles.userDetails : userStyles.userDetailsFull}>
+                        <canvas id={canvasId} className={userStyles.canvasOther}/>
+                        <div className={userStyles.userDetailsText}>
+                            <h1> {emojify(displayName)} </h1>
+                            <h2> Rating: {this.props.user.elorank} #{this.props.user.rank} </h2>
+                            <h2> W: {this.props.user.winLossRecord.wins} L: {this.props.user.winLossRecord.loses} </h2>
+                        </div>
                     </div>
+                    {challengeButtons}
                 </div>
-                {challengeButtons}
             </div>
         );
     }

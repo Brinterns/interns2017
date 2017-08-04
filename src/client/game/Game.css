@@ -10,7 +10,7 @@
 }
 
 .gameMain h1 {
-    color: white;
+    color: #FAD000;
     position: absolute;
     top: 7%;
     left: 50%;
@@ -22,24 +22,11 @@
 }
 
 .gameMain h2 {
-    color: white;
+    color: #FAD000;
     position: absolute;
     font-size: calc(5px + 1.5 * (1vw + 1vh - 1vmin));
     margin-top : 1em;
     margin-left: 1em;
-}
-
-.gameMain ul {
-    position: absolute;
-    top : 17%;
-    padding: 0;
-    margin-left: 1em;
-    list-style-type: none;
-}
-
-.gameMain li {
-    color: white;
-    font-size: calc(8px + 1.5 * (1vw + 1vh - 1vmin));
 }
 
 .notificationDiv {
@@ -56,7 +43,7 @@
 }
 
 .turnNotif {
-    color: yellow;
+    color: #FAD000;
 }
 
 .buttonDiv {
@@ -84,53 +71,73 @@
     margin: 0;
     width: calc(40 * (1vw + 1vh - 1vmin));
     height: calc(15 * (1vw + 1vh - 1vmin));
-    border-radius: calc(2.5 * (1vw + 1vh - 1vmin));
-    background-color: black;
+    background-color: white;
+    border-style: solid;
+    border-color: #FAD000;
+    border-width: calc(0.5 * (1vw + 1vh - 1vmin));
     transform: translate(-50%, -50%);
 }
 
 .notificationMenu h1 {
-    color: white;
+    color: black;
     position: absolute;
-    top: 10%;
+    top: 0;
     left: 50%;
-    margin-right: -50%;
     margin: 0;
+    margin-top: calc(1.5 * (1vw + 1vh - 1vmin));
     transform: translate(-50%, 0%);
-    font-size: calc(5px + 2 * (1vw + 1vh - 1vmin));
+    font-size: calc(5px + 2.5 * (1vw + 1vh - 1vmin));
     text-align: center;
     width: 100%;
 }
 
 .notificationMenu button {
     position: absolute;
-    bottom: 20%;
-    width: calc(20px + 7 * (1vw + 1vh - 1vmin));
-    height: auto;
     display: inline-block;
-    border-radius: calc(0.6 * (1vw + 1vh - 1vmin));
-    border-color: black;
-    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
-    font-weight: bold;
+    padding-right: 0.9em;
+    padding-left: 0.9em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    margin-bottom: calc(1.5 * (1vw + 1vh - 1vmin));
+    bottom: 0;
+    border-style: none;
+    color: white;
+    background-color: #0265CB;
     outline: none;
+    font-size: calc(2 * (1vw + 1vh - 1vmin));
 }
 
-.yesButton {
-    left: 20%;
-    background-color: #e81212;
-    outline: none;
+.notificationMenu div {
+    position: relative;
+    transform: translate(0%, -50%);
+    top: 73% !important;
 }
 
-.noButton {
-    right: 20%;
-    background-color: #03b733;
-    outline: none;
+.acceptButton {
+    padding: 0 !important;
+    left: 35%;
+    background-color: #03b733 !important;
+    height: calc(3.5 * (1vw + 1vh - 1vmin));
+    width: calc(3.5 * (1vw + 1vh - 1vmin));
+}
+
+.declineButton {
+    padding: 0 !important;
+    right: 35%;
+    background-color: #e81212 !important;
+    height: calc(3.5 * (1vw + 1vh - 1vmin));
+    width: calc(3.5 * (1vw + 1vh - 1vmin));
+}
+
+.reChallenge {
+    transform: translate(-50%, -50%);
+    height: calc(3.5 * (1vw + 1vh - 1vmin));
+    left: 50%;
+    top: 50%;
 }
 
 .returnButton {
-    margin-right: -50%;
-    left: 50%;
-    margin: 0;
     transform: translate(-50%, 0%);
-    outline: none;
+    height: calc(3.5 * (1vw + 1vh - 1vmin));
+    left: 50%;
 }

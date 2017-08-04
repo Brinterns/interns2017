@@ -9,13 +9,13 @@ const playerPath = [
     14, 17, 20, 23,
     22, 19, 16, 13,
     10, 7,  4,  1,
-    2,  5
+    2,  5,  8
 ];
 const opponentPath = [
     12, 15, 18, 21,
     22, 19, 16, 13,
     10, 7,  4,  1,
-    0, 3
+    0, 3,   6
 ];
 
 
@@ -67,7 +67,6 @@ function movePiece(position, user) {
         user.data.squares[playerPath[position-1]] = false;
     }
     if (nextPos === 15) {
-        nextPos = -1;
         user.data.numPiecesFinished ++;
         user.message('finishedpieces', user.data.numPiecesFinished);
         opponent.message('finishedopppieces', user.data.numPiecesFinished);
@@ -79,7 +78,7 @@ function movePiece(position, user) {
     user.message('piecepositions', user.data.piecePositions);
     user.message('squares', user.data.squares);
     opponent.message('opponentsquares', reverseSquares(user.data.piecePositions));
-    if ((nextPos !== -1) && (nextPos > 4) && (nextPos < 13) && opponent.data.piecePositions.includes(nextPos)) {
+    if ((nextPos > 4) && (nextPos < 13) && opponent.data.piecePositions.includes(nextPos)) {
         opponent.data.piecePositions[opponent.data.piecePositions.indexOf(nextPos)] = 0;
         opponent.data.squares[playerPath[nextPos-1]] = false;
         opponent.message('piecepositions', opponent.data.piecePositions);

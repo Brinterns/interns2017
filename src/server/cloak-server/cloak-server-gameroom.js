@@ -19,9 +19,9 @@ function getRoomUserInfo(room) {
 
 function getRoomInfo(user) {
     const room = user.getRoom();
-    if (room) {
+    if (room && !room.isLobby) {
         if (!room.data.currentPlayer) {
-            room.data.currentPlayer = room.getMembers()[1].id;
+            room.data.currentPlayer = room.getMembers()[shared.getRandomIntInclusive(0, 1)].id;
         }
         const opponent = shared.getOpponent(user);
 
@@ -30,14 +30,15 @@ function getRoomInfo(user) {
             roomName: room.name,
             squares: user.data.squares,
             piecePositions: user.data.piecePositions,
-            opponentSquares: gameplay.reverseSquares(opponent.data.piecePositions),
+            opponentSquares: opponent ? gameplay.reverseSquares(opponent.data.piecePositions) : [],
             finishedPieces: user.data.numPiecesFinished,
-            finishedOppPieces: opponent.data.numPiecesFinished,
-            winnerId: room.data.winnerId
+            finishedOppPieces: opponent ? opponent.data.numPiecesFinished : null,
+            winnerId: room.data.winnerId,
+            opponentDisconnect: room.data.opponentDisconnect
         };
         user.message('gamestate', JSON.stringify(gameStateJson));
         user.message('currentplayer', room.data.currentPlayer);
-        if (user.data.lastRoll) {
+        if (opponent && user.data.lastRoll) {
             user.message('rolledvalue', user.data.lastRoll);
             gameplay.checkMoves(user, user.data.lastRoll, opponent.data.squares);
         }
@@ -55,20 +56,21 @@ function win(winBool, user) {
     var user2 = shared.getOpponent(user);
     user.data.opponentDbId = null;
     user2.data.opponentDbId = null;
+    const user1Elo = user.data.elorank;
     if (winBool) {
         userRoom.messageMembers('gameover', user.id);
         userRoom.data.winnerId = user.id;
         user.data.winLossRecord.wins++;
         user2.data.winLossRecord.loses++;
-        user.data.elorank = calculateNewElo(user.data.elorank, user2.data.elorank, 1);
-        user2.data.elorank = calculateNewElo(user2.data.elorank, user.data.elorank, 0);
+        user.data.elorank = calculateNewElo(user1Elo, user2.data.elorank, 1);
+        user2.data.elorank = calculateNewElo(user2.data.elorank, user1Elo, 0);
     } else {
         userRoom.messageMembers('gameover', user2.id);
         userRoom.data.winnerId = user2.id;
         user.data.winLossRecord.loses++;
         user2.data.winLossRecord.wins++;
-        user.data.elorank = calculateNewElo(user.data.elorank, user2.data.elorank, 0);
-        user2.data.elorank = calculateNewElo(user2.data.elorank, user.data.elorank, 1);
+        user.data.elorank = calculateNewElo(user1Elo, user2.data.elorank, 0);
+        user2.data.elorank = calculateNewElo(user2.data.elorank, user1Elo, 1);
     }
     db.update(user.data, user.name);
     db.update(user2.data, user2.name);
@@ -77,6 +79,7 @@ function win(winBool, user) {
 var roomExit = function(arg) {
     const users = this.getMembers();
     if ((users.length === 1) && !users[0].getRoom().data.winnerId) {
+        this.data.opponentDisconnect = true;
         var user = users[0];
         var opponentName;
         var opponentElo;
@@ -108,6 +111,10 @@ var roomExit = function(arg) {
                 });
             });
         });
+    } else if (users.length === 1) {
+        const user = users[0];
+        this.data.opponentDisconnect = true;
+        user.message('opponentdisconnect');
     }
 }
 

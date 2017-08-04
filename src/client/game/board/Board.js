@@ -7,8 +7,6 @@ import Square from './Square';
 import { connect } from 'react-redux';
 
 const numberOfPieces = 7;
-const rosettaSquares = [3,5,13,21,23];
-const blankSquares = [6,8,9,11];
 
 const playerPath = [
     14,  17,  20,  23,
@@ -30,19 +28,19 @@ export class Board extends Component {
     }
 
     squareType(i) {
-        let className = boardStyles.squareNormal;
-        if (rosettaSquares.includes(i)) {
-            className = boardStyles.squareRosetta;
-        } else if (blankSquares.includes(i)) {
-            className = boardStyles.squareBlank;
-        }
+        const pos = playerPath.indexOf(i) + 1;
         var pieceClassName = boardStyles.squarePiece;
-        if (this.props.isPlayerTurn && this.props.rolled && !this.props.moveablePositions.includes((playerPath.indexOf(i)+1))) {
+        if ((pos !== 15) && this.props.isPlayerTurn && this.props.rolled && !this.props.moveablePositions.includes(pos)) {
             pieceClassName = boardStyles.unmoveableSquarePiece;
         }
-        const pos = playerPath.indexOf(i) + 1;
+        var displayNumber = null;
+        if ((i === 8) && this.props.numPiecesFinished) {
+            displayNumber = (this.props.numPiecesFinished > 1) ? this.props.numPiecesFinished : null;
+        } else if ((i === 6) && this.props.numOppPiecesFinished) {
+            displayNumber = (this.props.numOppPiecesFinished > 1) ? this.props.numOppPiecesFinished : null;
+        }
         return (
-            <Square position={pos} movePiece={this.handleMovePiece} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} className={className} pieceClassName={pieceClassName} setHighlightSquare={this.setHighlightSquare} highlight={(pos === this.state.highlightSquarePosition)} key={i} />
+            <Square index={i} position={pos} displayNumber={displayNumber} movePiece={this.handleMovePiece} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={pieceClassName} setHighlightSquare={this.setHighlightSquare} highlight={(pos === this.state.highlightSquarePosition)} key={i} />
         );
     }
 
@@ -88,10 +86,13 @@ export class Board extends Component {
                     pieceHolder.push(<Piece position={pos} className={boardStyles.unmoveablePiece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
                     continue;
                 }
-                pieceHolder.push(<Piece  position={pos} className={boardStyles.piece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
+                pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
             }
         }
-        const oppPieceHolderSize = numberOfPieces - this.props.opponentSquares.filter((square) => {return square}).length - this.props.numOppPiecesFinished;
+        var oppPieceHolderSize = numberOfPieces - this.props.opponentSquares.filter((square) => {return square}).length;
+        if (this.props.numOppPiecesFinished > 1) {
+            oppPieceHolderSize -= (this.props.numOppPiecesFinished - 1);
+        }
         for (var i = 0; i < oppPieceHolderSize; i++) {
             oppPieceHolder.push(<OpponentPiece className={boardStyles.oppPiece} key={i}/>)
         }
@@ -106,14 +107,10 @@ export class Board extends Component {
         }
         return (
                 <div>
-                    <ul>
-                        <li>Your finished pieces: {this.props.numPiecesFinished}</li>
-                        <li>Their finished pieces: {this.props.numOppPiecesFinished}</li>
-                    </ul>
                     <div className={boardStyles.boardMainDiv}>
                         {squareCols}
                     </div>
-                    <button onClick={this.onClick} className={boardStyles.rollButton}>{this.props.rollNumber}</button>
+                    <button onClick={this.onClick} className={boardStyles.rollButton}> {this.props.rollNumber} </button>
                     <div className={boardStyles.oppPieceHolder}>
                         {oppPieceHolder}
                     </div>

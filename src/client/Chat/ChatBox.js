@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import chatStyles from './Chat.css';
 import send from '../images/icons/send.png';
 import message from '../images/icons/msg.png';
+import emoji from '../images/icons/emoji.png';
+import {emojify} from 'react-emojione';
+import emojione from 'emojione';
+import EmojiPicker from '../mod/emojipick/EmojiPicker';
 
 export default class ChatBox extends Component {
     constructor(props) {
@@ -9,7 +13,8 @@ export default class ChatBox extends Component {
         this.state = {
             input: '',
             showChat: false,
-            numMsgSeen: this.props.messages.length
+            numMsgSeen: this.props.messages.length,
+            emojis: false
         };
         setTimeout(() => {
             this.setState({ numMsgSeen: this.props.messages.length});
@@ -19,6 +24,8 @@ export default class ChatBox extends Component {
         this.sendMessage = this.sendMessage.bind(this);
         this.scrollToBottom = this.scrollToBottom.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.toggleEmojis = this.toggleEmojis.bind(this);
+        this.addEmoji = this.addEmoji.bind(this);
     }
 
     handleKeyPress(e) {
@@ -28,15 +35,19 @@ export default class ChatBox extends Component {
     }
 
     sendMessage() {
-
         if (!(this.state.input).replace(/\s/g, '').length) {
             return;
         }
         cloak.message('sendmessage', this.state.input);
         this.setState({
-            input: ''
+            input: '',
+            emojis: false
         });
-        document.getElementById("msginput").value = '';
+        var input = document.getElementById("msginput");
+        if (input) {
+            input.value = '';
+        }
+        setTimeout(()=>{this.scrollToBottom()},1000);
     }
 
     handleClick() {
@@ -72,16 +83,28 @@ export default class ChatBox extends Component {
         }
     }
 
+    toggleEmojis() {
+        this.setState({
+            emojis: !this.state.emojis
+        });
+    }
+
+    addEmoji (emojiShortname) {
+        this.setState({
+            input: this.state.input + emojiShortname
+        });
+     }
+
     render() {
         const messages = this.props.messages;
         const messageDisplay = (
             messages.map((messageData, i) => {
-                    {this.scrollToBottom()}
+                {this.scrollToBottom()}
                     if(messageData.userId === this.props.id) {
                         return(
                             <div key={i} className={chatStyles.playerMesssge}>
                                 <div className={chatStyles.message}>
-                                    <h3>{messageData.message}</h3>
+                                    <h3>{emojify(messageData.message)}</h3>
                                 </div>
                             </div>
                         );
@@ -93,16 +116,19 @@ export default class ChatBox extends Component {
                             var ctx = myCanvas.getContext('2d');
                             var img = new Image;
                             img.onload = function(){
-                              ctx.drawImage(img,0,0);
+                              ctx.drawImage(img, 0, 0, 300, 150);
                             };
                             img.src = messageData.avatar;
+                        }
+                        if (i === (messages.length - 1)) {
+                            {this.scrollToBottom()}
                         }
                     }, 50);
                     return(
                         <div key={i} className={chatStyles.opponent}>
                             <canvas id={canvasId} className={chatStyles.avatar}/>
                             <div className={chatStyles.opponentMessage}>
-                                <h5>{messageData.message}</h5>
+                                <h5>{emojify(messageData.message)}</h5>
                                 <h4>{messageData.userName}</h4>
                             </div>
                         </div>
@@ -126,18 +152,23 @@ export default class ChatBox extends Component {
                 </div>
             </div>
         );
-
         const openChatDiv = (
             <div className={chatStyles.openChat}>
                 <div onClick={this.handleClick} className={chatStyles.openChatTop}>
                     <img src={message} />
                     <p>Chat </p>
                 </div>
-                <div id="messagediv" className={chatStyles.messages}>
-                    {messageDisplay}
-                </div>
+                {this.state.emojis ? <EmojiPicker onEmojiSelected={this.addEmoji}/> : null}
+                {this.state.emojis ? null :
+                    <div id="messagediv" className={chatStyles.messages}>
+                         {messageDisplay}
+                    </div>
+                }
                 <div className={chatStyles.openChatBottom}>
-                    <input id="msginput" type="text" placeholder="Type your message..." onKeyPress={this.handleKeyPress} value={this.state.input} onChange={this.handleChange}/>
+                    <div className={chatStyles.inputArea}>
+                        <input id="msginput" type="text" placeholder="Type your message..." onKeyPress={this.handleKeyPress} value={this.state.input} onChange={this.handleChange}/>
+                        <img src={emoji} onClick={this.toggleEmojis}/>
+                    </div>
                     <img src={send} onClick={this.sendMessage}/>
                 </div>
             </div>

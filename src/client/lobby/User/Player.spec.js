@@ -29,5 +29,4 @@ describe('<Player />', () => {
         wrapper.update();
         expect(wrapper.find("input").props().value).toEqual("Foo");
     });
-
 });

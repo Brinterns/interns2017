@@ -6,6 +6,7 @@ import {
     UPDATE_CURRENT_PLAYER_ONLY,
     OPPONENT_DISCONNECT,
     GAME_OVER,
+    CHALLENGER_ID,
     TOGGLE_FORFEIT,
     ROLLED_NUMBER,
     SET_ROOM_NAME,
@@ -51,7 +52,8 @@ const initialState = {
     //Notification states
     notificationBool: false,
     notificationText: null,
-    opponentDisconnect: false
+    opponentDisconnect: false,
+    challengerId: null
 };
 
 const game = (state = initialState, action) => {
@@ -97,6 +99,11 @@ const game = (state = initialState, action) => {
                 forfeit: false,
                 winnerId: action.payload,
                 gameOver: true
+            });
+        }
+        case CHALLENGER_ID: {
+            return updateState(state, {
+                challengerId: action.payload
             });
         }
         case TOGGLE_FORFEIT: {
@@ -182,7 +189,8 @@ const game = (state = initialState, action) => {
                 opponentSquares: action.payload.opponentSquares,
                 numPiecesFinished: action.payload.finishedPieces,
                 numOppPiecesFinished: action.payload.finishedOppPieces,
-                winnerId: action.payload.winnerId
+                winnerId: action.payload.winnerId,
+                opponentDisconnect: action.payload.opponentDisconnect
             });
         }
         case RESET_STORE: {

@@ -7,6 +7,11 @@ import lobbyStyles from './Lobby.css';
 import ChatBox from '../Chat/ChatBox';
 import Rules from '../rules/Rules';
 import logo from '../images/logo.png';
+import trophy from '../images/icons/trophy.png';
+import trophygold from '../images/icons/trophygold.png';
+import pencil from '../images/icons/pencil.png';
+import DrawCanvas from '../components/DrawCanvas';
+
 
 import { RunCloakConfig } from '../services/cloak-service';
 
@@ -15,13 +20,19 @@ export class Lobby extends Component {
         super(props);
         this.state = {
             screenWidth: 0,
-            rules: false
+            drawCanvas: false,
+            rules: false,
+            filterOnline: false,
+            sortRank: false
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.challengeUser = this.challengeUser.bind(this);
         this.cancelChallenge = this.cancelChallenge.bind(this);
         this.challengeRespond = this.challengeRespond.bind(this);
         this.handleToggleRules = this.handleToggleRules.bind(this);
+        this.handleAvatarClick = this.handleAvatarClick.bind(this);
+        this.upload = this.upload.bind(this);
+        this.filterOnline = this.filterOnline.bind(this);
         {this.getLobbyInfo()};
     }
 
@@ -81,24 +92,55 @@ export class Lobby extends Component {
         });
     }
 
+    handleAvatarClick() {
+        this.setState({
+            drawCanvas: !this.state.drawCanvas
+        });
+    }
+
+    upload() {
+        this.handleAvatarClick();
+        cloak.message('setavatar', this.refs.sketcher.refs.drawCanvas.toDataURL());
+    }
+
+    filterOnline() {
+        this.setState({
+            filterOnline: !this.state.filterOnline
+        });
+    }
+
     render() {
         let otherUsers = [];
         let name = '';
         let myCanvas = null;
-        this.props.listOfUsers.forEach((user) => {
-            if (this.props.id != user.id) {
-                otherUsers.push(user);
+        let userAvatar = null;
+        let rank = '';
+
+        var sortedList = Object.assign([], this.props.listOfUsers);
+        if (this.state.sortRank) {
+            sortedList.sort(function(a, b) {
+                return a.rank - b.rank;
+            });
+        }
+        sortedList.forEach((user) => {
+            if (this.props.id !== user.id) {
+                if (!(this.state.filterOnline && !user.online)) {
+                    otherUsers.push(user);
+                }
                 return;
             }
             name = user.name;
+            userAvatar = user.avatar;
+            rank = user.rank;
             if (user.avatar) {
                 myCanvas = document.getElementById('myavatar');
                 if (myCanvas) {
                     setTimeout (() => {
                         var ctx = myCanvas.getContext('2d');
+                        ctx.clearRect(0,0,myCanvas.width, myCanvas.height);
                         var img = new Image;
-                        img.onload = function(){
-                          ctx.drawImage(img,0,0);
+                        img.onload = function() {
+                            ctx.drawImage(img, 0, 0, 300, 150);
                         };
                         img.src = user.avatar;
                     },50);
@@ -132,6 +174,13 @@ export class Lobby extends Component {
                     </div>
                 </div>
                 <div className={lobbyStyles.tabPanel}>
+                    <div className={lobbyStyles.tabPanelSort}>
+                        <label  onClick={() => {this.setState({sortRank: !this.state.sortRank})}}>
+                            <img src={this.state.sortRank ? trophygold : trophy} />
+                            &nbsp;Sort
+                        </label>
+                    </div>
+                    <div className={lobbyStyles.tabPanelFilter}><span><label><input defaultChecked={false} type="checkbox" onClick={this.filterOnline}/> Online only</label> </span></div>
                     {userDisplayList}
                 </div>
                 <div className={lobbyStyles.gameTabPanel}>
@@ -151,6 +200,13 @@ export class Lobby extends Component {
                     </Tab>
                 </TabList>
                 <TabPanel>
+                    <div className={lobbyStyles.tabPanelSort}>
+                        <label  onClick={() => {this.setState({sortRank: !this.state.sortRank})}}>
+                            <img src={this.state.sortRank ? trophygold : trophy} />
+                            &nbsp;Sort
+                        </label>
+                    </div>
+                    <div className={lobbyStyles.tabPanelFilter}><span><label><input defaultChecked={false} type="checkbox" onClick={this.filterOnline}/> Online only</label> </span></div>
                     {userDisplayList}
                 </TabPanel>
                 <TabPanel className={lobbyStyles.gameTabPanel}>
@@ -165,16 +221,20 @@ export class Lobby extends Component {
                     <h1> The Royal Game of Ur </h1>
                 </div>
                 <div className={lobbyStyles.userStats}>
-                    <canvas id="myavatar" className={lobbyStyles.canvas}/>
+                    <div className={lobbyStyles.canvas}>
+                        <canvas onClick={this.handleAvatarClick} id="myavatar" />
+                        <img onClick={this.handleAvatarClick} src={pencil} />
+                    </div>
                     <div className={lobbyStyles.userText}>
                         <Player name={name} />
-                        {this.props.elorank ? <h2> Rating: {this.props.elorank} </h2>: null}
+                        {this.props.elorank ? <h2> Rating: {this.props.elorank} #{rank} </h2>: null}
                         {this.props.winLossRecord ? <h2> Wins: {this.props.winLossRecord.wins} Loses: {this.props.winLossRecord.loses} </h2>: null}
                     </div>
                 </div>
                 <button className={lobbyStyles.rules} onClick={this.handleToggleRules}> Rules </button>
                 {(this.state.screenWidth >= 800) ? normalDisplay : tabbedDisplay}
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
+                {this.state.drawCanvas ? <DrawCanvas defaultData={userAvatar} edit={true} ref="sketcher" sketcherClassName={lobbyStyles.drawCanvas} className={lobbyStyles.mainDrawingCanvas} upload={this.upload} close={this.handleAvatarClick}/> : null}
                 {this.state.rules ? <Rules toggleRules={this.handleToggleRules} /> : null}
             </div>
         );

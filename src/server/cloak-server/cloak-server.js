@@ -44,6 +44,12 @@ module.exports = function(expressServer) {
             declinechallenge: function(id, user) {
                 challengeFunctions.declineChallenge(id, user);
             },
+            rechallenge: function(_, user) {
+                challengeFunctions.reChallenge(user);
+            },
+            rechallengeresponse: function(accept, user) {
+                challengeFunctions.reChallengeResponse(accept, user);
+            },
             leavegame: function(msg, user) {
                 cloak.getLobby().addMember(user);
                 user.message('gotolobby');
@@ -80,7 +86,7 @@ module.exports = function(expressServer) {
         room: {
             close: lobbyFunctions.updateLobbyActiveGames,
             memberLeaves: gameRoomFunctions.roomExit
-        },
+        }
     });
     cloak.run();
 };

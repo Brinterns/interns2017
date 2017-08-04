@@ -5,6 +5,7 @@ export const UPDATE_CURRENT_PLAYER = namespace + 'UPDATE_CURRENT_PLAYER';
 export const UPDATE_CURRENT_PLAYER_ONLY = namespace + 'UPDATE_CURRENT_PLAYER_ONLY';
 export const OPPONENT_DISCONNECT = namespace + 'OPPONENT_DISCONNECT';
 export const GAME_OVER = namespace + 'GAME_OVER';
+export const CHALLENGER_ID = namespace + 'CHALLENGER_ID';
 export const TOGGLE_FORFEIT = namespace + 'TOGGLE_FORFEIT';
 export const ROLLED_NUMBER = namespace + 'ROLLED_NUMBER';
 export const SET_ROOM_NAME = namespace + 'SET_ROOM_NAME';
@@ -105,6 +106,13 @@ export function gameOver(winnerId) {
     return {
         type: GAME_OVER,
         payload: winnerId
+    }
+}
+
+export function challengerId(challengerId) {
+    return {
+        type: CHALLENGER_ID,
+        payload: challengerId
     }
 }
 

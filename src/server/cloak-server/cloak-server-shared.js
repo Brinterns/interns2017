@@ -1,5 +1,6 @@
 var cloak = require('cloak');
 var db = require('../db');
+var lobbyFunctions = require('./cloak-server-lobby');
 const maxMessages = 1000;
 
 function getRandomIntInclusive(min, max) {
@@ -104,6 +105,7 @@ function reconnectUser(id, user) {
                 challenging.data.challengers[challenging.data.challengers.indexOf(user2.id)] = user.id;
                 challenging.message('updatechallengers', challenging.data.challengers);
             });
+            user.message('gotolobby');
         } else {
             if (!user.data.rolledDice) {
                 user.data.lastRoll = null;
@@ -115,9 +117,12 @@ function reconnectUser(id, user) {
                 room.data.winnerId = user.id;
             }
             user.message('currentplayer', room.data.currentPlayer);
-            room.getMembers().filter(member => {
+            const opponent = room.getMembers().filter(member => {
                 return (member.id !== user.id) && (member.id !== user2.id);
-            })[0].message('currentplayeronly', room.data.currentPlayer);
+            })[0];
+            if (opponent) {
+                opponent.message('currentplayeronly', room.data.currentPlayer);
+            }
         }
         user2.delete();
     } else {

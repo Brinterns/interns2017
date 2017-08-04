@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import userStyles from '../Lobby.css';
-
+import pencil from '../../images/icons/pencil.png';
+import {emojify} from 'react-emojione';
 
 export default class Player extends Component {
     constructor(props) {
@@ -55,7 +56,16 @@ export default class Player extends Component {
     render() {
         return (
             <div>
-                {this.state.clicked ? <input ref="inputref" id="usernameinput" onKeyPress={this.handleKeyPress} onChange={this.handleChange}value={this.state.input}/> : <h1 className={userStyles.username} onClick={this.handleClick}> {this.props.name} </h1>}
+                {this.state.clicked ? <input ref="inputref" id="usernameinput" onKeyPress={this.handleKeyPress} onChange={this.handleChange}value={this.state.input}/> :
+                <div className={userStyles.username}>
+                    <div className={userStyles.normal}>
+                        <h1 onClick={this.handleClick}> {emojify(this.props.name)} </h1>
+                    </div>
+                    <div className={userStyles.overlay}>
+                        <img src={pencil} />
+                    </div>
+                </div>
+                }
             </div>
         );
     }
