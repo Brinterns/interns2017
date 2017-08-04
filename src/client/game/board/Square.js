@@ -14,20 +14,28 @@ export default class Square extends Component {
 
     render() {
         const i = this.props.index;
-        var style = {};
+        var squareStyle = {};
+        var highlightStyle = {};
         if (!blankSquares.includes(i)) {
             var picture =  require('../../images/board/boardsquares' + this.props.index + '.png');
-            style = {
+            squareStyle = {
                 background: 'url(' + picture + ')',
                 backgroundSize: 'calc(6 * (1vw + 1vh - 1vmin))'
             }
         }
+        if (this.props.index === 8) {
+            var picture = require('../../images/board/finalsquare.png');
+            highlightStyle = {
+                background: 'url(' + picture + ')',
+                backgroundSize: 'calc(5.4 * (1vw + 1vh - 1vmin))'
+            }
+        }
         return (
-            <div className={boardStyles.square} style={style}>
+            <div className={boardStyles.square} style={squareStyle}>
                 <div className={rosettaSquares.includes(i) ? boardStyles.rosetta : null}>
                     {this.props.piece ? <Piece displayNumber={this.props.displayNumber} setHighlightSquare={this.props.setHighlightSquare} position={this.props.position} className={this.props.pieceClassName} movePiece={this.props.movePiece}/> : null}
                     {this.props.opponentPiece ? <OpponentPiece displayNumber={this.props.displayNumber} className={boardStyles.squareOpponentPiece}/> : null}
-                    {this.props.highlight ? <div className={boardStyles.moveHighlighter}/> : null}
+                    {this.props.highlight ? <div className={boardStyles.moveHighlighter} style={highlightStyle} /> : null}
                 </div>
             </div>
         );
