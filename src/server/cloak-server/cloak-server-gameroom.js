@@ -56,20 +56,21 @@ function win(winBool, user) {
     var user2 = shared.getOpponent(user);
     user.data.opponentDbId = null;
     user2.data.opponentDbId = null;
+    const user1Elo = user.data.elorank;
     if (winBool) {
         userRoom.messageMembers('gameover', user.id);
         userRoom.data.winnerId = user.id;
         user.data.winLossRecord.wins++;
         user2.data.winLossRecord.loses++;
-        user.data.elorank = calculateNewElo(user.data.elorank, user2.data.elorank, 1);
-        user2.data.elorank = calculateNewElo(user2.data.elorank, user.data.elorank, 0);
+        user.data.elorank = calculateNewElo(user1Elo, user2.data.elorank, 1);
+        user2.data.elorank = calculateNewElo(user2.data.elorank, user1Elo, 0);
     } else {
         userRoom.messageMembers('gameover', user2.id);
         userRoom.data.winnerId = user2.id;
         user.data.winLossRecord.loses++;
         user2.data.winLossRecord.wins++;
-        user.data.elorank = calculateNewElo(user.data.elorank, user2.data.elorank, 0);
-        user2.data.elorank = calculateNewElo(user2.data.elorank, user.data.elorank, 1);
+        user.data.elorank = calculateNewElo(user1Elo, user2.data.elorank, 0);
+        user2.data.elorank = calculateNewElo(user2.data.elorank, user1Elo, 1);
     }
     db.update(user.data, user.name);
     db.update(user2.data, user2.name);
