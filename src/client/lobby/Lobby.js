@@ -22,7 +22,7 @@ export class Lobby extends Component {
             screenWidth: 0,
             drawCanvas: false,
             rules: false,
-            filterOnline: false,
+            filterOnline: true,
             sortRank: false
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
@@ -177,7 +177,7 @@ export class Lobby extends Component {
                     <div className={lobbyStyles.tabPanelSort}>
                         <img src={this.state.sortRank ? trophygold : trophy} onClick={() => {this.setState({sortRank: !this.state.sortRank})}} />
                     </div>
-                    <div className={lobbyStyles.tabPanelFilter}><span><input type="checkbox" onClick={this.filterOnline} /> Online only </span></div>
+                    <div className={lobbyStyles.tabPanelFilter}><span><label><input checked={this.state.filterOnline} type="checkbox" onClick={this.filterOnline}/> Online only</label> </span></div>
                     {userDisplayList}
                 </div>
                 <div className={lobbyStyles.gameTabPanel}>
