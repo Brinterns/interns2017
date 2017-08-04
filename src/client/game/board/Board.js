@@ -40,6 +40,10 @@ export class Board extends Component {
         var pieceClassName = boardStyles.squarePiece;
         if ((pos !== 15) && this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos)) {
             pieceClassName = boardStyles.moveableSquarePiece;
+            if ((this.props.rollNumber + pos) === 15) {
+                pieceClassName = boardStyles.finishSquarePiece;
+            }
+
         }
         var displayNumber = null;
         if ((i === 8) && this.props.numPiecesFinished) {
