@@ -7,8 +7,6 @@ import Square from './Square';
 import { connect } from 'react-redux';
 
 const numberOfPieces = 7;
-const rosettaSquares = [3,5,13,21,23];
-const blankSquares = [6,8,9,11];
 
 const playerPath = [
     14,  17,  20,  23,
@@ -30,12 +28,6 @@ export class Board extends Component {
     }
 
     squareType(i) {
-        let className = boardStyles.squareNormal;
-        if (rosettaSquares.includes(i)) {
-            className = boardStyles.squareRosetta;
-        } else if (blankSquares.includes(i)) {
-            className = boardStyles.squareBlank;
-        }
         const pos = playerPath.indexOf(i) + 1;
         var pieceClassName = boardStyles.squarePiece;
         if ((pos !== 15) && this.props.isPlayerTurn && this.props.rolled && !this.props.moveablePositions.includes(pos)) {
@@ -48,7 +40,7 @@ export class Board extends Component {
             displayNumber = (this.props.numOppPiecesFinished > 1) ? this.props.numOppPiecesFinished : null;
         }
         return (
-            <Square position={pos} displayNumber={displayNumber} movePiece={this.handleMovePiece} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} className={className} pieceClassName={pieceClassName} setHighlightSquare={this.setHighlightSquare} highlight={(pos === this.state.highlightSquarePosition)} key={i} />
+            <Square index={i} position={pos} displayNumber={displayNumber} movePiece={this.handleMovePiece} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={pieceClassName} setHighlightSquare={this.setHighlightSquare} highlight={(pos === this.state.highlightSquarePosition)} key={i} />
         );
     }
 
