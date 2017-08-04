@@ -15,8 +15,12 @@ function setUsername(name, user) {
     });
     if (user.getRoom()) {
         shared.updateMessagesId(user.id, user);
+        lobbyFunctions.getLobbyUserInfo().then(function(listOfUserInfo) {
+            cloak.messageAll('updateusers', listOfUserInfo);
+        });
+    } else {
+        cloak.getLobby().addMember(user);
     }
-    cloak.getLobby().addMember(user);
 }
 
 function setAvatar(avatar, user) {
