@@ -89,7 +89,10 @@ export class Board extends Component {
                 pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
             }
         }
-        const oppPieceHolderSize = numberOfPieces - this.props.opponentSquares.filter((square) => {return square}).length - this.props.numOppPiecesFinished;
+        var oppPieceHolderSize = numberOfPieces - this.props.opponentSquares.filter((square) => {return square}).length;
+        if (this.props.numOppPiecesFinished > 1) {
+            oppPieceHolderSize -= (this.props.numOppPiecesFinished - 1);
+        }
         for (var i = 0; i < oppPieceHolderSize; i++) {
             oppPieceHolder.push(<OpponentPiece className={boardStyles.oppPiece} key={i}/>)
         }
