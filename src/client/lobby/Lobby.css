@@ -100,14 +100,17 @@
 }
 
 .canvas img {
+    opacity: 0;
     position: absolute;
     top: 0px;
     right: 0px;
-    background-color: #a8a6a6;
-    border-bottom: solid thin black;
-    border-left: solid thin black;
     width: calc(1.5 * (1vw + 1vh - 1vmin)) !important;
     height: calc(1.5 * (1vw + 1vh - 1vmin)) !important;
+    background-color: grey;
+}
+
+.canvas:hover img{
+    opacity: 1;
 }
 
 .canvasOther {
