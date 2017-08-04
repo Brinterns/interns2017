@@ -18,24 +18,18 @@
     display: inline-block;
 }
 
-.squareNormal {
+.square {
     margin: var(--squareMargin);
     height: var(--squareSide);
     width: var(--squareSide);
-    background-color: white;
+    border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
 }
 
-.squareBlank {
-    margin: var(--squareMargin);
+.rosetta {
+    background-color: rgba(255, 0, 0, 0.5) !important;
     height: var(--squareSide);
     width: var(--squareSide);
-}
-
-.squareRosetta {
-    margin: var(--squareMargin);
-    height: var(--squareSide);
-    width: var(--squareSide);
-    background-color: red;
+    border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
 }
 
 .rollButton {
