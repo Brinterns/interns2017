@@ -42,9 +42,10 @@
     min-height: 150px;
 }
 
-@media (max-width: 450px) {
+@media (max-width: 600px) {
     .emojiDisplay {
         margin-left: 2.5em !important;
+        max-width: 155px !important;
     }
 }
 
