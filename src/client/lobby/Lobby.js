@@ -175,7 +175,10 @@ export class Lobby extends Component {
                 </div>
                 <div className={lobbyStyles.tabPanel}>
                     <div className={lobbyStyles.tabPanelSort}>
-                        <img src={this.state.sortRank ? trophygold : trophy} onClick={() => {this.setState({sortRank: !this.state.sortRank})}} />
+                        <label  onClick={() => {this.setState({sortRank: !this.state.sortRank})}}>
+                            <img src={this.state.sortRank ? trophygold : trophy} />
+                            &nbsp;Sort
+                        </label>
                     </div>
                     <div className={lobbyStyles.tabPanelFilter}><span><label><input defaultChecked={false} type="checkbox" onClick={this.filterOnline}/> Online only</label> </span></div>
                     {userDisplayList}
