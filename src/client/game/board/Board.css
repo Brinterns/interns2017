@@ -72,7 +72,6 @@
 }
 
 .piece {
-    background-color: #639af2;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
@@ -83,7 +82,6 @@
 }
 
 .unmoveablePiece {
-    background-color: #639af2;
     opacity: 0.6;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
@@ -96,7 +94,6 @@
 
 
 .oppPiece {
-    background-color: #a8a6a6;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
@@ -108,7 +105,6 @@
 
 .squarePiece {
     position: absolute;
-    background-color: #639af2;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
@@ -118,7 +114,6 @@
 
 .unmoveableSquarePiece {
     position: absolute;
-    background-color: #639af2;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
@@ -129,7 +124,6 @@
 
 .squareOpponentPiece {
     position: absolute;
-    background-color: #a8a6a6;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
@@ -141,7 +135,8 @@
     position: absolute;
     background-color: none;
     border: solid;
-    border-color: black;
+    border-color: #FAD000;
+    border-width: 0.3em;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
