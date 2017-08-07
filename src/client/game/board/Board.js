@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import boardStyles from './Board.css';
 import Piece from './Piece';
-import Roll from './Roll';
+import RollFlash from './Roll/RollFlash';
+import Roll from './Roll/Roll';
 import OpponentPiece from './OpponentPiece';
 import Square from './Square';
 import { connect } from 'react-redux';
@@ -106,13 +107,17 @@ export class Board extends Component {
                 </div>
             );
         }
+        // <button onClick={this.onClick} className={boardStyles.rollButton}> {this.props.rollNumber} </button>
+        const rollSequenceNotClickable = (<RollFlash sequence={this.props.rollSequence} rollNumber={this.props.rollNumber} className={boardStyles.rollButton} />);
+        const rollSequenceClikable = (<div onClick={this.onClick}> <Roll /></div>);
         return (
                 <div>
                     <div className={boardStyles.boardMainDiv}>
                         {squareCols}
                     </div>
-                    <button onClick={this.onClick} className={boardStyles.rollButton}> {this.props.rollNumber} </button>
-                    {(this.props.rolled) ? <Roll rollNumber={this.props.rollNumber} className={boardStyles.rollButton} /> : null}
+                    <div className={boardStyles.rollButton}>
+                        {(this.props.rollSequence) ? rollSequenceNotClickable : rollSequenceClikable}
+                    </div>
                     <div className={boardStyles.oppPieceHolder}>
                         {oppPieceHolder}
                     </div>
@@ -128,6 +133,7 @@ const mapStateToProps = state => ({
     //Roll states
     rolled: state.game.rolled,
     rollNumber: state.game.rollNumber,
+    rollSequence: state.game.rollSequence,
     //Game states
     squares: state.game.squares,
     opponentSquares: state.game.opponentSquares,

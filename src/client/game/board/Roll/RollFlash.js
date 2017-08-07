@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import rollStyles from './Roll.css';
 
-export default class Roll extends Component {
+export default class RollFlash extends Component {
     constructor(props) {
         super(props);
     }
 
     render() {
-        const rollArray = ("1".repeat(this.props.rollNumber) + "0".repeat(4-this.props.rollNumber)).split('').sort(function(){return 0.5-Math.random()});
+        const rollArray = this.props.sequence;
         const background0 = {backgroundColor: 'red'};
         const background1 = {backgroundColor: 'green'};
         return (
@@ -20,6 +20,7 @@ export default class Roll extends Component {
                     <div style={(rollArray[2] === "1" ) ? background1 : background0} className={rollStyles.squareBlink2} />
                     <div style={(rollArray[3] === "1" ) ? background1 : background0} className={rollStyles.squareBlink3} />
                 </div>
+                {(this.props.rollNumber !== 'Roll') ? <h1>{this.props.rollNumber}</h1> : null}
             </div>
         );
     }

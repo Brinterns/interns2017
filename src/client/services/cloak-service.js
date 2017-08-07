@@ -28,7 +28,8 @@ import {
     resetRollText,
     opponentRolled,
     resetNotificationBool,
-    resetStore
+    resetStore,
+    rollSequence
 } from '../game/Game-actions';
 
 import { dispatch } from '../store';
@@ -104,6 +105,9 @@ export function RunCloakConfig() {
             },
             opponentroll: (value) => {
                 dispatch(opponentRolled(value));
+            },
+            rollsequence: (sequence) => {
+                dispatch(rollSequence(sequence));
             },
             //End game messages
             opponentdisconnect: () => {

@@ -24,10 +24,13 @@ function rollDice(user) {
     for (var i = 0; i < 4; i ++) {
         total += shared.getRandomIntInclusive(0,1);
     }
+    return total;
+}
+
+function messageRoll(total, user) {
     user.message('rolledvalue', total);
     shared.getOpponent(user).message('opponentroll', total);
     user.data.lastRoll = total;
-    return total;
 }
 
 function endTurn(user) {
@@ -105,6 +108,7 @@ function reverseSquares(positions) {
 
 module.exports.endTurn = endTurn;
 module.exports.rollDice = rollDice;
+module.exports.messageRoll = messageRoll;
 module.exports.movePiece = movePiece;
 module.exports.reverseSquares = reverseSquares;
 module.exports.checkMoves = checkMoves;
