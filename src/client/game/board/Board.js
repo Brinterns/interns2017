@@ -30,8 +30,11 @@ export class Board extends Component {
     squareType(i) {
         const pos = playerPath.indexOf(i) + 1;
         var pieceClassName = boardStyles.squarePiece;
-        if ((pos !== 15) && this.props.isPlayerTurn && this.props.rolled && !this.props.moveablePositions.includes(pos)) {
-            pieceClassName = boardStyles.unmoveableSquarePiece;
+        if ((pos !== 15) && this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos)) {
+            pieceClassName = boardStyles.moveableSquarePiece;
+            if ((this.props.rollNumber + pos) === 15) {
+                pieceClassName = boardStyles.finishSquarePiece;
+            }
         }
         var displayNumber = null;
         if ((i === 8) && this.props.numPiecesFinished) {
@@ -82,8 +85,8 @@ export class Board extends Component {
         for (var i = 0; i < 7; i++) {
             const pos = this.props.piecePositions[i];
             if (pos === 0) {
-                if (this.props.isPlayerTurn && this.props.rolled && !this.props.moveablePositions.includes(pos)) {
-                    pieceHolder.push(<Piece position={pos} className={boardStyles.unmoveablePiece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
+                if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos)) {
+                    pieceHolder.push(<Piece position={pos} className={boardStyles.moveablePiece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
                     continue;
                 }
                 pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);

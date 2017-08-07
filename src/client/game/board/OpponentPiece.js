@@ -10,7 +10,8 @@ export default class OpponentPiece extends Component {
         var picture = require('../../images/board/opponentpiece.png');
         const style = {
             background: 'url(' + picture + ')',
-            backgroundSize: 'calc(5.4 * (1vw + 1vh - 1vmin))'
+            backgroundSize: 'calc(5.4 * (1vw + 1vh - 1vmin))',
+            backgroundRepeat: 'no-repeat'
         }
         return (
             <div className={this.props.className} style={style}>
