@@ -130,8 +130,8 @@ export class Game extends Component {
             <div>
                 <div className={gameStyles.gameMain}>
                     <h2> {currentPlayerText} </h2>
-                    <button className={gameStyles.buttonDiv} onClick={this.onClickForfeit}> Forfeit </button>
-                    <button className={gameStyles.buttonDiv} onClick={this.handleToggleRules}> Rules </button>
+                    <button className={gameStyles.forfeit} onClick={this.onClickForfeit}> Forfeit </button>
+                    <button className={gameStyles.rules} onClick={this.handleToggleRules}> Rules </button>
                     <h1> {this.props.roomName} </h1>
                     <Board gameState={this.state} isPlayerTurn={isPlayerTurn}/>
                     {(this.props.winnerId) ? gameOverDiv : null}
