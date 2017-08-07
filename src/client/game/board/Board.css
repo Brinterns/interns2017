@@ -82,8 +82,7 @@
 }
 
 .moveablePiece {
-    background-color: #639af2;
-    box-shadow: 0 0 16px blue, inset 0 0 16px blue;
+    box-shadow: 0 0 calc(1.5 * (1vw + 1vh - 1vmin)) calc(0.35 * (1vw + 1vh - 1vmin)) white;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
@@ -91,6 +90,7 @@
     margin-right: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
     margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
     display: inline-block;
+    cursor: pointer;
 }
 
 
@@ -115,24 +115,36 @@
 
 .moveableSquarePiece {
     position: absolute;
-    background-color: #639af2;
-    box-shadow: 0 0 12px blue, inset 0 0 12px blue;
+    box-shadow: 0 0 calc(1.5 * (1vw + 1vh - 1vmin)) calc(0.35 * (1vw + 1vh - 1vmin)) white;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
     margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
     margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    cursor: pointer;
 }
 
 .finishSquarePiece {
     position: absolute;
-    background-color: #639af2;
-    box-shadow: 0 0 calc(0.9 * var(--squareSide)) blue, inset 0 0 calc(0.9 * var(--squareSide)) blue;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
     margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
     margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    cursor: pointer;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 calc(1vw + 1vh - 1vmin) calc(0.5 * (1vw + 1vh - 1vmin)) rgba(255, 255, 255, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 calc(1vw + 1vh - 1vmin) calc(0.5 * (1vw + 1vh - 1vmin)) rgba(255, 255, 255, 1);
+    }
+    100% {
+        box-shadow: 0 0 calc(1vw + 1vh - 1vmin) calc(0.5 * (1vw + 1vh - 1vmin)) rgba(255, 255, 255, 0.5);
+    }
 }
 
 .squareOpponentPiece {
