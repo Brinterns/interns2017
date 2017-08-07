@@ -78,7 +78,7 @@ function challengeRespond(user, user2, accept) {
             challengeRespond(cloak.getUser(challenging), user, false);
         });
         user2.data.challengers.forEach(challenger => {
-            challengeRespond(user, cloak.getUser(challenger), false);
+            challengeRespond(user2, cloak.getUser(challenger), false);
         });
         user2.data.challenging.forEach(challenging => {
             if (challenging !== user.id) {
