@@ -171,7 +171,7 @@
 
 .displayNumber {
     position: relative !important;
-    transform: translate(-00%, 100%) !important;
+    transform: translate(0%, 100%) !important;
     top: 0% !important;
     right: 0% !important;
     color: white !important;

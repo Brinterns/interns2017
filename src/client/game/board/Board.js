@@ -35,7 +35,6 @@ export class Board extends Component {
             if ((this.props.rollNumber + pos) === 15) {
                 pieceClassName = boardStyles.finishSquarePiece;
             }
-
         }
         var displayNumber = null;
         if ((i === 8) && this.props.numPiecesFinished) {
