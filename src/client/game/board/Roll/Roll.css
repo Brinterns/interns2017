@@ -1,0 +1,81 @@
+.clickableDiv {
+    cursor: pointer;
+}
+
+.row {
+    display: block !important;
+}
+
+.unClickableSquare {
+    display: inline-block !important;
+    height: calc(6 * (1vw + 1vh - 1vmin));
+    width: calc(6 * (1vw + 1vh - 1vmin));
+    margin-right: calc(0.5 * (1vw + 1vh - 1vmin));
+    margin-left: calc(0.5 * (1vw + 1vh - 1vmin));
+    background-color: #a8a6a6;
+    border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
+}
+
+.clickableSquare {
+    display: inline-block !important;
+    height: calc(6 * (1vw + 1vh - 1vmin));
+    width: calc(6 * (1vw + 1vh - 1vmin));
+    margin-right: calc(0.5 * (1vw + 1vh - 1vmin));
+    margin-left: calc(0.5 * (1vw + 1vh - 1vmin));
+    background-color: #FAD000;
+    border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
+}
+
+.squareNoBlink {
+    display: inline-block !important;
+    height: calc(6 * (1vw + 1vh - 1vmin));
+    width: calc(6 * (1vw + 1vh - 1vmin));
+    margin-right: calc(0.5 * (1vw + 1vh - 1vmin));
+    margin-left: calc(0.5 * (1vw + 1vh - 1vmin));
+    border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
+}
+
+.squareBlink0 {
+    display: inline-block !important;
+    height: calc(6 * (1vw + 1vh - 1vmin));
+    width: calc(6 * (1vw + 1vh - 1vmin));
+    margin-right: calc(0.5 * (1vw + 1vh - 1vmin));
+    margin-left: calc(0.5 * (1vw + 1vh - 1vmin));
+    animation: blink 240ms linear 0.1s 2 alternate;
+    border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
+}
+
+.squareBlink1 {
+    display: inline-block !important;
+    height: calc(6 * (1vw + 1vh - 1vmin));
+    width: calc(6 * (1vw + 1vh - 1vmin));
+    margin-right: calc(0.5 * (1vw + 1vh - 1vmin));
+    margin-left: calc(0.5 * (1vw + 1vh - 1vmin));
+    animation: blink 240ms linear 0.2s 3 alternate;
+    border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
+}
+
+.squareBlink2 {
+    display: inline-block !important;
+    height: calc(6 * (1vw + 1vh - 1vmin));
+    width: calc(6 * (1vw + 1vh - 1vmin));
+    margin-right: calc(0.5 * (1vw + 1vh - 1vmin));
+    margin-left: calc(0.5 * (1vw + 1vh - 1vmin));
+    animation: blink 240ms linear 0.3s 5 alternate;
+    border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
+}
+
+.squareBlink3 {
+    display: inline-block;
+    height: calc(6 * (1vw + 1vh - 1vmin));
+    width: calc(6 * (1vw + 1vh - 1vmin));
+    margin-right: calc(0.5 * (1vw + 1vh - 1vmin));
+    margin-left: calc(0.5 * (1vw + 1vh - 1vmin));
+    animation: blink 240ms linear 0.4s 6 alternate;
+    border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
+}
+
+@keyframes blink {
+    from { background-color:#03b733; }
+    to { background-color:#e81212; }
+};

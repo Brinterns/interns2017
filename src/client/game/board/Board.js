@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import boardStyles from './Board.css';
 import Piece from './Piece';
+import RollFlash from './Roll/RollFlash';
+import Roll from './Roll/Roll';
 import OpponentPiece from './OpponentPiece';
 import Square from './Square';
 import { connect } from 'react-redux';
@@ -108,19 +110,23 @@ export class Board extends Component {
                 </div>
             );
         }
+        const rollSequenceNotClickable = (<RollFlash sequence={this.props.rollSequence} rollNumber={this.props.rollNumber} className={boardStyles.rollButton} />);
+        const rollSequenceClickable = (<div onClick={this.onClick} > <Roll rollNumber={this.props.rollNumber} isPlayerTurn={this.props.isPlayerTurn}/></div>);
         return (
-                <div>
-                    <div className={boardStyles.boardMainDiv}>
-                        {squareCols}
-                    </div>
-                    <button onClick={this.onClick} className={boardStyles.rollButton}> {this.props.rollNumber} </button>
-                    <div className={boardStyles.oppPieceHolder}>
-                        {oppPieceHolder}
-                    </div>
-                    <div className={boardStyles.pieceHolder}>
-                        {pieceHolder}
-                    </div>
+            <div>
+                <div className={boardStyles.boardMainDiv}>
+                    {squareCols}
                 </div>
+                <div className={boardStyles.rollButton}>
+                    {((this.props.rollNumber !== 'Roll' || this.props.rollSequence) && this.props.isPlayerTurn) ? rollSequenceNotClickable : rollSequenceClickable}
+                </div>
+                <div className={boardStyles.oppPieceHolder}>
+                    {oppPieceHolder}
+                </div>
+                <div className={boardStyles.pieceHolder}>
+                    {pieceHolder}
+                </div>
+            </div>
         );
     }
 }
@@ -129,6 +135,7 @@ const mapStateToProps = state => ({
     //Roll states
     rolled: state.game.rolled,
     rollNumber: state.game.rollNumber,
+    rollSequence: state.game.rollSequence,
     //Game states
     squares: state.game.squares,
     opponentSquares: state.game.opponentSquares,
