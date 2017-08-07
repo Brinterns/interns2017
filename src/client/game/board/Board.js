@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import boardStyles from './Board.css';
 import Piece from './Piece';
+import Roll from './Roll';
 import OpponentPiece from './OpponentPiece';
 import Square from './Square';
 import { connect } from 'react-redux';
@@ -111,6 +112,7 @@ export class Board extends Component {
                         {squareCols}
                     </div>
                     <button onClick={this.onClick} className={boardStyles.rollButton}> {this.props.rollNumber} </button>
+                    {(this.props.rolled) ? <Roll rollNumber={this.props.rollNumber} className={boardStyles.rollButton} /> : null}
                     <div className={boardStyles.oppPieceHolder}>
                         {oppPieceHolder}
                     </div>
