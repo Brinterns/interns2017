@@ -135,7 +135,8 @@
     position: absolute;
     background-color: none;
     border: solid;
-    border-color: black;
+    border-color: #FAD000;
+    border-width: 0.3em;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
