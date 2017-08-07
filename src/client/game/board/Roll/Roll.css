@@ -1,6 +1,20 @@
+.clickableDiv {
+    cursor: pointer;
+}
+
 .row {
     display: block !important;
-    cursor: pointer;
+}
+
+.unClickableSquare {
+    display: inline-block !important;
+    height: calc(6 * (1vw + 1vh - 1vmin));
+    width: calc(6 * (1vw + 1vh - 1vmin));
+    margin-right: calc(0.5 * (1vw + 1vh - 1vmin));
+    margin-left: calc(0.5 * (1vw + 1vh - 1vmin));
+    background-color: #FAD000;
+    border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
+    opacity: 0.5;
 }
 
 .clickableSquare {
@@ -10,6 +24,15 @@
     margin-right: calc(0.5 * (1vw + 1vh - 1vmin));
     margin-left: calc(0.5 * (1vw + 1vh - 1vmin));
     background-color: #FAD000;
+    border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
+}
+
+.squareNoBlink {
+    display: inline-block !important;
+    height: calc(6 * (1vw + 1vh - 1vmin));
+    width: calc(6 * (1vw + 1vh - 1vmin));
+    margin-right: calc(0.5 * (1vw + 1vh - 1vmin));
+    margin-left: calc(0.5 * (1vw + 1vh - 1vmin));
     border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
 }
 

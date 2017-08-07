@@ -107,24 +107,23 @@ export class Board extends Component {
                 </div>
             );
         }
-        // <button onClick={this.onClick} className={boardStyles.rollButton}> {this.props.rollNumber} </button>
         const rollSequenceNotClickable = (<RollFlash sequence={this.props.rollSequence} rollNumber={this.props.rollNumber} className={boardStyles.rollButton} />);
-        const rollSequenceClikable = (<div onClick={this.onClick}> <Roll /></div>);
+        const rollSequenceClickable = (<div onClick={this.onClick} > <Roll isPlayerTurn={this.props.isPlayerTurn}/></div>);
         return (
-                <div>
-                    <div className={boardStyles.boardMainDiv}>
-                        {squareCols}
-                    </div>
-                    <div className={boardStyles.rollButton}>
-                        {(this.props.rollSequence) ? rollSequenceNotClickable : rollSequenceClikable}
-                    </div>
-                    <div className={boardStyles.oppPieceHolder}>
-                        {oppPieceHolder}
-                    </div>
-                    <div className={boardStyles.pieceHolder}>
-                        {pieceHolder}
-                    </div>
+            <div>
+                <div className={boardStyles.boardMainDiv}>
+                    {squareCols}
                 </div>
+                <div className={boardStyles.rollButton}>
+                    {((this.props.rollNumber !== 'Roll' || this.props.rollSequence) && this.props.isPlayerTurn) ? rollSequenceNotClickable : rollSequenceClickable}
+                </div>
+                <div className={boardStyles.oppPieceHolder}>
+                    {oppPieceHolder}
+                </div>
+                <div className={boardStyles.pieceHolder}>
+                    {pieceHolder}
+                </div>
+            </div>
         );
     }
 }

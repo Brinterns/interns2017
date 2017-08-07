@@ -8,16 +8,15 @@ export default class Roll extends Component {
 
     render() {
         return (
-            <div>
+            <div className={this.props.isPlayerTurn ? rollStyles.clickableDiv : null}>
                 <div className={rollStyles.row}>
-                    <div className={rollStyles.clickableSquare} />
-                    <div className={rollStyles.clickableSquare} />
+                    <div className={this.props.isPlayerTurn ? rollStyles.clickableSquare : rollStyles.unClickableSquare} />
+                    <div className={this.props.isPlayerTurn ? rollStyles.clickableSquare : rollStyles.unClickableSquare} />
                 </div>
                 <div className={rollStyles.row}>
-                    <div className={rollStyles.clickableSquare} />
-                    <div className={rollStyles.clickableSquare} />
+                    <div className={this.props.isPlayerTurn ? rollStyles.clickableSquare : rollStyles.unClickableSquare} />
+                    <div className={this.props.isPlayerTurn ? rollStyles.clickableSquare : rollStyles.unClickableSquare} />
                 </div>
-                <h1>Roll</h1>
             </div>
         );
     }
