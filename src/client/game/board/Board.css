@@ -82,7 +82,6 @@
 }
 
 .piece {
-    background-color: #639af2;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
@@ -92,9 +91,8 @@
     display: inline-block;
 }
 
-.unmoveablePiece {
-    background-color: #639af2;
-    opacity: 0.6;
+.moveablePiece {
+    box-shadow: 0 0 calc(1.5 * (1vw + 1vh - 1vmin)) calc(0.35 * (1vw + 1vh - 1vmin)) white;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
@@ -102,11 +100,11 @@
     margin-right: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
     margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
     display: inline-block;
+    cursor: pointer;
 }
 
 
 .oppPiece {
-    background-color: #a8a6a6;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
@@ -118,7 +116,6 @@
 
 .squarePiece {
     position: absolute;
-    background-color: #639af2;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
@@ -126,20 +123,42 @@
     margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
 }
 
-.unmoveableSquarePiece {
+.moveableSquarePiece {
     position: absolute;
-    background-color: #639af2;
+    box-shadow: 0 0 calc(1.5 * (1vw + 1vh - 1vmin)) calc(0.35 * (1vw + 1vh - 1vmin)) white;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
     margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
     margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
-    opacity: 0.6;
+    cursor: pointer;
+}
+
+.finishSquarePiece {
+    position: absolute;
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    cursor: pointer;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 calc(1vw + 1vh - 1vmin) calc(0.5 * (1vw + 1vh - 1vmin)) rgba(255,255,255,0.5);
+    }
+    50% {
+        box-shadow: 0 0 calc(1vw + 1vh - 1vmin) calc(0.5 * (1vw + 1vh - 1vmin)) rgba(255,255,255,1);
+    }
+    100% {
+        box-shadow: 0 0 calc(1vw + 1vh - 1vmin) calc(0.5 * (1vw + 1vh - 1vmin)) rgba(255,255,255,0.5);
+    }
 }
 
 .squareOpponentPiece {
     position: absolute;
-    background-color: #a8a6a6;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
@@ -151,7 +170,8 @@
     position: absolute;
     background-color: none;
     border: solid;
-    border-color: black;
+    border-color: #FAD000;
+    border-width: 0.3em;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
@@ -161,8 +181,10 @@
 
 .displayNumber {
     position: relative !important;
-    transform: translate(-50%, -50%) !important;
-    top: 50% !important;
-    left: 50% !important;
-    color: black !important;
+    transform: translate(0%, 100%) !important;
+    top: 0% !important;
+    right: 0% !important;
+    color: white !important;
+    text-shadow: 0 0 calc(0.5 * (1vw + 1vh - 1vmin)) black;
+    font-size: calc(3px + 2.5 * (1vw + 1vh - 1vmin)) !important;
 }
