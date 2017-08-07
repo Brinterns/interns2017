@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import userStyles from '../Lobby.css';
-
+import {emojify} from 'react-emojione';
 
 export default class User extends Component {
     constructor(props) {
@@ -58,7 +58,7 @@ export default class User extends Component {
                     <div className={this.props.user.inLobby ? userStyles.userDetails : userStyles.userDetailsFull}>
                         <canvas id={canvasId} className={userStyles.canvasOther}/>
                         <div className={userStyles.userDetailsText}>
-                            <h1> {displayName} </h1>
+                            <h1> {emojify(displayName)} </h1>
                             <h2> Rating: {this.props.user.elorank} #{this.props.user.rank} </h2>
                             <h2> W: {this.props.user.winLossRecord.wins} L: {this.props.user.winLossRecord.loses} </h2>
                         </div>

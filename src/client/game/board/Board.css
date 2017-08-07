@@ -18,24 +18,18 @@
     display: inline-block;
 }
 
-.squareNormal {
+.square {
     margin: var(--squareMargin);
     height: var(--squareSide);
     width: var(--squareSide);
-    background-color: white;
+    border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
 }
 
-.squareBlank {
-    margin: var(--squareMargin);
+.rosetta {
+    background-color: rgba(255, 0, 0, 0.5) !important;
     height: var(--squareSide);
     width: var(--squareSide);
-}
-
-.squareRosetta {
-    margin: var(--squareMargin);
-    height: var(--squareSide);
-    width: var(--squareSide);
-    background-color: red;
+    border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
 }
 
 .rollButton {
@@ -78,7 +72,6 @@
 }
 
 .piece {
-    background-color: #639af2;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
@@ -102,7 +95,6 @@
 
 
 .oppPiece {
-    background-color: #a8a6a6;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
@@ -114,7 +106,6 @@
 
 .squarePiece {
     position: absolute;
-    background-color: #639af2;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
@@ -146,7 +137,6 @@
 
 .squareOpponentPiece {
     position: absolute;
-    background-color: #a8a6a6;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
@@ -158,7 +148,8 @@
     position: absolute;
     background-color: none;
     border: solid;
-    border-color: black;
+    border-color: #FAD000;
+    border-width: 0.3em;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));

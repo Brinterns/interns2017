@@ -2,6 +2,7 @@
     height: calc(18 * (1vw + 1vh - 1vmin));
     min-height: 200px;
     overflow-y: scroll;
+    display: flex;
 }
 
 .categoryPicker {
@@ -37,16 +38,10 @@
     height: calc(18 * (1vw + 1vh - 1vmin));
     margin-left: 1em;
     margin-top: 1em;
-    width: calc(20 * (1vw + 1vh - 1vmin)) !important;
-    min-width: 155px;
+    flex: 1;
     min-height: 150px;
 }
 
-@media (max-width: 450px) {
-    .emojiDisplay {
-        margin-left: 2.5em !important;
-    }
-}
 
 
 .emojiDisplay h1 {
