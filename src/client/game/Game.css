@@ -46,7 +46,24 @@
     color: #FAD000;
 }
 
-.buttonDiv {
+.forfeit {
+    padding-right: 0.9em;
+    padding-left: 0.9em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    margin-top: 0.5em;
+    margin-right: 0.5em;
+    float: right;
+    border-style: solid;
+    border-color: #e81212;
+    border-width: 0.1em;
+    color: #e81212;
+    background-color: #0265CB;
+    outline: none;
+    font-size: calc(2 * (1vw + 1vh - 1vmin));
+}
+
+.rules {
     padding-right: 0.9em;
     padding-left: 0.9em;
     padding-top: 0.25em;
