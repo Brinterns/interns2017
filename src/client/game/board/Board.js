@@ -108,7 +108,7 @@ export class Board extends Component {
             );
         }
         const rollSequenceNotClickable = (<RollFlash sequence={this.props.rollSequence} rollNumber={this.props.rollNumber} className={boardStyles.rollButton} />);
-        const rollSequenceClickable = (<div onClick={this.onClick} > <Roll isPlayerTurn={this.props.isPlayerTurn}/></div>);
+        const rollSequenceClickable = (<div onClick={this.onClick} > <Roll rollNumber={this.props.rollNumber} isPlayerTurn={this.props.isPlayerTurn}/></div>);
         return (
             <div>
                 <div className={boardStyles.boardMainDiv}>

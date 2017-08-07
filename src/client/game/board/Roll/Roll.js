@@ -17,6 +17,7 @@ export default class Roll extends Component {
                     <div className={this.props.isPlayerTurn ? rollStyles.clickableSquare : rollStyles.unClickableSquare} />
                     <div className={this.props.isPlayerTurn ? rollStyles.clickableSquare : rollStyles.unClickableSquare} />
                 </div>
+                {(this.props.rollNumber !== 'Roll') ? <h1>{this.props.rollNumber}</h1> : null}
             </div>
         );
     }

@@ -12,9 +12,8 @@
     width: calc(6 * (1vw + 1vh - 1vmin));
     margin-right: calc(0.5 * (1vw + 1vh - 1vmin));
     margin-left: calc(0.5 * (1vw + 1vh - 1vmin));
-    background-color: #FAD000;
+    background-color: #a8a6a6;
     border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
-    opacity: 0.5;
 }
 
 .clickableSquare {
@@ -77,6 +76,6 @@
 }
 
 @keyframes blink {
-    from { background-color:green; }
-    to { background-color:red; }
+    from { background-color:#03b733; }
+    to { background-color:#e81212; }
 };

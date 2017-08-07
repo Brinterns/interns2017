@@ -15,8 +15,8 @@ export default class RollFlash extends Component {
             blinkBool = false;
             rollArray = ("1".repeat(this.props.rollNumber) + "0".repeat(4-this.props.rollNumber));
         }
-        const background0 = {backgroundColor: 'red'};
-        const background1 = {backgroundColor: 'green'};
+        const background0 = {backgroundColor: '#e81212'};
+        const background1 = {backgroundColor: '#03b733'};
         return (
             <div>
                 <div className={rollStyles.row}>
