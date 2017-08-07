@@ -27,7 +27,8 @@ export default class Piece extends Component {
         var picture = require('../../images/board/playerpiece.png');
         const style = {
             background: 'url(' + picture + ')',
-            backgroundSize: 'calc(5.4 * (1vw + 1vh - 1vmin))'
+            backgroundSize: 'calc(5.4 * (1vw + 1vh - 1vmin))',
+            backgroundRepeat: 'no-repeat'
         }
         return (
             <div onMouseEnter style={style} onMouseEnter={this.enter} onMouseLeave={this.exit} className={this.props.className} onClick={this.movePiece}>

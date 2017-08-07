@@ -137,13 +137,13 @@
 
 @keyframes pulse {
     0% {
-        box-shadow: 0 0 calc(1vw + 1vh - 1vmin) calc(0.5 * (1vw + 1vh - 1vmin)) rgba(255, 255, 255, 0.5);
+        box-shadow: 0 0 calc(1vw + 1vh - 1vmin) calc(0.5 * (1vw + 1vh - 1vmin)) rgba(255,255,255,0.5);
     }
     50% {
-        box-shadow: 0 0 calc(1vw + 1vh - 1vmin) calc(0.5 * (1vw + 1vh - 1vmin)) rgba(255, 255, 255, 1);
+        box-shadow: 0 0 calc(1vw + 1vh - 1vmin) calc(0.5 * (1vw + 1vh - 1vmin)) rgba(255,255,255,1);
     }
     100% {
-        box-shadow: 0 0 calc(1vw + 1vh - 1vmin) calc(0.5 * (1vw + 1vh - 1vmin)) rgba(255, 255, 255, 0.5);
+        box-shadow: 0 0 calc(1vw + 1vh - 1vmin) calc(0.5 * (1vw + 1vh - 1vmin)) rgba(255,255,255,0.5);
     }
 }
 
