@@ -17,7 +17,6 @@ import {
     gameOver,
     challengerId,
     rolledValue,
-    setRoomName,
     updateGameState,
     updateSquares,
     updateMoveablePositions,

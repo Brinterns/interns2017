@@ -10,7 +10,8 @@ function getRoomUserInfo(room) {
     room.getMembers().forEach(function(user) {
         var userJson = {
             id: user.id,
-            name: user.name
+            name: user.name,
+            elorank: user.data.elorank
         };
         listOfRoomUsers.push(userJson);
     });
@@ -27,7 +28,6 @@ function getRoomInfo(user) {
 
         var gameStateJson = {
             id: user.id,
-            roomName: room.name,
             squares: user.data.squares,
             piecePositions: user.data.piecePositions,
             opponentSquares: opponent ? gameplay.reverseSquares(opponent.data.piecePositions) : [],

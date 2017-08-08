@@ -29,7 +29,6 @@ const numberOfPieces = 7;
 const updateState = (currentState, newState) => Object.assign({}, currentState, newState);
 
 const initialState = {
-    roomName: '',
     messages: [],
     //Identity states
     id: null,
@@ -60,11 +59,6 @@ const initialState = {
 
 const game = (state = initialState, action) => {
     switch(action.type) {
-        case SET_ROOM_NAME: {
-            return updateState(state, {
-                roomName: action.payload
-            });
-        }
         case UPDATE_MESSAGES: {
             return updateState(state, {
                 messages: action.payload
@@ -192,7 +186,6 @@ const game = (state = initialState, action) => {
         case UPDATE_GAME_STATE: {
             return updateState(state, {
                 id: action.payload.id,
-                roomName: action.payload.roomName,
                 squares: action.payload.squares,
                 piecePositions: action.payload.piecePositions,
                 opponentSquares: action.payload.opponentSquares,
