@@ -57,7 +57,8 @@ export default class ChatBox extends Component {
         //when chat gets closed, update last num messages seen
         if (this.state.showChat) {
             this.setState({
-                numMsgSeen: this.props.messages.length
+                numMsgSeen: this.props.messages.length,
+                emojis: false
             });
         }
     }
@@ -129,7 +130,7 @@ export default class ChatBox extends Component {
                             <canvas id={canvasId} className={chatStyles.avatar}/>
                             <div className={chatStyles.opponentMessage}>
                                 <h5>{emojify(messageData.message)}</h5>
-                                <h4>{messageData.userName}</h4>
+                                <h4>{emojify(messageData.userName)}</h4>
                             </div>
                         </div>
                     );

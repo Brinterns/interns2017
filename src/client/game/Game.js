@@ -5,6 +5,7 @@ import Rules from '../rules/Rules';
 import Board from './board/Board';
 import { connect } from 'react-redux';
 import ChatBox from '../Chat/ChatBox';
+import {emojify} from 'react-emojione';
 
 import { RunCloakConfig } from '../services/cloak-service';
 
@@ -129,10 +130,10 @@ export class Game extends Component {
         return (
             <div>
                 <div className={gameStyles.gameMain}>
-                    <h2> {currentPlayerText} </h2>
+                    <h2> {emojify(""+currentPlayerText)} </h2>
                     <button className={gameStyles.forfeit} onClick={this.onClickForfeit}> Forfeit </button>
                     <button className={gameStyles.rules} onClick={this.handleToggleRules}> Rules </button>
-                    <h1> {this.props.roomName} </h1>
+                    <h1> {emojify(this.props.roomName)} </h1>
                     <Board gameState={this.state} isPlayerTurn={isPlayerTurn}/>
                     {(this.props.winnerId) ? gameOverDiv : null}
                     {this.props.forfeit ? forfeitDiv : null}
