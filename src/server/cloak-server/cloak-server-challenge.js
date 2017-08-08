@@ -96,6 +96,7 @@ function challengeRespond(user, user2, accept) {
         createdRoom.data.opponentDisconnect = false;
         userJoinRoom(user, createdRoom);
         userJoinRoom(user2, createdRoom);
+        initRoomStats(createdRoom, user, user2);
         createdRoom.messageMembers('joingame', createdRoom.id);
         setTimeout(function() {
             lobbyFunctions.updateLobbyActiveGames();
@@ -106,12 +107,21 @@ function challengeRespond(user, user2, accept) {
     }
 }
 
-function userJoinRoom(user, room) {
+function userJoinRoom(user, room, playerNum) {
     room.addMember(user);
     user.data.squares = Array(24).fill(false);
     user.data.piecePositions = Array(numberOfPieces).fill(0);
     user.data.numPiecesFinished = 0;
     user.data.lastRoll = null;
+}
+
+function initRoomStats(room, user, user2) {
+    room.data.gameinfo.playerIds = [user.id, user2.id];
+    const initalPlayerState = {
+        piecesTaken: 0
+    }
+    room.data.gameinfo.players[0] = initalPlayerState;
+    room.data.gameinfo.players[1] = initalPlayerState;
 }
 
 module.exports.challengePlayer = challengePlayer;
