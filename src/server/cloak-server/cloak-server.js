@@ -78,7 +78,7 @@ module.exports = function(expressServer) {
                     } else {
                         gamePlayFunctions.checkMoves(user, rollNumber, opponent.data.squares);
                     }
-                }, 2000);
+                }, 1750);
             },
             movepiece: function(position, user) {
                 gamePlayFunctions.movePiece(position, user);
