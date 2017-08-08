@@ -6,20 +6,25 @@ const numberOfPieces = 7;
 
 function challengePlayer(id, user) {
     var user2 = cloak.getUser(id);
-    if (!user.data.challenging) {
-        user.data.challenging = [];
+    if (!user2.data.challenging) {
+        user2.data.challenging = [];
     }
-    if (!user2.data.challengers) {
-        user2.data.challengers = [];
+    if (!user2.data.challenging.includes(user.id)) {
+        if (!user.data.challenging) {
+            user.data.challenging = [];
+        }
+        if (!user2.data.challengers) {
+            user2.data.challengers = [];
+        }
+        user.data.challenging.push(id);
+        user2.data.challengers.push(user.id);
+        user.message('updatechallenging', user.data.challenging);
+        user2.message('updatechallengers', user2.data.challengers);
+        lobbyFunctions.getLobbyUserInfo().then(function(listOfUserInfo) {
+            user.message('updateusers', listOfUserInfo);
+            user2.message('updateusers', listOfUserInfo);
+        });
     }
-    user.data.challenging.push(id);
-    user2.data.challengers.push(user.id);
-    user.message('updatechallenging', user.data.challenging);
-    user2.message('updatechallengers', user2.data.challengers);
-    lobbyFunctions.getLobbyUserInfo().then(function(listOfUserInfo) {
-        user.message('updateusers', listOfUserInfo);
-        user2.message('updateusers', listOfUserInfo);
-    });
 }
 
 function cancelChallenge(id, user) {
