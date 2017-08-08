@@ -109,10 +109,14 @@ function updateLobbyActiveGames() {
     let activeGameNames = [];
     cloak.getRooms().forEach(function(room) {
         if(room.members.length > 0) {
-            activeGameNames.push(room.name);
+            activeGameNames.push({id: room.id, name: room.name});
         }
     });
     cloak.getLobby().messageMembers('updaterooms', activeGameNames);
+}
+
+function observeGame(gameId, user) {
+    console.log(user.name + " wants to join: " + cloak.getRoom(gameId).name);
 }
 
 module.exports.updateLobbyUsers = updateLobbyUsers;
@@ -120,3 +124,4 @@ module.exports.updateLobbyActiveGames = updateLobbyActiveGames;
 module.exports.getLobbyUserInfo = getLobbyUserInfo;
 module.exports.getLobbyInfo = getLobbyInfo;
 module.exports.getRecord = getRecord;
+module.exports.observeGame = observeGame;
