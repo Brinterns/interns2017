@@ -57,7 +57,8 @@ export default class ChatBox extends Component {
         //when chat gets closed, update last num messages seen
         if (this.state.showChat) {
             this.setState({
-                numMsgSeen: this.props.messages.length
+                numMsgSeen: this.props.messages.length,
+                emojis: false
             });
         }
     }
