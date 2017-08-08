@@ -70,7 +70,13 @@ function challengeRespond(user, user2, accept) {
             user2.data.challengers = [];
         }
         user.data.challengers.forEach(challenger => {
+            console.log("\n\nchallenger id = " + challenger);
+            console.log("challenger list of ids = " + user.data.challengers);
+            console.log("user 2 id =  " + user2.id);
+            console.log("cloak get user has id of = " + cloak.getUser(challenger).id);
+            console.log("cloak get user has challenging list of = " + cloak.getUser(challenger).data.challenging);
             if (challenger !== user2.id) {
+                console.log("challenger !== user2.id");
                 challengeRespond(user, cloak.getUser(challenger), false);
             }
         });
