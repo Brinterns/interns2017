@@ -6,7 +6,7 @@ import Game from './Game';
 const middlewares = [];
 const mockStore = configureStore(middlewares);
 
-describe('<Board />', () => {
+describe('<Game />', () => {
     let state;
     let wrapper;
     beforeEach(() => {

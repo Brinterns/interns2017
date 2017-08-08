@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import boardStyles from './Board.css';
 import Piece from './Piece';
+import RollFlash from './Roll/RollFlash';
+import Roll from './Roll/Roll';
 import OpponentPiece from './OpponentPiece';
 import Square from './Square';
 import { connect } from 'react-redux';
@@ -30,8 +32,11 @@ export class Board extends Component {
     squareType(i) {
         const pos = playerPath.indexOf(i) + 1;
         var pieceClassName = boardStyles.squarePiece;
-        if ((pos !== 15) && this.props.isPlayerTurn && this.props.rolled && !this.props.moveablePositions.includes(pos)) {
-            pieceClassName = boardStyles.unmoveableSquarePiece;
+        if ((pos !== 15) && this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos)) {
+            pieceClassName = boardStyles.moveableSquarePiece;
+            if ((this.props.rollNumber + pos) === 15) {
+                pieceClassName = boardStyles.finishSquarePiece;
+            }
         }
         var displayNumber = null;
         if ((i === 8) && this.props.numPiecesFinished) {
@@ -82,8 +87,8 @@ export class Board extends Component {
         for (var i = 0; i < 7; i++) {
             const pos = this.props.piecePositions[i];
             if (pos === 0) {
-                if (this.props.isPlayerTurn && this.props.rolled && !this.props.moveablePositions.includes(pos)) {
-                    pieceHolder.push(<Piece position={pos} className={boardStyles.unmoveablePiece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
+                if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos)) {
+                    pieceHolder.push(<Piece position={pos} className={boardStyles.moveablePiece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
                     continue;
                 }
                 pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
@@ -105,19 +110,23 @@ export class Board extends Component {
                 </div>
             );
         }
+        const rollSequenceNotClickable = (<RollFlash sequence={this.props.rollSequence} rollNumber={this.props.rollNumber} className={boardStyles.rollButton} />);
+        const rollSequenceClickable = (<div onClick={this.onClick} > <Roll rollNumber={this.props.rollNumber} isPlayerTurn={this.props.isPlayerTurn}/></div>);
         return (
-                <div>
-                    <div className={boardStyles.boardMainDiv}>
-                        {squareCols}
-                    </div>
-                    <button onClick={this.onClick} className={boardStyles.rollButton}> {this.props.rollNumber} </button>
-                    <div className={boardStyles.oppPieceHolder}>
-                        {oppPieceHolder}
-                    </div>
-                    <div className={boardStyles.pieceHolder}>
-                        {pieceHolder}
-                    </div>
+            <div>
+                <div className={boardStyles.boardMainDiv}>
+                    {squareCols}
                 </div>
+                <div className={boardStyles.rollButton}>
+                    {((this.props.rollNumber !== 'Roll' || this.props.rollSequence) && this.props.isPlayerTurn) ? rollSequenceNotClickable : rollSequenceClickable}
+                </div>
+                <div className={boardStyles.oppPieceHolder}>
+                    {oppPieceHolder}
+                </div>
+                <div className={boardStyles.pieceHolder}>
+                    {pieceHolder}
+                </div>
+            </div>
         );
     }
 }
@@ -126,6 +135,7 @@ const mapStateToProps = state => ({
     //Roll states
     rolled: state.game.rolled,
     rollNumber: state.game.rollNumber,
+    rollSequence: state.game.rollSequence,
     //Game states
     squares: state.game.squares,
     opponentSquares: state.game.opponentSquares,

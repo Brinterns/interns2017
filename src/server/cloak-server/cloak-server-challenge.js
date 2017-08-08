@@ -6,20 +6,25 @@ const numberOfPieces = 7;
 
 function challengePlayer(id, user) {
     var user2 = cloak.getUser(id);
-    if (!user.data.challenging) {
-        user.data.challenging = [];
+    if (!user2.data.challenging) {
+        user2.data.challenging = [];
     }
-    if (!user2.data.challengers) {
-        user2.data.challengers = [];
+    if (!user2.data.challenging.includes(user.id)) {
+        if (!user.data.challenging) {
+            user.data.challenging = [];
+        }
+        if (!user2.data.challengers) {
+            user2.data.challengers = [];
+        }
+        user.data.challenging.push(id);
+        user2.data.challengers.push(user.id);
+        user.message('updatechallenging', user.data.challenging);
+        user2.message('updatechallengers', user2.data.challengers);
+        lobbyFunctions.getLobbyUserInfo().then(function(listOfUserInfo) {
+            user.message('updateusers', listOfUserInfo);
+            user2.message('updateusers', listOfUserInfo);
+        });
     }
-    user.data.challenging.push(id);
-    user2.data.challengers.push(user.id);
-    user.message('updatechallenging', user.data.challenging);
-    user2.message('updatechallengers', user2.data.challengers);
-    lobbyFunctions.getLobbyUserInfo().then(function(listOfUserInfo) {
-        user.message('updateusers', listOfUserInfo);
-        user2.message('updateusers', listOfUserInfo);
-    });
 }
 
 function cancelChallenge(id, user) {
@@ -70,7 +75,13 @@ function challengeRespond(user, user2, accept) {
             user2.data.challengers = [];
         }
         user.data.challengers.forEach(challenger => {
+            console.log("\n\nchallenger id = " + challenger);
+            console.log("challenger list of ids = " + user.data.challengers);
+            console.log("user 2 id =  " + user2.id);
+            console.log("cloak get user has id of = " + cloak.getUser(challenger).id);
+            console.log("cloak get user has challenging list of = " + cloak.getUser(challenger).data.challenging);
             if (challenger !== user2.id) {
+                console.log("challenger !== user2.id");
                 challengeRespond(user, cloak.getUser(challenger), false);
             }
         });

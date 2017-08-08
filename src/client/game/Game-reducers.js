@@ -9,6 +9,7 @@ import {
     CHALLENGER_ID,
     TOGGLE_FORFEIT,
     ROLLED_NUMBER,
+    ROLLED_SEQUENCE,
     SET_ROOM_NAME,
     UPDATE_GAME_STATE,
     UPDATE_SQUARES,
@@ -42,6 +43,7 @@ const initialState = {
     rolled: true,
     rollNumber: 'Roll',
     opponentRollNumber: null,
+    rollSequence: null,
     //Game states
     squares: Array(24).fill(false),
     opponentSquares: Array(24).fill(false),
@@ -117,6 +119,11 @@ const game = (state = initialState, action) => {
                 rolled: true
             });
         }
+        case ROLLED_SEQUENCE: {
+            return updateState(state, {
+                rollSequence: action.payload
+            });
+        }
         case OPPONENT_ROLLED_NUMBER: {
             return updateState(state, {
                 opponentRollNumber: action.payload,
@@ -160,11 +167,13 @@ const game = (state = initialState, action) => {
             if (state.currentPlayer === state.id) {
                 if (state.opponentRollNumber === 0) {
                     return updateState(state, {
-                        rollNumber: 'Roll'
+                        rollNumber: 'Roll',
+                        rollSequence: null
                     });
                 }
                 return updateState(state, {
                     rollNumber: 'Roll',
+                    rollSequence: null,
                     notificationText: "It's your turn!"
                 });
             }

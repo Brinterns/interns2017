@@ -21,6 +21,7 @@ export const OPPONENT_ROLLED_NUMBER = namespace + 'OPPONENT_ROLLED_NUMBER';
 export const RESET_NOTIFICATION_BOOL = namespace + 'RESET_NOTIFICATION_BOOL';
 export const RESET_STORE = namespace + 'RESET_STORE';
 export const UPDATE_MESSAGES = namespace + 'UPDATE_MESSAGES';
+export const ROLLED_SEQUENCE = namespace + 'ROLLED_SEQUENCE';
 
 export function updateUserGameId(id) {
     return {
@@ -45,6 +46,13 @@ export function toggleForfeit() {
 export function resetRollText() {
     return {
         type: RESET_ROLL_TEXT
+    }
+}
+
+export function rollSequence(sequence) {
+    return {
+        type: ROLLED_SEQUENCE,
+        payload: sequence
     }
 }
 
