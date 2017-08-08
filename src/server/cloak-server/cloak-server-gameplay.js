@@ -18,12 +18,12 @@ const opponentPath = [
     0, 3,   6
 ];
 
-
 function rollDice(user) {
     var total = 0;
     for (var i = 0; i < 4; i ++) {
         total += shared.getRandomIntInclusive(0,1);
     }
+    getUserStats(user).numberOfRolls ++;
     return total;
 }
 
@@ -45,6 +45,8 @@ function endTurn(user) {
         getUserStats(user).turnsLastInEndRange ++;
     }
     room.messageMembers('currentplayer', room.data.currentPlayer);
+    var d = new Date();
+    shared.getOpponent(user).data.rollStartTime = d.getTime();
     console.log("Player 1 = " + JSON.stringify(room.data.gameinfo.players[0]));
     console.log("Player 2 = " + JSON.stringify(room.data.gameinfo.players[1]));
     console.log("\n");
@@ -78,6 +80,8 @@ function movePiece(position, user) {
     var userStats = getUserStats(user);
     user.data.squares[playerPath[nextPos-1]] = true;
     userStats.squaresMoved += user.data.lastRoll;
+    var d = new Date();
+    userStats.totalTimeTaken += milliToSeconds(d.getTime() - user.data.rollStartTime - 1650);
     if (position !== 0) {
         user.data.squares[playerPath[position-1]] = false;
     }
@@ -103,9 +107,11 @@ function movePiece(position, user) {
         userStats.piecesTaken ++;
         getUserStats(opponent).piecesLost ++;
     }
+    //if moved piece lands on rosetta square, allow reroll and reset roll timer
     if (rosettaSquares.includes(playerPath[position+user.data.lastRoll-1])) {
         room.messageMembers('currentplayer', room.data.currentPlayer);
         user.data.rolledDice = false;
+        user.data.rollStartTime = d.getTime();
         return;
     }
     //balances out the increment for this piece being in the final range as it has just moved there
@@ -115,7 +121,6 @@ function movePiece(position, user) {
         }
         userStats.turnsInEndRange --;
     }
-
     userStats.turnsTaken ++;
     endTurn(user);
 }
@@ -133,6 +138,11 @@ function reverseSquares(positions) {
 function getUserStats(user) {
     let room = user.getRoom();
     return userStats = room.data.gameinfo.players[room.data.gameinfo.playerIds.indexOf(user.id)];
+}
+
+function milliToSeconds(millis) {
+    const seconds = Math.floor(millis / 1000);
+    return seconds;
 }
 
 module.exports.endTurn = endTurn;

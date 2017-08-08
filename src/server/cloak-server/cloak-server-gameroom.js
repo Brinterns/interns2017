@@ -21,7 +21,10 @@ function getRoomInfo(user) {
     const room = user.getRoom();
     if (room && !room.isLobby) {
         if (!room.data.currentPlayer) {
-            room.data.currentPlayer = room.getMembers()[shared.getRandomIntInclusive(0, 1)].id;
+            var startingPlayer = room.getMembers()[shared.getRandomIntInclusive(0, 1)]
+            room.data.currentPlayer = startingPlayer.id;
+            var d = new Date();
+            startingPlayer.data.rollStartTime = d.getTime();
         }
         const opponent = shared.getOpponent(user);
 
