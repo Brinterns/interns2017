@@ -123,6 +123,8 @@ function reconnectUser(id, user) {
             if (opponent) {
                 opponent.message('currentplayeronly', room.data.currentPlayer);
             }
+            room.data.gameinfo.playerIds[room.data.gameinfo.playerIds.indexOf(user2.id)] = user.id;
+
         }
         user2.delete();
     } else {

@@ -120,7 +120,10 @@ function initRoomStats(room, user, user2) {
     room.data.gameinfo.playerIds = [user.id, user2.id];
     const initalPlayerState = {
         piecesTaken: 0,
-        piecesLost: 0
+        piecesLost: 0,
+        squaresMoved: 0,
+        turnsTaken: 0,
+        turnsInEndRange: 0
     }
     room.data.gameinfo.players = [Object.assign({}, initalPlayerState), Object.assign({}, initalPlayerState)];
 }

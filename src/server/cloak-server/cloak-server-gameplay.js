@@ -24,7 +24,7 @@ function rollDice(user) {
     for (var i = 0; i < 4; i ++) {
         total += shared.getRandomIntInclusive(0,1);
     }
-    return 3;
+    return total;
 }
 
 function messageRoll(total, user) {
@@ -37,7 +37,14 @@ function endTurn(user) {
     user.data.rolledDice = false;
     const room = user.getRoom();
     room.data.currentPlayer = shared.getOpponent(user).id;
+    const numPiecesEndRange = user.data.piecePositions.filter((position) => {
+        return (position >= 11 && position <= 14);
+    }).length;
+    getUserStats(user).turnsInEndRange += numPiecesEndRange;
     room.messageMembers('currentplayer', room.data.currentPlayer);
+    console.log("Player 1 = " + JSON.stringify(room.data.gameinfo.players[0]));
+    console.log("Player 2 = " + JSON.stringify(room.data.gameinfo.players[1]));
+    console.log("\n\n");
 }
 
 function canMove(squares, opponentSquares, nextPos, moveablePositions, position) {
@@ -65,7 +72,9 @@ function movePiece(position, user) {
     const room = user.getRoom();
     var opponent = shared.getOpponent(user);
     var nextPos = position + user.data.lastRoll;
+    var userStats = getUserStats(user);
     user.data.squares[playerPath[nextPos-1]] = true;
+    userStats.squaresMoved += user.data.lastRoll;
     if (position !== 0) {
         user.data.squares[playerPath[position-1]] = false;
     }
@@ -88,14 +97,20 @@ function movePiece(position, user) {
         opponent.message('piecepositions', opponent.data.piecePositions);
         opponent.message('squares', opponent.data.squares);
         user.message('opponentsquares', reverseSquares(opponent.data.piecePositions));
-        room.data.gameinfo.players[room.data.gameinfo.playerIds.indexOf(user.id)].piecesTaken ++;
-        room.data.gameinfo.players[room.data.gameinfo.playerIds.indexOf(opponent.id)].piecesLost ++;
+        userStats.piecesTaken ++;
+        getUserStats(opponent).piecesLost ++;
     }
     if (rosettaSquares.includes(playerPath[position+user.data.lastRoll-1])) {
         room.messageMembers('currentplayer', room.data.currentPlayer);
         user.data.rolledDice = false;
         return;
     }
+    //balances out the increment for this piece being in the final range as it has just moved there
+    if ((nextPos >= 11 && nextPos <= 14) && (!(position >= 11 && position <= 14))) {
+        userStats.turnsInEndRange --;
+    }
+
+    userStats.turnsTaken ++;
     endTurn(user);
 }
 
@@ -107,6 +122,11 @@ function reverseSquares(positions) {
         }
     });
     return reverse;
+}
+
+function getUserStats(user) {
+    let room = user.getRoom();
+    return userStats = room.data.gameinfo.players[room.data.gameinfo.playerIds.indexOf(user.id)];
 }
 
 module.exports.endTurn = endTurn;
