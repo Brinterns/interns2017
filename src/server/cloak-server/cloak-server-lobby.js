@@ -43,6 +43,7 @@ function getLobbyUserInfo() {
                     rank: null
                 };
                 if (room.isLobby) {
+                    user.data.player = false;
                     listOfUserInfo.unshift(userJson);
                 } else {
                     listOfUserInfo.push(userJson);

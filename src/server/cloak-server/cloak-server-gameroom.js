@@ -103,7 +103,7 @@ var roomExit = function(arg) {
                     winLossRecord: user.data.winLossRecord,
                     elorank: user.data.elorank
                 }
-            }). then(() => {
+            }).then(() => {
                 db.update(userData, user.name).then(() => {
                     this.data.winnerId = user.id;
                     user.message('opponentdisconnect');

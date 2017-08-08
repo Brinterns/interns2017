@@ -108,6 +108,7 @@ function challengeRespond(user, user2, accept) {
 
 function userJoinRoom(user, room) {
     room.addMember(user);
+    user.data.player = true;
     user.data.squares = Array(24).fill(false);
     user.data.piecePositions = Array(numberOfPieces).fill(0);
     user.data.numPiecesFinished = 0;
