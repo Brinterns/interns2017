@@ -13,11 +13,11 @@
     color: #FAD000;
     position: absolute;
     width: 100%;
-    top: 7%;
+    top: calc(40px + 1.5 * (1vw + 1vh - 1vmin));
     left: 50%;
     margin: 0;
     transform: translate(-50%, 0%);
-    font-size: calc(10px + 2 * (1vw + 1vh - 1vmin));
+    font-size: calc(6px + 2 * (1vw + 1vh - 1vmin));
     text-align: center;
 }
 
@@ -28,16 +28,17 @@
     padding-bottom: 0.25em;
     color: #FAD000;
     position: absolute;
-    font-size: calc(5px + 1.5 * (1vw + 1vh - 1vmin));
-    margin-top : 0.5em;
-    margin-left: 0.5em;
+    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
+    margin-top : 0.7em;
+    margin-left: 0.7em;
     list-style-type: none;
     border-style: solid;
     border-width: 0.12em;
     border-color: #FAD000;
 }
 
-.gameMain p {
+.gameMain ul p {
+    margin: 0;
     display: inline-block;
 }
 

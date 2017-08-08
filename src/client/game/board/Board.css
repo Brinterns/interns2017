@@ -63,7 +63,7 @@
 }
 
 .pieceHolder {
-    bottom: calc(50% - 2* (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));
+    bottom: calc(50% - 1.8 * (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));
     left: 5%;
     height: auto;
     width: auto;
@@ -71,7 +71,7 @@
 }
 
 .oppPieceHolder {
-    top: calc(50% - 2* (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));
+    top: calc(50% - 1.8 * (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));
     right: 5%;
     height: auto;
     width: auto;
