@@ -165,7 +165,6 @@ const mapStateToProps = state => ({
     forfeit: state.game.forfeit,
     gameOver: state.game.gameOver,
     winnerId: state.game.winnerId,
-    roomName: state.game.roomName,
     //Notification states
     notificationBool: state.game.notificationBool,
     notificationText: state.game.notificationText,
