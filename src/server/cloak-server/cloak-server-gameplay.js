@@ -47,9 +47,6 @@ function endTurn(user) {
     room.messageMembers('currentplayer', room.data.currentPlayer);
     var d = new Date();
     shared.getOpponent(user).data.rollStartTime = d.getTime();
-    console.log("Player 1 = " + JSON.stringify(room.data.gameinfo.players[0]));
-    console.log("Player 2 = " + JSON.stringify(room.data.gameinfo.players[1]));
-    console.log("\n");
 }
 
 function canMove(squares, opponentSquares, nextPos, moveablePositions, position) {
