@@ -24,7 +24,7 @@ function rollDice(user) {
     for (var i = 0; i < 4; i ++) {
         total += shared.getRandomIntInclusive(0,1);
     }
-    return total;
+    return 3;
 }
 
 function messageRoll(total, user) {
@@ -81,12 +81,15 @@ function movePiece(position, user) {
     user.message('piecepositions', user.data.piecePositions);
     user.message('squares', user.data.squares);
     opponent.message('opponentsquares', reverseSquares(user.data.piecePositions));
+    //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
     if ((nextPos > 4) && (nextPos < 13) && opponent.data.piecePositions.includes(nextPos)) {
         opponent.data.piecePositions[opponent.data.piecePositions.indexOf(nextPos)] = 0;
         opponent.data.squares[playerPath[nextPos-1]] = false;
         opponent.message('piecepositions', opponent.data.piecePositions);
         opponent.message('squares', opponent.data.squares);
         user.message('opponentsquares', reverseSquares(opponent.data.piecePositions));
+        room.data.gameinfo.players[room.data.gameinfo.playerIds.indexOf(user.id)].piecesTaken ++;
+        room.data.gameinfo.players[room.data.gameinfo.playerIds.indexOf(opponent.id)].piecesLost ++;
     }
     if (rosettaSquares.includes(playerPath[position+user.data.lastRoll-1])) {
         room.messageMembers('currentplayer', room.data.currentPlayer);

@@ -116,12 +116,13 @@ function userJoinRoom(user, room, playerNum) {
 }
 
 function initRoomStats(room, user, user2) {
+    room.data.gameinfo = {};
     room.data.gameinfo.playerIds = [user.id, user2.id];
     const initalPlayerState = {
-        piecesTaken: 0
+        piecesTaken: 0,
+        piecesLost: 0
     }
-    room.data.gameinfo.players[0] = initalPlayerState;
-    room.data.gameinfo.players[1] = initalPlayerState;
+    room.data.gameinfo.players = [Object.assign({}, initalPlayerState), Object.assign({}, initalPlayerState)];
 }
 
 module.exports.challengePlayer = challengePlayer;
