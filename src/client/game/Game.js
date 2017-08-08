@@ -130,7 +130,7 @@ export class Game extends Component {
         return (
             <div>
                 <div className={gameStyles.gameMain}>
-                    <h2> {currentPlayerText} </h2>
+                    <h2> {emojify(""+currentPlayerText)} </h2>
                     <button className={gameStyles.forfeit} onClick={this.onClickForfeit}> Forfeit </button>
                     <button className={gameStyles.rules} onClick={this.handleToggleRules}> Rules </button>
                     <h1> {emojify(this.props.roomName)} </h1>
