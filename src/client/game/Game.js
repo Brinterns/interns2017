@@ -110,6 +110,7 @@ export class Game extends Component {
                 <button className={gameStyles.declineButton} onClick={this.onClickForfeit}> &#x2716; </button>
             </div>
         );
+        let gameInfo = null;
         let currentPlayerText = null;
         let opponentRoll;
         if (this.props.listOfPlayers.length) {
@@ -125,15 +126,19 @@ export class Game extends Component {
             } else if (this.props.opponentRollNumber !== null) {
                 opponentRoll = (<p className={isPlayerTurn ? gameStyles.turnNotif : null}>{this.props.notificationText}</p>);
             }
+
+            gameInfo = <ul> {this.props.listOfPlayers.map((player, index) => {
+                return <li key={index}> {player.name} ({player.elorank}) {(player.id === this.props.id) ? <p>&#9733;</p> : null} </li>
+            })} </ul>;
         }
 
         return (
             <div>
                 <div className={gameStyles.gameMain}>
-                    <h2> {emojify(""+currentPlayerText)} </h2>
+                    {gameInfo}
                     <button className={gameStyles.forfeit} onClick={this.onClickForfeit}> Forfeit </button>
                     <button className={gameStyles.rules} onClick={this.handleToggleRules}> Rules </button>
-                    <h1> {emojify(this.props.roomName)} </h1>
+                    <h1> {currentPlayerText ? emojify("" + currentPlayerText) : null} </h1>
                     <Board gameState={this.state} isPlayerTurn={isPlayerTurn}/>
                     {(this.props.winnerId) ? gameOverDiv : null}
                     {this.props.forfeit ? forfeitDiv : null}

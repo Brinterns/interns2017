@@ -12,21 +12,33 @@
 .gameMain h1 {
     color: #FAD000;
     position: absolute;
+    width: 100%;
     top: 7%;
     left: 50%;
-    margin-right: -50%;
     margin: 0;
     transform: translate(-50%, 0%);
     font-size: calc(10px + 2 * (1vw + 1vh - 1vmin));
     text-align: center;
 }
 
-.gameMain h2 {
+.gameMain ul {
+    padding-right: 0.9em;
+    padding-left: 0.9em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
     color: #FAD000;
     position: absolute;
     font-size: calc(5px + 1.5 * (1vw + 1vh - 1vmin));
-    margin-top : 1em;
-    margin-left: 1em;
+    margin-top : 0.5em;
+    margin-left: 0.5em;
+    list-style-type: none;
+    border-style: solid;
+    border-width: 0.12em;
+    border-color: #FAD000;
+}
+
+.gameMain p {
+    display: inline-block;
 }
 
 .notificationDiv {

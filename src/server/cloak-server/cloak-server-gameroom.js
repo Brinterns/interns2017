@@ -10,7 +10,8 @@ function getRoomUserInfo(room) {
     room.getMembers().forEach(function(user) {
         var userJson = {
             id: user.id,
-            name: user.name
+            name: user.name,
+            elorank: user.data.elorank
         };
         listOfRoomUsers.push(userJson);
     });
