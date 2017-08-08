@@ -8,7 +8,6 @@ export const GAME_OVER = namespace + 'GAME_OVER';
 export const CHALLENGER_ID = namespace + 'CHALLENGER_ID';
 export const TOGGLE_FORFEIT = namespace + 'TOGGLE_FORFEIT';
 export const ROLLED_NUMBER = namespace + 'ROLLED_NUMBER';
-export const SET_ROOM_NAME = namespace + 'SET_ROOM_NAME';
 export const UPDATE_GAME_STATE = namespace + 'UPDATE_GAME_STATE';
 export const UPDATE_SQUARES = namespace + 'UPDATE_SQUARES';
 export const UPDATE_OPPONENT_SQUARES = namespace + 'UPDATE_OPPONENT_SQUARES';
@@ -80,13 +79,6 @@ export function opponentRolled(value) {
     return {
         type: OPPONENT_ROLLED_NUMBER,
         payload: value
-    }
-}
-
-export function setRoomName(roomName) {
-    return {
-        type: SET_ROOM_NAME,
-        payload: roomName
     }
 }
 
