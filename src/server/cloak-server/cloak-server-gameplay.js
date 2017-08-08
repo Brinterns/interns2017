@@ -41,10 +41,13 @@ function endTurn(user) {
         return (position >= 11 && position <= 14);
     }).length;
     getUserStats(user).turnsInEndRange += numPiecesEndRange;
+    if ((user.data.numPiecesFinished === (numberOfPieces - 1)) && (numPiecesEndRange === 1)) {
+        getUserStats(user).turnsLastInEndRange ++;
+    }
     room.messageMembers('currentplayer', room.data.currentPlayer);
     console.log("Player 1 = " + JSON.stringify(room.data.gameinfo.players[0]));
     console.log("Player 2 = " + JSON.stringify(room.data.gameinfo.players[1]));
-    console.log("\n\n");
+    console.log("\n");
 }
 
 function canMove(squares, opponentSquares, nextPos, moveablePositions, position) {
@@ -107,6 +110,9 @@ function movePiece(position, user) {
     }
     //balances out the increment for this piece being in the final range as it has just moved there
     if ((nextPos >= 11 && nextPos <= 14) && (!(position >= 11 && position <= 14))) {
+        if (user.data.numPiecesFinished === (numberOfPieces - 1)) {
+            userStats.turnsLastInEndRange --;
+        }
         userStats.turnsInEndRange --;
     }
 
