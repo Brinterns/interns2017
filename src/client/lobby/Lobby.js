@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import {emojify} from 'react-emojione';
 import User from './User';
 import Player from './User/Player';
 import lobbyStyles from './Lobby.css';
@@ -157,7 +158,7 @@ export class Lobby extends Component {
         );
         const gamesDisplayList = (
             this.props.listOfActiveGames.map((gameName, i) => {
-                return <div key={i} className={lobbyStyles.game}><h1>{gameName}</h1></div>;
+                return <div key={i} className={lobbyStyles.game}><h1>{emojify(gameName)}</h1></div>;
             })
         );
 
