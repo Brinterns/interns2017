@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import gameStyles from './Game.css';
-import Rules from '../rules/Rules';
 import BoardSpectate from './board/BoardSpectate';
 import { connect } from 'react-redux';
 import ChatBox from '../Chat/ChatBox';
@@ -9,61 +8,32 @@ import {emojify} from 'react-emojione';
 
 import { RunCloakConfig } from '../services/cloak-service';
 
-import {
-    toggleForfeit
-} from './Game-actions';
-
 export class GameSpectate extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            rules: false
+            leaveMenu: false
         };
-        this.handleToggleRules = this.handleToggleRules.bind(this);
-        this.onWin = this.onWin.bind(this);
-        this.onClickForfeit = this.onClickForfeit.bind(this);
-        this.reChallenge = this.reChallenge.bind(this);
+        this.toggleLeaveMenu = this.toggleLeaveMenu.bind(this);
         this.returnToLobby = this.returnToLobby.bind(this);
         {this.getGameInfo()};
     }
 
-    handleToggleRules() {
+    toggleLeaveMenu() {
         this.setState({
-            rules: !this.state.rules
+            leaveMenu: !this.state.leaveMenu
         });
     }
 
-    onWin(winBool) {
-        if (this.props.gameOver) {
-            return;
-        }
-        cloak.message('win', winBool);
-    }
-
-    onClickForfeit() {
-        if (this.props.gameOver) {
-            return;
-        }
-        this.props.toggleForfeit();
-    }
-
-    reChallenge() {
-        cloak.message('rechallenge', _);
-    }
-
-    reChallengeResponse(accept) {
-        cloak.message('rechallengeresponse', accept);
-    }
-
     returnToLobby() {
-        cloak.message('leavegame', _);
+        cloak.message('leavegame');
     }
 
     reconnectWait() {
         setTimeout(() => {
             if (cloak.connected()) {
                 cloak.message('reconnectuser', localStorage.getItem('userId'));
-                cloak.message('getroominfo', _);
+                cloak.message('getroominfo');
             } else {
                 this.reconnectWait();
             }
@@ -73,41 +43,30 @@ export class GameSpectate extends Component {
     getGameInfo() {
         RunCloakConfig();
         if(cloak.connected()) {
-            cloak.message('getroominfo', _);
+            cloak.message('getroominfo');
         } else {
             this.reconnectWait();
         }
     }
 
     render() {
-        const isPlayerTurn = (this.props.currentPlayer === this.props.id);
-        var gameOverTextChoice = (this.props.winnerId === this.props.id) ? "You Won!" : "You Lost";
-        if (this.props.opponentDisconnect) {
-            gameOverTextChoice = "Opponent Left, " + gameOverTextChoice;
-        }
-        var challengeButton;
-        if (this.props.challengerId === this.props.id) {
-            challengeButton = <button className={gameStyles.reChallenge} onClick={() => {this.reChallengeResponse(false)}}> Cancel </button>;
-        } else if (this.props.challengerId) {
-            challengeButton = <div>
-                    <button className={gameStyles.acceptButton} onClick={() => {this.reChallengeResponse(true)}}> &#10004; </button>
-                    <button className={gameStyles.declineButton} onClick={() => {this.reChallengeResponse(false)}}> &#x2716; </button>
-                </div>;
-        } else {
-            challengeButton = <button className={gameStyles.reChallenge} onClick={this.reChallenge}> Re-Challenge </button>;
+        var gameOverText = null;
+        if (this.props.winnerId) {
+            var gameOverText = "Game Over, " + this.props.listOfPlayers.filter(player => {
+                return player.id === this.props.winnerId;
+            })[0].name;
         }
         const gameOverDiv = (
             <div className={gameStyles.notificationMenu}>
-                <h1> {gameOverTextChoice} </h1>
+                <h1> {gameOverText} </h1>
                 <button className={gameStyles.returnButton} onClick={this.returnToLobby}> Return To Lobby </button>
-                {(!this.props.opponentDisconnect && (this.props.listOfPlayers.length > 1)) ? challengeButton : null}
             </div>
         );
-        const forfeitDiv = (
+        const leaveDiv = (
             <div className={gameStyles.notificationMenu}>
-                <h1> Are you sure you want to forfeit? </h1>
-                <button className={gameStyles.acceptButton} onClick={() => this.onWin(false)}> &#10004; </button>
-                <button className={gameStyles.declineButton} onClick={this.onClickForfeit}> &#x2716; </button>
+                <h1> Are you sure you want to leave? </h1>
+                <button className={gameStyles.acceptButton} onClick={this.returnToLobby}> &#10004; </button>
+                <button className={gameStyles.declineButton} onClick={this.toggleLeaveMenu}> &#x2716; </button>
             </div>
         );
         let gameInfo = null;
@@ -118,13 +77,13 @@ export class GameSpectate extends Component {
                 return player.id === this.props.currentPlayer;
             })[0];
             if (currentPlayer) {
-                currentPlayerText = isPlayerTurn ? "It's your turn" : "It's " + currentPlayer.name + "'s" + " turn";
+                currentPlayerText = "It's " + currentPlayer.name + "'s" + " turn";
             }
 
             if (this.props.opponentRollNumber === 0) {
                 opponentRoll = (<div><p>{this.props.notificationText}</p><p className={gameStyles.turnNotif}>{currentPlayerText}</p></div>);
             } else if (this.props.opponentRollNumber !== null) {
-                opponentRoll = (<p className={isPlayerTurn ? gameStyles.turnNotif : null}>{this.props.notificationText}</p>);
+                opponentRoll = (<p className={gameStyles.turnNotif}>{this.props.notificationText}</p>);
             }
 
             gameInfo = <ul> {this.props.listOfPlayers.map((player, index) => {
@@ -136,15 +95,13 @@ export class GameSpectate extends Component {
             <div>
                 <div className={gameStyles.gameMain}>
                     {gameInfo}
-                    <button className={gameStyles.forfeit} onClick={this.onClickForfeit}> Forfeit </button>
-                    <button className={gameStyles.rules} onClick={this.handleToggleRules}> Rules </button>
+                    <button className={gameStyles.forfeit} onClick={this.toggleLeaveMenu}> Leave </button>
                     <h1> {currentPlayerText ? emojify("" + currentPlayerText) : null} </h1>
-                    <BoardSpectate gameState={this.state} isPlayerTurn={isPlayerTurn}/>
+                    <BoardSpectate gameState={this.state} />
                     {(this.props.winnerId) ? gameOverDiv : null}
-                    {this.props.forfeit ? forfeitDiv : null}
+                    {this.state.leaveMenu ? leaveDiv : null}
                 </div>
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
-                {this.state.rules && !this.props.winnerId ? <Rules toggleRules={this.handleToggleRules} /> : null}
                 <div className={gameStyles.notificationDiv}>
                     {this.props.notificationBool ? opponentRoll : null}
                 </div>
@@ -162,14 +119,12 @@ const mapStateToProps = state => ({
     //Roll states
     opponentRollNumber: state.game.opponentRollNumber,
     //End game states
-    forfeit: state.game.forfeit,
     gameOver: state.game.gameOver,
     winnerId: state.game.winnerId,
     //Notification states
     notificationBool: state.game.notificationBool,
     notificationText: state.game.notificationText,
-    opponentDisconnect: state.game.opponentDisconnect,
-    challengerId: state.game.challengerId
+    opponentDisconnect: state.game.opponentDisconnect
 });
 
 const mapDispatchToProps = dispatch => ({
