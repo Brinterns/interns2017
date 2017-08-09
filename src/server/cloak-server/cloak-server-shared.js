@@ -11,7 +11,7 @@ function getRandomIntInclusive(min, max) {
 
 function getOpponent(user) {
     return user.getRoom().getMembers().filter((member) => {
-        return (member.id !== user.id) && user.data.isPlayer;
+        return (member.id !== user.id) && member.data.isPlayer;
     })[0];
 }
 
@@ -107,18 +107,20 @@ function reconnectUser(id, user) {
             });
             user.message('gotolobby');
         } else {
-            if (!user.data.rolledDice) {
-                user.data.lastRoll = null;
-            }
-            if (user2.id === room.data.currentPlayer) {
-                room.data.currentPlayer = user.id;
-            }
-            if (user2.id === room.data.winnerId) {
-                room.data.winnerId = user.id;
+            if (user2.data.isPlayer) {
+                if (!user.data.rolledDice) {
+                    user.data.lastRoll = null;
+                }
+                if (user2.id === room.data.currentPlayer) {
+                    room.data.currentPlayer = user.id;
+                }
+                if (user2.id === room.data.winnerId) {
+                    room.data.winnerId = user.id;
+                }
             }
             user.message('currentplayer', room.data.currentPlayer);
             const opponent = room.getMembers().filter(member => {
-                return (member.id !== user.id) && (member.id !== user2.id);
+                return (member.id !== user.id) && (member.id !== user2.id) && member.data.isPlayer;
             })[0];
             if (opponent) {
                 opponent.message('currentplayeronly', room.data.currentPlayer);
