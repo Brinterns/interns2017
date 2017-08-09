@@ -43,11 +43,15 @@ export default class Stats extends Component {
 
     render() {
         const stats = this.props.stats;
-        const id = this.props.id;
         let statsDiv = null;
         if (stats) {
-            const userStats = stats.players[stats.playerIds.indexOf(id)];
-            const opponentStats = stats.players[(stats.playerIds.indexOf(id) + 1) % 2];
+            var playerIndex = stats.playerIds.indexOf(this.props.id);
+            //handle spectator case
+            if (playerIndex === -1) {
+                playerIndex = 0;
+            }
+            const userStats = stats.players[playerIndex];
+            const opponentStats = stats.players[(playerIndex + 1) % 2];
             const userAverages = this.getAverages(userStats);
             const opponentAverages = this.getAverages(opponentStats);
             statsDiv = (
