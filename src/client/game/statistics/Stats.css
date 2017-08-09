@@ -26,20 +26,23 @@
     vertical-align: top !important;
     display: inline-block;
     margin-left: 0.35em;
-    background-color: rgba(2,101,203,0.75);
+    background-color: rgba(2,101,203,1.0);
 }
 
 .statsDiv table tr {
-    border: solid;
+    border: solid 0.12em;
+    height: calc(4 * (1vw + 1vh - 1vmin));
 }
 
 .statsDiv table th {
     text-align: left;
-    width: calc(10 * (1vw + 1vh - 1vmin));
+    padding-left: calc(0.5 * (1vw + 1vh - 1vmin));
+    padding-right: calc(0.5 * (1vw + 1vh - 1vmin));
+    width: calc(13.5 * (1vw + 1vh - 1vmin));
 }
 
 .statsDiv table td {
-    border: solid;
+    border: solid 0.12em;
     text-align: center;
     min-width: calc(10 * (1vw + 1vh - 1vmin));
     max-width: calc(10 * (1vw + 1vh - 1vmin));
