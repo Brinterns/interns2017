@@ -30,6 +30,9 @@ function rollDice(user) {
 function messageRoll(total, user) {
     user.message('rolledvalue', total);
     shared.getOpponent(user).message('opponentroll', total);
+    shared.getSpectators(user.getRoom()).forEach(function(spectator) {
+        spectator.message('opponentroll', total);
+    });
     user.data.lastRoll = total;
 }
 
@@ -73,6 +76,13 @@ function movePiece(position, user) {
         user.data.numPiecesFinished ++;
         user.message('finishedpieces', user.data.numPiecesFinished);
         opponent.message('finishedopppieces', user.data.numPiecesFinished);
+        shared.getSpectators(user.getRoom()).forEach(function(spectator) {
+            if (user.id === room.data.spectatedId) {
+                spectator.message('finishedpieces', user.data.numPiecesFinished);
+            } else {
+                spectator.message('finishedopppieces', user.data.numPiecesFinished);
+            }
+        });
         if (user.data.numPiecesFinished === numberOfPieces) {
             gameRoomFunctions.win(true, user);
         }
@@ -81,12 +91,28 @@ function movePiece(position, user) {
     user.message('piecepositions', user.data.piecePositions);
     user.message('squares', user.data.squares);
     opponent.message('opponentsquares', reverseSquares(user.data.piecePositions));
+    shared.getSpectators(user.getRoom()).forEach(function(spectator) {
+        if (user.id === room.data.spectatedId) {
+            spectator.message('piecepositions', user.data.piecePositions);
+            spectator.message('squares', user.data.squares);
+        } else {
+            spectator.message('opponentsquares', reverseSquares(user.data.piecePositions));
+        }
+    });
     if ((nextPos > 4) && (nextPos < 13) && opponent.data.piecePositions.includes(nextPos)) {
         opponent.data.piecePositions[opponent.data.piecePositions.indexOf(nextPos)] = 0;
         opponent.data.squares[playerPath[nextPos-1]] = false;
         opponent.message('piecepositions', opponent.data.piecePositions);
         opponent.message('squares', opponent.data.squares);
         user.message('opponentsquares', reverseSquares(opponent.data.piecePositions));
+        shared.getSpectators(user.getRoom()).forEach(function(spectator) {
+            if (user.id === room.data.spectatedId) {
+                spectator.message('opponentsquares', reverseSquares(opponent.data.piecePositions));
+            } else {
+                spectator.message('piecepositions', opponent.data.piecePositions);
+                spectator.message('squares', opponent.data.squares);
+            }
+        });
     }
     if (rosettaSquares.includes(playerPath[position+user.data.lastRoll-1])) {
         room.messageMembers('currentplayer', room.data.currentPlayer);

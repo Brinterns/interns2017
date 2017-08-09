@@ -15,6 +15,12 @@ function getOpponent(user) {
     })[0];
 }
 
+function getSpectators(room) {
+    return room.getMembers().filter(member => {
+        return !member.data.isPlayer;
+    });
+}
+
 function sendMessage(message, user) {
     var messageObj = {
         message: message,
@@ -137,6 +143,7 @@ module.exports.getRandomIntInclusive = getRandomIntInclusive
 module.exports.updateMessagesId = updateMessagesId;
 module.exports.sendMessages = sendMessages;
 module.exports.getOpponent = getOpponent;
+module.exports.getSpectators = getSpectators;
 module.exports.sendMessage = sendMessage;
 module.exports.reconnectUser = reconnectUser;
 module.exports.previousUser = previousUser;
