@@ -54,7 +54,7 @@ export class GameSpectate extends Component {
         if (this.props.winnerId) {
             var gameOverText = "Game Over, " + this.props.listOfPlayers.filter(player => {
                 return player.id === this.props.winnerId;
-            })[0].name;
+            })[0].name + " won";
         }
         const gameOverDiv = (
             <div className={gameStyles.notificationMenu}>
@@ -81,9 +81,9 @@ export class GameSpectate extends Component {
             }
 
             if (this.props.opponentRollNumber === 0) {
-                opponentRoll = (<div><p>{this.props.notificationText}</p><p className={gameStyles.turnNotif}>{currentPlayerText}</p></div>);
+                opponentRoll = (<div><p>{this.props.notificationText}</p><p>{currentPlayerText}</p></div>);
             } else if (this.props.opponentRollNumber !== null) {
-                opponentRoll = (<p className={gameStyles.turnNotif}>{this.props.notificationText}</p>);
+                opponentRoll = (<p>{this.props.notificationText}</p>);
             }
 
             gameInfo = <ul> {this.props.listOfPlayers.map((player, index) => {
