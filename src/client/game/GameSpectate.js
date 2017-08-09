@@ -4,6 +4,7 @@ import gameStyles from './Game.css';
 import BoardSpectate from './board/BoardSpectate';
 import { connect } from 'react-redux';
 import ChatBox from '../Chat/ChatBox';
+import Stats from './statistics/Stats';
 import {emojify} from 'react-emojione';
 
 import { RunCloakConfig } from '../services/cloak-service';
@@ -116,6 +117,7 @@ export class GameSpectate extends Component {
                     {(this.props.winnerId) ? gameOverDiv : null}
                     {(this.state.leaveMenu && !this.props.winnerId) ? leaveDiv : null}
                 </div>
+                <Stats id={this.props.id} stats={this.props.gameStats}/>
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
                 <div className={gameStyles.notificationDiv}>
                     {this.props.notificationBool ? opponentRoll : null}
@@ -139,7 +141,9 @@ const mapStateToProps = state => ({
     winnerId: state.game.winnerId,
     //Notification states
     notificationBool: state.game.notificationBool,
-    notificationText: state.game.notificationText
+    notificationText: state.game.notificationText,
+    //Game stats
+    gameStats: state.game.gameStats
 });
 
 const mapDispatchToProps = dispatch => ({

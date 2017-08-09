@@ -1,6 +1,7 @@
 var cloak = require('cloak');
 var db = require('../db');
 var shared = require('./cloak-server-shared');
+var gamePlayFunctions = require('./cloak-server-gameplay');
 
 function getLobbyInfo(user) {
     user.message('userid', user.id);
@@ -119,6 +120,7 @@ function updateLobbyActiveGames() {
 function observeGame(gameId, user) {
     cloak.getRoom(gameId).addMember(user);
     user.message('spectategame', gameId);
+    gamePlayFunctions.sendStats(user);
 }
 
 module.exports.updateLobbyUsers = updateLobbyUsers;
