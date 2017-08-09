@@ -8,19 +8,21 @@ var db = require('../db');
 function getRoomUserInfo(room) {
     let listOfRoomUsers = [];
     room.getMembers().forEach(function(user) {
-        var userJson = {
-            id: user.id,
-            name: user.name,
-            elorank: user.data.elorank
-        };
-        listOfRoomUsers.push(userJson);
+        if (user.data.isPlayer) {
+            var userJson = {
+                id: user.id,
+                name: user.name,
+                elorank: user.data.elorank
+            };
+            listOfRoomUsers.push(userJson);
+        }
     });
     room.messageMembers('updateplayers', JSON.stringify(listOfRoomUsers));
 }
 
 function getRoomInfo(user) {
     const room = user.getRoom();
-    if (room && !room.isLobby) {
+    if (room && !room.isLobby && user.data.isPlayer) {
         if (!room.data.currentPlayer) {
             room.data.currentPlayer = room.getMembers()[shared.getRandomIntInclusive(0, 1)].id;
         }

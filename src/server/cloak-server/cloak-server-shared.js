@@ -11,7 +11,7 @@ function getRandomIntInclusive(min, max) {
 
 function getOpponent(user) {
     return user.getRoom().getMembers().filter((member) => {
-        return member.id !== user.id;
+        return (member.id !== user.id) && user.data.isPlayer;
     })[0];
 }
 

@@ -41,8 +41,10 @@ function declineChallenge(id, user) {
 
 function reChallenge(user) {
     const room = user.getRoom();
+    const opponent = shared.getOpponent(user);
     room.data.challengerId = user.id;
-    room.messageMembers('challengerid', room.data.challengerId);
+    user.message('challengerid', room.data.challengerId);
+    opponent.message('challengerid', room.data.challengerId);
 }
 
 function reChallengeResponse(accept, user) {
@@ -50,8 +52,10 @@ function reChallengeResponse(accept, user) {
         challengeRespond(user, shared.getOpponent(user), accept);
     } else {
         const room = user.getRoom();
+        const opponent = shared.getOpponent(user);
         room.data.challengerId = null;
-        room.messageMembers('challengerid', room.data.challengerId);
+        user.message('challengerid', room.data.challengerId);
+        opponent.message('challengerid', room.data.challengerId);
     }
 }
 
@@ -108,7 +112,7 @@ function challengeRespond(user, user2, accept) {
 
 function userJoinRoom(user, room) {
     room.addMember(user);
-    user.data.player = true;
+    user.data.isPlayer = true;
     user.data.squares = Array(24).fill(false);
     user.data.piecePositions = Array(numberOfPieces).fill(0);
     user.data.numPiecesFinished = 0;
