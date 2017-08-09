@@ -55,7 +55,6 @@ export default class Stats extends Component {
 
     render() {
         const stats = this.props.stats;
-        console.log("State: " + JSON.stringify(stats));
         let statsDiv = null;
         if (stats) {
             var playerIndex = stats.playerIds.indexOf(this.props.id);
