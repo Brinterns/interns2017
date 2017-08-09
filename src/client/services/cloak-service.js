@@ -9,6 +9,7 @@ import {
 
 import {
     updateUserGameId,
+    spectatingId,
     updateGameMessages,
     updateListOfPlayers,
     updateCurrentPlayer,
@@ -88,6 +89,9 @@ export function RunCloakConfig() {
             //Identity Messages
             updateplayers: (userinfo) => {
                 dispatch(updateListOfPlayers(JSON.parse(userinfo)));
+            },
+            spectatingid: (id) => {
+                dispatch(spectatingId(id));
             },
             updategamemessages: (messages) => {
                 dispatch(updateGameMessages(JSON.parse(messages)));

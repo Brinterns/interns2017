@@ -89,6 +89,21 @@ export class GameSpectate extends Component {
             gameInfo = <ul> {this.props.listOfPlayers.map((player, index) => {
                 return <li key={index}> {player.name} ({player.elorank}) {(player.id === this.props.id) ? <p>&#9733;</p> : null} </li>
             })} </ul>;
+
+            const spectatingPlayer = this.props.listOfPlayers.filter(player => {
+                return player.id === this.props.spectatingId;
+            });
+            var spectatingName = null;
+            if (spectatingPlayer[0]) {
+                spectatingName = spectatingPlayer[0].name;
+            }
+            const opponentPlayer = this.props.listOfPlayers.filter(player => {
+                return player.id !== this.props.spectatingId;
+            });
+            var opponentName = null;
+            if (opponentPlayer[0]) {
+                opponentName = opponentPlayer[0].name;
+            }
         }
 
         return (
@@ -97,7 +112,7 @@ export class GameSpectate extends Component {
                     {gameInfo}
                     <button className={gameStyles.forfeit} onClick={this.toggleLeaveMenu}> Leave </button>
                     <h1> {currentPlayerText ? emojify("" + currentPlayerText) : null} </h1>
-                    <BoardSpectate gameState={this.state} />
+                    <BoardSpectate gameState={this.state} spectatingName={spectatingName} opponentName={opponentName} />
                     {(this.props.winnerId) ? gameOverDiv : null}
                     {(this.state.leaveMenu && !this.props.winnerId) ? leaveDiv : null}
                 </div>
@@ -114,6 +129,7 @@ const mapStateToProps = state => ({
     messages: state.game.messages,
     //Identity states
     id: state.game.id,
+    spectatingId: state.game.spectatingId,
     currentPlayer: state.game.currentPlayer,
     listOfPlayers: state.game.listOfPlayers,
     //Roll states

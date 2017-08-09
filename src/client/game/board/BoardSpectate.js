@@ -70,10 +70,12 @@ export class BoardSpectate extends Component {
                     {squareCols}
                 </div>
                 <div className={boardStyles.oppPieceHolder}>
+                    <p> {this.props.opponentName} </p>
                     {oppPieceHolder}
                 </div>
                 <div className={boardStyles.pieceHolder}>
                     {pieceHolder}
+                    <p> {this.props.spectatingName} </p>
                 </div>
             </div>
         );

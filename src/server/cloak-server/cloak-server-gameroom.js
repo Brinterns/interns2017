@@ -35,6 +35,7 @@ function getRoomInfo(user) {
             user.data.squares = spectatedPlayer.data.squares;
             user.data.piecePositions = spectatedPlayer.data.piecePositions;
             user.data.finishedPieces = spectatedPlayer.data.finishedPieces;
+            user.message('spectatingid', room.data.spectatedId);
         }
 
         var gameStateJson = {

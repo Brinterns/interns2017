@@ -7,9 +7,15 @@
 .boardMainDiv {
     width: 100%;
     text-align: center;
-    top: 50%;
+    top: 55%;
     transform: translate(0, -50%);
     position: absolute;
+}
+
+@media (max-width: 800px) {
+    .boardMainDiv {
+        top: 50%;
+    }
 }
 
 .squaresColumn {
@@ -31,7 +37,7 @@
 }
 
 .rollButton {
-    top: 50%;
+    top: 55%;
     transform: translate(0%,-50%);
     left: 5%;
     background-color: #0265CB;
@@ -63,20 +69,48 @@
 }
 
 .pieceHolder {
-    bottom: calc(50% - 1.8 * (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));
+    top: calc(55% + 1.17 * (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));
     left: 5%;
     height: auto;
     width: auto;
     position: absolute;
 }
 
+@media (max-width: 800px) {
+    .pieceHolder {
+        top: calc(50% + 1.17 * (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));
+    }
+}
+
+.pieceHolder p {
+    margin: 0;
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-bottom: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    font-size: calc(2 * (1vw + 1vh - 1vmin));
+    color: #FAD000;
+}
+
 .oppPieceHolder {
-    top: calc(50% - 1.8 * (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));
+    bottom: calc(45% + 1.17 * (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));
     right: 5%;
     height: auto;
     width: auto;
     direction: rtl;
     position: absolute;
+}
+
+@media (max-width: 800px) {
+    .oppPieceHolder {
+        bottom: calc(50% + 1.17 * (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));
+    }
+}
+
+.oppPieceHolder p {
+    margin: 0;
+    margin-right: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    font-size: calc(2 * (1vw + 1vh - 1vmin));
+    color: #FAD000;
 }
 
 .piece {
