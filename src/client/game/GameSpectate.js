@@ -65,7 +65,7 @@ export class GameSpectate extends Component {
         );
         const leaveDiv = (
             <div className={gameStyles.notificationMenu}>
-                <h1> Are you sure you want to leave? </h1>
+                <h1> Are you sure you <br/> want to leave? </h1>
                 <button className={gameStyles.acceptButton} onClick={this.returnToLobby}> &#10004; </button>
                 <button className={gameStyles.declineButton} onClick={this.toggleLeaveMenu}> &#x2716; </button>
             </div>
