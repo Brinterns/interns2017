@@ -132,12 +132,10 @@ export class Game extends Component {
                 return <li key={index}> {emojify(player.name)} ({player.elorank}) {(player.id === this.props.id) ? <p>&#9733;</p> : null} </li>
             })} </ul>;
         }
-
         return (
             <div>
                 <div className={gameStyles.gameMain}>
                     {gameInfo}
-                    <Stats stats={this.props.gameStats}/>
                     <button className={gameStyles.forfeit} onClick={this.onClickForfeit}> Forfeit </button>
                     <button className={gameStyles.rules} onClick={this.handleToggleRules}> Rules </button>
                     <h1> {currentPlayerText ? emojify("" + currentPlayerText) : null} </h1>
@@ -145,6 +143,7 @@ export class Game extends Component {
                     {(this.props.winnerId) ? gameOverDiv : null}
                     {this.props.forfeit ? forfeitDiv : null}
                 </div>
+                <Stats id={this.props.id} stats={this.props.gameStats}/>
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
                 {this.state.rules && !this.props.winnerId ? <Rules toggleRules={this.handleToggleRules} /> : null}
                 <div className={gameStyles.notificationDiv}>

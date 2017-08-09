@@ -1,22 +1,47 @@
 .mainDiv {
-    padding: 0 0.3em 0.2em 0.3em;
-    color: #FAD000;
     position: absolute;
-    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
     margin-top : 5em;
     margin-left: 0.7em;
-    list-style-type: none;
-    border-style: solid;
-    border-width: 0.12em;
-    border-color: #FAD000;
-
+    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
+    color: #FAD000;
 }
 
-.mainDiv img {
+
+.toggleDiv {
+    padding: 0 0.3em 0.2em 0.3em;
+    border: solid 0.12em #FAD000;
+    display: inline-block;
+}
+
+.toggleDiv img {
     height: calc(2 * (1vw + 1vh - 1vmin));
     width: calc(2 * (1vw + 1vh - 1vmin));
     min-height: 15px;
     min-width: 15px;
     margin: 0;
     cursor: pointer;
+}
+
+.statsDiv {
+    vertical-align: top !important;
+    display: inline-block;
+    margin-left: 0.35em;
+    background-color: rgba(2,101,203,0.75);
+}
+
+.statsDiv table tr {
+    border: solid;
+}
+
+.statsDiv table th {
+    text-align: left;
+    width: calc(10 * (1vw + 1vh - 1vmin));
+}
+
+.statsDiv table td {
+    border: solid;
+    text-align: center;
+    min-width: calc(10 * (1vw + 1vh - 1vmin));
+    max-width: calc(10 * (1vw + 1vh - 1vmin));
+    word-wrap: break-word;
 }
