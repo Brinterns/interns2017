@@ -22,11 +22,20 @@ function getRoomUserInfo(room) {
 
 function getRoomInfo(user) {
     const room = user.getRoom();
-    if (room && !room.isLobby && user.data.isPlayer) {
+    if (room && !room.isLobby) {
         if (!room.data.currentPlayer) {
             room.data.currentPlayer = room.getMembers()[shared.getRandomIntInclusive(0, 1)].id;
         }
-        const opponent = shared.getOpponent(user);
+        var opponent;
+        if (user.data.isPlayer) {
+            opponent = shared.getOpponent(user)
+        } else {
+            const spectatedPlayer = cloak.getUser(room.data.spectatedId);
+            opponent = shared.getOpponent(spectatedPlayer);
+            user.data.squares = spectatedPlayer.data.squares;
+            user.data.piecePositions = spectatedPlayer.data.piecePositions;
+            user.data.finishedPieces = spectatedPlayer.data.finishedPieces;
+        }
 
         var gameStateJson = {
             id: user.id,

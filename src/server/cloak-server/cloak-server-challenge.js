@@ -100,6 +100,7 @@ function challengeRespond(user, user2, accept) {
         createdRoom.data.opponentDisconnect = false;
         userJoinRoom(user, createdRoom);
         userJoinRoom(user2, createdRoom);
+        createdRoom.data.spectatedId = user.id;
         createdRoom.messageMembers('joingame', createdRoom.id);
         setTimeout(function() {
             lobbyFunctions.updateLobbyActiveGames();
