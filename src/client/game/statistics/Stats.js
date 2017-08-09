@@ -10,6 +10,7 @@ export default class Stats extends Component {
         this.state = {
             statsDisplay: false
         }
+        document.addEventListener('click', this.pageClick.bind(this), true);
         this.toggleStats = this.toggleStats.bind(this);
     }
 
@@ -17,6 +18,17 @@ export default class Stats extends Component {
         this.setState({
             statsDisplay: !this.state.statsDisplay
         });
+    }
+
+    pageClick(e) {
+        if(e.target.id === "checkboard") {
+            return;
+        }
+        if (this.refs.statistics) {
+            this.setState({
+                statsDisplay: false
+            });
+        }
     }
 
     tableRow(header, entry1, entry2) {
@@ -55,7 +67,7 @@ export default class Stats extends Component {
             const userAverages = this.getAverages(userStats);
             const opponentAverages = this.getAverages(opponentStats);
             statsDiv = (
-                <div className={statStyling.statsDiv}>
+                <div ref="statistics" className={statStyling.statsDiv}>
                     <table>
                         <tbody>
                             <tr>
@@ -78,7 +90,7 @@ export default class Stats extends Component {
         return (
             <div className={statStyling.mainDiv}>
                 <div className={statStyling.toggleDiv}>
-                    {this.state.statsDisplay ? <img onClick={this.toggleStats} src={leftarrow} /> : <img onClick={this.toggleStats} src={clipboard} /> }
+                    {this.state.statsDisplay ? <img onClick={this.toggleStats} src={leftarrow} /> : <img id="checkboard" onClick={this.toggleStats} src={clipboard} /> }
                 </div>
                 {this.state.statsDisplay ? statsDiv : null }
             </div>
