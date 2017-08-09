@@ -117,9 +117,8 @@ function updateLobbyActiveGames() {
 }
 
 function observeGame(gameId, user) {
-    console.log(user.name + " wants to join: " + cloak.getRoom(gameId).name);
     cloak.getRoom(gameId).addMember(user);
-    user.message('joingame', gameId);
+    user.message('spectategame', gameId);
 }
 
 module.exports.updateLobbyUsers = updateLobbyUsers;

@@ -75,6 +75,10 @@ export function RunCloakConfig() {
                 dispatch(resetStore());
                 browserHistory.push('/game/' + roomId);
             },
+            spectategame: (roomId) => {
+                dispatch(resetStore());
+                browserHistory.push('/spectate/' + roomId);
+            },
             updatelobbymessages: (messages) => {
                 dispatch(updateLobbyMessages(JSON.parse(messages)));
             },
