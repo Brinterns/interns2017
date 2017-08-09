@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import gameStyles from './Game.css';
 import Rules from '../rules/Rules';
-import Board from './board/Board';
+import BoardSpectate from './board/BoardSpectate';
 import { connect } from 'react-redux';
 import ChatBox from '../Chat/ChatBox';
 import {emojify} from 'react-emojione';
@@ -139,7 +139,7 @@ export class GameSpectate extends Component {
                     <button className={gameStyles.forfeit} onClick={this.onClickForfeit}> Forfeit </button>
                     <button className={gameStyles.rules} onClick={this.handleToggleRules}> Rules </button>
                     <h1> {currentPlayerText ? emojify("" + currentPlayerText) : null} </h1>
-                    <Board gameState={this.state} isPlayerTurn={isPlayerTurn}/>
+                    <BoardSpectate gameState={this.state} isPlayerTurn={isPlayerTurn}/>
                     {(this.props.winnerId) ? gameOverDiv : null}
                     {this.props.forfeit ? forfeitDiv : null}
                 </div>

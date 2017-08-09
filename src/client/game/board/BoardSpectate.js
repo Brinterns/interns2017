@@ -147,4 +147,4 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps
-)(Board);
+)(BoardSpectate);
