@@ -45,6 +45,7 @@ function endTurn(user) {
         getUserStats(user).turnsLastInEndRange ++;
     }
     room.messageMembers('currentplayer', room.data.currentPlayer);
+    sendStats(user);
     var d = new Date();
     shared.getOpponent(user).data.rollStartTime = d.getTime();
 }
@@ -142,9 +143,16 @@ function milliToSeconds(millis) {
     return seconds;
 }
 
+function sendStats(user) {
+    const room = user.getRoom();
+    room.messageMembers('updatestats', JSON.stringify(room.data.gameinfo));
+}
+
+
 module.exports.endTurn = endTurn;
 module.exports.rollDice = rollDice;
 module.exports.messageRoll = messageRoll;
 module.exports.movePiece = movePiece;
 module.exports.reverseSquares = reverseSquares;
 module.exports.checkMoves = checkMoves;
+module.exports.sendStats = sendStats;

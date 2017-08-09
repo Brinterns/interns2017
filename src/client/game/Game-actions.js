@@ -21,6 +21,7 @@ export const RESET_NOTIFICATION_BOOL = namespace + 'RESET_NOTIFICATION_BOOL';
 export const RESET_STORE = namespace + 'RESET_STORE';
 export const UPDATE_MESSAGES = namespace + 'UPDATE_MESSAGES';
 export const ROLLED_SEQUENCE = namespace + 'ROLLED_SEQUENCE';
+export const UPDATE_GAME_STATS = namespace + 'UPDATE_GAME_STATS';
 
 export function updateUserGameId(id) {
     return {
@@ -58,6 +59,13 @@ export function rollSequence(sequence) {
 export function resetNotificationBool() {
     return {
         type: RESET_NOTIFICATION_BOOL
+    }
+}
+
+export function updateGameStats(stats) {
+    return {
+        type: UPDATE_GAME_STATS,
+        payload: stats
     }
 }
 

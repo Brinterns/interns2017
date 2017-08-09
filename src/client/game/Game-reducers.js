@@ -21,7 +21,8 @@ import {
     RESET_ROLL_TEXT,
     OPPONENT_ROLLED_NUMBER,
     RESET_NOTIFICATION_BOOL,
-    RESET_STORE
+    RESET_STORE,
+    UPDATE_GAME_STATS
 } from './Game-actions';
 
 
@@ -54,7 +55,9 @@ const initialState = {
     notificationBool: false,
     notificationText: null,
     opponentDisconnect: false,
-    challengerId: null
+    challengerId: null,
+    //Game statistics
+    gameStats: null
 };
 
 const game = (state = initialState, action) => {
@@ -193,6 +196,11 @@ const game = (state = initialState, action) => {
                 numOppPiecesFinished: action.payload.finishedOppPieces,
                 winnerId: action.payload.winnerId,
                 opponentDisconnect: action.payload.opponentDisconnect
+            });
+        }
+        case UPDATE_GAME_STATS: {
+            return updateState(state, {
+                gameStats: action.payload
             });
         }
         case RESET_STORE: {

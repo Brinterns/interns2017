@@ -1,6 +1,7 @@
 var cloak = require('cloak');
 var lobbyFunctions = require('./cloak-server-lobby');
 var gameRoomFunctions = require('./cloak-server-gameroom');
+var gamePlayFunctions = require('./cloak-server-gameplay');
 var shared = require('./cloak-server-shared');
 const numberOfPieces = 7;
 
@@ -96,13 +97,13 @@ function challengeRespond(user, user2, accept) {
         createdRoom.data.opponentDisconnect = false;
         userJoinRoom(user, createdRoom);
         userJoinRoom(user2, createdRoom);
-        initRoomStats(createdRoom, user, user2);
         createdRoom.messageMembers('joingame', createdRoom.id);
         setTimeout(function() {
             lobbyFunctions.updateLobbyActiveGames();
             lobbyFunctions.updateLobbyUsers();
             gameRoomFunctions.getRoomInfo(user);
             gameRoomFunctions.getRoomInfo(user2);
+            initRoomStats(createdRoom, user, user2);
         }, 100);
     }
 }
@@ -126,9 +127,13 @@ function initRoomStats(room, user, user2) {
         turnsInEndRange: 0,
         turnsLastInEndRange: 0,
         numberOfRolls: 0,
-        totalTimeTaken: 0
+        totalTimeTaken: 0,
+        name: null
     }
     room.data.gameinfo.players = [Object.assign({}, initalPlayerState), Object.assign({}, initalPlayerState)];
+    room.data.gameinfo.players[0].name = user.name;
+    room.data.gameinfo.players[1].name = user2.name;
+    gamePlayFunctions.sendStats(user);
 }
 
 module.exports.challengePlayer = challengePlayer;

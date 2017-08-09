@@ -124,7 +124,7 @@ function reconnectUser(id, user) {
                 opponent.message('currentplayeronly', room.data.currentPlayer);
             }
             room.data.gameinfo.playerIds[room.data.gameinfo.playerIds.indexOf(user2.id)] = user.id;
-
+            user.message('updatestats', JSON.stringify(room.data.gameinfo));
         }
         user2.delete();
     } else {

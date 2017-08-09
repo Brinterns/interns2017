@@ -1,0 +1,48 @@
+.mainDiv {
+    position: absolute;
+    margin-top : 5em;
+    margin-left: 0.7em;
+    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
+    color: #FAD000;
+}
+
+
+.toggleDiv {
+    padding: 0 0.3em 0.2em 0.3em;
+    border: solid 0.12em #FAD000;
+    display: inline-block;
+}
+
+.toggleDiv img {
+    height: calc(2 * (1vw + 1vh - 1vmin));
+    width: calc(2 * (1vw + 1vh - 1vmin));
+    min-height: 15px;
+    min-width: 15px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.statsDiv {
+    vertical-align: top !important;
+    display: inline-block;
+    margin-left: 0.35em;
+    background-color: rgba(2,101,203,1.0);
+}
+
+.statsDiv table tr {
+    border: solid 0.12em;
+}
+
+.statsDiv table th {
+    text-align: left;
+    padding-left: calc(0.5 * (1vw + 1vh - 1vmin));
+    padding-right: calc(0.5 * (1vw + 1vh - 1vmin));
+}
+
+.statsDiv table td {
+    border: solid 0.12em;
+    text-align: center;
+    min-width: calc(10 * (1vw + 1vh - 1vmin));
+    max-width: calc(10 * (1vw + 1vh - 1vmin));
+    word-wrap: break-word;
+}
