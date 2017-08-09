@@ -29,7 +29,8 @@ import {
     opponentRolled,
     resetNotificationBool,
     resetStore,
-    rollSequence
+    rollSequence,
+    updateGameStats
 } from '../game/Game-actions';
 
 import { dispatch } from '../store';
@@ -82,6 +83,12 @@ export function RunCloakConfig() {
             },
             updatelobbymessages: (messages) => {
                 dispatch(updateLobbyMessages(JSON.parse(messages)));
+            },
+            /***********************************************************/
+            /*                       Stats messages                     */
+            /***********************************************************/
+            updatestats: (stats) => {
+                dispatch(updateGameStats(JSON.parse(stats)));
             },
             /***********************************************************/
             /*                       Game messages                     */

@@ -138,6 +138,8 @@ function reconnectUser(id, user) {
             getSpectators(room).forEach(spectator => {
                 gameRoomFunctions.getRoomInfo(spectator);
             });
+            room.data.gameinfo.playerIds[room.data.gameinfo.playerIds.indexOf(user2.id)] = user.id;
+            user.message('updatestats', JSON.stringify(room.data.gameinfo));
         }
         user2.delete();
     } else {
