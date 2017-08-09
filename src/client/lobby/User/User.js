@@ -49,6 +49,8 @@ export default class User extends Component {
         var displayName = this.props.user.name;
         if (!this.props.user.online) {
             displayName += " (Offline)";
+        } else if (this.props.user.spectating) {
+            displayName += " (Spectating)";
         } else if (!this.props.user.inLobby) {
             displayName += " (In-Game)";
         }

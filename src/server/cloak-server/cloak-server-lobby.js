@@ -41,12 +41,16 @@ function getLobbyUserInfo() {
                     avatar: user.data.avatar,
                     inLobby: room.isLobby,
                     online: true,
-                    rank: null
+                    rank: null,
+                    spectating: false
                 };
                 if (room.isLobby) {
                     user.data.isPlayer = false;
                     listOfUserInfo.unshift(userJson);
                 } else {
+                    if (!user.data.isPlayer) {
+                        userJson.spectating = true;
+                    }
                     listOfUserInfo.push(userJson);
                 }
             }
