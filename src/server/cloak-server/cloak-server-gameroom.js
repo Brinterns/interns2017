@@ -89,7 +89,8 @@ function win(winBool, user) {
 
 var roomExit = function(arg) {
     const users = this.getMembers();
-    if (((users.length - shared.getSpectators(this).length) === 1) && !this.data.winnerId) {
+    const spectators = shared.getSpectators(this);
+    if (((users.length - spectators.length) === 1) && !this.data.winnerId) {
         this.data.opponentDisconnect = true;
         var user = users[0];
         var opponentName;
@@ -119,6 +120,9 @@ var roomExit = function(arg) {
                     this.data.winnerId = user.id;
                     user.message('opponentdisconnect');
                     user.message('gameover', this.data.winnerId);
+                    spectators.forEach(spectator => {
+                        spectator.message('gameover', this.data.winnerId);
+                    });
                 });
             });
         });

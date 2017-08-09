@@ -52,9 +52,9 @@ export class GameSpectate extends Component {
     render() {
         var gameOverText = null;
         if (this.props.winnerId) {
-            var gameOverText = "Game Over, " + this.props.listOfPlayers.filter(player => {
+            gameOverText = "Game Over, " + this.props.listOfPlayers.filter(player => {
                 return player.id === this.props.winnerId;
-            })[0].name + " won";
+            })[0].name + " Won";
         }
         const gameOverDiv = (
             <div className={gameStyles.notificationMenu}>
@@ -99,7 +99,7 @@ export class GameSpectate extends Component {
                     <h1> {currentPlayerText ? emojify("" + currentPlayerText) : null} </h1>
                     <BoardSpectate gameState={this.state} />
                     {(this.props.winnerId) ? gameOverDiv : null}
-                    {this.state.leaveMenu ? leaveDiv : null}
+                    {(this.state.leaveMenu && !this.props.winnerId) ? leaveDiv : null}
                 </div>
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
                 <div className={gameStyles.notificationDiv}>
@@ -123,8 +123,7 @@ const mapStateToProps = state => ({
     winnerId: state.game.winnerId,
     //Notification states
     notificationBool: state.game.notificationBool,
-    notificationText: state.game.notificationText,
-    opponentDisconnect: state.game.opponentDisconnect
+    notificationText: state.game.notificationText
 });
 
 const mapDispatchToProps = dispatch => ({
