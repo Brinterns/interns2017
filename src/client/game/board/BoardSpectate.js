@@ -30,7 +30,7 @@ export class BoardSpectate extends Component {
             displayNumber = (this.props.numOppPiecesFinished > 1) ? this.props.numOppPiecesFinished : null;
         }
         return (
-            <Square index={i} position={pos} displayNumber={displayNumber} movePiece={null} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={boardStyles.squarePiece} setHighlightSquare={null} highlight={false} key={i} />
+            <Square index={i} position={pos} displayNumber={displayNumber} movePiece={() => {}} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={boardStyles.squarePiece} setHighlightSquare={() => {}} highlight={false} key={i} />
         );
     }
 
@@ -42,10 +42,10 @@ export class BoardSpectate extends Component {
             const pos = this.props.piecePositions[i];
             if (pos === 0) {
                 if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos)) {
-                    pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={null} setHighlightSquare={null} key={i}/>);
+                    pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={() => {}} setHighlightSquare={() => {}} key={i}/>);
                     continue;
                 }
-                pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={null} setHighlightSquare={null} key={i}/>);
+                pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={() => {}} setHighlightSquare={() => {}} key={i}/>);
             }
         }
         var oppPieceHolderSize = numberOfPieces - this.props.opponentSquares.filter((square) => {return square}).length;
