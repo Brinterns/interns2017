@@ -31,14 +31,12 @@
 
 .statsDiv table tr {
     border: solid 0.12em;
-    height: calc(4 * (1vw + 1vh - 1vmin));
 }
 
 .statsDiv table th {
     text-align: left;
     padding-left: calc(0.5 * (1vw + 1vh - 1vmin));
     padding-right: calc(0.5 * (1vw + 1vh - 1vmin));
-    width: calc(13.5 * (1vw + 1vh - 1vmin));
 }
 
 .statsDiv table td {

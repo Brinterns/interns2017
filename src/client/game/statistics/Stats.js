@@ -55,16 +55,16 @@ export default class Stats extends Component {
                     <table>
                         <tbody>
                             <tr>
-                                <th>Name</th>
+                                <th></th>
                                 <td>{emojify(userStats.name)}</td>
                                 <td>{emojify(opponentStats.name)}</td>
                             </tr>
-                            {this.tableRow("Average squares moved per turn", userAverages[1], opponentAverages[1])}
+                            {this.tableRow("Average distance per turn", userAverages[1], opponentAverages[1])}
                             {this.tableRow("Pieces taken", userStats.piecesTaken, opponentStats.piecesTaken)}
                             {this.tableRow("Pieces lost", userStats.piecesLost, opponentStats.piecesLost)}
                             {this.tableRow("Pieces per turn in range of end", userStats.turnsInEndRange, opponentStats.turnsInEndRange)}
-                            {this.tableRow("Turns last piece in end range", userStats.turnsLastInEndRange, opponentStats.turnsLastInEndRange)}
-                            {this.tableRow("Average time (s) taken per roll", userAverages[0], opponentAverages[0])}
+                            {this.tableRow("Turns in winning range", userStats.turnsLastInEndRange, opponentStats.turnsLastInEndRange)}
+                            {this.tableRow("Seconds per roll", userAverages[0], opponentAverages[0])}
                         </tbody>
                     </table>
                 </div>

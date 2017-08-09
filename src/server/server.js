@@ -6,11 +6,7 @@ var config = require('./config');
 var serveFrom = path.join(__dirname, '../client');
 
 var app = express();
-<<<<<<< HEAD
-
-=======
 app.use(redirectToHTTPS.redirectToHTTPS([/localhost:(\d{4})/]));
->>>>>>> develop
 app.use(express.static(serveFrom));
 app.get('*', function(req, res) {
     res.sendFile(path.join(serveFrom, 'index.html'));
