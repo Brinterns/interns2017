@@ -148,7 +148,7 @@ export default class ChatBox extends Component {
             <div onClick={this.handleClick} className={chatStyles.closedChat}>
                 <div className={closedChatClass}>
                     <img src={message} />
-                    <p>Chat</p>
+                    <p>CHAT</p>
                     {difference > 0 ? msgNotifier : null }
                 </div>
             </div>
@@ -157,7 +157,7 @@ export default class ChatBox extends Component {
             <div className={chatStyles.openChat}>
                 <div onClick={this.handleClick} className={chatStyles.openChatTop}>
                     <img src={message} />
-                    <p>Chat </p>
+                    <p>CHAT</p>
                 </div>
                 {this.state.emojis ? <EmojiPicker onEmojiSelected={this.addEmoji}/> : null}
                 {this.state.emojis ? null :
