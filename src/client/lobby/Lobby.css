@@ -368,6 +368,7 @@
 
 .game h1 {
     margin: 0;
+    margin-bottom: calc(1.5 * (1vw + 1vh - 1vmin));
     color: black;
     display: block;
     font-size: calc(10px + 1.5 * (1vw + 1vh - 1vmin));
@@ -379,13 +380,12 @@
     display: inline-block;
 }
 
-.buttonDiv button {
+.container button {
     padding: 0;
     height: calc(3.5 * (1vw + 1vh - 1vmin));
     width: calc(8 * (1vw + 1vh - 1vmin));
     min-height: 35px;
     min-width: 80px;
-    float: right;
     outline: none;
     background-color: #0265CB;
     border-style: none;
@@ -393,6 +393,10 @@
     font-size: calc(10px + 0.5 * (1vw + 1vh - 1vmin));
     font-weight: bold;
     text-align: center;
+}
+
+.buttonDiv button {
+    float: right;
 }
 
 .buttonHolder {

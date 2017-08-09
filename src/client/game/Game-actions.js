@@ -1,5 +1,6 @@
 const namespace = "GAME/";
 export const UPDATE_USER_ID = namespace + 'UPDATE_USER_ID';
+export const UPDATE_SPECTATING_ID = namespace + 'UPDATE_SPECTATING_ID';
 export const UPDATE_LIST_OF_PLAYERS = namespace + 'UPDATE_LIST_OF_PLAYERS';
 export const UPDATE_CURRENT_PLAYER = namespace + 'UPDATE_CURRENT_PLAYER';
 export const UPDATE_CURRENT_PLAYER_ONLY = namespace + 'UPDATE_CURRENT_PLAYER_ONLY';
@@ -26,6 +27,13 @@ export const UPDATE_GAME_STATS = namespace + 'UPDATE_GAME_STATS';
 export function updateUserGameId(id) {
     return {
         type: UPDATE_USER_ID,
+        payload: id
+    }
+}
+
+export function spectatingId(id) {
+    return {
+        type: UPDATE_SPECTATING_ID,
         payload: id
     }
 }
