@@ -6,3 +6,10 @@
 .drawCanvas img {
     margin-left: calc(0.5 * (1vw + 1vh - 1vmin)) !important;
 }
+
+.colorPicker {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}

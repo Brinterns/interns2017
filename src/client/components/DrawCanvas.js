@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {SketchField, Tools} from 'react-sketch';
+import { PhotoshopPicker } from 'react-color';
 import bin from '../images/icons/bin.png';
 import redo from '../images/icons/redo.png';
 import undo from '../images/icons/undo.png';
@@ -11,9 +12,15 @@ import CanvasStyles from './Components.css';
 export default class DrawCanvas extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            currentColor: 'black',
+            nextColor: 'black'
+        }
         this.undoImg = this.undoImg.bind(this);
         this.redoImg = this.redoImg.bind(this);
         this.clearImg = this.clearImg.bind(this);
+        this.handleChangeComplete = this.handleChangeComplete.bind(this);
+        this.onAccept = this.onAccept.bind(this);
         {this.setBackground()}
     }
 
@@ -39,6 +46,18 @@ export default class DrawCanvas extends Component {
         this.refs.drawCanvas.redo();
     }
 
+    onAccept() {
+        this.setState({
+            currentColor: this.state.nextColor
+        });
+    }
+
+    handleChangeComplete(color, event) {
+        this.setState({
+            nextColor: color.hex
+        });
+    }
+
     render() {
         const updateCanvasButtons = (
             <div className={CanvasStyles.drawCanvas}>
@@ -58,8 +77,11 @@ export default class DrawCanvas extends Component {
                     defaultDataType="url"
                     ref="drawCanvas"
                     tool={Tools.Pencil}
-                    lineColor='black'
+                    lineColor={this.state.currentColor}
                     lineWidth={3}/>
+                </div>
+                <div className={CanvasStyles.colorPicker}>
+                    <PhotoshopPicker  color={this.state.nextColor} onChangeComplete={ this.handleChangeComplete } onAccept={ this.onAccept }/>
                 </div>
             </div>
         );
