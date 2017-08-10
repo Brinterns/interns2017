@@ -141,6 +141,7 @@ function observeGame(gameId, user) {
     cloak.getRoom(gameId).addMember(user);
     user.message('spectategame', gameId);
     gamePlayFunctions.sendStats(user);
+    user.message('updategamemessages', JSON.stringify(cloak.getRoom(gameId).data.messages));
 }
 
 function rejoinGame(user) {

@@ -143,6 +143,7 @@ function reconnectUser(id, user) {
             });
             room.data.gameinfo.playerIds[room.data.gameinfo.playerIds.indexOf(user2.id)] = user.id;
             user.message('updatestats', JSON.stringify(room.data.gameinfo));
+            user.message('updategamemessages', JSON.stringify(room.data.messages));
         }
         user2.delete();
     } else {
