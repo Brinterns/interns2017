@@ -24,6 +24,9 @@ module.exports = function(expressServer) {
             setavatar: function(url, user) {
                 loginFunctions.setAvatar(url, user);
             },
+            rejoingame: function(_, user) {
+                lobbyFunctions.rejoinGame(user);
+            },
             getlobbyinfo: function(_, user) {
                 lobbyFunctions.getRecord(user);
                 lobbyFunctions.getLobbyInfo(user);
