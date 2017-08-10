@@ -8,12 +8,14 @@ var db = require('../db');
 function getRoomUserInfo(room) {
     let listOfRoomUsers = [];
     room.getMembers().forEach(function(user) {
-        var userJson = {
-            id: user.id,
-            name: user.name,
-            elorank: user.data.elorank
-        };
-        listOfRoomUsers.push(userJson);
+        if (user.data.isPlayer) {
+            var userJson = {
+                id: user.id,
+                name: user.name,
+                elorank: user.data.elorank
+            };
+            listOfRoomUsers.push(userJson);
+        }
     });
     room.messageMembers('updateplayers', JSON.stringify(listOfRoomUsers));
 }
@@ -27,7 +29,17 @@ function getRoomInfo(user) {
             var d = new Date();
             startingPlayer.data.rollStartTime = d.getTime();
         }
-        const opponent = shared.getOpponent(user);
+        var opponent;
+        if (user.data.isPlayer) {
+            opponent = shared.getOpponent(user)
+        } else {
+            const spectatedPlayer = cloak.getUser(room.data.spectatedId);
+            opponent = shared.getOpponent(spectatedPlayer);
+            user.data.squares = spectatedPlayer.data.squares;
+            user.data.piecePositions = spectatedPlayer.data.piecePositions;
+            user.data.finishedPieces = spectatedPlayer.data.finishedPieces;
+            user.message('spectatingid', room.data.spectatedId);
+        }
 
         var gameStateJson = {
             id: user.id,
@@ -81,7 +93,8 @@ function win(winBool, user) {
 
 var roomExit = function(arg) {
     const users = this.getMembers();
-    if ((users.length === 1) && !users[0].getRoom().data.winnerId) {
+    const spectators = shared.getSpectators(this);
+    if (((users.length - spectators.length) === 1) && !this.data.winnerId) {
         this.data.opponentDisconnect = true;
         var user = users[0];
         var opponentName;
@@ -106,11 +119,14 @@ var roomExit = function(arg) {
                     winLossRecord: user.data.winLossRecord,
                     elorank: user.data.elorank
                 }
-            }). then(() => {
+            }).then(() => {
                 db.update(userData, user.name).then(() => {
                     this.data.winnerId = user.id;
                     user.message('opponentdisconnect');
                     user.message('gameover', this.data.winnerId);
+                    spectators.forEach(spectator => {
+                        spectator.message('gameover', this.data.winnerId);
+                    });
                 });
             });
         });

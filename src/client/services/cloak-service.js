@@ -9,6 +9,7 @@ import {
 
 import {
     updateUserGameId,
+    spectatingId,
     updateGameMessages,
     updateListOfPlayers,
     updateCurrentPlayer,
@@ -76,6 +77,10 @@ export function RunCloakConfig() {
                 dispatch(resetStore());
                 browserHistory.push('/game/' + roomId);
             },
+            spectategame: (roomId) => {
+                dispatch(resetStore());
+                browserHistory.push('/spectate/' + roomId);
+            },
             updatelobbymessages: (messages) => {
                 dispatch(updateLobbyMessages(JSON.parse(messages)));
             },
@@ -91,6 +96,9 @@ export function RunCloakConfig() {
             //Identity Messages
             updateplayers: (userinfo) => {
                 dispatch(updateListOfPlayers(JSON.parse(userinfo)));
+            },
+            spectatingid: (id) => {
+                dispatch(spectatingId(id));
             },
             updategamemessages: (messages) => {
                 dispatch(updateGameMessages(JSON.parse(messages)));

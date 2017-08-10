@@ -30,6 +30,7 @@ export class Lobby extends Component {
         this.challengeUser = this.challengeUser.bind(this);
         this.cancelChallenge = this.cancelChallenge.bind(this);
         this.challengeRespond = this.challengeRespond.bind(this);
+        this.observeGame = this.observeGame.bind(this);
         this.handleToggleRules = this.handleToggleRules.bind(this);
         this.handleAvatarClick = this.handleAvatarClick.bind(this);
         this.upload = this.upload.bind(this);
@@ -85,6 +86,10 @@ export class Lobby extends Component {
         } else {
             cloak.message('declinechallenge', id);
         }
+    }
+
+    observeGame(gameId) {
+        cloak.message('observegame', gameId);
     }
 
     handleToggleRules() {
@@ -157,8 +162,13 @@ export class Lobby extends Component {
             })
         );
         const gamesDisplayList = (
-            this.props.listOfActiveGames.map((gameName, i) => {
-                return <div key={i} className={lobbyStyles.game}><h1>{emojify(gameName)}</h1></div>;
+            this.props.listOfActiveGames.map((game, i) => {
+                return (
+                    <div key={i} className={lobbyStyles.game}>
+                        <h1> {emojify(game.name)} </h1>
+                        <button onClick={() => {this.observeGame(game.id)}}> Spectate </button>
+                    </div>
+                );
             })
         );
 

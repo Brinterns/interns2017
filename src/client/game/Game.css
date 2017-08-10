@@ -12,7 +12,7 @@
 .gameMain h1 {
     color: #FAD000;
     position: absolute;
-    width: 100%;
+    white-space: nowrap;
     top: calc(40px + 1.5 * (1vw + 1vh - 1vmin));
     left: 50%;
     margin: 0;

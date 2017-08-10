@@ -1,6 +1,7 @@
 var cloak = require('cloak');
 var db = require('../db');
 var shared = require('./cloak-server-shared');
+var gamePlayFunctions = require('./cloak-server-gameplay');
 
 function getLobbyInfo(user) {
     user.message('userid', user.id);
@@ -53,14 +54,19 @@ function getLobbyUserInfo() {
                     avatar: user.data.avatar,
                     inLobby: room.isLobby,
                     online: true,
-                    rank: null
+                    rank: null,
+                    spectating: false
                 };
                 if (room.isLobby) {
                     user.data.challenging = clearDisconnected(user.data.challenging);
                     user.data.challengers = clearDisconnected(user.data.challengers);
                     userJson.inChallenge = user.data.challenger || user.data.challenging;
+                    user.data.isPlayer = false;
                     listOfUserInfo.unshift(userJson);
                 } else {
+                    if (!user.data.isPlayer) {
+                        userJson.spectating = true;
+                    }
                     listOfUserInfo.push(userJson);
                 }
             }
@@ -125,10 +131,16 @@ function updateLobbyActiveGames() {
     let activeGameNames = [];
     cloak.getRooms().forEach(function(room) {
         if(room.members.length > 0) {
-            activeGameNames.push(room.name);
+            activeGameNames.push({id: room.id, name: room.name});
         }
     });
     cloak.getLobby().messageMembers('updaterooms', activeGameNames);
+}
+
+function observeGame(gameId, user) {
+    cloak.getRoom(gameId).addMember(user);
+    user.message('spectategame', gameId);
+    gamePlayFunctions.sendStats(user);
 }
 
 module.exports.updateLobbyUsers = updateLobbyUsers;
@@ -136,3 +148,4 @@ module.exports.updateLobbyActiveGames = updateLobbyActiveGames;
 module.exports.getLobbyUserInfo = getLobbyUserInfo;
 module.exports.getLobbyInfo = getLobbyInfo;
 module.exports.getRecord = getRecord;
+module.exports.observeGame = observeGame;
