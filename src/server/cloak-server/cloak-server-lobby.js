@@ -143,9 +143,21 @@ function observeGame(gameId, user) {
     gamePlayFunctions.sendStats(user);
 }
 
+function rejoinGame(user) {
+    const room = user.getRoom();
+    if (room && !room.isLobby) {
+        if (user.data.isPlayer) {
+            user.message('joingame', room.id);
+        } else {
+            user.message('spectategame', room.id);
+        }
+    }
+}
+
 module.exports.updateLobbyUsers = updateLobbyUsers;
 module.exports.updateLobbyActiveGames = updateLobbyActiveGames;
 module.exports.getLobbyUserInfo = getLobbyUserInfo;
 module.exports.getLobbyInfo = getLobbyInfo;
 module.exports.getRecord = getRecord;
 module.exports.observeGame = observeGame;
+module.exports.rejoinGame = rejoinGame;
