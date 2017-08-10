@@ -61,7 +61,7 @@ export class GameSpectate extends Component {
                 return player.id === this.props.currentPlayer;
             })[0];
             if (currentPlayer) {
-                currentPlayerText = "It's " + currentPlayer.name + "'s" + " turn";
+                currentPlayerText = "It's " + currentPlayer.name + "'s turn";
             }
 
             if (this.props.opponentRollNumber === 0) {
