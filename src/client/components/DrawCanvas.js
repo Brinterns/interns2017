@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {SketchField, Tools} from 'react-sketch';
-import { PhotoshopPicker } from 'react-color';
 import bin from '../images/icons/bin.png';
 import redo from '../images/icons/redo.png';
 import undo from '../images/icons/undo.png';
@@ -14,13 +13,13 @@ export default class DrawCanvas extends Component {
         super(props);
         this.state = {
             currentColor: 'black',
-            nextColor: 'black'
+            showPicker: false
         }
         this.undoImg = this.undoImg.bind(this);
         this.redoImg = this.redoImg.bind(this);
         this.clearImg = this.clearImg.bind(this);
-        this.handleChangeComplete = this.handleChangeComplete.bind(this);
-        this.onAccept = this.onAccept.bind(this);
+        this.togglePicker = this.togglePicker.bind(this);
+        this.colourSelected = this.colourSelected.bind(this);
         {this.setBackground()}
     }
 
@@ -46,15 +45,15 @@ export default class DrawCanvas extends Component {
         this.refs.drawCanvas.redo();
     }
 
-    onAccept() {
+    togglePicker() {
         this.setState({
-            currentColor: this.state.nextColor
+            showPicker: !this.state.showPicker
         });
     }
 
-    handleChangeComplete(color, event) {
+    colourSelected(color) {
         this.setState({
-            nextColor: color.hex
+            nextColor: color
         });
     }
 
@@ -65,11 +64,20 @@ export default class DrawCanvas extends Component {
                 <img onClick={this.props.close} className={CanvasStyles.closeButton} src={closeButton}/>
             </div>
         );
+        const buttonColor = {backgroundColor: this.state.currentColor};
+        const pickerDiv = (
+            <div className={CanvasStyles.colorPicker}>
+                <div>
+                    
+                </div>
+            </div>
+        );
         return (
             <div className={this.props.className}>
                 <img onClick={this.clearImg} src={bin}/>
                 <img onClick={this.undoImg} src={undo}/>
                 <img onClick={this.redoImg} src={redo}/>
+                <button onClick={this.togglePicker} style={buttonColor}> &nbsp;&nbsp; </button>
                 {this.props.edit ? updateCanvasButtons : null}
                 <div className={this.props.canvasClassName}>
                     <SketchField
@@ -80,9 +88,7 @@ export default class DrawCanvas extends Component {
                     lineColor={this.state.currentColor}
                     lineWidth={3}/>
                 </div>
-                <div className={CanvasStyles.colorPicker}>
-                    <PhotoshopPicker  color={this.state.nextColor} onChangeComplete={ this.handleChangeComplete } onAccept={ this.onAccept }/>
-                </div>
+                {this.state.showPicker ? pickerDiv : null}
             </div>
         );
     }

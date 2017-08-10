@@ -45,7 +45,6 @@
     "postcss-loader": "^0.9.1",
     "promise": "^8.0.1",
     "react": "^15.0.1",
-    "react-color": "^2.13.4",
     "react-dom": "^15.0.1",
     "react-emojione": "^3.1.10",
     "react-emojipicker": "^1.0.3",
