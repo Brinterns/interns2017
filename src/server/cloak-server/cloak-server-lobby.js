@@ -19,6 +19,19 @@ function updateLobbyUsers() {
     });
 };
 
+function clearDisconnected(userList) {
+    if (!userList) {
+        return [];
+    }
+    let newList = [];
+    for (var i = 0; i < userList.length; ++i) {
+        const opponent = cloak.getUser(userList[i]);
+        if (opponent && opponent.connected()) {
+            newList.push(opponent.id);
+        }
+    }
+    return newList;
+}
 //all clients are updated with the list of usernames currently in the lobbyfunction()
 function getLobbyUserInfo() {
     return new Promise(function(resolve, reject) {
@@ -45,6 +58,9 @@ function getLobbyUserInfo() {
                     spectating: false
                 };
                 if (room.isLobby) {
+                    user.data.challenging = clearDisconnected(user.data.challenging);
+                    user.data.challengers = clearDisconnected(user.data.challengers);
+                    userJson.inChallenge = user.data.challenger || user.data.challenging;
                     user.data.isPlayer = false;
                     listOfUserInfo.unshift(userJson);
                 } else {

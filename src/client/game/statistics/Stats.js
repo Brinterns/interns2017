@@ -21,7 +21,7 @@ export default class Stats extends Component {
     }
 
     pageClick(e) {
-        if(e.target.id === "hideStats") {
+        if (e.target.id === "hideStats") {
             return;
         }
         if (this.refs.statistics) {
