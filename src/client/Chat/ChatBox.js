@@ -144,8 +144,10 @@ export default class ChatBox extends Component {
         );
         const closedChatClass = (difference > 0) ? chatStyles.notifyMain : "";
 
+        var closedStyle = (difference > 0) ? {backgroundColor: '#FAD000'} : {};
+
         const closedChatDiv = (
-            <div onClick={this.handleClick} className={chatStyles.closedChat}>
+            <div onClick={this.handleClick} style={closedStyle} className={chatStyles.closedChat}>
                 <div className={closedChatClass}>
                     <img src={message} />
                     <p>CHAT</p>
