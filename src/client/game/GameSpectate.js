@@ -59,7 +59,7 @@ export class GameSpectate extends Component {
         );
         let gameInfo = null;
         let currentPlayerText = null;
-        let opponentRoll;
+        let playerRoll;
         if (this.props.listOfPlayers.length) {
             const currentPlayer = this.props.listOfPlayers.filter(player => {
                 return player.id === this.props.currentPlayer;
@@ -68,10 +68,10 @@ export class GameSpectate extends Component {
                 currentPlayerText = "It's " + currentPlayer.name + "'s turn";
             }
 
-            if (this.props.opponentRollNumber === 0) {
-                opponentRoll = (<div><p>{this.props.notificationText}</p><p>{currentPlayerText}</p></div>);
-            } else if (this.props.opponentRollNumber !== null) {
-                opponentRoll = (<p>{this.props.notificationText}</p>);
+            if (this.props.playerRollNumber === 0) {
+                playerRoll = (<div><p>{this.props.notificationText}</p><p>{currentPlayerText}</p></div>);
+            } else if (this.props.playerRollNumber !== null) {
+                playerRoll = (<p>{this.props.notificationText}</p>);
             }
 
             gameInfo = <ul> {this.props.listOfPlayers.map((player, index) => {
@@ -105,7 +105,7 @@ export class GameSpectate extends Component {
                 </div>
                 <Stats id={this.props.id} stats={this.props.gameStats}/>
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
-                {this.props.notificationBool ? <div className={gameStyles.notificationDiv}> {opponentRoll} </div> : null}
+                {this.props.notificationBool ? <div className={gameStyles.notificationDiv}> {playerRoll} </div> : null}
             </div>
         );
     }
@@ -119,7 +119,7 @@ const mapStateToProps = state => ({
     currentPlayer: state.game.currentPlayer,
     listOfPlayers: state.game.listOfPlayers,
     //Roll states
-    opponentRollNumber: state.game.opponentRollNumber,
+    playerRollNumber: state.game.opponentRollNumber,
     //End game states
     gameOver: state.game.gameOver,
     winnerId: state.game.winnerId,
