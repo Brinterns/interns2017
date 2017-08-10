@@ -75,7 +75,7 @@ export class GameSpectate extends Component {
             }
 
             gameInfo = <ul> {this.props.listOfPlayers.map((player, index) => {
-                return <li key={index}> {player.name} ({player.elorank}) {(player.id === this.props.id) ? <p>&#9733;</p> : null} </li>
+                return <li key={index}> {emojify(player.name)} ({player.elorank}) </li>
             })} </ul>;
 
             const spectatingPlayer = this.props.listOfPlayers.filter(player => {
@@ -83,14 +83,14 @@ export class GameSpectate extends Component {
             });
             var spectatingName = null;
             if (spectatingPlayer[0]) {
-                spectatingName = spectatingPlayer[0].name;
+                spectatingName = emojify(spectatingPlayer[0].name);
             }
             const opponentPlayer = this.props.listOfPlayers.filter(player => {
                 return player.id !== this.props.spectatingId;
             });
             var opponentName = null;
             if (opponentPlayer[0]) {
-                opponentName = opponentPlayer[0].name;
+                opponentName = emojify(opponentPlayer[0].name);
             }
         }
 
