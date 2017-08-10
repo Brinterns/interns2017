@@ -105,9 +105,7 @@ export class GameSpectate extends Component {
                 </div>
                 <Stats id={this.props.id} stats={this.props.gameStats}/>
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
-                <div className={gameStyles.notificationDiv}>
-                    {this.props.notificationBool ? opponentRoll : null}
-                </div>
+                {this.props.notificationBool ? <div className={gameStyles.notificationDiv}> {opponentRoll} </div> : null}
             </div>
         );
     }
