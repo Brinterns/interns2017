@@ -146,9 +146,7 @@ export class Game extends Component {
                 <Stats id={this.props.id} stats={this.props.gameStats}/>
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
                 {this.state.rules && !this.props.winnerId ? <Rules toggleRules={this.handleToggleRules} /> : null}
-                <div className={gameStyles.notificationDiv}>
-                    {this.props.notificationBool ? opponentRoll : null}
-                </div>
+                {this.props.notificationBool ? <div className={gameStyles.notificationDiv}> {opponentRoll} </div> : null}
             </div>
         );
     }

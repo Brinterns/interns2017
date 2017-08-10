@@ -21,7 +21,7 @@ export default class Stats extends Component {
     }
 
     pageClick(e) {
-        if (e.target.id === "hideStats") {
+        if ((e.target.id === "statsButton") || (e.target.id === "statsDiv")) {
             return;
         }
         if (this.refs.statistics) {
@@ -33,10 +33,10 @@ export default class Stats extends Component {
 
     tableRow(header, entry1, entry2) {
         return (
-            <tr>
-                <th>{header}</th>
-                <td>{entry1}</td>
-                <td>{entry2}</td>
+            <tr id="statsDiv">
+                <th id="statsDiv">{header}</th>
+                <td id="statsDiv">{entry1}</td>
+                <td id="statsDiv">{entry2}</td>
             </tr>
         );
     }
@@ -67,13 +67,13 @@ export default class Stats extends Component {
             const userAverages = this.getAverages(userStats);
             const opponentAverages = this.getAverages(opponentStats);
             statsDiv = (
-                <div ref="statistics" className={statStyling.statsDiv}>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th></th>
-                                <td>{emojify(userStats.name)}</td>
-                                <td>{emojify(opponentStats.name)}</td>
+                <div id="statsDiv" ref="statistics" className={statStyling.statsDiv}>
+                    <table id="statsDiv">
+                        <tbody id="statsDiv">
+                            <tr id="statsDiv">
+                                <th id="statsDiv"></th>
+                                <td id="statsDiv">{emojify(userStats.name)}</td>
+                                <td id="statsDiv">{emojify(opponentStats.name)}</td>
                             </tr>
                             {this.tableRow("Average distance per turn", userAverages[1], opponentAverages[1])}
                             {this.tableRow("Pieces taken", userStats.piecesTaken, opponentStats.piecesTaken)}
@@ -90,7 +90,7 @@ export default class Stats extends Component {
         return (
             <div className={statStyling.mainDiv}>
                 <div className={statStyling.toggleDiv}>
-                    {this.state.statsDisplay ? <img id="hideStats" onClick={this.toggleStats} src={leftarrow} /> : <img onClick={this.toggleStats} src={clipboard} /> }
+                    {this.state.statsDisplay ? <img id="statsButton" onClick={this.toggleStats} src={leftarrow} /> : <img onClick={this.toggleStats} src={clipboard} /> }
                 </div>
                 {this.state.statsDisplay ? statsDiv : null }
             </div>

@@ -167,7 +167,7 @@ export class Lobby extends Component {
                 return (
                     <div key={i} className={lobbyStyles.game}>
                         <h1> {emojify(game.name)} </h1>
-                        <button onClick={() => {this.observeGame(game.id)}}> Spectate </button>
+                        {game.winner ? <h2> {game.winner} Won </h2> : <button onClick={() => {this.observeGame(game.id)}}> Spectate </button>}
                     </div>
                 );
             })

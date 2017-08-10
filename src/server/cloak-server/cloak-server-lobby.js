@@ -131,7 +131,7 @@ function updateLobbyActiveGames() {
     let activeGameNames = [];
     cloak.getRooms().forEach(function(room) {
         if(room.members.length > 0) {
-            activeGameNames.push({id: room.id, name: room.name});
+            activeGameNames.push({id: room.id, name: room.name, winner: (room.data.winnerId ? cloak.getUser(room.data.winnerId).name : null)});
         }
     });
     cloak.getLobby().messageMembers('updaterooms', activeGameNames);

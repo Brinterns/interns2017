@@ -374,6 +374,12 @@
     font-size: calc(10px + 1.5 * (1vw + 1vh - 1vmin));
 }
 
+.game h2 {
+    margin: 0;
+    color: #a8a6a6;
+    font-size: calc(3px + 2 * (1vw + 1vh - 1vmin));
+}
+
 .buttonDiv {
     position: relative;
     width: 27.5%;

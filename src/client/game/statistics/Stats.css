@@ -26,7 +26,7 @@
     vertical-align: top !important;
     display: inline-block;
     margin-left: 0.35em;
-    background-color: rgba(2,101,203,1.0);
+    background-color: rgba(0,0,0,0.6);
 }
 
 .statsDiv table tr {
