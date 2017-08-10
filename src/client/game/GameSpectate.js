@@ -43,9 +43,13 @@ export class GameSpectate extends Component {
     render() {
         var gameOverText = null;
         if (this.props.winnerId) {
-            gameOverText = "Game Over, " + this.props.listOfPlayers.filter(player => {
+            gameOverText = "Game Over";
+            const winner = this.props.listOfPlayers.filter(player => {
                 return player.id === this.props.winnerId;
-            })[0].name + " Won";
+            });
+            if (winner[0]) {
+                gameOverText += ", " + winner[0].name + " Won";
+            }
         }
         const gameOverDiv = (
             <div className={gameStyles.notificationMenu}>
