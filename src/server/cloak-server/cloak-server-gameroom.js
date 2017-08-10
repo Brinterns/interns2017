@@ -1,5 +1,6 @@
 var cloak = require('cloak');
 var shared = require('./cloak-server-shared');
+var lobbyFunctions = require('./cloak-server-lobby');
 var gameplay = require('./cloak-server-gameplay');
 var EloRank = require('elo-rank');
 var db = require('../db');
@@ -89,6 +90,7 @@ function win(winBool, user) {
     }
     db.update(user.data, user.name);
     db.update(user2.data, user2.name);
+    lobbyFunctions.updateLobbyActiveGames();
 }
 
 var roomExit = function(arg) {
