@@ -127,6 +127,9 @@ function reconnectUser(id, user) {
                 if (user2.id === room.data.spectatedId) {
                     room.data.spectatedId = user.id;
                 }
+                user.message('joingame', room.id);
+            } else {
+                user.message('spectategame', room.id);
             }
             user.message('currentplayer', room.data.currentPlayer);
             const opponent = room.getMembers().filter(member => {

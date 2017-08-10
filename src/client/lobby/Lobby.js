@@ -66,7 +66,8 @@ export class Lobby extends Component {
     getLobbyInfo() {
         RunCloakConfig();
         if(cloak.connected()) {
-            cloak.message('getlobbyinfo', _);
+            cloak.message('rejoingame');
+            cloak.message('getlobbyinfo');
         } else {
             this.reconnectWait();
         }
