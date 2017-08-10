@@ -132,7 +132,7 @@ var roomExit = function(arg) {
                 });
             });
         });
-    } else if (users.length === 1) {
+    } else if ((users.length - spectators.length) === 1) {
         const user = users[0];
         this.data.opponentDisconnect = true;
         user.message('opponentdisconnect');
