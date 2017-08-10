@@ -18,7 +18,7 @@ export default class ChatBox extends Component {
         };
         setTimeout(() => {
             this.setState({ numMsgSeen: this.props.messages.length});
-        }, 500);
+        }, 1000);
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
