@@ -21,7 +21,7 @@ export default class Stats extends Component {
     }
 
     pageClick(e) {
-        if(e.target.id === "checkboard") {
+        if (e.target.id === "hideStats") {
             return;
         }
         if (this.refs.statistics) {
@@ -90,7 +90,7 @@ export default class Stats extends Component {
         return (
             <div className={statStyling.mainDiv}>
                 <div className={statStyling.toggleDiv}>
-                    {this.state.statsDisplay ? <img onClick={this.toggleStats} src={leftarrow} /> : <img id="checkboard" onClick={this.toggleStats} src={clipboard} /> }
+                    {this.state.statsDisplay ? <img id="hideStats" onClick={this.toggleStats} src={leftarrow} /> : <img onClick={this.toggleStats} src={clipboard} /> }
                 </div>
                 {this.state.statsDisplay ? statsDiv : null }
             </div>
