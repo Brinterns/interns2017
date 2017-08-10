@@ -72,40 +72,43 @@ function getLobbyUserInfo() {
             }
             if (index === (cloakUsers.length - 1)) {
                 resolve(new Promise(function(resolve, reject) {
+                    console.log("find users");
                     const allUsers = db.getAllUsers();
-                    allUsers.count().then(function(size) {
-                        let count = 0;
-                        allUsers.forEach(function(dbUser) {
-                            if (!listOfDbIds.includes(dbUser.cloakid)) {
-                                var dbUserJson = {
-                                    id: null,
-                                    name: dbUser.name,
-                                    inChallenge: false,
-                                    winLossRecord: {wins: dbUser.wins, loses: dbUser.loses},
-                                    elorank: dbUser.elorank,
-                                    avatar: dbUser.avatar,
-                                    inLobby: false,
-                                    online: false,
-                                    rank: null
+                    if (allUsers) {
+                        allUsers.count().then(function(size) {
+                            let count = 0;
+                            allUsers.forEach(function(dbUser) {
+                                if (!listOfDbIds.includes(dbUser.cloakid)) {
+                                    var dbUserJson = {
+                                        id: null,
+                                        name: dbUser.name,
+                                        inChallenge: false,
+                                        winLossRecord: {wins: dbUser.wins, loses: dbUser.loses},
+                                        elorank: dbUser.elorank,
+                                        avatar: dbUser.avatar,
+                                        inLobby: false,
+                                        online: false,
+                                        rank: null
+                                    }
+                                    listOfUserInfo.push(dbUserJson);
                                 }
-                                listOfUserInfo.push(dbUserJson);
-                            }
-                            if (count === (size - 1)) {
-                                var sortedList = Object.assign([], listOfUserInfo);
-                                sortedList.sort(function(a, b) {
-                                    return b.elorank - a.elorank;
-                                });
-                                const ranks = sortedList.map(function(item) {
-                                    return item.elorank;
-                                });
-                                for (var i = 0; i < listOfUserInfo.length; i++) {
-                                    listOfUserInfo[i].rank = ranks.indexOf(listOfUserInfo[i].elorank) + 1;
+                                if (count === (size - 1)) {
+                                    var sortedList = Object.assign([], listOfUserInfo);
+                                    sortedList.sort(function(a, b) {
+                                        return b.elorank - a.elorank;
+                                    });
+                                    const ranks = sortedList.map(function(item) {
+                                        return item.elorank;
+                                    });
+                                    for (var i = 0; i < listOfUserInfo.length; i++) {
+                                        listOfUserInfo[i].rank = ranks.indexOf(listOfUserInfo[i].elorank) + 1;
+                                    }
+                                    resolve(JSON.stringify(listOfUserInfo));
                                 }
-                                resolve(JSON.stringify(listOfUserInfo));
-                            }
-                            count++;
+                                count++;
+                            });
                         });
-                    });
+                    }
                 }));
             }
         });

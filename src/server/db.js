@@ -40,6 +40,9 @@ var add = function(id, name) {
 module.exports.add = add;
 
 module.exports.getAllUsers = function() {
+    if (!client) {
+        return null;
+    }
     return client.collection('users').find();
 }
 

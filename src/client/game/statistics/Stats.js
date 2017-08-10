@@ -21,7 +21,7 @@ export default class Stats extends Component {
     }
 
     pageClick(e) {
-        if (e.target.id === "hideStats") {
+        if ((e.target.id === "hideStats") || (e.target.parentNode.parentNode.id === "statsDiv")) {
             return;
         }
         if (this.refs.statistics) {
@@ -69,7 +69,7 @@ export default class Stats extends Component {
             statsDiv = (
                 <div ref="statistics" className={statStyling.statsDiv}>
                     <table>
-                        <tbody>
+                        <tbody id="statsDiv">
                             <tr>
                                 <th></th>
                                 <td>{emojify(userStats.name)}</td>
