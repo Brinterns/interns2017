@@ -48,7 +48,7 @@ export class GameSpectate extends Component {
                 return player.id === this.props.winnerId;
             });
             if (winner[0]) {
-                gameOverText += ", " + winner[0].name + " Won";
+                gameOverText += ", " + emojify(winner[0].name) + " Won";
             }
         }
         const gameOverDiv = (
@@ -65,13 +65,11 @@ export class GameSpectate extends Component {
                 return player.id === this.props.currentPlayer;
             })[0];
             if (currentPlayer) {
-                currentPlayerText = "It's " + currentPlayer.name + "'s turn";
+                currentPlayerText = "It's " + emojify(currentPlayer.name) + "'s turn";
             }
 
-            if (this.props.playerRollNumber === 0) {
-                playerRoll = (<div><p>{this.props.notificationText}</p><p>{currentPlayerText}</p></div>);
-            } else if (this.props.playerRollNumber !== null) {
-                playerRoll = (<p>{this.props.notificationText}</p>);
+            if (this.props.playerRollNumber !== null) {
+                playerRoll = (<p>{emojify(this.props.notificationText)}</p>);
             }
 
             gameInfo = <ul> {this.props.listOfPlayers.map((player, index) => {
