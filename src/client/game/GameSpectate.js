@@ -12,18 +12,8 @@ import { RunCloakConfig } from '../services/cloak-service';
 export class GameSpectate extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            leaveMenu: false
-        };
-        this.toggleLeaveMenu = this.toggleLeaveMenu.bind(this);
         this.returnToLobby = this.returnToLobby.bind(this);
         {this.getGameInfo()};
-    }
-
-    toggleLeaveMenu() {
-        this.setState({
-            leaveMenu: !this.state.leaveMenu
-        });
     }
 
     returnToLobby() {
@@ -61,13 +51,6 @@ export class GameSpectate extends Component {
             <div className={gameStyles.notificationMenu}>
                 <h1> {gameOverText} </h1>
                 <button className={gameStyles.returnButton} onClick={this.returnToLobby}> Return To Lobby </button>
-            </div>
-        );
-        const leaveDiv = (
-            <div className={gameStyles.notificationMenu}>
-                <h1> Are you sure you <br/> want to leave? </h1>
-                <button className={gameStyles.acceptButton} onClick={this.returnToLobby}> &#10004; </button>
-                <button className={gameStyles.declineButton} onClick={this.toggleLeaveMenu}> &#x2716; </button>
             </div>
         );
         let gameInfo = null;
@@ -111,11 +94,10 @@ export class GameSpectate extends Component {
             <div>
                 <div className={gameStyles.gameMain}>
                     {gameInfo}
-                    <button className={gameStyles.forfeit} onClick={this.toggleLeaveMenu}> Leave </button>
+                    <button className={gameStyles.forfeit} onClick={this.returnToLobby}> Leave </button>
                     <h1> {currentPlayerText ? emojify("" + currentPlayerText) : null} </h1>
                     <BoardSpectate gameState={this.state} spectatingName={spectatingName} opponentName={opponentName} />
                     {(this.props.winnerId) ? gameOverDiv : null}
-                    {(this.state.leaveMenu && !this.props.winnerId) ? leaveDiv : null}
                 </div>
                 <Stats id={this.props.id} stats={this.props.gameStats}/>
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
