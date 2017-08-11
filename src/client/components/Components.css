@@ -14,6 +14,7 @@
     min-width: 16px !important;
     margin-top: calc(0.5 * (1vw + 1vh - 1vmin));
     vertical-align: middle;
+    border-radius: 50%;
 }
 
 .colourPicker {
@@ -29,8 +30,13 @@
 .colourDiv {
     display: inline-block;
     border-radius: 50%;
-    margin-left: calc(0.5 * (1vw + 1vh - 1vmin));
-    margin-right: calc(0.5 * (1vw + 1vh - 1vmin));
+    margin: calc(0.5 * (1vw + 1vh - 1vmin));
     width: calc(6 * (1vw + 1vh - 1vmin));
     height: calc(6 * (1vw + 1vh - 1vmin));
+    cursor: pointer;
+    border: solid 0.2em grey;
+}
+
+.colourDiv:hover {
+    border: none;
 }

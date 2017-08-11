@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import pickerStyles from './Components.css';
 
-const colours = ['black', 'red', 'orange', 'yellow', 'green', 'blue', 'purple', 'pink']
+const colours = [
+    "white", "pink", "#cd06d1", "#e81212",
+    "orange", "#FAD000", "#03b733", "#028212",
+    "#06c6d1", "#0265CB", "#0217db", "#820146",
+    "purple", "#230182", "#6b3a06", "black"
+];
 
 export default class ColourPicker extends Component {
     constructor(props) {

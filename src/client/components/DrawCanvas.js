@@ -13,7 +13,7 @@ export default class DrawCanvas extends Component {
         super(props);
         this.state = {
             currentColour: 'black',
-            showPicker: false
+            showPicker: true
         }
         this.undoImg = this.undoImg.bind(this);
         this.redoImg = this.redoImg.bind(this);
