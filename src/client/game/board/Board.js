@@ -32,7 +32,7 @@ export class Board extends Component {
     squareType(i) {
         const pos = playerPath.indexOf(i) + 1;
         var pieceClassName = boardStyles.squarePiece;
-        if ((pos !== 15) && this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos)) {
+        if ((pos !== 15) && this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos) && !this.props.winnerId) {
             pieceClassName = boardStyles.moveableSquarePiece;
             if ((this.props.rollNumber + pos) === 15) {
                 pieceClassName = boardStyles.finishSquarePiece;
@@ -50,19 +50,19 @@ export class Board extends Component {
     }
 
     onClick() {
-        if (this.props.isPlayerTurn && !this.props.rolled) {
+        if (this.props.isPlayerTurn && !this.props.rolled && !this.props.winnerId) {
             cloak.message('rolldice', _);
         }
     }
 
     setHighlightSquare(pos) {
-        if ((pos === null) && (this.state.highlightSquarePosition !== null)) {
+        if (((pos === null) && (this.state.highlightSquarePosition !== null)) || this.props.winnerId) {
             this.setState({
                 highlightSquarePosition: null
             });
             return;
         }
-        if (this.props.isPlayerTurn && this.props.rolled) {
+        if (this.props.isPlayerTurn && this.props.rolled && !this.props.winnerId) {
             if(this.props.moveablePositions.includes(pos)) {
                 this.setState({
                     highlightSquarePosition: pos + this.props.rollNumber
@@ -72,7 +72,7 @@ export class Board extends Component {
     }
 
     handleMovePiece(position) {
-        if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(position)) {
+        if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(position) && !this.props.winnerId) {
             this.setState({
                 highlightSquarePosition: null
             });
@@ -87,7 +87,7 @@ export class Board extends Component {
         for (var i = 0; i < 7; i++) {
             const pos = this.props.piecePositions[i];
             if (pos === 0) {
-                if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos)) {
+                if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos) && !this.props.winnerId) {
                     pieceHolder.push(<Piece position={pos} className={boardStyles.moveablePiece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
                     continue;
                 }
@@ -132,6 +132,7 @@ export class Board extends Component {
 }
 
 const mapStateToProps = state => ({
+    winnerId: state.game.winnerId,
     //Roll states
     rolled: state.game.rolled,
     rollNumber: state.game.rollNumber,
