@@ -7,9 +7,30 @@
     margin-left: calc(0.5 * (1vw + 1vh - 1vmin)) !important;
 }
 
-.colorPicker {
+.colourButton {
+    height: calc(1.8 * (1vw + 1vh - 1vmin));
+    width: calc(1.8 * (1vw + 1vh - 1vmin));
+    min-height: 16px !important;
+    min-width: 16px !important;
+    margin-top: calc(0.5 * (1vw + 1vh - 1vmin));
+    vertical-align: middle;
+}
+
+.colourPicker {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%,-50%);
+    width: calc(31 * (1vw + 1vh - 1vmin));
+    background-color: grey;
+    padding: calc(1.5 * (1vw + 1vh - 1vmin));
+}
+
+.colourDiv {
+    display: inline-block;
+    border-radius: 50%;
+    margin-left: calc(0.5 * (1vw + 1vh - 1vmin));
+    margin-right: calc(0.5 * (1vw + 1vh - 1vmin));
+    width: calc(6 * (1vw + 1vh - 1vmin));
+    height: calc(6 * (1vw + 1vh - 1vmin));
 }
