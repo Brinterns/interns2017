@@ -20,6 +20,7 @@ export default class ColourPicker extends Component {
 
         return (
             <div className={pickerStyles.colourPicker}>
+                <button onClick={this.props.togglePicker}>&#x2716;</button>
                 {colourCircles}
             </div>
         );

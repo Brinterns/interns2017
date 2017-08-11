@@ -27,6 +27,18 @@
     padding: calc(1.5 * (1vw + 1vh - 1vmin));
 }
 
+.colourPicker button {
+    position: absolute;
+    background: none;
+    border: none;
+    font-size: calc(2.0 * (1vw + 1vh - 1vmin));
+    top: 0;
+    right: 0;
+    margin-right: calc(0.5 * (1vw + 1vh - 1vmin));
+    margin-top: calc(0.15 * (1vw + 1vh - 1vmin));
+    outline: none;
+}
+
 .colourDiv {
     display: inline-block;
     border-radius: 50%;

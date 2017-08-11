@@ -13,7 +13,7 @@ export default class DrawCanvas extends Component {
         super(props);
         this.state = {
             currentColour: 'black',
-            showPicker: true
+            showPicker: false
         }
         this.undoImg = this.undoImg.bind(this);
         this.redoImg = this.redoImg.bind(this);
@@ -83,7 +83,7 @@ export default class DrawCanvas extends Component {
                     lineColor={this.state.currentColour}
                     lineWidth={3}/>
                 </div>
-                {this.state.showPicker ? <ColourPicker colourSelected={this.colourSelected}/> : null}
+                {this.state.showPicker ? <ColourPicker togglePicker={this.togglePicker} colourSelected={this.colourSelected}/> : null}
             </div>
         );
     }
