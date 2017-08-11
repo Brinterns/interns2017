@@ -124,13 +124,23 @@ export class Lobby extends Component {
         let rank = '';
 
         var sortedList = Object.assign([], this.props.listOfUsers);
+        var oldIndex, newIndex;
+        for (var i = 0; i < sortedList.length; ++i) {
+            if (sortedList[i].id === this.props.id) {
+                oldIndex = i;
+            } else if (!sortedList[i].online && !newIndex) {
+                newIndex = i;
+            }
+        }
+        sortedList.splice(newIndex, 0, Object.assign([], sortedList[oldIndex]));
+        sortedList.splice(oldIndex, 1);
         if (this.state.sortRank) {
             sortedList.sort(function(a, b) {
                 return a.rank - b.rank;
             });
         }
         sortedList.forEach((user) => {
-            if (this.props.id === user.id) {
+            if (user.id === this.props.id) {
                 name = user.name;
                 userAvatar = user.avatar;
                 rank = user.rank;
