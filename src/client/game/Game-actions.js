@@ -23,6 +23,7 @@ export const RESET_STORE = namespace + 'RESET_STORE';
 export const UPDATE_MESSAGES = namespace + 'UPDATE_MESSAGES';
 export const ROLLED_SEQUENCE = namespace + 'ROLLED_SEQUENCE';
 export const UPDATE_GAME_STATS = namespace + 'UPDATE_GAME_STATS';
+export const UPDATE_NUMBER_OF_SPECTATORS = namespace + 'UPDATE_NUMBER_OF_SPECTATORS';
 
 export function updateUserGameId(id) {
     return {
@@ -35,6 +36,13 @@ export function spectatingId(id) {
     return {
         type: UPDATE_SPECTATING_ID,
         payload: id
+    }
+}
+
+export function updateNumSpectators(num) {
+    return {
+        type: UPDATE_NUMBER_OF_SPECTATORS,
+        payload: num
     }
 }
 

@@ -101,6 +101,9 @@ export class GameSpectate extends Component {
                     <BoardSpectate gameState={this.state} spectatingName={spectatingName} opponentName={opponentName} />
                     {(this.props.winnerId) ? gameOverDiv : null}
                 </div>
+                <div className={gameStyles.spectatorDiv}>
+                    <p>Spectators ({this.props.numSpectators})</p>
+                </div>
                 <Stats id={this.props.id} stats={this.props.gameStats}/>
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
                 {this.props.notificationBool ? <div className={gameStyles.notificationDiv}> {playerRoll} </div> : null}
@@ -121,6 +124,7 @@ const mapStateToProps = state => ({
     //End game states
     gameOver: state.game.gameOver,
     winnerId: state.game.winnerId,
+    numSpectators: state.game.numSpectators,
     //Notification states
     notificationBool: state.game.notificationBool,
     notificationText: state.game.notificationText,

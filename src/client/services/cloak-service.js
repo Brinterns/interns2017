@@ -30,7 +30,8 @@ import {
     resetNotificationBool,
     resetStore,
     rollSequence,
-    updateGameStats
+    updateGameStats,
+    updateNumSpectators
 } from '../game/Game-actions';
 
 import { dispatch } from '../store';
@@ -112,6 +113,9 @@ export function RunCloakConfig() {
             },
             currentplayeronly: (current) => {
                 dispatch(updateCurrentPlayerOnly(current));
+            },
+            updatenumspectators: (num) => {
+                dispatch(updateNumSpectators(num));
             },
             //Roll messages
             rolledvalue: (value) => {

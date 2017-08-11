@@ -18,6 +18,7 @@ function getRoomUserInfo(room) {
             listOfRoomUsers.push(userJson);
         }
     });
+    room.messageMembers('updatenumspectators', shared.getSpectators(room).length);
     room.messageMembers('updateplayers', JSON.stringify(listOfRoomUsers));
 }
 
@@ -96,6 +97,7 @@ function win(winBool, user) {
 var roomExit = function(arg) {
     const users = this.getMembers();
     const spectators = shared.getSpectators(this);
+    this.messageMembers('updatenumspectators', shared.getSpectators(this).length);
     if (((users.length - spectators.length) === 1) && !this.data.winnerId) {
         this.data.opponentDisconnect = true;
         var user = users[0];

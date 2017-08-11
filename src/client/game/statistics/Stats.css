@@ -1,6 +1,6 @@
 .mainDiv {
     position: absolute;
-    margin-top : 5em;
+    margin-top : 6.15em;
     margin-left: 0.7em;
     font-size: calc(1.5 * (1vw + 1vh - 1vmin));
     color: #FAD000;
