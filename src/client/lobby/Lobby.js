@@ -165,7 +165,6 @@ export class Lobby extends Component {
             if (!(this.state.filterOnline && !user.online)) {
                 users.push(user);
             }
-            return;
         });
 
         const userDisplayList = (
