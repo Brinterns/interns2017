@@ -61,7 +61,7 @@ describe('<GameSpectate />', () => {
         }];
         const store = mockStore(state);
         wrapper = shallow(<GameSpectate store={store}/>).shallow();
-        expect(wrapper.find("li").first().text()).toEqual(" bob (1111)  ");
+        expect(wrapper.find("li").first().text()).toEqual(" bob (1111) ");
     });
 
     it('Shows the leave button in top right', () => {
