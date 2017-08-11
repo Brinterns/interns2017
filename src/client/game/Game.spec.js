@@ -6,7 +6,7 @@ import Game from './Game';
 const middlewares = [];
 const mockStore = configureStore(middlewares);
 
-describe('<Board />', () => {
+describe('<Game />', () => {
     let state;
     let wrapper;
     beforeEach(() => {
@@ -26,6 +26,7 @@ describe('<Board />', () => {
                 rolled: true,
                 rollNumber: 'Roll',
                 opponentRollNumber: null,
+                numSpectators: 0,
                 //Game states
                 squares: Array(24).fill(false),
                 opponentSquares: Array(24).fill(false),
@@ -97,5 +98,20 @@ describe('<Board />', () => {
         wrapper = shallow(<Game store={store}/>).shallow();
         expect(wrapper.find("button").at(3).text()).toEqual(' \u2714 ');
         expect(wrapper.find("button").at(4).text()).toEqual(' \u2716 ');
+    });
+
+    it('Shows the correct number of spectators', () => {
+        state.game.listOfPlayers = state.game.listOfPlayers = [{
+            id: 2,
+            name: 'Bob'
+        }, {
+            id: 3,
+            name: 'Sam'
+        }];
+
+        state.game.numSpectators = 5;
+        const store = mockStore(state);
+        wrapper = shallow(<Game store={store}/>).shallow();
+        expect(wrapper.find("p").at(0).text()).toEqual('Spectators (5)');
     });
 });

@@ -2,12 +2,12 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import _ from 'underscore';
 import configureStore from 'redux-mock-store'
-import Board from './Board';
+import BoardSpectate from './BoardSpectate';
 
 const middlewares = [];
 const mockStore = configureStore(middlewares);
 
-describe('<Board />', () => {
+describe('<BoardSpectate />', () => {
     let wrapper;
     let state;
     beforeEach(() => {
@@ -40,5 +40,11 @@ describe('<Board />', () => {
                 opponentDisconnect: false
             }
         };
+    });
+
+    it('Shows the right name next to the bottom pieces', () => {
+        const store = mockStore(state);
+        wrapper = shallow(<BoardSpectate store={store} spectatingName = 'bob' />).shallow();
+        expect(wrapper.find("p").last().text()).toEqual(" bob ");
     });
 });

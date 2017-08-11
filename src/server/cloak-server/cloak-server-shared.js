@@ -1,6 +1,7 @@
 var cloak = require('cloak');
 var db = require('../db');
 var lobbyFunctions = require('./cloak-server-lobby');
+var gameRoomFunctions = require('./cloak-server-gameroom');
 const maxMessages = 1000;
 
 function getRandomIntInclusive(min, max) {
@@ -11,8 +12,14 @@ function getRandomIntInclusive(min, max) {
 
 function getOpponent(user) {
     return user.getRoom().getMembers().filter((member) => {
-        return member.id !== user.id;
+        return (member.id !== user.id) && member.data.isPlayer;
     })[0];
+}
+
+function getSpectators(room) {
+    return room.getMembers().filter(member => {
+        return !member.data.isPlayer;
+    });
 }
 
 function sendMessage(message, user) {
@@ -107,22 +114,36 @@ function reconnectUser(id, user) {
             });
             user.message('gotolobby');
         } else {
-            if (!user.data.rolledDice) {
-                user.data.lastRoll = null;
-            }
-            if (user2.id === room.data.currentPlayer) {
-                room.data.currentPlayer = user.id;
-            }
-            if (user2.id === room.data.winnerId) {
-                room.data.winnerId = user.id;
+            if (user2.data.isPlayer) {
+                if (!user.data.rolledDice) {
+                    user.data.lastRoll = null;
+                }
+                if (user2.id === room.data.currentPlayer) {
+                    room.data.currentPlayer = user.id;
+                }
+                if (user2.id === room.data.winnerId) {
+                    room.data.winnerId = user.id;
+                }
+                if (user2.id === room.data.spectatedId) {
+                    room.data.spectatedId = user.id;
+                }
+                user.message('joingame', room.id);
+            } else {
+                user.message('spectategame', room.id);
             }
             user.message('currentplayer', room.data.currentPlayer);
             const opponent = room.getMembers().filter(member => {
-                return (member.id !== user.id) && (member.id !== user2.id);
+                return (member.id !== user.id) && (member.id !== user2.id) && member.data.isPlayer;
             })[0];
             if (opponent) {
                 opponent.message('currentplayeronly', room.data.currentPlayer);
             }
+            getSpectators(room).forEach(spectator => {
+                gameRoomFunctions.getRoomInfo(spectator);
+            });
+            room.data.gameinfo.playerIds[room.data.gameinfo.playerIds.indexOf(user2.id)] = user.id;
+            user.message('updatestats', JSON.stringify(room.data.gameinfo));
+            user.message('updategamemessages', JSON.stringify(room.data.messages));
         }
         user2.delete();
     } else {
@@ -135,6 +156,7 @@ module.exports.getRandomIntInclusive = getRandomIntInclusive
 module.exports.updateMessagesId = updateMessagesId;
 module.exports.sendMessages = sendMessages;
 module.exports.getOpponent = getOpponent;
+module.exports.getSpectators = getSpectators;
 module.exports.sendMessage = sendMessage;
 module.exports.reconnectUser = reconnectUser;
 module.exports.previousUser = previousUser;

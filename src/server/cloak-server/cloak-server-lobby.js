@@ -1,6 +1,7 @@
 var cloak = require('cloak');
 var db = require('../db');
 var shared = require('./cloak-server-shared');
+var gamePlayFunctions = require('./cloak-server-gameplay');
 
 function getLobbyInfo(user) {
     user.message('userid', user.id);
@@ -18,12 +19,28 @@ function updateLobbyUsers() {
     });
 };
 
+function clearDisconnected(userList) {
+    if (!userList) {
+        return [];
+    }
+    let newList = [];
+    for (var i = 0; i < userList.length; ++i) {
+        const opponent = cloak.getUser(userList[i]);
+        if (opponent && opponent.connected()) {
+            newList.push(opponent.id);
+        }
+    }
+    return newList;
+}
 //all clients are updated with the list of usernames currently in the lobbyfunction()
 function getLobbyUserInfo() {
     return new Promise(function(resolve, reject) {
         let listOfUserInfo = [];
         let listOfDbIds = [];
         cloak.getUsers().forEach(function(user, index, cloakUsers) {
+            if (!user.connected()) {
+                return;
+            }
             const room = user.getRoom();
             if (room) {
                 listOfDbIds.push(user.data.dbId);
@@ -40,11 +57,19 @@ function getLobbyUserInfo() {
                     avatar: user.data.avatar,
                     inLobby: room.isLobby,
                     online: true,
-                    rank: null
+                    rank: null,
+                    spectating: false
                 };
                 if (room.isLobby) {
+                    user.data.challenging = clearDisconnected(user.data.challenging);
+                    user.data.challengers = clearDisconnected(user.data.challengers);
+                    userJson.inChallenge = user.data.challenger || user.data.challenging;
+                    user.data.isPlayer = false;
                     listOfUserInfo.unshift(userJson);
                 } else {
+                    if (!user.data.isPlayer) {
+                        userJson.spectating = true;
+                    }
                     listOfUserInfo.push(userJson);
                 }
             }
@@ -109,10 +134,28 @@ function updateLobbyActiveGames() {
     let activeGameNames = [];
     cloak.getRooms().forEach(function(room) {
         if(room.members.length > 0) {
-            activeGameNames.push(room.name);
+            activeGameNames.push({id: room.id, name: room.name, winner: (room.data.winnerId ? cloak.getUser(room.data.winnerId).name : null)});
         }
     });
     cloak.getLobby().messageMembers('updaterooms', activeGameNames);
+}
+
+function observeGame(gameId, user) {
+    cloak.getRoom(gameId).addMember(user);
+    user.message('spectategame', gameId);
+    gamePlayFunctions.sendStats(user);
+    user.message('updategamemessages', JSON.stringify(cloak.getRoom(gameId).data.messages));
+}
+
+function rejoinGame(user) {
+    const room = user.getRoom();
+    if (room && !room.isLobby) {
+        if (user.data.isPlayer) {
+            user.message('joingame', room.id);
+        } else {
+            user.message('spectategame', room.id);
+        }
+    }
 }
 
 module.exports.updateLobbyUsers = updateLobbyUsers;
@@ -120,3 +163,5 @@ module.exports.updateLobbyActiveGames = updateLobbyActiveGames;
 module.exports.getLobbyUserInfo = getLobbyUserInfo;
 module.exports.getLobbyInfo = getLobbyInfo;
 module.exports.getRecord = getRecord;
+module.exports.observeGame = observeGame;
+module.exports.rejoinGame = rejoinGame;

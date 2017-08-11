@@ -24,6 +24,9 @@ module.exports = function(expressServer) {
             setavatar: function(url, user) {
                 loginFunctions.setAvatar(url, user);
             },
+            rejoingame: function(_, user) {
+                lobbyFunctions.rejoinGame(user);
+            },
             getlobbyinfo: function(_, user) {
                 lobbyFunctions.getRecord(user);
                 lobbyFunctions.getLobbyInfo(user);
@@ -43,6 +46,9 @@ module.exports = function(expressServer) {
             },
             declinechallenge: function(id, user) {
                 challengeFunctions.declineChallenge(id, user);
+            },
+            observegame: function(gameId, user) {
+                lobbyFunctions.observeGame(gameId, user);
             },
             rechallenge: function(_, user) {
                 challengeFunctions.reChallenge(user);
@@ -68,12 +74,17 @@ module.exports = function(expressServer) {
             rolldice: function(_, user) {
                 user.data.rolledDice = true;
                 const rollNumber = gamePlayFunctions.rollDice(user);
-                var opponent = sharedFunctions.getOpponent(user);
-                if (rollNumber === 0) {
-                    gamePlayFunctions.endTurn(user);
-                } else {
-                    gamePlayFunctions.checkMoves(user, rollNumber, opponent.data.squares);
-                }
+                const rollSequence = ("1".repeat(rollNumber) + "0".repeat(4-rollNumber)).split('').sort(function(){return 0.5-Math.random()});
+                user.message("rollsequence", rollSequence);
+                setTimeout(() => {
+                    gamePlayFunctions.messageRoll(rollNumber, user);
+                    var opponent = sharedFunctions.getOpponent(user);
+                    if (rollNumber === 0) {
+                        gamePlayFunctions.endTurn(user);
+                    } else {
+                        gamePlayFunctions.checkMoves(user, rollNumber, opponent.data.squares);
+                    }
+                }, 1750);
             },
             movepiece: function(position, user) {
                 gamePlayFunctions.movePiece(position, user);

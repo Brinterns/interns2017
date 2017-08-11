@@ -1,6 +1,6 @@
 {
   "name": "interns2017",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Interns 2017",
   "main": "app.js",
   "engines": {
@@ -26,6 +26,7 @@
     "elo-rank": "^1.0.3",
     "emojione": "^3.1.1",
     "express": "^4.13.4",
+    "express-http-to-https": "^1.1.2",
     "extract-text-webpack-plugin": "^1.0.1",
     "gulp": "gulpjs/gulp#4.0",
     "gulp-concat": "^2.6.0",

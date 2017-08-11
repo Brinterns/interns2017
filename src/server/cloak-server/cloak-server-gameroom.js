@@ -1,5 +1,6 @@
 var cloak = require('cloak');
 var shared = require('./cloak-server-shared');
+var lobbyFunctions = require('./cloak-server-lobby');
 var gameplay = require('./cloak-server-gameplay');
 var EloRank = require('elo-rank');
 var db = require('../db');
@@ -8,12 +9,16 @@ var db = require('../db');
 function getRoomUserInfo(room) {
     let listOfRoomUsers = [];
     room.getMembers().forEach(function(user) {
-        var userJson = {
-            id: user.id,
-            name: user.name
-        };
-        listOfRoomUsers.push(userJson);
+        if (user.data.isPlayer) {
+            var userJson = {
+                id: user.id,
+                name: user.name,
+                elorank: user.data.elorank
+            };
+            listOfRoomUsers.push(userJson);
+        }
     });
+    room.messageMembers('updatenumspectators', shared.getSpectators(room).length);
     room.messageMembers('updateplayers', JSON.stringify(listOfRoomUsers));
 }
 
@@ -21,13 +26,25 @@ function getRoomInfo(user) {
     const room = user.getRoom();
     if (room && !room.isLobby) {
         if (!room.data.currentPlayer) {
-            room.data.currentPlayer = room.getMembers()[shared.getRandomIntInclusive(0, 1)].id;
+            var startingPlayer = room.getMembers()[shared.getRandomIntInclusive(0, 1)]
+            room.data.currentPlayer = startingPlayer.id;
+            var d = new Date();
+            startingPlayer.data.rollStartTime = d.getTime();
         }
-        const opponent = shared.getOpponent(user);
+        var opponent;
+        if (user.data.isPlayer) {
+            opponent = shared.getOpponent(user)
+        } else {
+            const spectatedPlayer = cloak.getUser(room.data.spectatedId);
+            opponent = shared.getOpponent(spectatedPlayer);
+            user.data.squares = spectatedPlayer.data.squares;
+            user.data.piecePositions = spectatedPlayer.data.piecePositions;
+            user.data.finishedPieces = spectatedPlayer.data.finishedPieces;
+            user.message('spectatingid', room.data.spectatedId);
+        }
 
         var gameStateJson = {
             id: user.id,
-            roomName: room.name,
             squares: user.data.squares,
             piecePositions: user.data.piecePositions,
             opponentSquares: opponent ? gameplay.reverseSquares(opponent.data.piecePositions) : [],
@@ -74,11 +91,14 @@ function win(winBool, user) {
     }
     db.update(user.data, user.name);
     db.update(user2.data, user2.name);
+    lobbyFunctions.updateLobbyActiveGames();
 }
 
 var roomExit = function(arg) {
     const users = this.getMembers();
-    if ((users.length === 1) && !users[0].getRoom().data.winnerId) {
+    const spectators = shared.getSpectators(this);
+    this.messageMembers('updatenumspectators', shared.getSpectators(this).length);
+    if (((users.length - spectators.length) === 1) && !this.data.winnerId) {
         this.data.opponentDisconnect = true;
         var user = users[0];
         var opponentName;
@@ -103,15 +123,18 @@ var roomExit = function(arg) {
                     winLossRecord: user.data.winLossRecord,
                     elorank: user.data.elorank
                 }
-            }). then(() => {
+            }).then(() => {
                 db.update(userData, user.name).then(() => {
                     this.data.winnerId = user.id;
                     user.message('opponentdisconnect');
                     user.message('gameover', this.data.winnerId);
+                    spectators.forEach(spectator => {
+                        spectator.message('gameover', this.data.winnerId);
+                    });
                 });
             });
         });
-    } else if (users.length === 1) {
+    } else if ((users.length - spectators.length) === 1) {
         const user = users[0];
         this.data.opponentDisconnect = true;
         user.message('opponentdisconnect');

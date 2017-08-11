@@ -18,7 +18,7 @@ export default class ChatBox extends Component {
         };
         setTimeout(() => {
             this.setState({ numMsgSeen: this.props.messages.length});
-        }, 500);
+        }, 1000);
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
@@ -57,7 +57,8 @@ export default class ChatBox extends Component {
         //when chat gets closed, update last num messages seen
         if (this.state.showChat) {
             this.setState({
-                numMsgSeen: this.props.messages.length
+                numMsgSeen: this.props.messages.length,
+                emojis: false
             });
         }
     }
@@ -129,7 +130,7 @@ export default class ChatBox extends Component {
                             <canvas id={canvasId} className={chatStyles.avatar}/>
                             <div className={chatStyles.opponentMessage}>
                                 <h5>{emojify(messageData.message)}</h5>
-                                <h4>{messageData.userName}</h4>
+                                <h4>{emojify(messageData.userName)}</h4>
                             </div>
                         </div>
                     );
@@ -143,11 +144,13 @@ export default class ChatBox extends Component {
         );
         const closedChatClass = (difference > 0) ? chatStyles.notifyMain : "";
 
+        var closedStyle = (difference > 0) ? {backgroundColor: '#FAD000'} : {};
+
         const closedChatDiv = (
-            <div onClick={this.handleClick} className={chatStyles.closedChat}>
+            <div onClick={this.handleClick} style={closedStyle} className={chatStyles.closedChat}>
                 <div className={closedChatClass}>
                     <img src={message} />
-                    <p>Chat</p>
+                    <p>CHAT</p>
                     {difference > 0 ? msgNotifier : null }
                 </div>
             </div>
@@ -156,7 +159,7 @@ export default class ChatBox extends Component {
             <div className={chatStyles.openChat}>
                 <div onClick={this.handleClick} className={chatStyles.openChatTop}>
                     <img src={message} />
-                    <p>Chat </p>
+                    <p>CHAT</p>
                 </div>
                 {this.state.emojis ? <EmojiPicker onEmojiSelected={this.addEmoji}/> : null}
                 {this.state.emojis ? null :

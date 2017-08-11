@@ -12,41 +12,85 @@
 .gameMain h1 {
     color: #FAD000;
     position: absolute;
-    top: 7%;
+    white-space: nowrap;
+    top: calc(40px + 1.5 * (1vw + 1vh - 1vmin));
     left: 50%;
-    margin-right: -50%;
     margin: 0;
     transform: translate(-50%, 0%);
-    font-size: calc(10px + 2 * (1vw + 1vh - 1vmin));
+    font-size: calc(6px + 2 * (1vw + 1vh - 1vmin));
     text-align: center;
 }
 
-.gameMain h2 {
+.gameMain ul {
+    padding-right: 0.9em;
+    padding-left: 0.9em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
     color: #FAD000;
     position: absolute;
-    font-size: calc(5px + 1.5 * (1vw + 1vh - 1vmin));
-    margin-top : 1em;
-    margin-left: 1em;
+    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
+    margin-top : 0.7em;
+    margin-left: 0.7em;
+    list-style-type: none;
+    border-style: solid;
+    border-width: 0.12em;
+    border-color: #FAD000;
+}
+
+.gameMain ul p {
+    margin: 0;
+    display: inline-block;
 }
 
 .notificationDiv {
     color: white;
     position: absolute;
-    top: 40%;
+    padding-right: 1em;
+    padding-left: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    top: 50%;
     left: 50%;
     margin-right: -50%;
     margin: 0;
-    transform: translate(-50%, 0%);
+    transform: translate(-50%, -50%);
     text-align: center;
-    font-size: 3em;
     background-color: rgba(0,0,0,0.75) !important;
+    font-size: calc(2.5 * (1vw + 1vh - 1vmin));
+}
+
+.notificationDiv p {
+    margin: 0;
+}
+
+@media (max-width: 800px) {
+    .notificationDiv {
+        top: 45%;
+    }
 }
 
 .turnNotif {
     color: #FAD000;
 }
 
-.buttonDiv {
+.forfeit {
+    padding-right: 0.9em;
+    padding-left: 0.9em;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    margin-top: 0.5em;
+    margin-right: 0.5em;
+    float: right;
+    border-style: solid;
+    border-color: #e81212;
+    border-width: 0.1em;
+    color: #e81212;
+    background-color: #0265CB;
+    outline: none;
+    font-size: calc(2 * (1vw + 1vh - 1vmin));
+}
+
+.rules {
     padding-right: 0.9em;
     padding-left: 0.9em;
     padding-top: 0.25em;
@@ -80,14 +124,11 @@
 
 .notificationMenu h1 {
     color: black;
-    position: absolute;
     top: 0;
-    left: 50%;
-    margin: 0;
     margin-top: calc(1.5 * (1vw + 1vh - 1vmin));
-    transform: translate(-50%, 0%);
     font-size: calc(5px + 2.5 * (1vw + 1vh - 1vmin));
     text-align: center;
+    white-space: normal !important;
     width: 100%;
 }
 
@@ -140,4 +181,12 @@
     transform: translate(-50%, 0%);
     height: calc(3.5 * (1vw + 1vh - 1vmin));
     left: 50%;
+}
+
+.spectatorDiv {
+    position: absolute;
+    margin-top : 4.5em;
+    margin-left: 0.7em;
+    color: #FAD000;
+    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
 }

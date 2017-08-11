@@ -1,5 +1,6 @@
 import {
     UPDATE_USER_ID,
+    UPDATE_SPECTATING_ID,
     UPDATE_MESSAGES,
     UPDATE_LIST_OF_PLAYERS,
     UPDATE_CURRENT_PLAYER,
@@ -9,6 +10,7 @@ import {
     CHALLENGER_ID,
     TOGGLE_FORFEIT,
     ROLLED_NUMBER,
+    ROLLED_SEQUENCE,
     SET_ROOM_NAME,
     UPDATE_GAME_STATE,
     UPDATE_SQUARES,
@@ -20,7 +22,9 @@ import {
     RESET_ROLL_TEXT,
     OPPONENT_ROLLED_NUMBER,
     RESET_NOTIFICATION_BOOL,
-    RESET_STORE
+    RESET_STORE,
+    UPDATE_GAME_STATS,
+    UPDATE_NUMBER_OF_SPECTATORS
 } from './Game-actions';
 
 
@@ -28,20 +32,22 @@ const numberOfPieces = 7;
 const updateState = (currentState, newState) => Object.assign({}, currentState, newState);
 
 const initialState = {
-    roomName: '',
     messages: [],
     //Identity states
     id: null,
+    spectatingId: null,
     currentPlayer: null,
     listOfPlayers: [],
     //Game over states
     gameOver : false,
     forfeit: false,
     winnerId: null,
+    numSpectators: 0,
     //Roll states
     rolled: true,
     rollNumber: 'Roll',
     opponentRollNumber: null,
+    rollSequence: null,
     //Game states
     squares: Array(24).fill(false),
     opponentSquares: Array(24).fill(false),
@@ -53,14 +59,16 @@ const initialState = {
     notificationBool: false,
     notificationText: null,
     opponentDisconnect: false,
-    challengerId: null
+    challengerId: null,
+    //Game statistics
+    gameStats: null
 };
 
 const game = (state = initialState, action) => {
     switch(action.type) {
-        case SET_ROOM_NAME: {
+        case UPDATE_SPECTATING_ID: {
             return updateState(state, {
-                roomName: action.payload
+                spectatingId: action.payload
             });
         }
         case UPDATE_MESSAGES: {
@@ -117,6 +125,11 @@ const game = (state = initialState, action) => {
                 rolled: true
             });
         }
+        case ROLLED_SEQUENCE: {
+            return updateState(state, {
+                rollSequence: action.payload
+            });
+        }
         case OPPONENT_ROLLED_NUMBER: {
             return updateState(state, {
                 opponentRollNumber: action.payload,
@@ -160,11 +173,13 @@ const game = (state = initialState, action) => {
             if (state.currentPlayer === state.id) {
                 if (state.opponentRollNumber === 0) {
                     return updateState(state, {
-                        rollNumber: 'Roll'
+                        rollNumber: 'Roll',
+                        rollSequence: null
                     });
                 }
                 return updateState(state, {
                     rollNumber: 'Roll',
+                    rollSequence: null,
                     notificationText: "It's your turn!"
                 });
             }
@@ -183,7 +198,6 @@ const game = (state = initialState, action) => {
         case UPDATE_GAME_STATE: {
             return updateState(state, {
                 id: action.payload.id,
-                roomName: action.payload.roomName,
                 squares: action.payload.squares,
                 piecePositions: action.payload.piecePositions,
                 opponentSquares: action.payload.opponentSquares,
@@ -191,6 +205,16 @@ const game = (state = initialState, action) => {
                 numOppPiecesFinished: action.payload.finishedOppPieces,
                 winnerId: action.payload.winnerId,
                 opponentDisconnect: action.payload.opponentDisconnect
+            });
+        }
+        case UPDATE_NUMBER_OF_SPECTATORS: {
+            return updateState(state, {
+                numSpectators: action.payload
+            });
+        }
+        case UPDATE_GAME_STATS: {
+            return updateState(state, {
+                gameStats: action.payload
             });
         }
         case RESET_STORE: {

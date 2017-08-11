@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import {emojify} from 'react-emojione';
 import User from './User';
 import Player from './User/Player';
 import lobbyStyles from './Lobby.css';
@@ -29,6 +30,7 @@ export class Lobby extends Component {
         this.challengeUser = this.challengeUser.bind(this);
         this.cancelChallenge = this.cancelChallenge.bind(this);
         this.challengeRespond = this.challengeRespond.bind(this);
+        this.observeGame = this.observeGame.bind(this);
         this.handleToggleRules = this.handleToggleRules.bind(this);
         this.handleAvatarClick = this.handleAvatarClick.bind(this);
         this.upload = this.upload.bind(this);
@@ -64,7 +66,8 @@ export class Lobby extends Component {
     getLobbyInfo() {
         RunCloakConfig();
         if(cloak.connected()) {
-            cloak.message('getlobbyinfo', _);
+            cloak.message('rejoingame');
+            cloak.message('getlobbyinfo');
         } else {
             this.reconnectWait();
         }
@@ -84,6 +87,10 @@ export class Lobby extends Component {
         } else {
             cloak.message('declinechallenge', id);
         }
+    }
+
+    observeGame(gameId) {
+        cloak.message('observegame', gameId);
     }
 
     handleToggleRules() {
@@ -156,8 +163,13 @@ export class Lobby extends Component {
             })
         );
         const gamesDisplayList = (
-            this.props.listOfActiveGames.map((gameName, i) => {
-                return <div key={i} className={lobbyStyles.game}><h1>{gameName}</h1></div>;
+            this.props.listOfActiveGames.map((game, i) => {
+                return (
+                    <div key={i} className={lobbyStyles.game}>
+                        <h1> {emojify(game.name)} </h1>
+                        {game.winner ? <h2> {game.winner} Won </h2> : <button onClick={() => {this.observeGame(game.id)}}> Spectate </button>}
+                    </div>
+                );
             })
         );
 
@@ -166,11 +178,11 @@ export class Lobby extends Component {
                 <div className={lobbyStyles.tabList}>
                     <div className={lobbyStyles.tab}>
                         <div>
-                            <h1> Users </h1>
+                            <h1> USERS </h1>
                         </div>
                     </div>
                     <div className={lobbyStyles.tab}>
-                        <h1> Active Games </h1>
+                        <h1> ACTIVE GAMES </h1>
                     </div>
                 </div>
                 <div className={lobbyStyles.tabPanel}>
@@ -192,11 +204,11 @@ export class Lobby extends Component {
                 <TabList className={lobbyStyles.tabList}>
                     <Tab className={lobbyStyles.tab}>
                         <div>
-                            <h1> Users </h1>
+                            <h1> USERS </h1>
                         </div>
                     </Tab>
                     <Tab className={lobbyStyles.tab}>
-                        <h1> Active Games </h1>
+                        <h1> ACTIVE GAMES </h1>
                     </Tab>
                 </TabList>
                 <TabPanel>

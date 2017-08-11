@@ -1,25 +1,31 @@
 var cloak = require('cloak');
 var lobbyFunctions = require('./cloak-server-lobby');
 var gameRoomFunctions = require('./cloak-server-gameroom');
+var gamePlayFunctions = require('./cloak-server-gameplay');
 var shared = require('./cloak-server-shared');
 const numberOfPieces = 7;
 
 function challengePlayer(id, user) {
     var user2 = cloak.getUser(id);
-    if (!user.data.challenging) {
-        user.data.challenging = [];
+    if (!user2.data.challenging) {
+        user2.data.challenging = [];
     }
-    if (!user2.data.challengers) {
-        user2.data.challengers = [];
+    if (!user2.data.challenging.includes(user.id)) {
+        if (!user.data.challenging) {
+            user.data.challenging = [];
+        }
+        if (!user2.data.challengers) {
+            user2.data.challengers = [];
+        }
+        user.data.challenging.push(id);
+        user2.data.challengers.push(user.id);
+        user.message('updatechallenging', user.data.challenging);
+        user2.message('updatechallengers', user2.data.challengers);
+        lobbyFunctions.getLobbyUserInfo().then(function(listOfUserInfo) {
+            user.message('updateusers', listOfUserInfo);
+            user2.message('updateusers', listOfUserInfo);
+        });
     }
-    user.data.challenging.push(id);
-    user2.data.challengers.push(user.id);
-    user.message('updatechallenging', user.data.challenging);
-    user2.message('updatechallengers', user2.data.challengers);
-    lobbyFunctions.getLobbyUserInfo().then(function(listOfUserInfo) {
-        user.message('updateusers', listOfUserInfo);
-        user2.message('updateusers', listOfUserInfo);
-    });
 }
 
 function cancelChallenge(id, user) {
@@ -36,8 +42,10 @@ function declineChallenge(id, user) {
 
 function reChallenge(user) {
     const room = user.getRoom();
+    const opponent = shared.getOpponent(user);
     room.data.challengerId = user.id;
-    room.messageMembers('challengerid', room.data.challengerId);
+    user.message('challengerid', room.data.challengerId);
+    opponent.message('challengerid', room.data.challengerId);
 }
 
 function reChallengeResponse(accept, user) {
@@ -45,8 +53,10 @@ function reChallengeResponse(accept, user) {
         challengeRespond(user, shared.getOpponent(user), accept);
     } else {
         const room = user.getRoom();
+        const opponent = shared.getOpponent(user);
         room.data.challengerId = null;
-        room.messageMembers('challengerid', room.data.challengerId);
+        user.message('challengerid', room.data.challengerId);
+        opponent.message('challengerid', room.data.challengerId);
     }
 }
 
@@ -95,24 +105,48 @@ function challengeRespond(user, user2, accept) {
         user2.data.challenging = [];
         let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
         createdRoom.data.opponentDisconnect = false;
+        createdRoom.data.messages = [];
         userJoinRoom(user, createdRoom);
         userJoinRoom(user2, createdRoom);
+        createdRoom.data.spectatedId = user.id;
         createdRoom.messageMembers('joingame', createdRoom.id);
         setTimeout(function() {
             lobbyFunctions.updateLobbyActiveGames();
             lobbyFunctions.updateLobbyUsers();
             gameRoomFunctions.getRoomInfo(user);
             gameRoomFunctions.getRoomInfo(user2);
+            initRoomStats(createdRoom, user, user2);
         }, 100);
     }
 }
 
-function userJoinRoom(user, room) {
+function userJoinRoom(user, room, playerNum) {
     room.addMember(user);
+    user.data.isPlayer = true;
     user.data.squares = Array(24).fill(false);
     user.data.piecePositions = Array(numberOfPieces).fill(0);
     user.data.numPiecesFinished = 0;
     user.data.lastRoll = null;
+}
+
+function initRoomStats(room, user, user2) {
+    room.data.gameinfo = {};
+    room.data.gameinfo.playerIds = [user.id, user2.id];
+    const initalPlayerState = {
+        piecesTaken: 0,
+        piecesLost: 0,
+        squaresMoved: 0,
+        turnsTaken: 0,
+        turnsInEndRange: 0,
+        turnsLastInEndRange: 0,
+        numberOfRolls: 0,
+        totalTimeTaken: 0,
+        name: null
+    }
+    room.data.gameinfo.players = [Object.assign({}, initalPlayerState), Object.assign({}, initalPlayerState)];
+    room.data.gameinfo.players[0].name = user.name;
+    room.data.gameinfo.players[1].name = user2.name;
+    gamePlayFunctions.sendStats(user);
 }
 
 module.exports.challengePlayer = challengePlayer;

@@ -9,6 +9,7 @@ import {
 
 import {
     updateUserGameId,
+    spectatingId,
     updateGameMessages,
     updateListOfPlayers,
     updateCurrentPlayer,
@@ -17,7 +18,6 @@ import {
     gameOver,
     challengerId,
     rolledValue,
-    setRoomName,
     updateGameState,
     updateSquares,
     updateMoveablePositions,
@@ -28,7 +28,10 @@ import {
     resetRollText,
     opponentRolled,
     resetNotificationBool,
-    resetStore
+    resetStore,
+    rollSequence,
+    updateGameStats,
+    updateNumSpectators
 } from '../game/Game-actions';
 
 import { dispatch } from '../store';
@@ -75,8 +78,18 @@ export function RunCloakConfig() {
                 dispatch(resetStore());
                 browserHistory.push('/game/' + roomId);
             },
+            spectategame: (roomId) => {
+                dispatch(resetStore());
+                browserHistory.push('/spectate/' + roomId);
+            },
             updatelobbymessages: (messages) => {
                 dispatch(updateLobbyMessages(JSON.parse(messages)));
+            },
+            /***********************************************************/
+            /*                       Stats messages                     */
+            /***********************************************************/
+            updatestats: (stats) => {
+                dispatch(updateGameStats(JSON.parse(stats)));
             },
             /***********************************************************/
             /*                       Game messages                     */
@@ -84,6 +97,9 @@ export function RunCloakConfig() {
             //Identity Messages
             updateplayers: (userinfo) => {
                 dispatch(updateListOfPlayers(JSON.parse(userinfo)));
+            },
+            spectatingid: (id) => {
+                dispatch(spectatingId(id));
             },
             updategamemessages: (messages) => {
                 dispatch(updateGameMessages(JSON.parse(messages)));
@@ -98,12 +114,18 @@ export function RunCloakConfig() {
             currentplayeronly: (current) => {
                 dispatch(updateCurrentPlayerOnly(current));
             },
+            updatenumspectators: (num) => {
+                dispatch(updateNumSpectators(num));
+            },
             //Roll messages
             rolledvalue: (value) => {
                 dispatch(rolledValue(value));
             },
             opponentroll: (value) => {
                 dispatch(opponentRolled(value));
+            },
+            rollsequence: (sequence) => {
+                dispatch(rollSequence(sequence));
             },
             //End game messages
             opponentdisconnect: () => {
