@@ -20,7 +20,7 @@ export default class DrawCanvas extends Component {
         this.clearImg = this.clearImg.bind(this);
         this.togglePicker = this.togglePicker.bind(this);
         this.colourSelected = this.colourSelected.bind(this);
-        {this.setBackground()}
+        {this.setBackground()};
     }
 
     setBackground() {
@@ -28,7 +28,7 @@ export default class DrawCanvas extends Component {
             if (this.refs.drawCanvas) {
                 this.refs.drawCanvas.setBackgroundFromDataUrl(this.props.defaultData);
             } else {
-                setBackground();
+                this.setBackground();
             }
         },50);
     }
