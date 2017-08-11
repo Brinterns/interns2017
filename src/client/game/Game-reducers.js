@@ -23,7 +23,8 @@ import {
     OPPONENT_ROLLED_NUMBER,
     RESET_NOTIFICATION_BOOL,
     RESET_STORE,
-    UPDATE_GAME_STATS
+    UPDATE_GAME_STATS,
+    UPDATE_NUMBER_OF_SPECTATORS
 } from './Game-actions';
 
 
@@ -41,6 +42,7 @@ const initialState = {
     gameOver : false,
     forfeit: false,
     winnerId: null,
+    numSpectators: 0,
     //Roll states
     rolled: true,
     rollNumber: 'Roll',
@@ -203,6 +205,11 @@ const game = (state = initialState, action) => {
                 numOppPiecesFinished: action.payload.finishedOppPieces,
                 winnerId: action.payload.winnerId,
                 opponentDisconnect: action.payload.opponentDisconnect
+            });
+        }
+        case UPDATE_NUMBER_OF_SPECTATORS: {
+            return updateState(state, {
+                numSpectators: action.payload
             });
         }
         case UPDATE_GAME_STATS: {

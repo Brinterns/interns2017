@@ -143,6 +143,9 @@ export class Game extends Component {
                     {(this.props.winnerId) ? gameOverDiv : null}
                     {this.props.forfeit ? forfeitDiv : null}
                 </div>
+                <div className={gameStyles.spectatorDiv}>
+                    <p>Spectators ({this.props.numSpectators})</p>
+                </div>
                 <Stats id={this.props.id} stats={this.props.gameStats}/>
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
                 {this.state.rules && !this.props.winnerId ? <Rules toggleRules={this.handleToggleRules} /> : null}
@@ -164,6 +167,7 @@ const mapStateToProps = state => ({
     forfeit: state.game.forfeit,
     gameOver: state.game.gameOver,
     winnerId: state.game.winnerId,
+    numSpectators: state.game.numSpectators,
     //Notification states
     notificationBool: state.game.notificationBool,
     notificationText: state.game.notificationText,

@@ -182,3 +182,11 @@
     height: calc(3.5 * (1vw + 1vh - 1vmin));
     left: 50%;
 }
+
+.spectatorDiv {
+    position: absolute;
+    margin-top : 4.5em;
+    margin-left: 0.7em;
+    color: #FAD000;
+    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
+}
