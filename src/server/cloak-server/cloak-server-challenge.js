@@ -99,6 +99,7 @@ function challengeRespond(user, user2, accept) {
         user2.data.challenging = [];
         let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
         createdRoom.data.opponentDisconnect = false;
+        createdRoom.data.messages = [];
         userJoinRoom(user, createdRoom);
         userJoinRoom(user2, createdRoom);
         createdRoom.data.spectatedId = user.id;
