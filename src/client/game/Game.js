@@ -119,13 +119,13 @@ export class Game extends Component {
                 return player.id === this.props.currentPlayer;
             })[0];
             if (currentPlayer) {
-                currentPlayerText = isPlayerTurn ? "It's your turn" : "It's " + currentPlayer.name + "'s" + " turn";
+                currentPlayerText = isPlayerTurn ? "It's your turn" : "It's " + emojify(currentPlayer.name) + "'s" + " turn";
             }
 
             if (this.props.opponentRollNumber === 0) {
-                opponentRoll = (<div><p>{this.props.notificationText}</p><p className={gameStyles.turnNotif}>{currentPlayerText}</p></div>);
+                opponentRoll = (<div><p>{emojify(this.props.notificationText)}</p><p className={gameStyles.turnNotif}>{currentPlayerText}</p></div>);
             } else if (this.props.opponentRollNumber !== null) {
-                opponentRoll = (<p className={isPlayerTurn ? gameStyles.turnNotif : null}>{this.props.notificationText}</p>);
+                opponentRoll = (<p className={isPlayerTurn ? gameStyles.turnNotif : null}>{emojify(this.props.notificationText)}</p>);
             }
 
             gameInfo = <ul> {this.props.listOfPlayers.map((player, index) => {

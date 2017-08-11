@@ -48,7 +48,7 @@ export class GameSpectate extends Component {
                 return player.id === this.props.winnerId;
             });
             if (winner[0]) {
-                gameOverText += ", " + winner[0].name + " Won";
+                gameOverText += ", " + emojify(winner[0].name) + " Won";
             }
         }
         const gameOverDiv = (
@@ -65,17 +65,15 @@ export class GameSpectate extends Component {
                 return player.id === this.props.currentPlayer;
             })[0];
             if (currentPlayer) {
-                currentPlayerText = "It's " + currentPlayer.name + "'s turn";
+                currentPlayerText = "It's " + emojify(currentPlayer.name) + "'s turn";
             }
 
-            if (this.props.playerRollNumber === 0) {
-                playerRoll = (<div><p>{this.props.notificationText}</p><p>{currentPlayerText}</p></div>);
-            } else if (this.props.playerRollNumber !== null) {
-                playerRoll = (<p>{this.props.notificationText}</p>);
+            if (this.props.playerRollNumber !== null) {
+                playerRoll = (<p>{emojify(this.props.notificationText)}</p>);
             }
 
             gameInfo = <ul> {this.props.listOfPlayers.map((player, index) => {
-                return <li key={index}> {player.name} ({player.elorank}) {(player.id === this.props.id) ? <p>&#9733;</p> : null} </li>
+                return <li key={index}> {emojify(player.name)} ({player.elorank}) </li>
             })} </ul>;
 
             const spectatingPlayer = this.props.listOfPlayers.filter(player => {
@@ -83,14 +81,14 @@ export class GameSpectate extends Component {
             });
             var spectatingName = null;
             if (spectatingPlayer[0]) {
-                spectatingName = spectatingPlayer[0].name;
+                spectatingName = emojify(spectatingPlayer[0].name);
             }
             const opponentPlayer = this.props.listOfPlayers.filter(player => {
                 return player.id !== this.props.spectatingId;
             });
             var opponentName = null;
             if (opponentPlayer[0]) {
-                opponentName = opponentPlayer[0].name;
+                opponentName = emojify(opponentPlayer[0].name);
             }
         }
 
