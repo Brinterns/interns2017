@@ -38,6 +38,9 @@ function getLobbyUserInfo() {
         let listOfUserInfo = [];
         let listOfDbIds = [];
         cloak.getUsers().forEach(function(user, index, cloakUsers) {
+            if (!user.connected()) {
+                return;
+            }
             const room = user.getRoom();
             if (room) {
                 listOfDbIds.push(user.data.dbId);

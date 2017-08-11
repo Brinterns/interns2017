@@ -74,7 +74,7 @@
 }
 
 @keyframes blinker {
-  50% { opacity: 0; }
+    50% { opacity: 0; }
 }
 
 
@@ -98,6 +98,12 @@
     min-height: 250px;
     height: calc(25 * (1vw + 1vh - 1vmin));
     width: var(--boxWidth);
+}
+
+.openChat p {
+    letter-spacing: 2.5px;
+    word-spacing: 5px;
+    font-family: 'Roboto Slab', serif;
 }
 
 .openChatTop {
