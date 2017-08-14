@@ -89,7 +89,7 @@ export default class Stats extends Component {
 
         return (
             <div className={statStyling.mainDiv}>
-                <div className={statStyling.toggleDiv}>
+                <div className={!this.state.statsDisplay ? statStyling.toggleDiv : statStyling.toggleDivActive}>
                     {this.state.statsDisplay ? <img id="statsButton" onClick={this.toggleStats} src={leftarrow} /> : <img onClick={this.toggleStats} src={clipboard} /> }
                 </div>
                 {this.state.statsDisplay ? statsDiv : null }

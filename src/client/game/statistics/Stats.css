@@ -11,9 +11,36 @@
     padding: 0 0.3em 0.2em 0.3em;
     border: solid 0.12em #FAD000;
     display: inline-block;
+    box-shadow: calc(0.35 * (1vw + 1vh - 1vmin)) calc(0.35 * (1vw + 1vh - 1vmin)) calc(0.2 * (1vw + 1vh - 1vmin)) 0 black;
+}
+
+.toggleDiv:active {
+    box-shadow: none;
+    transform: translate(calc(0.35 * (1vw + 1vh - 1vmin)), calc(0.35 * (1vw + 1vh - 1vmin)));
+}
+
+.toggleDivActive {
+    padding: 0 0.3em 0.2em 0.3em;
+    border: solid 0.12em #FAD000;
+    display: inline-block;
+    box-shadow: calc(0.35 * (1vw + 1vh - 1vmin)) calc(0.35 * (1vw + 1vh - 1vmin)) calc(0.2 * (1vw + 1vh - 1vmin)) 0 black;
+}
+
+.toggleDivActive:active {
+    box-shadow: none;
+    transform: translate(calc(0.35 * (1vw + 1vh - 1vmin)), calc(0.35 * (1vw + 1vh - 1vmin)));
 }
 
 .toggleDiv img {
+    height: calc(2 * (1vw + 1vh - 1vmin));
+    width: calc(2 * (1vw + 1vh - 1vmin));
+    min-height: 15px;
+    min-width: 15px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.toggleDivActive img {
     height: calc(2 * (1vw + 1vh - 1vmin));
     width: calc(2 * (1vw + 1vh - 1vmin));
     min-height: 15px;
