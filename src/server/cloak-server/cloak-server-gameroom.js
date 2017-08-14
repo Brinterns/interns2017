@@ -39,7 +39,7 @@ function getRoomInfo(user) {
             opponent = shared.getOpponent(spectatedPlayer);
             user.data.squares = spectatedPlayer.data.squares;
             user.data.piecePositions = spectatedPlayer.data.piecePositions;
-            user.data.finishedPieces = spectatedPlayer.data.finishedPieces;
+            user.data.numPiecesFinished = spectatedPlayer.data.numPiecesFinished;
             user.message('spectatingid', room.data.spectatedId);
         }
 
