@@ -124,17 +124,9 @@ export class Lobby extends Component {
         let rank = '';
 
         var sortedList = Object.assign([], this.props.listOfUsers);
-        var oldIndex, newIndex;
-        sortedList.forEach((user, index) => {
-            if (user.id === this.props.id) {
-                oldIndex = index;
-            } else if (!user.online && !newIndex) {
-                newIndex = index;
-            }
-        });
-        sortedList.splice(newIndex, 0, Object.assign([], sortedList[oldIndex]));
-        sortedList.splice(oldIndex, 1);
+        var sorted = false;
         if (this.state.sortRank) {
+            sorted = true;
             sortedList.sort(function(a, b) {
                 return a.rank - b.rank;
             });
@@ -162,7 +154,7 @@ export class Lobby extends Component {
             } else {
                 user.isMe = false;
             }
-            if (!(this.state.filterOnline && !user.online)) {
+            if (!(this.state.filterOnline && !user.online) && (!user.isMe || sorted)) {
                 users.push(user);
             }
         });
