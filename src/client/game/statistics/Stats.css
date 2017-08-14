@@ -6,6 +6,11 @@
     color: #FAD000;
 }
 
+.mainDivEnd {
+    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
+    color: black;
+    display: block;
+}
 
 .toggleDiv {
     display: inline-block;
@@ -27,20 +32,26 @@
     background-color: rgba(0,0,0,0.6);
 }
 
-.statsDiv table tr {
+.statsDivEnd {
+    margin: 0 calc(1.0 * (1vw + 1vh - 1vmin)) 0.5em calc(1.0 * (1vw + 1vh - 1vmin));
+    overflow-x: hidden;
+}
+
+.tableDiv table tr {
     border: solid 0.12em;
 }
 
-.statsDiv table th {
+.tableDiv table th {
     text-align: left;
     padding-left: calc(0.5 * (1vw + 1vh - 1vmin));
     padding-right: calc(0.5 * (1vw + 1vh - 1vmin));
 }
 
-.statsDiv table td {
+.tableDiv table td {
     border: solid 0.12em;
+    border-right: solid 0.12em;
     text-align: center;
-    min-width: calc(10 * (1vw + 1vh - 1vmin));
-    max-width: calc(10 * (1vw + 1vh - 1vmin));
+    min-width: calc(10.25 * (1vw + 1vh - 1vmin));
+    max-width: calc(10.25 * (1vw + 1vh - 1vmin));
     word-wrap: break-word;
 }
