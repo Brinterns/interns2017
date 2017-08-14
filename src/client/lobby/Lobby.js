@@ -117,46 +117,50 @@ export class Lobby extends Component {
     }
 
     render() {
-        let otherUsers = [];
+        let users = [];
         let name = '';
         let myCanvas = null;
         let userAvatar = null;
         let rank = '';
 
         var sortedList = Object.assign([], this.props.listOfUsers);
+        var sorted = false;
         if (this.state.sortRank) {
+            sorted = true;
             sortedList.sort(function(a, b) {
                 return a.rank - b.rank;
             });
         }
-        sortedList.forEach((user) => {
-            if (this.props.id !== user.id) {
-                if (!(this.state.filterOnline && !user.online)) {
-                    otherUsers.push(user);
+        sortedList.forEach(user => {
+            if (user.id === this.props.id) {
+                name = user.name;
+                userAvatar = user.avatar;
+                rank = user.rank;
+                user.isMe = true;
+                if (user.avatar) {
+                    myCanvas = document.getElementById('myavatar');
+                    if (myCanvas) {
+                        setTimeout (() => {
+                            var ctx = myCanvas.getContext('2d');
+                            ctx.clearRect(0,0,myCanvas.width, myCanvas.height);
+                            var img = new Image;
+                            img.onload = function() {
+                                ctx.drawImage(img, 0, 0, 300, 150);
+                            };
+                            img.src = user.avatar;
+                        }, 50);
+                    }
                 }
-                return;
+            } else {
+                user.isMe = false;
             }
-            name = user.name;
-            userAvatar = user.avatar;
-            rank = user.rank;
-            if (user.avatar) {
-                myCanvas = document.getElementById('myavatar');
-                if (myCanvas) {
-                    setTimeout (() => {
-                        var ctx = myCanvas.getContext('2d');
-                        ctx.clearRect(0,0,myCanvas.width, myCanvas.height);
-                        var img = new Image;
-                        img.onload = function() {
-                            ctx.drawImage(img, 0, 0, 300, 150);
-                        };
-                        img.src = user.avatar;
-                    },50);
-                }
+            if (!(this.state.filterOnline && !user.online) && (!user.isMe || sorted)) {
+                users.push(user);
             }
         });
 
         const userDisplayList = (
-            otherUsers.map((user, i) => {
+            users.map((user, i) => {
                 const challenging = (this.props.challenging.indexOf(user.id) >= 0);
                 const challenged = (this.props.challengers.indexOf(user.id) >= 0);
                 return <User index={i} key={i} user={user} challenging={challenging} challenged={challenged} challengeUser={this.challengeUser} cancelChallenge={this.cancelChallenge} challengeRespond={this.challengeRespond} />;

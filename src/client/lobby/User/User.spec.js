@@ -13,6 +13,7 @@ describe('<User />', () => {
             winLossRecord: {wins: 0, loses: 0},
             inLobby: true,
             online: true,
+            isMe: false,
             rank: 5
         };
     });
@@ -61,5 +62,11 @@ describe('<User />', () => {
         user.inLobby = false;
         const wrapper = shallow(<User user={user} challenging={true} />);
         expect(wrapper.find("h1").text()).toEqual(" " + user.name + " (Offline) ");
+    });
+
+    it('Shows the right name when the user you', () => {
+        user.isMe = true;
+        const wrapper = shallow(<User user={user} challenging={true} />);
+        expect(wrapper.find("h1").text()).toEqual(" " + user.name + " (You) ");
     });
 });

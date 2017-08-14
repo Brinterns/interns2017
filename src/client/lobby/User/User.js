@@ -25,7 +25,7 @@ export default class User extends Component {
             }
         }
         var challengeButtons;
-        if (!this.props.user.inLobby) {
+        if (!this.props.user.inLobby || this.props.user.isMe) {
             challengeButtons = null;
         } else if (this.props.challenging) {
             challengeButtons =
@@ -53,6 +53,8 @@ export default class User extends Component {
             displayName += " (Spectating)";
         } else if (!this.props.user.inLobby) {
             displayName += " (In-Game)";
+        } else if (this.props.user.isMe) {
+            displayName += " (You)";
         }
         return (
             <div className={this.props.user.online ? userStyles.onlineBackground : userStyles.offlineBackground}>
