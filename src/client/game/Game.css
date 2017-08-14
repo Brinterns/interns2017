@@ -88,6 +88,12 @@
     background-color: #0265CB;
     outline: none;
     font-size: calc(2 * (1vw + 1vh - 1vmin));
+    box-shadow: calc(0.35 * (1vw + 1vh - 1vmin)) calc(0.35 * (1vw + 1vh - 1vmin)) calc(0.2 * (1vw + 1vh - 1vmin)) 0 black;
+}
+
+.forfeit:active {
+    box-shadow: none;
+    transform: translate(calc(0.35 * (1vw + 1vh - 1vmin)), calc(0.35 * (1vw + 1vh - 1vmin)));
 }
 
 .rules {
@@ -105,6 +111,12 @@
     background-color: #0265CB;
     outline: none;
     font-size: calc(2 * (1vw + 1vh - 1vmin));
+    box-shadow: calc(0.35 * (1vw + 1vh - 1vmin)) calc(0.35 * (1vw + 1vh - 1vmin)) calc(0.2 * (1vw + 1vh - 1vmin)) 0 black;
+}
+
+.rules:active {
+    box-shadow: none;
+    transform: translate(calc(0.35 * (1vw + 1vh - 1vmin)), calc(0.35 * (1vw + 1vh - 1vmin)));
 }
 
 .notificationMenu {
