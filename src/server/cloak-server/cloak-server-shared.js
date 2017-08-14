@@ -127,6 +127,10 @@ function reconnectUser(id, user) {
                 if (user2.id === room.data.spectatedId) {
                     room.data.spectatedId = user.id;
                 }
+                if (user2.id === room.data.challengerId) {
+                    room.data.challengerId = user.id;
+                }
+
                 user.message('joingame', room.id);
             } else {
                 user.message('spectategame', room.id);
@@ -144,6 +148,7 @@ function reconnectUser(id, user) {
             room.data.gameinfo.playerIds[room.data.gameinfo.playerIds.indexOf(user2.id)] = user.id;
             user.message('updatestats', JSON.stringify(room.data.gameinfo));
             user.message('updategamemessages', JSON.stringify(room.data.messages));
+            user.message('challengerid', room.data.challengerId);
         }
         user2.delete();
     } else {

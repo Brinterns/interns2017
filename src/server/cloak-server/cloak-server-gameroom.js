@@ -59,6 +59,7 @@ function getRoomInfo(user) {
             user.message('rolledvalue', user.data.lastRoll);
             gameplay.checkMoves(user, user.data.lastRoll, opponent.data.squares);
         }
+        
         getRoomUserInfo(room);
     }
 }

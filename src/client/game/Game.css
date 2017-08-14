@@ -113,19 +113,20 @@
     left: 50%;
     margin-right: -50%;
     margin: 0;
-    width: calc(40 * (1vw + 1vh - 1vmin));
+    width: calc(47 * (1vw + 1vh - 1vmin));
     background-color: white;
     border-style: solid;
     border-color: #FAD000;
     border-width: calc(0.5 * (1vw + 1vh - 1vmin));
     transform: translate(-50%, -50%);
+    padding: calc(1.0 * (1vw + 1vh - 1vmin));
+    text-align: center;
 }
 
 .gameOverMenu p {
     display: block !important;
     color: black;
     font-size: calc(5px + 2.5 * (1vw + 1vh - 1vmin));
-    text-align: center;
     margin-top: calc(0.5 * (1vw + 1vh - 1vmin));
     white-space: normal !important;
 }
@@ -138,6 +139,18 @@
     color: white;
     background-color: #0265CB;
     outline: none;
+    font-size: calc(2 * (1vw + 1vh - 1vmin));
+}
+
+.buttonsEnd {
+    text-align: center;
+    margin-bottom: 0.25em !important;
+    margin-top: 0 !important;
+}
+
+.buttonsEnd button {
+    margin-left: 0.5em !important;
+    margin-right: 0.5em !important;
     font-size: calc(2 * (1vw + 1vh - 1vmin));
 }
 
@@ -185,6 +198,7 @@
 .acceptButton {
     padding: 0 !important;
     left: 35%;
+    display: inline !important;
     background-color: #03b733 !important;
     height: calc(3.5 * (1vw + 1vh - 1vmin));
     width: calc(3.5 * (1vw + 1vh - 1vmin));
@@ -193,6 +207,7 @@
 .declineButton {
     padding: 0 !important;
     right: 35%;
+    display: inline !important;
     background-color: #e81212 !important;
     height: calc(3.5 * (1vw + 1vh - 1vmin));
     width: calc(3.5 * (1vw + 1vh - 1vmin));

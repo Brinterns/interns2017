@@ -56,7 +56,7 @@ export default class Stats extends Component {
     render() {
         const stats = this.props.stats;
         let statsDiv = null;
-        const statsDivClass = this.props.gameOver ? null : statStyling.statsDiv;
+        const statsDivClass = this.props.gameOver ? statStyling.statsDivEnd : statStyling.statsDiv;
         const mainDivClass = this.props.gameOver ? statStyling.mainDivEnd : statStyling.mainDiv;
 
         if (stats) {
@@ -71,21 +71,23 @@ export default class Stats extends Component {
             const opponentAverages = this.getAverages(opponentStats);
             statsDiv = (
                 <div id="statsDiv" ref="statistics" className={statsDivClass}>
-                    <table id="statsDiv">
-                        <tbody id="statsDiv">
-                            <tr id="statsDiv">
-                                <th id="statsDiv"></th>
-                                <td id="statsDiv">{emojify(userStats.name)}</td>
-                                <td id="statsDiv">{emojify(opponentStats.name)}</td>
-                            </tr>
-                            {this.tableRow("Average distance per turn", userAverages[1], opponentAverages[1])}
-                            {this.tableRow("Pieces taken", userStats.piecesTaken, opponentStats.piecesTaken)}
-                            {this.tableRow("Pieces lost", userStats.piecesLost, opponentStats.piecesLost)}
-                            {this.tableRow("Pieces per turn in range of end", userStats.turnsInEndRange, opponentStats.turnsInEndRange)}
-                            {this.tableRow("Turns in winning range", userStats.turnsLastInEndRange, opponentStats.turnsLastInEndRange)}
-                            {this.tableRow("Seconds per roll", userAverages[0], opponentAverages[0])}
-                        </tbody>
-                    </table>
+                    <div className={statStyling.tableDiv}>
+                        <table id="statsDiv">
+                            <tbody id="statsDiv">
+                                <tr id="statsDiv">
+                                    <th id="statsDiv"></th>
+                                    <td id="statsDiv">{emojify(userStats.name)}</td>
+                                    <td id="statsDiv">{emojify(opponentStats.name)}</td>
+                                </tr>
+                                {this.tableRow("Average distance per turn", userAverages[1], opponentAverages[1])}
+                                {this.tableRow("Pieces taken", userStats.piecesTaken, opponentStats.piecesTaken)}
+                                {this.tableRow("Pieces lost", userStats.piecesLost, opponentStats.piecesLost)}
+                                {this.tableRow("Pieces per turn in range of end", userStats.turnsInEndRange, opponentStats.turnsInEndRange)}
+                                {this.tableRow("Turns in winning range", userStats.turnsLastInEndRange, opponentStats.turnsLastInEndRange)}
+                                {this.tableRow("Seconds per roll", userAverages[0], opponentAverages[0])}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             );
         }
