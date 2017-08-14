@@ -1,5 +1,5 @@
 :root {
-    --boxWidth: calc(25 * (1vw + 1vh - 1vmin));
+    --boxWidth: calc(23.5 * (1vw + 1vh - 1vmin));
     --messageWidth : calc(22 * (1vw + 1vh - 1vmin));
     --messageLRMargins: calc(1.5 * (1vw + 1vh - 1vmin));
     --messageLRPaddings: calc(0.5 * (1vw + 1vh - 1vmin));
@@ -10,7 +10,7 @@
     box-shadow: 5px 0px 20px rgba(0, 0, 0, 0.6);
     position: fixed;
     bottom: calc(0.075 * (1vw + 1vh - 1vmin));
-    right: 2.5%;
+    right: 0.05%;
     background: #cccccc;
     color: black;
     /*Border*/
@@ -82,7 +82,7 @@
     box-shadow: 10px 0px 20px rgba(0, 0, 0, 0.4);
     position: fixed;
     bottom: calc(0.075 * (1vw + 1vh - 1vmin));
-    right: 2.5%;
+    right: 0.05%;
     background: rgb(242,242,242);
 
     color: black;
