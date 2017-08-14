@@ -146,10 +146,10 @@ export class Game extends Component {
                 <div className={gameStyles.spectatorDiv}>
                     <p>Spectators ({this.props.numSpectators})</p>
                 </div>
-                <Stats id={this.props.id} stats={this.props.gameStats}/>
+                {this.props.winnerId ? null : <Stats id={this.props.id} stats={this.props.gameStats}/>}
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
                 {this.state.rules && !this.props.winnerId ? <Rules toggleRules={this.handleToggleRules} /> : null}
-                {this.props.notificationBool ? <div className={gameStyles.notificationDiv}> {opponentRoll} </div> : null}
+                {(!this.props.winnerId && this.props.notificationBool) ? <div className={gameStyles.notificationDiv}> {opponentRoll} </div> : null}
             </div>
         );
     }
