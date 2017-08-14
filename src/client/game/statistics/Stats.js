@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import statStyling from './Stats.css';
 import {emojify} from 'react-emojione';
 import clipboard from '../../images/icons/clipboard.png';
-import leftarrow from '../../images/icons/leftarrow.png';
+import activeclipboard from '../../images/icons/activeclipboard.png';
 
 export default class Stats extends Component {
     constructor(props) {
@@ -96,7 +96,7 @@ export default class Stats extends Component {
             <div className={mainDivClass}>
                 {this.props.gameOver ? null :
                     <div className={statStyling.toggleDiv}>
-                        {this.state.statsDisplay ? <img id="statsButton" onClick={this.toggleStats} src={leftarrow} /> : <img onClick={this.toggleStats} src={clipboard} /> }
+                        {this.state.statsDisplay ? <img id="statsButton" onClick={this.toggleStats} src={activeclipboard} /> : <img onClick={this.toggleStats} src={clipboard} /> }
                     </div>
                 }
                 {this.state.statsDisplay || this.props.gameOver ? statsDiv : null }
