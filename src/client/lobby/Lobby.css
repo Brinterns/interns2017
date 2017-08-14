@@ -132,9 +132,8 @@
     padding-left: 0.9em;
     padding-top: 0.25em;
     padding-bottom: 0.25em;
-    top: 18%;
+    bottom: 77.5%;
     right: 5%;
-    transform: translate(0%, -50%);
     border-style: solid;
     border-color: #FAD000;
     border-width: 0.1em;
@@ -142,6 +141,12 @@
     background-color: #0265CB;
     outline: none;
     font-size: calc(2 * (1vw + 1vh - 1vmin));
+    box-shadow: calc(0.35 * (1vw + 1vh - 1vmin)) calc(0.35 * (1vw + 1vh - 1vmin)) calc(0.2 * (1vw + 1vh - 1vmin)) 0 black;
+}
+
+.rules:active {
+    box-shadow: none;
+    transform: translate(calc(0.35 * (1vw + 1vh - 1vmin)), calc(0.35 * (1vw + 1vh - 1vmin)));
 }
 
 .container {
