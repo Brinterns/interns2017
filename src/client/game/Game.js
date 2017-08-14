@@ -97,11 +97,12 @@ export class Game extends Component {
         } else {
             challengeButton = <button className={gameStyles.reChallenge} onClick={this.reChallenge}> Re-Challenge </button>;
         }
+        // <Stats id={this.props.id} stats={this.props.gameStats} gameOver={true}/>
         const gameOverDiv = (
-            <div className={gameStyles.notificationMenu}>
-                <h1> {gameOverTextChoice} </h1>
-                <button className={gameStyles.returnButton} onClick={this.returnToLobby}> Return To Lobby </button>
+            <div className={gameStyles.gameOverMenu}>
+                <p> {gameOverTextChoice} </p>
                 {(!this.props.opponentDisconnect && (this.props.listOfPlayers.length > 1)) ? challengeButton : null}
+                <button className={gameStyles.returnButton} onClick={this.returnToLobby}> Return To Lobby </button>
             </div>
         );
         const forfeitDiv = (

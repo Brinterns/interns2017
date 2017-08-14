@@ -56,6 +56,9 @@ export default class Stats extends Component {
     render() {
         const stats = this.props.stats;
         let statsDiv = null;
+        const statsDivClass = this.props.gameOver ? null : statStyling.statsDiv;
+        const mainDivClass = this.props.gameOver ? statStyling.mainDivEnd : statStyling.mainDiv;
+
         if (stats) {
             var playerIndex = stats.playerIds.indexOf(this.props.id);
             //handle spectator case
@@ -67,7 +70,7 @@ export default class Stats extends Component {
             const userAverages = this.getAverages(userStats);
             const opponentAverages = this.getAverages(opponentStats);
             statsDiv = (
-                <div id="statsDiv" ref="statistics" className={statStyling.statsDiv}>
+                <div id="statsDiv" ref="statistics" className={statsDivClass}>
                     <table id="statsDiv">
                         <tbody id="statsDiv">
                             <tr id="statsDiv">
@@ -88,11 +91,13 @@ export default class Stats extends Component {
         }
 
         return (
-            <div className={statStyling.mainDiv}>
-                <div className={statStyling.toggleDiv}>
-                    {this.state.statsDisplay ? <img id="statsButton" onClick={this.toggleStats} src={leftarrow} /> : <img onClick={this.toggleStats} src={clipboard} /> }
-                </div>
-                {this.state.statsDisplay ? statsDiv : null }
+            <div className={mainDivClass}>
+                {this.props.gameOver ? null :
+                    <div className={statStyling.toggleDiv}>
+                        {this.state.statsDisplay ? <img id="statsButton" onClick={this.toggleStats} src={leftarrow} /> : <img onClick={this.toggleStats} src={clipboard} /> }
+                    </div>
+                }
+                {this.state.statsDisplay || this.props.gameOver ? statsDiv : null }
             </div>
         );
     }
