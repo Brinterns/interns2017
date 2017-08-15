@@ -30,6 +30,7 @@ import {
     resetNotificationBool,
     resetStore,
     rollSequence,
+    oppRollSequence,
     updateGameStats,
     updateNumSpectators
 } from '../game/Game-actions';
@@ -126,6 +127,9 @@ export function RunCloakConfig() {
             },
             rollsequence: (sequence) => {
                 dispatch(rollSequence(sequence));
+            },
+            opponentsequence: (sequence) => {
+                dispatch(oppRollSequence(sequence));
             },
             //End game messages
             opponentdisconnect: () => {

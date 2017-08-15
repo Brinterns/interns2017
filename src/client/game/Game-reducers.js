@@ -24,7 +24,8 @@ import {
     RESET_NOTIFICATION_BOOL,
     RESET_STORE,
     UPDATE_GAME_STATS,
-    UPDATE_NUMBER_OF_SPECTATORS
+    UPDATE_NUMBER_OF_SPECTATORS,
+    OPPONENT_ROLLED_SEQUENCE
 } from './Game-actions';
 
 
@@ -48,6 +49,7 @@ const initialState = {
     rollNumber: 'Roll',
     opponentRollNumber: null,
     rollSequence: null,
+    oppRollSequence: null,
     //Game states
     squares: Array(24).fill(false),
     opponentSquares: Array(24).fill(false),
@@ -130,9 +132,15 @@ const game = (state = initialState, action) => {
                 rollSequence: action.payload
             });
         }
+        case OPPONENT_ROLLED_SEQUENCE: {
+            return updateState(state, {
+                oppRollSequence: action.payload
+            });
+        }
         case OPPONENT_ROLLED_NUMBER: {
             return updateState(state, {
                 opponentRollNumber: action.payload,
+                oppRollSequence: null,
                 notificationBool: true,
                 notificationText: state.listOfPlayers.filter(player => {
                     return player.id === state.currentPlayer;

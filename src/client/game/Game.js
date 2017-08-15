@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 import ChatBox from '../Chat/ChatBox';
 import Stats from './statistics/Stats';
 import {emojify} from 'react-emojione';
+import RollFlash from './board/Roll/RollFlash';
+import Roll from './board/Roll/Roll';
 
 import { RunCloakConfig } from '../services/cloak-service';
 
@@ -81,6 +83,8 @@ export class Game extends Component {
     }
 
     render() {
+        console.log(this.props.opponentRollSequence);
+
         const isPlayerTurn = (this.props.currentPlayer === this.props.id);
         var gameOverTextChoice = (this.props.winnerId === this.props.id) ? "You Won!" : "You Lost";
         if (this.props.opponentDisconnect) {
@@ -151,6 +155,7 @@ export class Game extends Component {
                 {this.props.winnerId ? null : <Stats id={this.props.id} stats={this.props.gameStats}/>}
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
                 {this.state.rules && !this.props.winnerId ? <Rules toggleRules={this.handleToggleRules} /> : null}
+                {(!this.props.winnerId && this.props.opponentRollSequence) ? <div className={gameStyles.notificationDiv}> <RollFlash sequence={this.props.opponentRollSequence}/> <p>They are rolling</p> </div> : null}
                 {(!this.props.winnerId && this.props.notificationBool) ? <div className={gameStyles.notificationDiv}> {opponentRoll} </div> : null}
             </div>
         );
@@ -165,6 +170,7 @@ const mapStateToProps = state => ({
     listOfPlayers: state.game.listOfPlayers,
     //Roll states
     opponentRollNumber: state.game.opponentRollNumber,
+    opponentRollSequence: state.game.oppRollSequence,
     //End game states
     forfeit: state.game.forfeit,
     gameOver: state.game.gameOver,
