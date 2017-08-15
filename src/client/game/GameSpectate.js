@@ -25,7 +25,7 @@ export class GameSpectate extends Component {
     reconnectWait() {
         setTimeout(() => {
             if (cloak.connected()) {
-                cloak.message('reconnectuser', localStorage.getItem('userId'));
+                cloak.message('reconnectuser', [localStorage.getItem('userId'), localStorage.getItem('dbId')]);
                 cloak.message('getroominfo');
             } else {
                 this.reconnectWait();
@@ -53,7 +53,7 @@ export class GameSpectate extends Component {
                 gameOverText += ", " + emojify(winner[0].name) + " Won";
             }
         }
-        
+
         const gameOverDiv = (
             <div className={gameStyles.gameOverMenu}>
                 <p> {gameOverText} </p>

@@ -64,7 +64,7 @@ export class Game extends Component {
     reconnectWait() {
         setTimeout(() => {
             if (cloak.connected()) {
-                cloak.message('reconnectuser', localStorage.getItem('userId'));
+                cloak.message('reconnectuser', [localStorage.getItem('userId'), localStorage.getItem('dbId')]);
                 cloak.message('getroominfo', _);
             } else {
                 this.reconnectWait();

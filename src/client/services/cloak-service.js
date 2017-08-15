@@ -40,6 +40,7 @@ import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 
 
+
 export function RunCloakConfig() {
     cloak.configure({
         messages: {
@@ -85,6 +86,9 @@ export function RunCloakConfig() {
             },
             updatelobbymessages: (messages) => {
                 dispatch(updateLobbyMessages(JSON.parse(messages)));
+            },
+            redirect: (url) => {
+                window.location = (url);
             },
             /***********************************************************/
             /*                       Stats messages                     */

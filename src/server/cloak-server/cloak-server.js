@@ -65,8 +65,8 @@ module.exports = function(expressServer) {
             win: function(winBool, user) {
                 gameRoomFunctions.win(winBool, user);
             },
-            reconnectuser: function(id, user) {
-                sharedFunctions.reconnectUser(id, user);
+            reconnectuser: function(ids, user) {
+                sharedFunctions.reconnectUser(ids, user);
             },
             sendmessage: function(message, user) {
                 sharedFunctions.sendMessage(message, user);

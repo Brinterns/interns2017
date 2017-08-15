@@ -84,8 +84,14 @@ function previousUser(dbId, prevId, user) {
     }
 }
 
-function reconnectUser(id, user) {
+function reconnectUser(ids, user) {
+    const id = ids[0];
+    const dbId = ids[1];
     var user2 = cloak.getUser(id);
+    if (dbId !== user2.data.dbId) {
+        user.message('redirect', "https://www.youtube.com/watch?v=mmLRTVYgEq4");
+        return;
+    }
     if (user2) {
         user.name = user2.name;
         user.data = user2.data;
