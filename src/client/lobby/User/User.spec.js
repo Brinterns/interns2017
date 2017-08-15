@@ -37,7 +37,7 @@ describe('<User />', () => {
 
     it('Shows the right button when the user is not in a challenge', () => {
         const wrapper = shallow(<User user={user} />);
-        expect(wrapper.find("button").text()).toEqual(" Challenge ");
+        expect(wrapper.find("button").first().text()).toEqual(" Challenge ");
     });
 
     it('Shows the right button when the user makes a challenge', () => {
@@ -46,9 +46,13 @@ describe('<User />', () => {
     });
 
     it('Shows the right buttons when the user has been challenged', () => {
-        const wrapper = shallow(<User user={user} challenged={true} />);
+        const challenger = {
+            id: 1,
+            numberOfPieces: 7
+        };
+        const wrapper = shallow(<User user={user} challenger={challenger} />);
         expect(wrapper.find("button").first().text()).toEqual(" \u2716 ");
-        expect(wrapper.find("button").last().text()).toEqual(" \u2714 ");
+        expect(wrapper.find("button").at(1).text()).toEqual(" \u2714 ");
     });
 
     it('Shows the right name when the other user is in a game', () => {
