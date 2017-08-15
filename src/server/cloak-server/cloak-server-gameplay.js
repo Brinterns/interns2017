@@ -4,7 +4,6 @@ var gameRoomFunctions = require('./cloak-server-gameroom');
 
 //Game playing variables
 const rosettaSquares = [3,5,13,21,23];
-const numberOfPieces = 7;
 const playerPath = [
     14, 17, 20, 23,
     22, 19, 16, 13,
@@ -44,7 +43,7 @@ function endTurn(user) {
         return (position >= 11 && position <= 14);
     }).length;
     getUserStats(user).turnsInEndRange += numPiecesEndRange;
-    if ((user.data.numPiecesFinished === (numberOfPieces - 1)) && (numPiecesEndRange === 1)) {
+    if ((user.data.numPiecesFinished === (room.data.numberOfPieces - 1)) && (numPiecesEndRange === 1)) {
         getUserStats(user).turnsLastInEndRange ++;
     }
     room.messageMembers('currentplayer', room.data.currentPlayer);
@@ -97,7 +96,7 @@ function movePiece(position, user) {
                 spectator.message('finishedopppieces', user.data.numPiecesFinished);
             }
         });
-        if (user.data.numPiecesFinished === numberOfPieces) {
+        if (user.data.numPiecesFinished === room.data.numberOfPieces) {
             gameRoomFunctions.win(true, user);
         }
     }
@@ -140,7 +139,7 @@ function movePiece(position, user) {
     }
     //balances out the increment for this piece being in the final range as it has just moved there
     if ((nextPos >= 11 && nextPos <= 14) && (!(position >= 11 && position <= 14))) {
-        if (user.data.numPiecesFinished === (numberOfPieces - 1)) {
+        if (user.data.numPiecesFinished === (room.data.numberOfPieces - 1)) {
             userStats.turnsLastInEndRange --;
         }
         userStats.turnsInEndRange --;

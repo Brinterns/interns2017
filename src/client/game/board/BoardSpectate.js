@@ -6,8 +6,6 @@ import OpponentPiece from './OpponentPiece';
 import Square from './Square';
 import { connect } from 'react-redux';
 
-const numberOfPieces = 7;
-
 const playerPath = [
     14,  17,  20,  23,
     22,  19,  16,  13,
@@ -48,7 +46,7 @@ export class BoardSpectate extends Component {
                 pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={() => {}} setHighlightSquare={() => {}} key={i}/>);
             }
         }
-        var oppPieceHolderSize = numberOfPieces - this.props.opponentSquares.filter((square) => {return square}).length;
+        var oppPieceHolderSize = this.props.numberOfPieces - this.props.opponentSquares.filter((square) => {return square}).length;
         if (this.props.numOppPiecesFinished > 1) {
             oppPieceHolderSize -= (this.props.numOppPiecesFinished - 1);
         }
@@ -84,6 +82,7 @@ export class BoardSpectate extends Component {
 
 const mapStateToProps = state => ({
     //Game states
+    numberOfPieces: state.game.numberOfPieces,
     squares: state.game.squares,
     piecePositions: state.game.piecePositions,
     opponentSquares: state.game.opponentSquares,

@@ -27,7 +27,7 @@ function clearDisconnected(userList) {
     for (var i = 0; i < userList.length; ++i) {
         const opponent = cloak.getUser(userList[i].id);
         if (opponent && opponent.connected()) {
-            newList.push({id: userList[i].id, numPieces: userList[i].numPieces});
+            newList.push({id: userList[i].id, numberOfPieces: userList[i].numberOfPieces});
         }
     }
     return newList;

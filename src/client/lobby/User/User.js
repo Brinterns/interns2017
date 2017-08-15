@@ -7,19 +7,19 @@ export default class User extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            numPieces: 7
+            numberOfPieces: 7
         }
         this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(event) {
-        if ((event.target.id === "minus") && (this.state.numPieces > 3)) {
+        if ((event.target.id === "minus") && (this.state.numberOfPieces > 3)) {
             this.setState({
-                numPieces: this.state.numPieces - 1
+                numberOfPieces: this.state.numberOfPieces - 1
             });
-        } else if ((event.target.id === "plus") && (this.state.numPieces < 9)) {
+        } else if ((event.target.id === "plus") && (this.state.numberOfPieces < 9)) {
             this.setState({
-                numPieces: this.state.numPieces + 1
+                numberOfPieces: this.state.numberOfPieces + 1
             });
         }
     }
@@ -59,10 +59,10 @@ export default class User extends Component {
         } else {
             challengeButtons =
                 <div className={userStyles.buttonDiv}>
-                    <button onClick={() => {this.props.challengeUser(this.props.user.id, this.state.numPieces)}}> Challenge </button>
-                    <div className={userStyles.numPieces}>
-                        <button id="minus" className={userStyles.numPiecesMinus} onClick={this.handleChange}> - </button>
-                        <label> <p>{this.state.numPieces}</p> </label>
+                    <button onClick={() => {this.props.challengeUser(this.props.user.id, this.state.numberOfPieces)}}> Challenge </button>
+                    <div className={userStyles.numberOfPieces}>
+                        <button id="minus" className={userStyles.numberOfPiecesMinus} onClick={this.handleChange}> - </button>
+                        <label> <p>{this.state.numberOfPieces}</p> </label>
                         <button id="plus" onClick={this.handleChange}> + </button>
                     </div>
                 </div>;

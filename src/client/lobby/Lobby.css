@@ -440,7 +440,7 @@
     min-width: 30px !important;
 }
 
-.numPieces {
+.numberOfPieces {
     float: right;
     margin-top: calc(0.1 * (1vw + 1vh - 1vmin));
     width: calc(8 * (1vw + 1vh - 1vmin));
@@ -448,7 +448,7 @@
     text-align: center;
 }
 
-.numPieces button {
+.numberOfPieces button {
     display: inline-block;
     height: calc(2.5 * (1vw + 1vh - 1vmin));
     width: calc(2.5 * (1vw + 1vh - 1vmin));
@@ -456,11 +456,11 @@
     min-width: 25px;
 }
 
-.numPiecesMinus {
+.numberOfPiecesMinus {
     float: left !important;
 }
 
-.numPieces label {
+.numberOfPieces label {
     background-color: white;
     display: inline-block;
     height: calc(2.5 * (1vw + 1vh - 1vmin));
@@ -473,7 +473,7 @@
     border-width: 1px;
 }
 
-.numPieces p {
+.numberOfPieces p {
     position: relative;
     transform: translate(-50%, -50%);
     top: 50%;

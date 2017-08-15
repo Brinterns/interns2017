@@ -49,6 +49,7 @@ const initialState = {
     opponentRollNumber: null,
     rollSequence: null,
     //Game states
+    numberOfPieces: 7,
     squares: Array(24).fill(false),
     opponentSquares: Array(24).fill(false),
     piecePositions: Array(numberOfPieces).fill(0),
@@ -198,6 +199,7 @@ const game = (state = initialState, action) => {
         case UPDATE_GAME_STATE: {
             return updateState(state, {
                 id: action.payload.id,
+                numberOfPieces: action.payload.numberOfPieces,
                 squares: action.payload.squares,
                 piecePositions: action.payload.piecePositions,
                 opponentSquares: action.payload.opponentSquares,

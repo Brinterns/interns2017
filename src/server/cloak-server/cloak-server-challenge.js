@@ -3,9 +3,8 @@ var lobbyFunctions = require('./cloak-server-lobby');
 var gameRoomFunctions = require('./cloak-server-gameroom');
 var gamePlayFunctions = require('./cloak-server-gameplay');
 var shared = require('./cloak-server-shared');
-const numberOfPieces = 7;
 
-function challengePlayer(id, numPieces, user) {
+function challengePlayer(id, numberOfPieces, user) {
     var user2 = cloak.getUser(id);
     if (!user2.data.challenging) {
         user2.data.challenging = [];
@@ -20,8 +19,8 @@ function challengePlayer(id, numPieces, user) {
         if (!user2.data.challengers) {
             user2.data.challengers = [];
         }
-        user.data.challenging.push({id: id, numPieces: numPieces});
-        user2.data.challengers.push({id: user.id, numPieces: numPieces});
+        user.data.challenging.push({id: id, numberOfPieces: numberOfPieces});
+        user2.data.challengers.push({id: user.id, numberOfPieces: numberOfPieces});
         user.message('updatechallenging', user.data.challenging);
         user2.message('updatechallengers', user2.data.challengers);
         lobbyFunctions.getLobbyUserInfo().then(function(listOfUserInfo) {
@@ -74,6 +73,7 @@ function challengeRespond(user, user2, accept) {
         user.message('updatechallengers', user.data.challengers);
         user2.message('updatechallenging', user2.data.challenging);
     } else {
+        let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
         user.data.opponentDbId = user2.data.dbId;
         user2.data.opponentDbId = user.data.dbId;
         if (!user.data.challenging) {
@@ -85,6 +85,8 @@ function challengeRespond(user, user2, accept) {
         user.data.challengers.forEach(challenger => {
             if (challenger.id !== user2.id) {
                 challengeRespond(user, cloak.getUser(challenger.id), false);
+            } else {
+                createdRoom.data.numberOfPieces = challenger.numberOfPieces;
             }
         });
         user.data.challenging.forEach(challenging => {
@@ -100,7 +102,6 @@ function challengeRespond(user, user2, accept) {
         });
         user.data.challengers = [];
         user2.data.challenging = [];
-        let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
         createdRoom.data.opponentDisconnect = false;
         createdRoom.data.messages = [];
         userJoinRoom(user, createdRoom);
@@ -117,11 +118,11 @@ function challengeRespond(user, user2, accept) {
     }
 }
 
-function userJoinRoom(user, room, playerNum) {
+function userJoinRoom(user, room) {
     room.addMember(user);
     user.data.isPlayer = true;
     user.data.squares = Array(24).fill(false);
-    user.data.piecePositions = Array(numberOfPieces).fill(0);
+    user.data.piecePositions = Array(room.data.numberOfPieces).fill(0);
     user.data.numPiecesFinished = 0;
     user.data.lastRoll = null;
 }
