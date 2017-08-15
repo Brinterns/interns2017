@@ -4,7 +4,8 @@ import {
     updateRoomNames,
     updateUsers,
     updateChallenging,
-    updateChallengers
+    updateChallengers,
+    updateMiniMap
 } from '../lobby/Lobby-actions';
 
 import {
@@ -86,6 +87,9 @@ export function RunCloakConfig() {
             },
             updatelobbymessages: (messages) => {
                 dispatch(updateLobbyMessages(JSON.parse(messages)));
+            },
+            minimapstate: (gameState) => {
+                dispatch(updateMiniMap(JSON.parse(gameState)));
             },
             redirect: (url) => {
                 window.location = (url);

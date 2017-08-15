@@ -4,7 +4,8 @@ import {
     UPDATE_ROOM_NAMES,
     UPDATE_USERS,
     UPDATE_CHALLENGING,
-    UPDATE_CHALLENGERS
+    UPDATE_CHALLENGERS,
+    UPDATE_MINI_MAP
 } from './Lobby-actions';
 
 const updateState = (currentState, newState) => Object.assign({}, currentState, newState);
@@ -17,7 +18,17 @@ const initialState = {
     challengers: [],
     challenging: [],
     winLossRecord: null,
-    elorank: null
+    elorank: null,
+    //game states
+    roomId: null,
+    opponentDisconnect: false,
+    winnerId: null,
+    squares: Array(24).fill(false),
+    opponentSquares: Array(24).fill(false),
+    piecePositions: Array(7).fill(0),
+    moveablePositions: [],
+    numPiecesFinished: 0,
+    numOppPiecesFinished: 0
 };
 
 const lobby = (state = initialState, action) => {
@@ -56,6 +67,18 @@ const lobby = (state = initialState, action) => {
         case UPDATE_CHALLENGERS: {
             return updateState(state, {
                 challengers: action.payload ? action.payload : []
+            });
+        }
+        case UPDATE_MINI_MAP: {
+            return updateState(state, {
+                roomId: action.payload.roomId,
+                squares: action.payload.squares,
+                piecePositions: action.payload.piecePositions,
+                opponentSquares: action.payload.opponentSquares,
+                numPiecesFinished: action.payload.finishedPieces,
+                numOppPiecesFinished: action.payload.finishedOppPieces,
+                winnerId: action.payload.winnerId,
+                opponentDisconnect: action.payload.opponentDisconnect
             });
         }
         default: {

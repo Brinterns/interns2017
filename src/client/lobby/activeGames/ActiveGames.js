@@ -12,9 +12,7 @@ export class ActiveGames extends Component {
     render() {
         const gamesDisplayList = (
             this.props.listOfActiveGames.map((game, i) => {
-                return (
-                    <Game game={game} key={i} />
-                );
+                return (game.id === this.props.roomId) ? (<Game game={game} key={i} gameState={this.props} />) : (<Game game={game} key={i} />);
             })
         );
         return (
@@ -27,7 +25,16 @@ export class ActiveGames extends Component {
 }
 
 const mapStateToProps = state => ({
-    listOfActiveGames: state.lobby.listOfActiveGames
+    listOfActiveGames: state.lobby.listOfActiveGames,
+    roomId: state.lobby.roomId,
+    opponentDisconnect: state.lobby.opponentDisconnect,
+    winnerId: state.lobby.winnerId,
+    squares: state.lobby.squares,
+    opponentSquares: state.lobby.opponentSquares,
+    piecePositions: state.lobby.piecePositions,
+    moveablePositions: state.lobby.moveablePositions,
+    numPiecesFinished: state.lobby.numPiecesFinished,
+    numOppPiecesFinished: state.lobby.numOppPiecesFinished
 });
 
 export default connect(

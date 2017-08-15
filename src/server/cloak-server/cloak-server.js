@@ -35,6 +35,9 @@ module.exports = function(expressServer) {
             getroominfo: function(msg, user) {
                 gameRoomFunctions.getRoomInfo(user);
             },
+            getgameinfo: function(roomId, user) {
+                gameRoomFunctions.getGameInfo(roomId, user);
+            },
             challengeplayer: function(id, user) {
                 challengeFunctions.challengePlayer(id, user);
             },

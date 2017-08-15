@@ -33,7 +33,7 @@ function getRoomInfo(user) {
         }
         var opponent;
         if (user.data.isPlayer) {
-            opponent = shared.getOpponent(user)
+            opponent = shared.getOpponent(user);
         } else {
             const spectatedPlayer = cloak.getUser(room.data.spectatedId);
             opponent = shared.getOpponent(spectatedPlayer);
@@ -59,9 +59,28 @@ function getRoomInfo(user) {
             user.message('rolledvalue', user.data.lastRoll);
             gameplay.checkMoves(user, user.data.lastRoll, opponent.data.squares);
         }
-        
         getRoomUserInfo(room);
     }
+}
+
+function getGameInfo(roomId, user) {
+    const room = cloak.getRoom(roomId);
+    const spectatedPlayer = cloak.getUser(room.data.spectatedId);
+    const opponent = shared.getOpponent(spectatedPlayer);
+    user.data.squares = spectatedPlayer.data.squares;
+    user.data.piecePositions = spectatedPlayer.data.piecePositions;
+    user.data.numPiecesFinished = spectatedPlayer.data.numPiecesFinished;
+    var gameStateJson = {
+        roomId: roomId,
+        squares: user.data.squares,
+        piecePositions: user.data.piecePositions,
+        opponentSquares: opponent ? gameplay.reverseSquares(opponent.data.piecePositions) : [],
+        finishedPieces: user.data.numPiecesFinished,
+        finishedOppPieces: opponent ? opponent.data.numPiecesFinished : null,
+        winnerId: room.data.winnerId,
+        opponentDisconnect: room.data.opponentDisconnect
+    };
+    user.message('minimapstate', JSON.stringify(gameStateJson));
 }
 
 function calculateNewElo(playerRank, opponentRank, won) {
@@ -143,5 +162,6 @@ var roomExit = function(arg) {
 }
 
 module.exports.getRoomInfo = getRoomInfo;
+module.exports.getGameInfo = getGameInfo;
 module.exports.roomExit = roomExit;
 module.exports.win = win;

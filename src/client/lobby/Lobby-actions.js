@@ -5,6 +5,7 @@ export const UPDATE_ROOM_NAMES = namespace + 'UPDATE_ROOM_NAMES';
 export const UPDATE_USERS = namespace + 'UPDATE_USERS';
 export const UPDATE_CHALLENGING = namespace + 'UPDATE_CHALLENGING';
 export const UPDATE_CHALLENGERS = namespace + 'UPDATE_CHALLENGERS';
+export const UPDATE_MINI_MAP = namespace + 'UPDATE_MINI_MAP';
 
 export function updateId(id) {
     localStorage.setItem('userId', id);
@@ -13,6 +14,14 @@ export function updateId(id) {
         payload: id
     }
 }
+
+export function updateMiniMap(gameStats) {
+    return {
+        type: UPDATE_MINI_MAP,
+        payload: gameStats
+    }
+}
+
 
 export function updateUsers(listOfUsers) {
     return {
