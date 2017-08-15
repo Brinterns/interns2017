@@ -51,10 +51,10 @@ function reChallenge(user) {
 }
 
 function reChallengeResponse(accept, user) {
+    const room = user.getRoom();
     if (accept) {
-        challengeRespond(user, shared.getOpponent(user), accept);
+        challengeRespond(user, shared.getOpponent(user), accept, room.data.numberOfPieces);
     } else {
-        const room = user.getRoom();
         const opponent = shared.getOpponent(user);
         room.data.challengerId = null;
         user.message('challengerid', room.data.challengerId);
@@ -62,7 +62,7 @@ function reChallengeResponse(accept, user) {
     }
 }
 
-function challengeRespond(user, user2, accept) {
+function challengeRespond(user, user2, accept, numberOfPieces=7) {
     if (!accept) {
         user.data.challengers = user.data.challengers.filter(challenger => {
             return challenger.id !== user2.id;
@@ -73,7 +73,6 @@ function challengeRespond(user, user2, accept) {
         user.message('updatechallengers', user.data.challengers);
         user2.message('updatechallenging', user2.data.challenging);
     } else {
-        let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
         user.data.opponentDbId = user2.data.dbId;
         user2.data.opponentDbId = user.data.dbId;
         if (!user.data.challenging) {
@@ -86,7 +85,7 @@ function challengeRespond(user, user2, accept) {
             if (challenger.id !== user2.id) {
                 challengeRespond(user, cloak.getUser(challenger.id), false);
             } else {
-                createdRoom.data.numberOfPieces = challenger.numberOfPieces;
+                numberOfPieces = challenger.numberOfPieces;
             }
         });
         user.data.challenging.forEach(challenging => {
@@ -102,8 +101,10 @@ function challengeRespond(user, user2, accept) {
         });
         user.data.challengers = [];
         user2.data.challenging = [];
+        let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
         createdRoom.data.opponentDisconnect = false;
         createdRoom.data.messages = [];
+        createdRoom.data.numberOfPieces = numberOfPieces;
         userJoinRoom(user, createdRoom);
         userJoinRoom(user2, createdRoom);
         createdRoom.data.spectatedId = user.id;
