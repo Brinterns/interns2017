@@ -56,13 +56,30 @@
     position: absolute;
 }
 
+.oppPieceHolder p {
+    margin: 0;
+    margin-right: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    font-size: calc(2 * (1vw + 1vh - 1vmin));
+    color: #FAD000;
+}
+
 .pieceHolder {
     top: calc(55% + 1.17 * (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));
-    left: 25%;
+    left: 24.5%;
     height: auto;
     width: auto;
     position: absolute;
 }
+
+.pieceHolder p {
+    margin: 0;
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-bottom: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    font-size: calc(2 * (1vw + 1vh - 1vmin));
+    color: #FAD000;
+}
+
 
 .oppPiece {
     border-radius: 50%;

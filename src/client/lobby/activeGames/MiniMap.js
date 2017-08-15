@@ -62,17 +62,18 @@ export default class MiniMap extends Component {
                 </div>
             );
         }
-
         return (
-            <div>
+            <div className={boardStyles.minimapDiv}>
                 <div className={boardStyles.boardMainDiv}>
                     {squareCols}
                 </div>
                 <div className={boardStyles.oppPieceHolder}>
+                    <p> {this.props.gameState.playerName} </p>
                     {oppPieceHolder}
                 </div>
                 <div className={boardStyles.pieceHolder}>
                     {pieceHolder}
+                    <p> {this.props.gameState.name} </p>
                 </div>
             </div>
         );

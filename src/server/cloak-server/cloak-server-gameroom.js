@@ -78,7 +78,9 @@ function getGameInfo(roomId, user) {
         finishedPieces: user.data.numPiecesFinished,
         finishedOppPieces: opponent ? opponent.data.numPiecesFinished : null,
         winnerId: room.data.winnerId,
-        opponentDisconnect: room.data.opponentDisconnect
+        opponentDisconnect: room.data.opponentDisconnect,
+        name: spectatedPlayer.name,
+        opponentName: opponent.name
     };
     user.message('minimapstate', JSON.stringify(gameStateJson));
 }

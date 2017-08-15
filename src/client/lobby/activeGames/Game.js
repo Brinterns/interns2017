@@ -46,8 +46,8 @@ export default class Game extends Component {
 
     render() {
         return (
-            <div className={gameStyle.game} onMouseEnter={this.displayMiniMap} onMouseLeave={this.hideMiniMap}>
-                <h1> {emojify(this.props.game.name)} </h1>
+            <div className={gameStyle.game}  onMouseLeave={this.hideMiniMap}>
+                <h1 onMouseEnter={this.displayMiniMap}> {emojify(this.props.game.name)} </h1>
                 {this.props.game.winner ? <h2> {this.props.game.winner} Won </h2> : <button onClick={() => {this.observeGame(this.props.game.id)}}> Spectate </button>}
                 {this.state.showMiniMap ? <MiniMap gameState={this.props.gameState}/> : <p> dont show </p>}
             </div>

@@ -28,7 +28,9 @@ const initialState = {
     piecePositions: Array(7).fill(0),
     moveablePositions: [],
     numPiecesFinished: 0,
-    numOppPiecesFinished: 0
+    numOppPiecesFinished: 0,
+    name: null,
+    opponentName: null
 };
 
 const lobby = (state = initialState, action) => {
@@ -78,7 +80,9 @@ const lobby = (state = initialState, action) => {
                 numPiecesFinished: action.payload.finishedPieces,
                 numOppPiecesFinished: action.payload.finishedOppPieces,
                 winnerId: action.payload.winnerId,
-                opponentDisconnect: action.payload.opponentDisconnect
+                opponentDisconnect: action.payload.opponentDisconnect,
+                name: action.payload.name,
+                opponentName: action.payload.opponentName
             });
         }
         default: {
