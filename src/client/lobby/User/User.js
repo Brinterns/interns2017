@@ -9,6 +9,19 @@ export default class User extends Component {
         this.state = {
             numPieces: 7
         }
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event) {
+        if ((event.target.id === "minus") && (this.state.numPieces > 3)) {
+            this.setState({
+                numPieces: this.state.numPieces - 1
+            });
+        } else if ((event.target.id === "plus") && (this.state.numPieces < 9)) {
+            this.setState({
+                numPieces: this.state.numPieces + 1
+            });
+        }
     }
 
     render() {
@@ -48,9 +61,9 @@ export default class User extends Component {
                 <div className={userStyles.buttonDiv}>
                     <button onClick={() => {this.props.challengeUser(this.props.user.id)}}> Challenge </button>
                     <div className={userStyles.numPieces}>
-                        <button className={userStyles.numPiecesMinus}> - </button>
+                        <button id="minus" className={userStyles.numPiecesMinus} onClick={this.handleChange}> - </button>
                         <label> <p>{this.state.numPieces}</p> </label>
-                        <button> + </button>
+                        <button id="plus" onClick={this.handleChange}> + </button>
                     </div>
                 </div>;
         }
