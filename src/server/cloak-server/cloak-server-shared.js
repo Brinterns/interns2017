@@ -85,11 +85,11 @@ function previousUser(dbId, prevId, user) {
 }
 
 function reconnectUser(id, user) {
-    user.data.refreshing = true;
     var user2 = cloak.getUser(id);
     if (user2) {
         user.name = user2.name;
-        user.data = user2.data;
+        user.data = Object.assign({}, user2.data);
+        user2.data.refreshing = true;
         user.message('userid', user.id);
         const room = user2.getRoom();
         user.joinRoom(room);
@@ -160,7 +160,6 @@ function reconnectUser(id, user) {
     } else {
         user.message('gotologin');
     }
-    user.data.refreshing = true;
 }
 
 
