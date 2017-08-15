@@ -85,6 +85,7 @@ function previousUser(dbId, prevId, user) {
 }
 
 function reconnectUser(id, user) {
+    user.data.refreshing = true;
     var user2 = cloak.getUser(id);
     if (user2) {
         user.name = user2.name;
@@ -102,14 +103,24 @@ function reconnectUser(id, user) {
             }
             user.message('updatechallengers', user.data.challengers);
             user.message('updatechallenging', user.data.challenging);
-            user.data.challengers.forEach(challengerId => {
-                var challenger = cloak.getUser(challengerId);
-                challenger.data.challenging[challenger.data.challenging.indexOf(user2.id)] = user.id;
+            user.data.challengers.forEach(challengerInfo => {
+                var challenger = cloak.getUser(challengerInfo.id);
+                challenger.data.challenging = challenger.data.challenging.map(function(challengingInfo) {
+                    if (challengingInfo.id === user2.id) {
+                        challengingInfo.id = user.id;
+                    }
+                    return challengingInfo;
+                });
                 challenger.message('updatechallenging', challenger.data.challenging);
             });
-            user.data.challenging.forEach(challengingId => {
-                var challenging = cloak.getUser(challengingId);
-                challenging.data.challengers[challenging.data.challengers.indexOf(user2.id)] = user.id;
+            user.data.challenging.forEach(challengingInfo => {
+                var challenging = cloak.getUser(challengingInfo.id);
+                challenging.data.challengers = challenging.data.challengers.map(function(challengerInfo) {
+                    if (challengerInfo.id === user2.id) {
+                        challengerInfo.id = user.id;
+                    }
+                    return challengerInfo;
+                });
                 challenging.message('updatechallengers', challenging.data.challengers);
             });
             user.message('gotolobby');
@@ -149,6 +160,7 @@ function reconnectUser(id, user) {
     } else {
         user.message('gotologin');
     }
+    user.data.refreshing = true;
 }
 
 
