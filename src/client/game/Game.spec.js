@@ -49,7 +49,7 @@ describe('<Game />', () => {
         state.game.opponentDisconnect = true;
         const store = mockStore(state);
         wrapper = shallow(<Game store={store}/>).shallow();
-        expect(wrapper.find("h1").last().text()).toEqual(' Opponent Left, You Won! ');
+        expect(wrapper.find("p").first().text()).toEqual(' Opponent Left, You Won! ');
     });
 
     it('Shows re-challenge button at the end of the game', () => {
@@ -64,7 +64,7 @@ describe('<Game />', () => {
         }];
         const store = mockStore(state);
         wrapper = shallow(<Game store={store}/>).shallow();
-        expect(wrapper.find("button").at(3).text()).toEqual(' Re-Challenge ');
+        expect(wrapper.find("button").at(2).text()).toEqual(' Re-Challenge ');
     });
 
     it('Shows cancel button if user has re-challenged', () => {
@@ -80,7 +80,7 @@ describe('<Game />', () => {
         state.game.challengerId = 1;
         const store = mockStore(state);
         wrapper = shallow(<Game store={store}/>).shallow();
-        expect(wrapper.find("button").at(3).text()).toEqual(' Cancel ');
+        expect(wrapper.find("button").at(2).text()).toEqual(' Cancel ');
     });
 
     it('Shows the right buttons if the user has been re-challenged', () => {
@@ -96,8 +96,8 @@ describe('<Game />', () => {
         state.game.challengerId = 2;
         const store = mockStore(state);
         wrapper = shallow(<Game store={store}/>).shallow();
-        expect(wrapper.find("button").at(3).text()).toEqual(' \u2714 ');
-        expect(wrapper.find("button").at(4).text()).toEqual(' \u2716 ');
+        expect(wrapper.find("button").at(2).text()).toEqual(' \u2714 ');
+        expect(wrapper.find("button").at(3).text()).toEqual(' \u2716 ');
     });
 
     it('Shows the correct number of spectators', () => {

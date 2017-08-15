@@ -84,8 +84,14 @@ function previousUser(dbId, prevId, user) {
     }
 }
 
-function reconnectUser(id, user) {
+function reconnectUser(ids, user) {
+    const id = ids[0];
+    const dbId = ids[1];
     var user2 = cloak.getUser(id);
+    if (dbId !== user2.data.dbId) {
+        user.message('redirect', "https://www.youtube.com/watch?v=mmLRTVYgEq4");
+        return;
+    }
     if (user2) {
         user.name = user2.name;
         user.data = Object.assign({}, user2.data);
@@ -138,6 +144,10 @@ function reconnectUser(id, user) {
                 if (user2.id === room.data.spectatedId) {
                     room.data.spectatedId = user.id;
                 }
+                if (user2.id === room.data.challengerId) {
+                    room.data.challengerId = user.id;
+                }
+
                 user.message('joingame', room.id);
             } else {
                 user.message('spectategame', room.id);
@@ -155,6 +165,7 @@ function reconnectUser(id, user) {
             room.data.gameinfo.playerIds[room.data.gameinfo.playerIds.indexOf(user2.id)] = user.id;
             user.message('updatestats', JSON.stringify(room.data.gameinfo));
             user.message('updategamemessages', JSON.stringify(room.data.messages));
+            user.message('challengerid', room.data.challengerId);
         }
         user2.delete();
     } else {

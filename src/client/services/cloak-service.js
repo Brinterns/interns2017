@@ -30,6 +30,7 @@ import {
     resetNotificationBool,
     resetStore,
     rollSequence,
+    oppRollSequence,
     updateGameStats,
     updateNumSpectators
 } from '../game/Game-actions';
@@ -37,6 +38,7 @@ import {
 import { dispatch } from '../store';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+
 
 
 export function RunCloakConfig() {
@@ -85,6 +87,9 @@ export function RunCloakConfig() {
             updatelobbymessages: (messages) => {
                 dispatch(updateLobbyMessages(JSON.parse(messages)));
             },
+            redirect: (url) => {
+                window.location = (url);
+            },
             /***********************************************************/
             /*                       Stats messages                     */
             /***********************************************************/
@@ -126,6 +131,9 @@ export function RunCloakConfig() {
             },
             rollsequence: (sequence) => {
                 dispatch(rollSequence(sequence));
+            },
+            opponentsequence: (sequence) => {
+                dispatch(oppRollSequence(sequence));
             },
             //End game messages
             opponentdisconnect: () => {

@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import ChatBox from '../Chat/ChatBox';
 import Stats from './statistics/Stats';
 import {emojify} from 'react-emojione';
+import RollFlash from './board/Roll/RollFlash';
+
 
 import { RunCloakConfig } from '../services/cloak-service';
 
@@ -23,7 +25,7 @@ export class GameSpectate extends Component {
     reconnectWait() {
         setTimeout(() => {
             if (cloak.connected()) {
-                cloak.message('reconnectuser', localStorage.getItem('userId'));
+                cloak.message('reconnectuser', [localStorage.getItem('userId'), localStorage.getItem('dbId')]);
                 cloak.message('getroominfo');
             } else {
                 this.reconnectWait();
@@ -51,21 +53,26 @@ export class GameSpectate extends Component {
                 gameOverText += ", " + emojify(winner[0].name) + " Won";
             }
         }
+
         const gameOverDiv = (
-            <div className={gameStyles.notificationMenu}>
-                <h1> {gameOverText} </h1>
+            <div className={gameStyles.gameOverMenu}>
+                <p> {gameOverText} </p>
                 <button className={gameStyles.returnButton} onClick={this.returnToLobby}> Return To Lobby </button>
+                <Stats id={this.props.id} stats={this.props.gameStats} gameOver={true}/>
             </div>
         );
+
         let gameInfo = null;
         let currentPlayerText = null;
         let playerRoll;
+        let currentPlayerName = "";
         if (this.props.listOfPlayers.length) {
             const currentPlayer = this.props.listOfPlayers.filter(player => {
                 return player.id === this.props.currentPlayer;
             })[0];
             if (currentPlayer) {
-                currentPlayerText = "It's " + emojify(currentPlayer.name) + "'s turn";
+                currentPlayerName = emojify(currentPlayer.name);
+                currentPlayerText = "It's " + currentPlayerName + "'s turn";
             }
 
             if (this.props.playerRollNumber !== null) {
@@ -91,7 +98,6 @@ export class GameSpectate extends Component {
                 opponentName = emojify(opponentPlayer[0].name);
             }
         }
-
         return (
             <div>
                 <div className={gameStyles.gameMain}>
@@ -106,7 +112,8 @@ export class GameSpectate extends Component {
                 </div>
                 <Stats id={this.props.id} stats={this.props.gameStats}/>
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
-                {this.props.notificationBool ? <div className={gameStyles.notificationDiv}> {playerRoll} </div> : null}
+                {(!this.props.winnerId && this.props.notificationBool) ? <div className={gameStyles.notificationDiv}> {playerRoll} </div> : null}
+                {(!this.props.winnerId && this.props.playerRollSequence) ? <div className={gameStyles.notificationDiv}> <p>{currentPlayerName} is rolling</p> <RollFlash sequence={this.props.playerRollSequence}/>  </div> : null}
             </div>
         );
     }
@@ -120,6 +127,7 @@ const mapStateToProps = state => ({
     currentPlayer: state.game.currentPlayer,
     listOfPlayers: state.game.listOfPlayers,
     //Roll states
+    playerRollSequence: state.game.oppRollSequence,
     playerRollNumber: state.game.opponentRollNumber,
     //End game states
     gameOver: state.game.gameOver,

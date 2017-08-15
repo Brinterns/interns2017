@@ -28,10 +28,12 @@ function rollDice(user) {
 
 function messageRoll(total, user) {
     user.message('rolledvalue', total);
-    shared.getOpponent(user).message('opponentroll', total);
-    shared.getSpectators(user.getRoom()).forEach(function(spectator) {
-        spectator.message('opponentroll', total);
-    });
+    setTimeout(() => {
+        shared.getOpponent(user).message('opponentroll', total);
+        shared.getSpectators(user.getRoom()).forEach(function(spectator) {
+            spectator.message('opponentroll', total);
+        });
+    }, 175);
     user.data.lastRoll = total;
 }
 
