@@ -12,6 +12,7 @@ import trophy from '../images/icons/trophy.png';
 import trophygold from '../images/icons/trophygold.png';
 import pencil from '../images/icons/pencil.png';
 import DrawCanvas from '../components/DrawCanvas';
+import ActiveGames from './activeGames/ActiveGames';
 
 
 import { RunCloakConfig } from '../services/cloak-service';
@@ -30,7 +31,6 @@ export class Lobby extends Component {
         this.challengeUser = this.challengeUser.bind(this);
         this.cancelChallenge = this.cancelChallenge.bind(this);
         this.challengeRespond = this.challengeRespond.bind(this);
-        this.observeGame = this.observeGame.bind(this);
         this.handleToggleRules = this.handleToggleRules.bind(this);
         this.handleAvatarClick = this.handleAvatarClick.bind(this);
         this.upload = this.upload.bind(this);
@@ -87,10 +87,6 @@ export class Lobby extends Component {
         } else {
             cloak.message('declinechallenge', id);
         }
-    }
-
-    observeGame(gameId) {
-        cloak.message('observegame', gameId);
     }
 
     handleToggleRules() {
@@ -166,16 +162,6 @@ export class Lobby extends Component {
                 return <User index={i} key={i} user={user} challenging={challenging} challenged={challenged} challengeUser={this.challengeUser} cancelChallenge={this.cancelChallenge} challengeRespond={this.challengeRespond} />;
             })
         );
-        const gamesDisplayList = (
-            this.props.listOfActiveGames.map((game, i) => {
-                return (
-                    <div key={i} className={lobbyStyles.game}>
-                        <h1> {emojify(game.name)} </h1>
-                        {game.winner ? <h2> {game.winner} Won </h2> : <button onClick={() => {this.observeGame(game.id)}}> Spectate </button>}
-                    </div>
-                );
-            })
-        );
 
         const normalDisplay =
             <div className={lobbyStyles.container}>
@@ -200,7 +186,7 @@ export class Lobby extends Component {
                     {userDisplayList}
                 </div>
                 <div className={lobbyStyles.gameTabPanel}>
-                    {gamesDisplayList}
+                    <ActiveGames />
                 </div>
             </div>;
         const tabbedDisplay =
@@ -226,7 +212,7 @@ export class Lobby extends Component {
                     {userDisplayList}
                 </TabPanel>
                 <TabPanel className={lobbyStyles.gameTabPanel}>
-                    {gamesDisplayList}
+                    <ActiveGames />
                 </TabPanel>
             </Tabs>;
 
@@ -262,7 +248,6 @@ const mapStateToProps = state => ({
     listOfUsers: state.lobby.listOfUsers,
     challenging: state.lobby.challenging,
     challengers: state.lobby.challengers,
-    listOfActiveGames: state.lobby.listOfActiveGames,
     messages: state.lobby.messages,
     winLossRecord: state.lobby.winLossRecord,
     elorank: state.lobby.elorank

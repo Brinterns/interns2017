@@ -1,0 +1,24 @@
+.game {
+    padding: calc(1.5 * (1vw + 1vh - 1vmin));
+    margin-top: calc(1.5 * (1vw + 1vh - 1vmin));
+    margin-left: calc(1.5 * (1vw + 1vh - 1vmin));
+    margin-right: calc(1.5 * (1vw + 1vh - 1vmin));
+    border-style: solid;
+    border-color: black;
+    border-width: 0.12em;
+    background-color: #FFE562;
+}
+
+.game h1 {
+    margin: 0;
+    margin-bottom: calc(1.5 * (1vw + 1vh - 1vmin));
+    color: black;
+    display: block;
+    font-size: calc(10px + 1.5 * (1vw + 1vh - 1vmin));
+}
+
+.game h2 {
+    margin: 0;
+    color: #a8a6a6;
+    font-size: calc(3px + 2 * (1vw + 1vh - 1vmin));
+}
