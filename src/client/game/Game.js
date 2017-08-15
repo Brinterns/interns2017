@@ -8,7 +8,6 @@ import ChatBox from '../Chat/ChatBox';
 import Stats from './statistics/Stats';
 import {emojify} from 'react-emojione';
 import RollFlash from './board/Roll/RollFlash';
-import Roll from './board/Roll/Roll';
 
 import { RunCloakConfig } from '../services/cloak-service';
 

@@ -140,8 +140,8 @@ const game = (state = initialState, action) => {
         case OPPONENT_ROLLED_NUMBER: {
             return updateState(state, {
                 opponentRollNumber: action.payload,
-                oppRollSequence: null,
                 notificationBool: true,
+                oppRollSequence: null,
                 notificationText: state.listOfPlayers.filter(player => {
                     return player.id === state.currentPlayer;
                 })[0].name + " rolled a " + action.payload
@@ -182,17 +182,20 @@ const game = (state = initialState, action) => {
                 if (state.opponentRollNumber === 0) {
                     return updateState(state, {
                         rollNumber: 'Roll',
+                        oppRollSequence: null,
                         rollSequence: null
                     });
                 }
                 return updateState(state, {
                     rollNumber: 'Roll',
+                    oppRollSequence: null,
                     rollSequence: null,
                     notificationText: "It's your turn!"
                 });
             }
             return updateState(state, {
-                notificationBool: false
+                notificationBool: false,
+                opponentRollNumber: null
             });
         }
         case RESET_NOTIFICATION_BOOL: {

@@ -63,6 +63,16 @@
     margin: 0;
 }
 
+.notificationDiv h1 {
+    top: 50%;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    font-size: calc(5 * (1vw + 1vh - 1vmin));
+    margin: 0 !important;
+    color: #FAD000;
+    position: absolute;
+}
+
 @media (max-width: 800px) {
     .notificationDiv {
         top: 45%;
