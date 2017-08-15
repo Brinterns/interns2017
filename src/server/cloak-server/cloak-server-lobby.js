@@ -25,9 +25,9 @@ function clearDisconnected(userList) {
     }
     let newList = [];
     for (var i = 0; i < userList.length; ++i) {
-        const opponent = cloak.getUser(userList[i]);
+        const opponent = cloak.getUser(userList[i].id);
         if (opponent && opponent.connected()) {
-            newList.push(opponent.id);
+            newList.push({id: userList[i].id, numPieces: userList[i].numPieces});
         }
     }
     return newList;
@@ -38,9 +38,6 @@ function getLobbyUserInfo() {
         let listOfUserInfo = [];
         let listOfDbIds = [];
         cloak.getUsers().forEach(function(user, index, cloakUsers) {
-            if (!user.connected()) {
-                return;
-            }
             const room = user.getRoom();
             if (room) {
                 listOfDbIds.push(user.data.dbId);
@@ -60,13 +57,13 @@ function getLobbyUserInfo() {
                     rank: null,
                     spectating: false
                 };
-                if (room.isLobby) {
+                if (user.connected() && room.isLobby) {
                     user.data.challenging = clearDisconnected(user.data.challenging);
                     user.data.challengers = clearDisconnected(user.data.challengers);
                     userJson.inChallenge = user.data.challenger || user.data.challenging;
                     user.data.isPlayer = false;
                     listOfUserInfo.unshift(userJson);
-                } else {
+                } else if (user.connected()) {
                     if (!user.data.isPlayer) {
                         userJson.spectating = true;
                     }

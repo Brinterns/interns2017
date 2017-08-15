@@ -59,7 +59,7 @@ export default class User extends Component {
         } else {
             challengeButtons =
                 <div className={userStyles.buttonDiv}>
-                    <button onClick={() => {this.props.challengeUser(this.props.user.id)}}> Challenge </button>
+                    <button onClick={() => {this.props.challengeUser(this.props.user.id, this.state.numPieces)}}> Challenge </button>
                     <div className={userStyles.numPieces}>
                         <button id="minus" className={userStyles.numPiecesMinus} onClick={this.handleChange}> - </button>
                         <label> <p>{this.state.numPieces}</p> </label>
