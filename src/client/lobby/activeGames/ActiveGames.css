@@ -1,3 +1,8 @@
+:root {
+    --squareMargin: calc(0.5 * (1vw + 1vh - 1vmin)) calc(0.275 * (1vw + 1vh - 1vmin)) calc(0.5 * (1vw + 1vh - 1vmin)) calc(0.275 * (1vw + 1vh - 1vmin));
+    --squareSide: calc(6 * (1vw + 1vh - 1vmin));
+}
+
 .game {
     padding: calc(1.5 * (1vw + 1vh - 1vmin));
     margin-top: calc(1.5 * (1vw + 1vh - 1vmin));
@@ -21,4 +26,69 @@
     margin: 0;
     color: #a8a6a6;
     font-size: calc(3px + 2 * (1vw + 1vh - 1vmin));
+}
+
+.boardMainDiv {
+    position: fixed;
+    width: 100%;
+    text-align: center;
+    top: 55%;
+    transform: translate(-50%, -50%);
+
+}
+
+@media (max-width: 800px) {
+    .boardMainDiv {
+        top: 50%;
+    }
+}
+
+.squaresColumn {
+    display: inline-block;
+}
+
+.oppPieceHolder {
+    bottom: calc(45% + 1.17 * (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));
+    right: 17.5%;
+    height: auto;
+    width: auto;
+    direction: rtl;
+    position: absolute;
+}
+
+.pieceHolder {
+    top: calc(55% + 1.17 * (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));
+    left: 25%;
+    height: auto;
+    width: auto;
+    position: absolute;
+}
+
+.oppPiece {
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-right: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    display: inline-block;
+}
+
+.piece {
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-right: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    display: inline-block;
+}
+
+.squarePiece {
+    position: absolute;
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
 }
