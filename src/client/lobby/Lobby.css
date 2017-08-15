@@ -118,6 +118,8 @@
     vertical-align: top;
     height: calc(6.2 * (1vw + 1vh - 1vmin));
     width: calc(6.2 * (1vw + 1vh - 1vmin));
+    min-height: 40px;
+    min-width: 40px;
     margin-top: 0;
     background-color: white;
     border: solid;
@@ -158,6 +160,21 @@
     height: 68%;
     transform: translate(-50%, -50%);
     box-shadow: 5px 0px 20px rgba(0, 0, 0, 0.6);
+}
+
+.container button {
+    padding: 0;
+    height: calc(3.5 * (1vw + 1vh - 1vmin));
+    width: calc(8 * (1vw + 1vh - 1vmin));
+    min-height: 35px;
+    min-width: 80px;
+    outline: none;
+    background-color: #0265CB;
+    border-style: none;
+    color: white;
+    font-size: calc(10px + 0.5 * (1vw + 1vh - 1vmin));
+    font-weight: bold;
+    text-align: center;
 }
 
 .tabList {
@@ -387,27 +404,15 @@
 }
 
 .buttonDiv {
+    vertical-align: top;
     position: relative;
     width: 27.5%;
     display: inline-block;
 }
 
-.container button {
-    padding: 0;
-    height: calc(3.5 * (1vw + 1vh - 1vmin));
-    width: calc(8 * (1vw + 1vh - 1vmin));
-    min-height: 35px;
-    min-width: 80px;
-    outline: none;
-    background-color: #0265CB;
-    border-style: none;
-    color: white;
-    font-size: calc(10px + 0.5 * (1vw + 1vh - 1vmin));
-    font-weight: bold;
-    text-align: center;
-}
-
 .buttonDiv button {
+    min-height: 30px;
+    display: block;
     float: right;
 }
 
@@ -415,25 +420,58 @@
     padding: 0;
     height: calc(3.5 * (1vw + 1vh - 1vmin));
     width: calc(8 * (1vw + 1vh - 1vmin));
-    min-height: 35px;
+    min-height: 30px;
     min-width: 80px;
     float: right;
 }
 
 .acceptButton {
     background-color: #03b733 !important;
-    width: calc(4 * (1vw + 1vh - 1vmin)) !important;
-    min-height: 35px !important;
-    min-width: 40px !important;
+    width: calc(3.5 * (1vw + 1vh - 1vmin)) !important;
+    min-height: 30px !important;
+    min-width: 30px !important;
+    float: left !important;
 }
 
 .declineButton {
     background-color: #e81212 !important;
-    width: calc(4 * (1vw + 1vh - 1vmin)) !important;
-    min-height: 35px !important;
-    min-width: 40px !important;
+    width: calc(3.5 * (1vw + 1vh - 1vmin)) !important;
+    min-height: 30px !important;
+    min-width: 30px !important;
 }
 
+.numPieces {
+    float: right;
+    margin-top: calc(0.1 * (1vw + 1vh - 1vmin));
+    width: calc(8 * (1vw + 1vh - 1vmin));
+    min-width: 80px;
+    text-align: center;
+}
+
+.numPieces button {
+    display: inline-block;
+    height: calc(2.5 * (1vw + 1vh - 1vmin));
+    width: calc(2.5 * (1vw + 1vh - 1vmin));
+    min-height: 25px;
+    min-width: 25px;
+}
+
+.numPiecesMinus {
+    float: left !important;
+}
+
+.numPieces input {
+    text-align: center;
+    display: inline-block;
+    height: calc(2.5 * (1vw + 1vh - 1vmin));
+    width: calc(2.5 * (1vw + 1vh - 1vmin));
+    min-height: 25px;
+    min-width: 25px;
+    vertical-align: top;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+}
 
 .username:hover {
     cursor: pointer;

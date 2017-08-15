@@ -44,6 +44,11 @@ export default class User extends Component {
             challengeButtons =
                 <div className={userStyles.buttonDiv}>
                     <button onClick={() => {this.props.challengeUser(this.props.user.id)}}> Challenge </button>
+                    <div className={userStyles.numPieces}>
+                        <button className={userStyles.numPiecesMinus}> - </button>
+                        <input type="text" />
+                        <button> + </button>
+                    </div>
                 </div>;
         }
         var displayName = this.props.user.name;
