@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import ChatBox from '../Chat/ChatBox';
 import Stats from './statistics/Stats';
 import {emojify} from 'react-emojione';
+import RollFlash from './board/Roll/RollFlash';
 
 import { RunCloakConfig } from '../services/cloak-service';
 
@@ -116,12 +117,14 @@ export class Game extends Component {
         let gameInfo = null;
         let currentPlayerText = null;
         let opponentRoll;
+        let currentPlayerName = "";
         if (this.props.listOfPlayers.length) {
             const currentPlayer = this.props.listOfPlayers.filter(player => {
                 return player.id === this.props.currentPlayer;
             })[0];
             if (currentPlayer) {
-                currentPlayerText = isPlayerTurn ? "It's your turn" : "It's " + emojify(currentPlayer.name) + "'s" + " turn";
+                currentPlayerName = emojify(currentPlayer.name);
+                currentPlayerText = isPlayerTurn ? "It's your turn" : "It's " + currentPlayerName + "'s turn";
             }
 
             if (this.props.opponentRollNumber === 0) {
@@ -151,6 +154,7 @@ export class Game extends Component {
                 {this.props.winnerId ? null : <Stats id={this.props.id} stats={this.props.gameStats}/>}
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
                 {this.state.rules && !this.props.winnerId ? <Rules toggleRules={this.handleToggleRules} /> : null}
+                {(!this.props.winnerId && this.props.opponentRollSequence) ? <div className={gameStyles.notificationDiv}> <p>{currentPlayerName} is rolling</p> <RollFlash sequence={this.props.opponentRollSequence}/> </div> : null}
                 {(!this.props.winnerId && this.props.notificationBool) ? <div className={gameStyles.notificationDiv}> {opponentRoll} </div> : null}
             </div>
         );
@@ -165,6 +169,7 @@ const mapStateToProps = state => ({
     listOfPlayers: state.game.listOfPlayers,
     //Roll states
     opponentRollNumber: state.game.opponentRollNumber,
+    opponentRollSequence: state.game.oppRollSequence,
     //End game states
     forfeit: state.game.forfeit,
     gameOver: state.game.gameOver,

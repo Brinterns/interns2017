@@ -24,6 +24,7 @@ export const UPDATE_MESSAGES = namespace + 'UPDATE_MESSAGES';
 export const ROLLED_SEQUENCE = namespace + 'ROLLED_SEQUENCE';
 export const UPDATE_GAME_STATS = namespace + 'UPDATE_GAME_STATS';
 export const UPDATE_NUMBER_OF_SPECTATORS = namespace + 'UPDATE_NUMBER_OF_SPECTATORS';
+export const OPPONENT_ROLLED_SEQUENCE = namespace + 'OPPONENT_ROLLED_SEQUENCE';
 
 export function updateUserGameId(id) {
     return {
@@ -68,6 +69,13 @@ export function resetRollText() {
 export function rollSequence(sequence) {
     return {
         type: ROLLED_SEQUENCE,
+        payload: sequence
+    }
+}
+
+export function oppRollSequence(sequence) {
+    return {
+        type: OPPONENT_ROLLED_SEQUENCE,
         payload: sequence
     }
 }

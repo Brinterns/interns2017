@@ -24,7 +24,8 @@ import {
     RESET_NOTIFICATION_BOOL,
     RESET_STORE,
     UPDATE_GAME_STATS,
-    UPDATE_NUMBER_OF_SPECTATORS
+    UPDATE_NUMBER_OF_SPECTATORS,
+    OPPONENT_ROLLED_SEQUENCE
 } from './Game-actions';
 
 
@@ -48,6 +49,7 @@ const initialState = {
     rollNumber: 'Roll',
     opponentRollNumber: null,
     rollSequence: null,
+    oppRollSequence: null,
     //Game states
     squares: Array(24).fill(false),
     opponentSquares: Array(24).fill(false),
@@ -130,10 +132,16 @@ const game = (state = initialState, action) => {
                 rollSequence: action.payload
             });
         }
+        case OPPONENT_ROLLED_SEQUENCE: {
+            return updateState(state, {
+                oppRollSequence: action.payload
+            });
+        }
         case OPPONENT_ROLLED_NUMBER: {
             return updateState(state, {
                 opponentRollNumber: action.payload,
                 notificationBool: true,
+                oppRollSequence: null,
                 notificationText: state.listOfPlayers.filter(player => {
                     return player.id === state.currentPlayer;
                 })[0].name + " rolled a " + action.payload
@@ -174,17 +182,20 @@ const game = (state = initialState, action) => {
                 if (state.opponentRollNumber === 0) {
                     return updateState(state, {
                         rollNumber: 'Roll',
+                        oppRollSequence: null,
                         rollSequence: null
                     });
                 }
                 return updateState(state, {
                     rollNumber: 'Roll',
+                    oppRollSequence: null,
                     rollSequence: null,
                     notificationText: "It's your turn!"
                 });
             }
             return updateState(state, {
-                notificationBool: false
+                notificationBool: false,
+                opponentRollNumber: null
             });
         }
         case RESET_NOTIFICATION_BOOL: {
