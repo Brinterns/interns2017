@@ -34,7 +34,7 @@ function messageRoll(total, user) {
         shared.getSpectators(user.getRoom()).forEach(function(spectator) {
             spectator.message('opponentroll', total);
         });
-    }, 100);
+    }, 175);
     user.data.lastRoll = total;
 }
 

@@ -77,6 +77,9 @@ module.exports = function(expressServer) {
                 const rollSequence = ("1".repeat(rollNumber) + "0".repeat(4-rollNumber)).split('').sort(function(){return 0.5-Math.random()});
                 user.message("rollsequence", rollSequence);
                 sharedFunctions.getOpponent(user).message("opponentsequence", rollSequence);
+                sharedFunctions.getSpectators(user.getRoom()).forEach(function(spectator) {
+                    spectator.message('opponentsequence', rollSequence);
+                });
                 setTimeout(() => {
                     gamePlayFunctions.messageRoll(rollNumber, user);
                     var opponent = sharedFunctions.getOpponent(user);
