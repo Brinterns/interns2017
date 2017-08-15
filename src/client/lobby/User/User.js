@@ -47,13 +47,19 @@ export default class User extends Component {
             challengeButtons =
                 <div className={userStyles.buttonDiv}>
                     <button onClick={() => {this.props.cancelChallenge(this.props.user.id)}}> Cancel </button>
+                    <div className={userStyles.numberOfPieces}>
+                        <label className={userStyles.numberOfPiecesInactive}> <p>{this.props.challenging.numberOfPieces}</p> </label>
+                    </div>
                 </div>;
-        } else if (this.props.challenged) {
+        } else if (this.props.challenger) {
             challengeButtons =
                 <div className={userStyles.buttonDiv}>
                     <div className={userStyles.buttonHolder}>
                         <button className={userStyles.declineButton} onClick={() => {this.props.challengeRespond(false, this.props.user.id)}}> &#x2716; </button>
                         <button className={userStyles.acceptButton} onClick={() => {this.props.challengeRespond(true, this.props.user.id)}}> &#10004; </button>
+                    </div>
+                    <div className={userStyles.numberOfPieces}>
+                        <label className={userStyles.numberOfPiecesInactive}> <p>{this.props.challenger.numberOfPieces}</p> </label>
                     </div>
                 </div>;
         } else {

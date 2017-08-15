@@ -162,20 +162,20 @@ export class Lobby extends Component {
         const userDisplayList = (
             users.map((user, i) => {
                 var challenging = null;
-                var challenged = null;
+                var challenger = null;
                 const challengingTemp = this.props.challenging.filter(function(challengingInfo) {
                     return challengingInfo.id === user.id;
                 });
                 if (challengingTemp) {
                     challenging = challengingTemp[0];
                 }
-                const challengedTemp = this.props.challengers.filter(function(challengerInfo) {
+                const challengerTemp = this.props.challengers.filter(function(challengerInfo) {
                     return challengerInfo.id === user.id;
                 });
-                if (challengedTemp) {
-                    challenged = challengedTemp[0];
+                if (challengerTemp) {
+                    challenger = challengerTemp[0];
                 }
-                return <User index={i} key={i} user={user} challenging={challenging} challenged={challenged} challengeUser={this.challengeUser} cancelChallenge={this.cancelChallenge} challengeRespond={this.challengeRespond} />;
+                return <User index={i} key={i} user={user} challenging={challenging} challenger={challenger} challengeUser={this.challengeUser} cancelChallenge={this.cancelChallenge} challengeRespond={this.challengeRespond} />;
             })
         );
         const gamesDisplayList = (

@@ -482,6 +482,10 @@
     font-weight: normal;
 }
 
+.numberOfPiecesInactive {
+    background: #cccccc !important;
+}
+
 .username:hover {
     cursor: pointer;
 }
