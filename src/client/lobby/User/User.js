@@ -6,6 +6,9 @@ import {emojify} from 'react-emojione';
 export default class User extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            numPieces: 7
+        }
     }
 
     render() {
@@ -21,7 +24,7 @@ export default class User extends Component {
                       ctx.drawImage(img, 0, 0, 300, 150);
                     };
                     img.src = this.props.user.avatar;
-                },50);
+                }, 50);
             }
         }
         var challengeButtons;
@@ -46,7 +49,7 @@ export default class User extends Component {
                     <button onClick={() => {this.props.challengeUser(this.props.user.id)}}> Challenge </button>
                     <div className={userStyles.numPieces}>
                         <button className={userStyles.numPiecesMinus}> - </button>
-                        <input type="text" />
+                        <label> <p>{this.state.numPieces}</p> </label>
                         <button> + </button>
                     </div>
                 </div>;

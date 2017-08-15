@@ -10,8 +10,8 @@ import DrawCanvas from '../components/DrawCanvas';
 export class Login extends Component {
     constructor(props) {
         super(props);
-        this.onSubmit = this.onSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
         {this.isUser()};
     }
 
@@ -33,6 +33,7 @@ export class Login extends Component {
             this.reconnectWait();
         }
     }
+
     handleChange(event) {
         if (event.target.value.length <= 14) {
             this.props.updateUsername(event.target.value);
