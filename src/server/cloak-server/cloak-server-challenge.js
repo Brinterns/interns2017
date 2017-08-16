@@ -36,7 +36,10 @@ function cancelChallenge(id, user) {
 
 function acceptChallenge(id, user) {
     const challengingUser = cloak.getUser(id);
-    if (challengingUser.data.challenging.includes(user.id)) {
+    const isUserChallenged = challengingUser.data.challenging.filter(function(challenge) {
+        return challenge.id === user.id;
+    }).length;
+    if (isUserChallenged) {
         challengeRespond(user, challengingUser, true);
     }
 }

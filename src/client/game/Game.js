@@ -19,6 +19,7 @@ export class Game extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            numberOfPieces: 7,
             rules: false
         };
         this.handleToggleRules = this.handleToggleRules.bind(this);
@@ -47,6 +48,18 @@ export class Game extends Component {
             return;
         }
         this.props.toggleForfeit();
+    }
+
+    handleChange(event) {
+        if ((event.target.id === "minus") && (this.state.numberOfPieces > 3)) {
+            this.setState({
+                numberOfPieces: this.state.numberOfPieces - 1
+            });
+        } else if ((event.target.id === "plus") && (this.state.numberOfPieces < 9)) {
+            this.setState({
+                numberOfPieces: this.state.numberOfPieces + 1
+            });
+        }
     }
 
     reChallenge() {
@@ -88,21 +101,30 @@ export class Game extends Component {
             gameOverTextChoice = "Opponent Left, " + gameOverTextChoice;
         }
         var challengeButton;
+        var numPiecesButtons;
         if (this.props.challengerId === this.props.id) {
-            challengeButton = <button className={gameStyles.reChallenge} onClick={() => {this.reChallengeResponse(false)}}> Cancel </button>;
+            challengeButton = <button onClick={() => {this.reChallengeResponse(false)}}> Cancel </button>;
         } else if (this.props.challengerId) {
-            challengeButton = <div className={gameStyles.buttonsEnd}>
+            challengeButton =
+                <div className={gameStyles.buttonsEnd}>
                     <button className={gameStyles.acceptButton} onClick={() => {this.reChallengeResponse(true)}}> &#10004; </button>
                     <button className={gameStyles.declineButton} onClick={() => {this.reChallengeResponse(false)}}> &#x2716; </button>
                 </div>;
         } else {
-            challengeButton = <button className={gameStyles.reChallenge} onClick={this.reChallenge}> Re-Challenge </button>;
+            challengeButton = <button onClick={this.reChallenge}> Re-Challenge </button>;
+            numPiecesButtons = 
+                <div className={gameStyles.numberOfPieces}>
+                    <button id="minus" onClick={this.handleChange}> - </button>
+                    <label> <p>{this.state.numberOfPieces}</p> </label>
+                    <button id="plus" onClick={this.handleChange}> + </button>
+                </div>;
         }
 
         const gameOverDiv = (
             <div className={gameStyles.gameOverMenu}>
                 <p> {gameOverTextChoice} </p>
                 {(!this.props.opponentDisconnect && (this.props.listOfPlayers.length > 1)) ? challengeButton : null}
+                {(!this.props.opponentDisconnect && (this.props.listOfPlayers.length > 1)) ? numPiecesButtons : null}
                 <button className={gameStyles.returnButton} onClick={this.returnToLobby}> Return To Lobby </button>
                 <Stats id={this.props.id} stats={this.props.gameStats} gameOver={true}/>
             </div>
