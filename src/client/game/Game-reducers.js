@@ -24,7 +24,7 @@ import {
     RESET_NOTIFICATION_BOOL,
     RESET_STORE,
     UPDATE_GAME_STATS,
-    UPDATE_NUMBER_OF_SPECTATORS,
+    UPDATE_SPECTATORS,
     OPPONENT_ROLLED_SEQUENCE
 } from './Game-actions';
 
@@ -43,7 +43,7 @@ const initialState = {
     gameOver : false,
     forfeit: false,
     winnerId: null,
-    numSpectators: 0,
+    spectators: [],
     //Roll states
     rolled: true,
     rollNumber: 'Roll',
@@ -222,9 +222,9 @@ const game = (state = initialState, action) => {
                 opponentDisconnect: action.payload.opponentDisconnect
             });
         }
-        case UPDATE_NUMBER_OF_SPECTATORS: {
+        case UPDATE_SPECTATORS: {
             return updateState(state, {
-                numSpectators: action.payload
+                spectators: action.payload
             });
         }
         case UPDATE_GAME_STATS: {

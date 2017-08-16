@@ -168,6 +168,10 @@ export class Game extends Component {
                 return <li key={index}> {emojify(player.name)} ({player.elorank}) {(player.id === this.props.id) ? <p>&#9733;</p> : null} </li>
             })} </ul>;
         }
+        var spectatorText = !this.props.spectators.length ? "No Spectators" : "";
+        this.props.spectators.forEach(function(spectator) {
+            spectatorText += spectator + "\n";
+        });
         return (
             <div>
                 <div className={gameStyles.gameMain}>
@@ -180,7 +184,7 @@ export class Game extends Component {
                     {this.props.forfeit ? forfeitDiv : null}
                 </div>
                 <div className={gameStyles.spectatorDiv}>
-                    <p>Spectators ({this.props.numSpectators})</p>
+                    <p title={spectatorText}>Spectators ({this.props.spectators.length})</p>
                 </div>
                 {this.props.winnerId ? null : <Stats id={this.props.id} stats={this.props.gameStats}/>}
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
@@ -205,7 +209,7 @@ const mapStateToProps = state => ({
     forfeit: state.game.forfeit,
     gameOver: state.game.gameOver,
     winnerId: state.game.winnerId,
-    numSpectators: state.game.numSpectators,
+    spectators: state.game.spectators,
     //Notification states
     notificationBool: state.game.notificationBool,
     notificationText: state.game.notificationText,

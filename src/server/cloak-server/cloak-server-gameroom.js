@@ -18,7 +18,10 @@ function getRoomUserInfo(room) {
             listOfRoomUsers.push(userJson);
         }
     });
-    room.messageMembers('updatenumspectators', shared.getSpectators(room).length);
+    const spectatorNames = shared.getSpectators(room).map(function(spectator) {
+        return spectator.name;
+    });
+    room.messageMembers('updatespectators', spectatorNames);
     room.messageMembers('updateplayers', JSON.stringify(listOfRoomUsers));
 }
 
@@ -98,9 +101,11 @@ function win(winBool, user) {
 
 var roomExit = function(arg) {
     const users = this.getMembers();
-    const spectators = shared.getSpectators(this);
-    this.messageMembers('updatenumspectators', shared.getSpectators(this).length);
-    if (((users.length - spectators.length) === 1) && !this.data.winnerId) {
+    const spectatorNames = shared.getSpectators(this).map(function(spectator) {
+        return spectator.name;
+    });
+    this.messageMembers('updatespectators', spectatorNames);
+    if (((users.length - spectatorNames.length) === 1) && !this.data.winnerId) {
         this.data.opponentDisconnect = true;
         var user = users[0];
         var opponentName;
@@ -130,13 +135,13 @@ var roomExit = function(arg) {
                     this.data.winnerId = user.id;
                     user.message('opponentdisconnect');
                     user.message('gameover', this.data.winnerId);
-                    spectators.forEach(spectator => {
+                    spectatorNames.forEach(spectator => {
                         spectator.message('gameover', this.data.winnerId);
                     });
                 });
             });
         });
-    } else if ((users.length - spectators.length) === 1) {
+    } else if ((users.length - spectatorNames.length) === 1) {
         const user = users[0];
         this.data.opponentDisconnect = true;
         user.message('opponentdisconnect');
