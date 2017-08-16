@@ -60,6 +60,7 @@ const initialState = {
     numOppPiecesFinished: 0,
     //Notification states
     notificationBool: false,
+    notificationName: "",
     notificationText: null,
     opponentDisconnect: false,
     challengerId: null,
@@ -137,7 +138,10 @@ const game = (state = initialState, action) => {
         }
         case OPPONENT_ROLLED_SEQUENCE: {
             return updateState(state, {
-                oppRollSequence: action.payload
+                oppRollSequence: action.payload,
+                notificationName: state.listOfPlayers.filter(player => {
+                    return player.id === state.currentPlayer;
+                })[0].name
             });
         }
         case OPPONENT_ROLLED_NUMBER: {
@@ -145,9 +149,7 @@ const game = (state = initialState, action) => {
                 opponentRollNumber: action.payload,
                 notificationBool: true,
                 oppRollSequence: null,
-                notificationText: state.listOfPlayers.filter(player => {
-                    return player.id === state.currentPlayer;
-                })[0].name + " rolled a " + action.payload
+                notificationText: state.notificationName + " rolled a " + action.payload
             });
         }
         case UPDATE_SQUARES: {
