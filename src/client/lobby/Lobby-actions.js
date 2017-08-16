@@ -22,7 +22,6 @@ export function updateMiniMap(gameStats) {
     }
 }
 
-
 export function updateUsers(listOfUsers) {
     return {
         type: UPDATE_USERS,

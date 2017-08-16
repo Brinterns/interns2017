@@ -42,7 +42,4 @@ describe('<LobbyGame />', () => {
         }
         expect(wrapper.find("h1").first().text()).toEqual(" foo vs bar ");
     });
-
-
-
 });

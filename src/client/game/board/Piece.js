@@ -24,7 +24,7 @@ export default class Piece extends Component {
 
     render() {
         var picture = require('../../images/board/playerpiece.png');
-        const style = {
+        var style = {
             background: 'url(' + picture + ')',
             backgroundRepeat: 'no-repeat'
         }

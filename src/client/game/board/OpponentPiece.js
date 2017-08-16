@@ -8,7 +8,7 @@ export default class OpponentPiece extends Component {
     }
     render() {
         var picture = require('../../images/board/opponentpiece.png');
-        const style = {
+        var style = {
             background: 'url(' + picture + ')',
             backgroundRepeat: 'no-repeat'
         }
