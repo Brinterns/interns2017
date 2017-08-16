@@ -98,6 +98,10 @@ export class GameSpectate extends Component {
                 opponentName = emojify(opponentPlayer[0].name);
             }
         }
+        var spectatorText = !this.props.spectators.length ? "No Spectators" : "";
+        this.props.spectators.forEach(function(spectator) {
+            spectatorText += spectator + "\n";
+        });
         return (
             <div>
                 <div className={gameStyles.gameMain}>
@@ -108,7 +112,7 @@ export class GameSpectate extends Component {
                     {(this.props.winnerId) ? gameOverDiv : null}
                 </div>
                 <div className={gameStyles.spectatorDiv}>
-                    <p>Spectators ({this.props.numSpectators})</p>
+                    <p title={spectatorText}>Spectators ({this.props.spectators.length})</p>
                 </div>
                 <Stats id={this.props.id} stats={this.props.gameStats}/>
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
@@ -132,7 +136,7 @@ const mapStateToProps = state => ({
     //End game states
     gameOver: state.game.gameOver,
     winnerId: state.game.winnerId,
-    numSpectators: state.game.numSpectators,
+    spectators: state.game.spectators,
     //Notification states
     notificationBool: state.game.notificationBool,
     notificationText: state.game.notificationText,
