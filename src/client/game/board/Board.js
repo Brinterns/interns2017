@@ -8,8 +8,6 @@ import OpponentPiece from './OpponentPiece';
 import Square from './Square';
 import { connect } from 'react-redux';
 
-const numberOfPieces = 7;
-
 const playerPath = [
     14,  17,  20,  23,
     22,  19,  16,  13,
@@ -84,7 +82,7 @@ export class Board extends Component {
         const pieceHolder = [];
         const oppPieceHolder = [];
         const squareCols = [];
-        for (var i = 0; i < 7; i++) {
+        for (var i = 0; i < this.props.numberOfPieces; i++) {
             const pos = this.props.piecePositions[i];
             if (pos === 0) {
                 if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos) && !this.props.winnerId) {
@@ -94,7 +92,7 @@ export class Board extends Component {
                 pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
             }
         }
-        var oppPieceHolderSize = numberOfPieces - this.props.opponentSquares.filter((square) => {return square}).length;
+        var oppPieceHolderSize = this.props.numberOfPieces - this.props.opponentSquares.filter((square) => {return square}).length;
         if (this.props.numOppPiecesFinished > 1) {
             oppPieceHolderSize -= (this.props.numOppPiecesFinished - 1);
         }
@@ -138,6 +136,7 @@ const mapStateToProps = state => ({
     rollNumber: state.game.rollNumber,
     rollSequence: state.game.rollSequence,
     //Game states
+    numberOfPieces: state.game.numberOfPieces,
     squares: state.game.squares,
     opponentSquares: state.game.opponentSquares,
     piecePositions: state.game.piecePositions,

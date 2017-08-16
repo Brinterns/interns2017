@@ -45,6 +45,7 @@ function getRoomInfo(user) {
 
         var gameStateJson = {
             id: user.id,
+            numberOfPieces: room.data.numberOfPieces,
             squares: user.data.squares,
             piecePositions: user.data.piecePositions,
             opponentSquares: opponent ? gameplay.reverseSquares(opponent.data.piecePositions) : [],
