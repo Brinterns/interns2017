@@ -30,7 +30,8 @@ const initialState = {
     numPiecesFinished: 0,
     numOppPiecesFinished: 0,
     name: null,
-    opponentName: null
+    opponentName: null,
+    numberOfPieces: 7
 };
 
 const lobby = (state = initialState, action) => {
@@ -82,7 +83,8 @@ const lobby = (state = initialState, action) => {
                 winnerId: action.payload.winnerId,
                 opponentDisconnect: action.payload.opponentDisconnect,
                 name: action.payload.name,
-                opponentName: action.payload.opponentName
+                opponentName: action.payload.opponentName,
+                numberOfPieces: action.payload.numberOfPieces
             });
         }
         default: {

@@ -73,8 +73,8 @@ export class Lobby extends Component {
         }
     }
 
-    challengeUser(id) {
-        cloak.message('challengeplayer', id);
+    challengeUser(id, numberOfPieces) {
+        cloak.message('challengeplayer', [id, numberOfPieces]);
     }
 
     cancelChallenge(id) {
@@ -157,9 +157,21 @@ export class Lobby extends Component {
 
         const userDisplayList = (
             users.map((user, i) => {
-                const challenging = (this.props.challenging.indexOf(user.id) >= 0);
-                const challenged = (this.props.challengers.indexOf(user.id) >= 0);
-                return <User index={i} key={i} user={user} challenging={challenging} challenged={challenged} challengeUser={this.challengeUser} cancelChallenge={this.cancelChallenge} challengeRespond={this.challengeRespond} />;
+                var challenging = null;
+                var challenger = null;
+                const challengingTemp = this.props.challenging.filter(function(challengingInfo) {
+                    return challengingInfo.id === user.id;
+                });
+                if (challengingTemp) {
+                    challenging = challengingTemp[0];
+                }
+                const challengerTemp = this.props.challengers.filter(function(challengerInfo) {
+                    return challengerInfo.id === user.id;
+                });
+                if (challengerTemp) {
+                    challenger = challengerTemp[0];
+                }
+                return <User index={i} key={i} user={user} challenging={challenging} challenger={challenger} challengeUser={this.challengeUser} cancelChallenge={this.cancelChallenge} challengeRespond={this.challengeRespond} />;
             })
         );
 

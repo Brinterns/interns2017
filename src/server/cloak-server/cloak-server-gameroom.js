@@ -45,6 +45,7 @@ function getRoomInfo(user) {
 
         var gameStateJson = {
             id: user.id,
+            numberOfPieces: room.data.numberOfPieces,
             squares: user.data.squares,
             piecePositions: user.data.piecePositions,
             opponentSquares: opponent ? gameplay.reverseSquares(opponent.data.piecePositions) : [],
@@ -80,7 +81,8 @@ function getGameInfo(roomId, user) {
         winnerId: room.data.winnerId,
         opponentDisconnect: room.data.opponentDisconnect,
         name: spectatedPlayer.name,
-        opponentName: opponent.name
+        opponentName: opponent.name,
+        numberOfPieces: room.data.numberOfPieces
     };
     user.message('minimapstate', JSON.stringify(gameStateJson));
 }

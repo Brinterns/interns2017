@@ -88,13 +88,14 @@ function reconnectUser(ids, user) {
     const id = ids[0];
     const dbId = ids[1];
     var user2 = cloak.getUser(id);
-    if (dbId !== user2.data.dbId) {
-        user.message('redirect', "https://www.youtube.com/watch?v=mmLRTVYgEq4");
-        return;
-    }
     if (user2) {
+        if (dbId !== user2.data.dbId) {
+            user.message('redirect', "https://www.youtube.com/watch?v=mmLRTVYgEq4");
+            return;
+        }
         user.name = user2.name;
-        user.data = user2.data;
+        user.data = Object.assign({}, user2.data);
+        user2.data.refreshing = true;
         user.message('userid', user.id);
         const room = user2.getRoom();
         user.joinRoom(room);
@@ -108,14 +109,24 @@ function reconnectUser(ids, user) {
             }
             user.message('updatechallengers', user.data.challengers);
             user.message('updatechallenging', user.data.challenging);
-            user.data.challengers.forEach(challengerId => {
-                var challenger = cloak.getUser(challengerId);
-                challenger.data.challenging[challenger.data.challenging.indexOf(user2.id)] = user.id;
+            user.data.challengers.forEach(challengerInfo => {
+                var challenger = cloak.getUser(challengerInfo.id);
+                challenger.data.challenging = challenger.data.challenging.map(function(challengingInfo) {
+                    if (challengingInfo.id === user2.id) {
+                        challengingInfo.id = user.id;
+                    }
+                    return challengingInfo;
+                });
                 challenger.message('updatechallenging', challenger.data.challenging);
             });
-            user.data.challenging.forEach(challengingId => {
-                var challenging = cloak.getUser(challengingId);
-                challenging.data.challengers[challenging.data.challengers.indexOf(user2.id)] = user.id;
+            user.data.challenging.forEach(challengingInfo => {
+                var challenging = cloak.getUser(challengingInfo.id);
+                challenging.data.challengers = challenging.data.challengers.map(function(challengerInfo) {
+                    if (challengerInfo.id === user2.id) {
+                        challengerInfo.id = user.id;
+                    }
+                    return challengerInfo;
+                });
                 challenging.message('updatechallengers', challenging.data.challengers);
             });
             user.message('gotolobby');
@@ -154,7 +165,7 @@ function reconnectUser(ids, user) {
             room.data.gameinfo.playerIds[room.data.gameinfo.playerIds.indexOf(user2.id)] = user.id;
             user.message('updatestats', JSON.stringify(room.data.gameinfo));
             user.message('updategamemessages', JSON.stringify(room.data.messages));
-            user.message('challengerid', room.data.challengerId);
+            user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces]);
         }
         user2.delete();
     } else {

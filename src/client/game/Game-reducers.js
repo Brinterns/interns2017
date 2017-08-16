@@ -7,7 +7,7 @@ import {
     UPDATE_CURRENT_PLAYER_ONLY,
     OPPONENT_DISCONNECT,
     GAME_OVER,
-    CHALLENGER_ID,
+    CHALLENGER_DETAILS,
     TOGGLE_FORFEIT,
     ROLLED_NUMBER,
     ROLLED_SEQUENCE,
@@ -51,6 +51,7 @@ const initialState = {
     rollSequence: null,
     oppRollSequence: null,
     //Game states
+    numberOfPieces: 7,
     squares: Array(24).fill(false),
     opponentSquares: Array(24).fill(false),
     piecePositions: Array(numberOfPieces).fill(0),
@@ -62,6 +63,7 @@ const initialState = {
     notificationText: null,
     opponentDisconnect: false,
     challengerId: null,
+    newNumberOfPieces: 7,
     //Game statistics
     gameStats: null
 };
@@ -111,9 +113,10 @@ const game = (state = initialState, action) => {
                 gameOver: true
             });
         }
-        case CHALLENGER_ID: {
+        case CHALLENGER_DETAILS: {
             return updateState(state, {
-                challengerId: action.payload
+                challengerId: action.payload[0],
+                newNumberOfPieces: action.payload[1]
             });
         }
         case TOGGLE_FORFEIT: {
@@ -209,6 +212,7 @@ const game = (state = initialState, action) => {
         case UPDATE_GAME_STATE: {
             return updateState(state, {
                 id: action.payload.id,
+                numberOfPieces: action.payload.numberOfPieces,
                 squares: action.payload.squares,
                 piecePositions: action.payload.piecePositions,
                 opponentSquares: action.payload.opponentSquares,

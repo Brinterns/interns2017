@@ -6,7 +6,6 @@ import Piece from '../../game/board/Piece';
 import OpponentPiece from '../../game/board/OpponentPiece';
 import Square from '../../game/board/Square';
 
-const numberOfPieces = 7;
 const playerPath = [
     14,  17,  20,  23,
     22,  19,  16,  13,
@@ -40,13 +39,13 @@ export default class MiniMap extends Component {
         if (!this.props.gameState) {
             return null;
         }
-        for (var i = 0; i < 7; i++) {
+        for (var i = 0; i < this.props.gameState.numberOfPieces; i++) {
             const pos = this.props.gameState.piecePositions[i];
             if (pos === 0) {
                 pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={() => {}} setHighlightSquare={() => {}} key={i}/>);
             }
         }
-        var oppPieceHolderSize = numberOfPieces - this.props.gameState.opponentSquares.filter((square) => {return square}).length;
+        var oppPieceHolderSize = this.props.gameState.numberOfPieces - this.props.gameState.opponentSquares.filter((square) => {return square}).length;
         if (this.props.gameState.numOppPiecesFinished > 1) {
             oppPieceHolderSize -= (this.props.gameState.numOppPiecesFinished - 1);
         }
