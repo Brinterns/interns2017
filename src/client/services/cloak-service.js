@@ -17,6 +17,7 @@ import {
     opponentDisconnect,
     gameOver,
     challengerDetails,
+    oppUnmoveable,
     rolledValue,
     updateGameState,
     updateSquares,
@@ -123,6 +124,9 @@ export function RunCloakConfig() {
                 dispatch(updateSpectators(spectators));
             },
             //Roll messages
+            oppunmoveable: () => {
+                dispatch(oppUnmoveable());
+            },
             rolledvalue: (value) => {
                 dispatch(rolledValue(value));
             },

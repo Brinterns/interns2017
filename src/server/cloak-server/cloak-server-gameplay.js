@@ -73,6 +73,9 @@ function checkMoves(user, rollNumber, opponentSquares) {
         endTurn(user);
     }
     user.message('moveablepositions', moveablePositions);
+    if (!moveablePositions.length) {
+        shared.getOpponent(user).message('oppunmoveable');
+    }
 }
 
 function movePiece(position, user) {
