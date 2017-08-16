@@ -53,8 +53,8 @@ function reChallenge(user, numberOfPieces) {
     const opponent = shared.getOpponent(user);
     room.data.challengerId = user.id;
     room.data.newNumberOfPieces = numberOfPieces;
-    user.message('challengerid', [room.data.challengerId, room.data.newNumberOfPieces]);
-    opponent.message('challengerid', [room.data.challengerId, room.data.newNumberOfPieces]);
+    user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces]);
+    opponent.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces]);
 }
 
 function reChallengeResponse(accept, user) {
@@ -65,8 +65,8 @@ function reChallengeResponse(accept, user) {
         const opponent = shared.getOpponent(user);
         room.data.challengerId = null;
         room.data.newNumberOfPieces = 7;
-        user.message('challengerid', [room.data.challengerId, room.data.newNumberOfPieces]);
-        opponent.message('challengerid', [room.data.challengerId, room.data.newNumberOfPieces]);
+        user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces]);
+        opponent.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces]);
     }
 }
 

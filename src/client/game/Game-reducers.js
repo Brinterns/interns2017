@@ -7,7 +7,7 @@ import {
     UPDATE_CURRENT_PLAYER_ONLY,
     OPPONENT_DISCONNECT,
     GAME_OVER,
-    CHALLENGER_ID,
+    CHALLENGER_DETAILS,
     TOGGLE_FORFEIT,
     ROLLED_NUMBER,
     ROLLED_SEQUENCE,
@@ -113,7 +113,7 @@ const game = (state = initialState, action) => {
                 gameOver: true
             });
         }
-        case CHALLENGER_ID: {
+        case CHALLENGER_DETAILS: {
             return updateState(state, {
                 challengerId: action.payload[0],
                 newNumberOfPieces: action.payload[1]

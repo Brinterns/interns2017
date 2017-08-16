@@ -16,7 +16,7 @@ import {
     updateCurrentPlayerOnly,
     opponentDisconnect,
     gameOver,
-    challengerId,
+    challengerDetails,
     rolledValue,
     updateGameState,
     updateSquares,
@@ -146,8 +146,8 @@ export function RunCloakConfig() {
                 dispatch(resetStore());
                 browserHistory.push('/lobby');
             },
-            challengerid: (id) => {
-                dispatch(challengerId(id));
+            challengerdetails: (id) => {
+                dispatch(challengerDetails(id));
             },
             //Game state messages
             gamestate: (json) => {

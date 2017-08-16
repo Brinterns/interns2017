@@ -165,7 +165,7 @@ function reconnectUser(ids, user) {
             room.data.gameinfo.playerIds[room.data.gameinfo.playerIds.indexOf(user2.id)] = user.id;
             user.message('updatestats', JSON.stringify(room.data.gameinfo));
             user.message('updategamemessages', JSON.stringify(room.data.messages));
-            user.message('challengerid', room.data.challengerId);
+            user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces]);
         }
         user2.delete();
     } else {
