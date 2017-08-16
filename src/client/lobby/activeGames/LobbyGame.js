@@ -15,7 +15,6 @@ export default class LobbyGame extends Component {
         this.observeGame = this.observeGame.bind(this);
         this.displayMiniMap = this.displayMiniMap.bind(this);
         this.hideMiniMap = this.hideMiniMap.bind(this);
-        // this.getGameInfo = this.getGameInfo.bind(this);
     }
 
     observeGame(gameId) {
