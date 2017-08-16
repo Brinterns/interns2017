@@ -6,7 +6,7 @@ import MiniMap from './MiniMap';
 import eye from '../../images/icons/eye.png';
 import eyeselected from '../../images/icons/eyeselected.png';
 
-export default class Game extends Component {
+export default class LobbyGame extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -49,7 +49,9 @@ export default class Game extends Component {
     render() {
         const spectateButtons = (
             <div>
-                <button onClick={() => {this.observeGame(this.props.game.id)}}> Spectate </button>
+                <div className={gameStyle.spectatorDiv}>
+                    <button onClick={() => {this.observeGame(this.props.game.id)}}> Spectate </button>
+                </div>
                 {this.state.showMiniMap ? <img onMouseLeave={this.hideMiniMap} src={eyeselected} /> : <img src={eye}  onMouseEnter={this.displayMiniMap}/>}
             </div>
         );

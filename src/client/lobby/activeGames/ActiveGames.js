@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {emojify} from 'react-emojione';
 import activeGames from './ActiveGames.css';
-import Game from './Game';
+import LobbyGame from './LobbyGame';
 
 export class ActiveGames extends Component {
     constructor(props) {
@@ -12,7 +12,7 @@ export class ActiveGames extends Component {
     render() {
         const gamesDisplayList = (
             this.props.listOfActiveGames.map((game, i) => {
-                return (game.id === this.props.roomId) ? (<Game game={game} key={i} gameState={this.props} />) : (<Game game={game} key={i} />);
+                return (game.id === this.props.roomId) ? (<LobbyGame game={game} key={i} gameState={this.props} />) : (<LobbyGame game={game} key={i} />);
             })
         );
         return (
