@@ -33,7 +33,7 @@ import {
     rollSequence,
     oppRollSequence,
     updateGameStats,
-    updateNumSpectators
+    updateSpectators
 } from '../game/Game-actions';
 
 import { dispatch } from '../store';
@@ -123,10 +123,9 @@ export function RunCloakConfig() {
             currentplayeronly: (current) => {
                 dispatch(updateCurrentPlayerOnly(current));
             },
-            updatenumspectators: (num) => {
-                dispatch(updateNumSpectators(num));
+            updatespectators: (spectators) => {
+                dispatch(updateSpectators(spectators));
             },
-            //Roll messages
             rolledvalue: (value) => {
                 dispatch(rolledValue(value));
             },

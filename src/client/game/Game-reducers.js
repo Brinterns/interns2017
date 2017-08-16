@@ -24,7 +24,7 @@ import {
     RESET_NOTIFICATION_BOOL,
     RESET_STORE,
     UPDATE_GAME_STATS,
-    UPDATE_NUMBER_OF_SPECTATORS,
+    UPDATE_SPECTATORS,
     OPPONENT_ROLLED_SEQUENCE
 } from './Game-actions';
 
@@ -43,7 +43,7 @@ const initialState = {
     gameOver : false,
     forfeit: false,
     winnerId: null,
-    numSpectators: 0,
+    spectators: [],
     //Roll states
     rolled: true,
     rollNumber: 'Roll',
@@ -60,6 +60,7 @@ const initialState = {
     numOppPiecesFinished: 0,
     //Notification states
     notificationBool: false,
+    notificationName: "",
     notificationText: null,
     opponentDisconnect: false,
     challengerId: null,
@@ -137,7 +138,11 @@ const game = (state = initialState, action) => {
         }
         case OPPONENT_ROLLED_SEQUENCE: {
             return updateState(state, {
-                oppRollSequence: action.payload
+                oppRollSequence: action.payload,
+                notificationName: state.listOfPlayers.filter(player => {
+                    return player.id === state.currentPlayer;
+                })[0].name,
+                notificationBool: false
             });
         }
         case OPPONENT_ROLLED_NUMBER: {
@@ -145,9 +150,7 @@ const game = (state = initialState, action) => {
                 opponentRollNumber: action.payload,
                 notificationBool: true,
                 oppRollSequence: null,
-                notificationText: state.listOfPlayers.filter(player => {
-                    return player.id === state.currentPlayer;
-                })[0].name + " rolled a " + action.payload
+                notificationText: state.notificationName + " rolled a " + action.payload
             });
         }
         case UPDATE_SQUARES: {
@@ -222,9 +225,9 @@ const game = (state = initialState, action) => {
                 opponentDisconnect: action.payload.opponentDisconnect
             });
         }
-        case UPDATE_NUMBER_OF_SPECTATORS: {
+        case UPDATE_SPECTATORS: {
             return updateState(state, {
-                numSpectators: action.payload
+                spectators: action.payload
             });
         }
         case UPDATE_GAME_STATS: {

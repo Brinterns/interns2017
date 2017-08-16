@@ -23,7 +23,7 @@ export const RESET_STORE = namespace + 'RESET_STORE';
 export const UPDATE_MESSAGES = namespace + 'UPDATE_MESSAGES';
 export const ROLLED_SEQUENCE = namespace + 'ROLLED_SEQUENCE';
 export const UPDATE_GAME_STATS = namespace + 'UPDATE_GAME_STATS';
-export const UPDATE_NUMBER_OF_SPECTATORS = namespace + 'UPDATE_NUMBER_OF_SPECTATORS';
+export const UPDATE_SPECTATORS = namespace + 'UPDATE_SPECTATORS';
 export const OPPONENT_ROLLED_SEQUENCE = namespace + 'OPPONENT_ROLLED_SEQUENCE';
 
 export function updateUserGameId(id) {
@@ -40,10 +40,10 @@ export function spectatingId(id) {
     }
 }
 
-export function updateNumSpectators(num) {
+export function updateSpectators(spectators) {
     return {
-        type: UPDATE_NUMBER_OF_SPECTATORS,
-        payload: num
+        type: UPDATE_SPECTATORS,
+        payload: spectators
     }
 }
 

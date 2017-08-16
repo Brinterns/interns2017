@@ -48,7 +48,7 @@ export default class User extends Component {
                 <div className={userStyles.buttonDiv}>
                     <button onClick={() => {this.props.cancelChallenge(this.props.user.id)}}> Cancel </button>
                     <div className={userStyles.numberOfPieces}>
-                        <label className={userStyles.numberOfPiecesInactive}> <p>{this.props.challenging.numberOfPieces}</p> </label>
+                        <label title="No. of pieces" className={userStyles.numberOfPiecesInactive}> <p>{this.props.challenging.numberOfPieces}</p> </label>
                     </div>
                 </div>;
         } else if (this.props.challenger) {
@@ -59,7 +59,7 @@ export default class User extends Component {
                         <button className={userStyles.acceptButton} onClick={() => {this.props.challengeRespond(true, this.props.user.id)}}> &#10004; </button>
                     </div>
                     <div className={userStyles.numberOfPieces}>
-                        <label className={userStyles.numberOfPiecesInactive}> <p>{this.props.challenger.numberOfPieces}</p> </label>
+                        <label title="No. of pieces" className={userStyles.numberOfPiecesInactive}> <p>{this.props.challenger.numberOfPieces}</p> </label>
                     </div>
                 </div>;
         } else {
@@ -67,9 +67,9 @@ export default class User extends Component {
                 <div className={userStyles.buttonDiv}>
                     <button onClick={() => {this.props.challengeUser(this.props.user.id, this.state.numberOfPieces)}}> Challenge </button>
                     <div className={userStyles.numberOfPieces}>
-                        <button id="minus" className={userStyles.numberOfPiecesMinus} onClick={this.handleChange}> - </button>
-                        <label> <p>{this.state.numberOfPieces}</p> </label>
-                        <button id="plus" onClick={this.handleChange}> + </button>
+                        <button id="minus" title="Decrease no. of pieces" className={userStyles.numberOfPiecesMinus} onClick={this.handleChange}> - </button>
+                        <label title="No. of pieces"> <p>{this.state.numberOfPieces}</p> </label>
+                        <button id="plus" title="Increase no. of pieces" onClick={this.handleChange}> + </button>
                     </div>
                 </div>;
         }
