@@ -46,20 +46,24 @@ export default class LobbyGame extends Component {
     }
 
     render() {
+        // console.log("tabbed = " + this.props.tabbed);
         const spectateButtons = (
             <div>
                 <div className={gameStyle.spectatorDiv}>
                     <button onClick={() => {this.observeGame(this.props.game.id)}}> Spectate </button>
                 </div>
-                {this.state.showMiniMap ?
-                    <div>
-                        <img onMouseLeave={this.hideMiniMap} src={eyeselected} />
-                        <div className={gameStyle.mapHolder} >
-                            <MiniMap gameState={this.props.gameState}/>
+                {!this.props.tabbed ?
+                    (this.state.showMiniMap ?
+                        <div>
+                            <img onMouseLeave={this.hideMiniMap} src={eyeselected} />
+                            <div className={gameStyle.mapHolder} >
+                                <MiniMap gameState={this.props.gameState}/>
+                            </div>
                         </div>
-                    </div>
-                    : <img src={eye} onMouseEnter={this.displayMiniMap}/>
-            }
+                        : <img src={eye} onMouseEnter={this.displayMiniMap}/>
+                    )
+                    : null
+                }
             </div>
         );
         return (

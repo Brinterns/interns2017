@@ -198,7 +198,7 @@ export class Lobby extends Component {
                     {userDisplayList}
                 </div>
                 <div className={lobbyStyles.gameTabPanel}>
-                    <ActiveGames />
+                    <ActiveGames tabbed={false} />
                 </div>
             </div>;
         const tabbedDisplay =
@@ -224,7 +224,7 @@ export class Lobby extends Component {
                     {userDisplayList}
                 </TabPanel>
                 <TabPanel className={lobbyStyles.gameTabPanel}>
-                    <ActiveGames />
+                    <ActiveGames tabbed={true} />
                 </TabPanel>
             </Tabs>;
 

@@ -12,7 +12,7 @@ export class ActiveGames extends Component {
     render() {
         const gamesDisplayList = (
             this.props.listOfActiveGames.map((game, i) => {
-                return (game.id === this.props.roomId) ? (<LobbyGame game={game} key={i} gameState={this.props} />) : (<LobbyGame game={game} key={i} />);
+                return (game.id === this.props.roomId) ? (<LobbyGame game={game} key={i} gameState={this.props} tabbed={this.props.tabbed}/>) : (<LobbyGame game={game} key={i} tabbed={this.props.tabbed} />);
             })
         );
         return (
