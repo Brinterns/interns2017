@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import gameStyle from './ActiveGames.css';
 import {emojify} from 'react-emojione';
 import MiniMap from './MiniMap';
+import eye from '../../images/icons/eye.png';
+import eyeselected from '../../images/icons/eyeselected.png';
 
 export default class Game extends Component {
     constructor(props) {
@@ -45,11 +47,17 @@ export default class Game extends Component {
     }
 
     render() {
+        const spectateButtons = (
+            <div>
+                <button onClick={() => {this.observeGame(this.props.game.id)}}> Spectate </button>
+                {this.state.showMiniMap ? <img onMouseLeave={this.hideMiniMap} src={eyeselected} /> : <img src={eye}  onMouseEnter={this.displayMiniMap}/>}
+            </div>
+        );
         return (
             <div>
-                <div className={gameStyle.game}  onMouseLeave={this.hideMiniMap}>
-                <h1 onMouseEnter={this.displayMiniMap}> {emojify(this.props.game.name)} </h1>
-                {this.props.game.winner ? <h2> {this.props.game.winner} Won </h2> : <button onClick={() => {this.observeGame(this.props.game.id)}}> Spectate </button>}
+                <div className={gameStyle.game}>
+                <h1> {emojify(this.props.game.name)} </h1>
+                {this.props.game.winner ? <h2> {this.props.game.winner} Won </h2> : spectateButtons}
                 </div>
                 {this.state.showMiniMap ? <MiniMap gameState={this.props.gameState}/> : null}
             </div>
