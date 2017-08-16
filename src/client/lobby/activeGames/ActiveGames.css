@@ -44,7 +44,7 @@
 
 .minimapDiv {
     position: relative;
-    top: calc(-11.5 * (1vw + 1vh - 1vmin));;
+    top: calc(-11.5 * (1vw + 1vh - 1vmin));
     background-color: rgba(0,0,0,0.8) !important;
     width: calc(35 * (1vw + 1vh - 1vmin));
     max-height: 100%;
@@ -68,14 +68,6 @@
     text-align: right;
     font-size: calc(2 * (1vw + 1vh - 1vmin));
     color: #FAD000;
-}
-
-.oppPiece {
-    border-radius: 50%;
-    height: calc(0.9 * var(--squareSideMini));
-    width: calc(0.9 * var(--squareSideMini));
-    display: inline-block;
-    margin-left: calc(0.5 * (1vw + 1vh - 1vmin));
 }
 
 .pieceHolder {
