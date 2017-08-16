@@ -105,12 +105,20 @@ export class Game extends Component {
         var numPiecesButtons;
         if (this.props.challengerId === this.props.id) {
             challengeButton = <button onClick={() => {this.reChallengeResponse(false)}}> Cancel </button>;
+            numPiecesButtons =
+                <div className={gameStyles.numberOfPieces}>
+                    <label className={gameStyles.numberOfPiecesInactive}> <p>{this.props.newNumberOfPieces}</p> </label>
+                </div>;
         } else if (this.props.challengerId) {
             challengeButton =
                 <div className={gameStyles.buttonsEnd}>
                     <button className={gameStyles.acceptButton} onClick={() => {this.reChallengeResponse(true)}}> &#10004; </button>
                     <button className={gameStyles.declineButton} onClick={() => {this.reChallengeResponse(false)}}> &#x2716; </button>
                 </div>;
+                numPiecesButtons =
+                    <div className={gameStyles.numberOfPieces}>
+                        <label className={gameStyles.numberOfPiecesInactive}> <p>{this.props.newNumberOfPieces}</p> </label>
+                    </div>;
         } else {
             challengeButton = <button onClick={this.reChallenge}> Re-Challenge </button>;
             numPiecesButtons = 
@@ -203,6 +211,7 @@ const mapStateToProps = state => ({
     notificationText: state.game.notificationText,
     opponentDisconnect: state.game.opponentDisconnect,
     challengerId: state.game.challengerId,
+    newNumberOfPieces: state.game.newNumberOfPieces,
     //Game stats
     gameStats: state.game.gameStats
 });
