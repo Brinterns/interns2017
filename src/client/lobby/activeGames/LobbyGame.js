@@ -51,7 +51,15 @@ export default class LobbyGame extends Component {
                 <div className={gameStyle.spectatorDiv}>
                     <button onClick={() => {this.observeGame(this.props.game.id)}}> Spectate </button>
                 </div>
-                {this.state.showMiniMap ? <img onMouseLeave={this.hideMiniMap} src={eyeselected} /> : <img src={eye}  onMouseEnter={this.displayMiniMap}/>}
+                {this.state.showMiniMap ?
+                    <div>
+                        <img onMouseLeave={this.hideMiniMap} src={eyeselected} />
+                        <div className={gameStyle.mapHolder} >
+                            <MiniMap gameState={this.props.gameState}/>
+                        </div>
+                    </div>
+                    : <img src={eye} onMouseEnter={this.displayMiniMap}/>
+            }
             </div>
         );
         return (
@@ -60,7 +68,6 @@ export default class LobbyGame extends Component {
                 <h1> {emojify(this.props.game.name)} </h1>
                 {this.props.game.winner ? <h2> {this.props.game.winner} Won </h2> : spectateButtons}
                 </div>
-                {this.state.showMiniMap ? <MiniMap gameState={this.props.gameState}/> : null}
             </div>
         );
     }

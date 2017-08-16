@@ -28,7 +28,7 @@ export default class MiniMap extends Component {
             displayNumber = (this.props.gameState.numOppPiecesFinished > 1) ? this.props.gameState.numOppPiecesFinished : null;
         }
         return (
-            <Square index={i} position={pos} displayNumber={displayNumber} movePiece={() => {}} piece={this.props.gameState.squares[i]} opponentPiece={this.props.gameState.opponentSquares[i]} pieceClassName={boardStyles.squarePiece} setHighlightSquare={() => {}} highlight={false} key={i} />
+            <Square index={i} position={pos} displayNumber={displayNumber} movePiece={() => {}} piece={this.props.gameState.squares[i]} opponentPiece={this.props.gameState.opponentSquares[i]} pieceClassName={boardStyles.squarePiece} setHighlightSquare={() => {}} highlight={false} minimap={true} key={i} />
         );
     }
 
@@ -42,7 +42,7 @@ export default class MiniMap extends Component {
         for (var i = 0; i < this.props.gameState.numberOfPieces; i++) {
             const pos = this.props.gameState.piecePositions[i];
             if (pos === 0) {
-                pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={() => {}} setHighlightSquare={() => {}} key={i}/>);
+                pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={() => {}} setHighlightSquare={() => {}} key={i} minimap={true}/>);
             }
         }
         var oppPieceHolderSize = this.props.gameState.numberOfPieces - this.props.gameState.opponentSquares.filter((square) => {return square}).length;
@@ -50,7 +50,7 @@ export default class MiniMap extends Component {
             oppPieceHolderSize -= (this.props.gameState.numOppPiecesFinished - 1);
         }
         for (var i = 0; i < oppPieceHolderSize; i++) {
-            oppPieceHolder.push(<OpponentPiece className={boardStyles.oppPiece} key={i}/>)
+            oppPieceHolder.push(<OpponentPiece minimap={true} className={boardStyles.oppPiece} key={i}/>)
         }
         for (var i = 0; i < 24; i += 3) {
             squareCols.push(

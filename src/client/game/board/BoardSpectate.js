@@ -39,10 +39,6 @@ export class BoardSpectate extends Component {
         for (var i = 0; i < this.props.numberOfPieces; i++) {
             const pos = this.props.piecePositions[i];
             if (pos === 0) {
-                if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos)) {
-                    pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={() => {}} setHighlightSquare={() => {}} key={i}/>);
-                    continue;
-                }
                 pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={() => {}} setHighlightSquare={() => {}} key={i}/>);
             }
         }

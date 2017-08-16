@@ -1,6 +1,8 @@
 :root {
     --squareMargin: calc(0.5 * (1vw + 1vh - 1vmin)) calc(0.275 * (1vw + 1vh - 1vmin)) calc(0.5 * (1vw + 1vh - 1vmin)) calc(0.275 * (1vw + 1vh - 1vmin));
     --squareSide: calc(6 * (1vw + 1vh - 1vmin));
+    --squareSideMini: calc(3 * (1vw + 1vh - 1vmin));
+    --squareMarginMini:  calc(0.25 * (1vw + 1vh - 1vmin)) calc(0.1375 * (1vw + 1vh - 1vmin)) calc(0.25 * (1vw + 1vh - 1vmin)) calc(0.1375 * (1vw + 1vh - 1vmin));
 }
 
 
@@ -29,10 +31,24 @@
     border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
 }
 
+.squareMiniMap {
+    margin: var(--squareMarginMini);
+    height: var(--squareSideMini);
+    width: var(--squareSideMini);
+    border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
+}
+
 .rosetta {
     background-color: rgba(232, 18, 18, 0.6) !important;
     height: var(--squareSide);
     width: var(--squareSide);
+    border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
+}
+
+.rosettaMiniMap {
+    background-color: rgba(232, 18, 18, 0.6) !important;
+    height: var(--squareSideMini);
+    width: var(--squareSideMini);
     border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
 }
 
@@ -196,6 +212,15 @@
     width: calc(0.9 * var(--squareSide));
     margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
     margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+}
+
+.squareOpponentPieceMiniMap {
+    position: absolute;
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSideMini));
+    width: calc(0.9 * var(--squareSideMini));
+    margin-top: calc((var(--squareSideMini) - 0.9 * var(--squareSideMini)) / 2);
+    margin-left: calc((var(--squareSideMini) - 0.9 * var(--squareSideMini)) / 2);
 }
 
 .moveHighlighter {
