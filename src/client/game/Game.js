@@ -107,7 +107,7 @@ export class Game extends Component {
             challengeButton = <button onClick={() => {this.reChallengeResponse(false)}}> Cancel </button>;
             numPiecesButtons =
                 <div className={gameStyles.numberOfPieces}>
-                    <label className={gameStyles.numberOfPiecesInactive}> <p>{this.props.newNumberOfPieces}</p> </label>
+                    <label title="No. of pieces" className={gameStyles.numberOfPiecesInactive}> <p>{this.props.newNumberOfPieces}</p> </label>
                 </div>;
         } else if (this.props.challengerId) {
             challengeButton =
@@ -117,15 +117,15 @@ export class Game extends Component {
                 </div>;
                 numPiecesButtons =
                     <div className={gameStyles.numberOfPieces}>
-                        <label className={gameStyles.numberOfPiecesInactive}> <p>{this.props.newNumberOfPieces}</p> </label>
+                        <label title="No. of pieces" className={gameStyles.numberOfPiecesInactive}> <p>{this.props.newNumberOfPieces}</p> </label>
                     </div>;
         } else {
             challengeButton = <button onClick={this.reChallenge}> Re-Challenge </button>;
             numPiecesButtons = 
                 <div className={gameStyles.numberOfPieces}>
-                    <button id="minus" onClick={this.handleChange}> - </button>
-                    <label> <p>{this.state.numberOfPieces}</p> </label>
-                    <button id="plus" onClick={this.handleChange}> + </button>
+                    <button id="minus" title="Decrease no. of pieces" onClick={this.handleChange}> - </button>
+                    <label title="No. of pieces"> <p>{this.state.numberOfPieces}</p> </label>
+                    <button id="plus" title="Increase no. of pieces" onClick={this.handleChange}> + </button>
                 </div>;
         }
 
@@ -158,7 +158,7 @@ export class Game extends Component {
                 currentPlayerText = isPlayerTurn ? "It's your turn" : "It's " + currentPlayerName + "'s turn";
             }
 
-            if (this.props.opponentRollNumber === 0) {
+            if ((this.props.opponentRollNumber === 0) || (isPlayerTurn && !isNaN(this.props.notificationText.slice(-1)))) {
                 opponentRoll = (<div><p>{emojify(this.props.notificationText)}</p><p className={gameStyles.turnNotif}>{currentPlayerText}</p></div>);
             } else if (this.props.opponentRollNumber !== null) {
                 opponentRoll = (<p className={isPlayerTurn ? gameStyles.turnNotif : null}>{emojify(this.props.notificationText)}</p>);
@@ -168,6 +168,10 @@ export class Game extends Component {
                 return <li key={index}> {emojify(player.name)} ({player.elorank}) {(player.id === this.props.id) ? <p>&#9733;</p> : null} </li>
             })} </ul>;
         }
+        var spectatorText = !this.props.spectators.length ? "No Spectators" : "";
+        this.props.spectators.forEach(function(spectator) {
+            spectatorText += spectator + "\n";
+        });
         return (
             <div>
                 <div className={gameStyles.gameMain}>
@@ -180,7 +184,7 @@ export class Game extends Component {
                     {this.props.forfeit ? forfeitDiv : null}
                 </div>
                 <div className={gameStyles.spectatorDiv}>
-                    <p>Spectators ({this.props.numSpectators})</p>
+                    <p title={spectatorText}>Spectators ({this.props.spectators.length})</p>
                 </div>
                 {this.props.winnerId ? null : <Stats id={this.props.id} stats={this.props.gameStats}/>}
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
@@ -205,7 +209,7 @@ const mapStateToProps = state => ({
     forfeit: state.game.forfeit,
     gameOver: state.game.gameOver,
     winnerId: state.game.winnerId,
-    numSpectators: state.game.numSpectators,
+    spectators: state.game.spectators,
     //Notification states
     notificationBool: state.game.notificationBool,
     notificationText: state.game.notificationText,
