@@ -158,7 +158,7 @@ export class Game extends Component {
                 currentPlayerText = isPlayerTurn ? "It's your turn" : "It's " + currentPlayerName + "'s turn";
             }
 
-            if ((this.props.opponentRollNumber === 0) || this.props.oppUnmoveable) {
+            if ((this.props.opponentRollNumber === 0) || (isPlayerTurn && !isNaN(this.props.notificationText.slice(-1)))) {
                 opponentRoll = (<div><p>{emojify(this.props.notificationText)}</p><p className={gameStyles.turnNotif}>{currentPlayerText}</p></div>);
             } else if (this.props.opponentRollNumber !== null) {
                 opponentRoll = (<p className={isPlayerTurn ? gameStyles.turnNotif : null}>{emojify(this.props.notificationText)}</p>);
@@ -211,7 +211,6 @@ const mapStateToProps = state => ({
     winnerId: state.game.winnerId,
     spectators: state.game.spectators,
     //Notification states
-    oppUnmoveable: state.game.oppUnmoveable,
     notificationBool: state.game.notificationBool,
     notificationText: state.game.notificationText,
     opponentDisconnect: state.game.opponentDisconnect,

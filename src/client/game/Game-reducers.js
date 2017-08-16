@@ -20,7 +20,6 @@ import {
     UPDATE_NUM_FINISHED,
     UPDATE_NUM_OPPONENT_FINISHED,
     RESET_ROLL_TEXT,
-    OPP_UNMOVEABLE,
     OPPONENT_ROLLED_NUMBER,
     RESET_NOTIFICATION_BOOL,
     RESET_STORE,
@@ -60,7 +59,6 @@ const initialState = {
     numPiecesFinished: 0,
     numOppPiecesFinished: 0,
     //Notification states
-    oppUnmoveable: false,
     notificationBool: false,
     notificationName: "",
     notificationText: null,
@@ -143,7 +141,8 @@ const game = (state = initialState, action) => {
                 oppRollSequence: action.payload,
                 notificationName: state.listOfPlayers.filter(player => {
                     return player.id === state.currentPlayer;
-                })[0].name
+                })[0].name,
+                notificationBool: false
             });
         }
         case OPPONENT_ROLLED_NUMBER: {
@@ -184,11 +183,6 @@ const game = (state = initialState, action) => {
                 numOppPiecesFinished: action.payload
             });
         }
-        case OPP_UNMOVEABLE: {
-            return updateState(state, {
-                oppUnmoveable: true
-            });
-        }
         case RESET_ROLL_TEXT: {
             if (state.currentPlayer === state.id) {
                 if (state.opponentRollNumber === 0) {
@@ -213,8 +207,7 @@ const game = (state = initialState, action) => {
         case RESET_NOTIFICATION_BOOL: {
             if (state.currentPlayer === state.id ) {
                 return updateState(state, {
-                    notificationBool: false,
-                    oppUnmoveable: false
+                    notificationBool: false
                 });
             }
             return state;

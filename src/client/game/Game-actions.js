@@ -21,7 +21,6 @@ export const OPPONENT_ROLLED_NUMBER = namespace + 'OPPONENT_ROLLED_NUMBER';
 export const RESET_NOTIFICATION_BOOL = namespace + 'RESET_NOTIFICATION_BOOL';
 export const RESET_STORE = namespace + 'RESET_STORE';
 export const UPDATE_MESSAGES = namespace + 'UPDATE_MESSAGES';
-export const OPP_UNMOVEABLE = namespace + 'OPP_UNMOVEABLE';
 export const ROLLED_SEQUENCE = namespace + 'ROLLED_SEQUENCE';
 export const UPDATE_GAME_STATS = namespace + 'UPDATE_GAME_STATS';
 export const UPDATE_SPECTATORS = namespace + 'UPDATE_SPECTATORS';
@@ -64,12 +63,6 @@ export function toggleForfeit() {
 export function resetRollText() {
     return {
         type: RESET_ROLL_TEXT
-    }
-}
-
-export function oppUnmoveable() {
-    return {
-        type: OPP_UNMOVEABLE
     }
 }
 
