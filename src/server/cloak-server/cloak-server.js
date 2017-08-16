@@ -50,8 +50,8 @@ module.exports = function(expressServer) {
             observegame: function(gameId, user) {
                 lobbyFunctions.observeGame(gameId, user);
             },
-            rechallenge: function(_, user) {
-                challengeFunctions.reChallenge(user);
+            rechallenge: function(numberOfPieces, user) {
+                challengeFunctions.reChallenge(user, numberOfPieces);
             },
             rechallengeresponse: function(accept, user) {
                 challengeFunctions.reChallengeResponse(accept, user);

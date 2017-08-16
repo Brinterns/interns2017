@@ -25,6 +25,7 @@ export class Game extends Component {
         this.handleToggleRules = this.handleToggleRules.bind(this);
         this.onWin = this.onWin.bind(this);
         this.onClickForfeit = this.onClickForfeit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.reChallenge = this.reChallenge.bind(this);
         this.returnToLobby = this.returnToLobby.bind(this);
         {this.getGameInfo()};
@@ -63,7 +64,7 @@ export class Game extends Component {
     }
 
     reChallenge() {
-        cloak.message('rechallenge', _);
+        cloak.message('rechallenge', this.state.numberOfPieces);
     }
 
     reChallengeResponse(accept) {

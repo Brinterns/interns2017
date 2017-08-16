@@ -48,10 +48,11 @@ function declineChallenge(id, user) {
     challengeRespond(user, cloak.getUser(id), false);
 }
 
-function reChallenge(user) {
-    const room = user.getRoom();
+function reChallenge(user, numberOfPieces) {
+    var room = user.getRoom();
     const opponent = shared.getOpponent(user);
     room.data.challengerId = user.id;
+    room.data.newNumberOfPieces = numberOfPieces;
     user.message('challengerid', room.data.challengerId);
     opponent.message('challengerid', room.data.challengerId);
 }
@@ -59,7 +60,7 @@ function reChallenge(user) {
 function reChallengeResponse(accept, user) {
     const room = user.getRoom();
     if (accept) {
-        challengeRespond(user, shared.getOpponent(user), accept, room.data.numberOfPieces);
+        challengeRespond(user, shared.getOpponent(user), accept, room.data.newNumberOfPieces);
     } else {
         const opponent = shared.getOpponent(user);
         room.data.challengerId = null;
