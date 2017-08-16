@@ -112,7 +112,7 @@ function challengeRespond(user, user2, accept, numberOfPieces=7) {
         let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
         createdRoom.data.opponentDisconnect = false;
         createdRoom.data.messages = [];
-        if (!isNaN(numberOfPieces)) {
+        if (isNaN(numberOfPieces)) {
             numberOfPieces = 7;
         } else if (numberOfPieces < 3) {
             numberOfPieces = 3;
