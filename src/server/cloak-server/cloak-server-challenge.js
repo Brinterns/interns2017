@@ -58,7 +58,7 @@ function reChallenge(user, numberOfPieces) {
 }
 
 function reChallengeResponse(accept, user) {
-    const room = user.getRoom();
+    var room = user.getRoom();
     if (accept) {
         challengeRespond(user, shared.getOpponent(user), accept, room.data.newNumberOfPieces);
     } else {

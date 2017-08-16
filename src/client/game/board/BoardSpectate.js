@@ -36,7 +36,7 @@ export class BoardSpectate extends Component {
         const pieceHolder = [];
         const oppPieceHolder = [];
         const squareCols = [];
-        for (var i = 0; i < 7; i++) {
+        for (var i = 0; i < this.props.numberOfPieces; i++) {
             const pos = this.props.piecePositions[i];
             if (pos === 0) {
                 if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos)) {
