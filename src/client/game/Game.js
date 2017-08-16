@@ -107,7 +107,7 @@ export class Game extends Component {
             challengeButton = <button onClick={() => {this.reChallengeResponse(false)}}> Cancel </button>;
             numPiecesButtons =
                 <div className={gameStyles.numberOfPieces}>
-                    <label className={gameStyles.numberOfPiecesInactive}> <p>{this.props.newNumberOfPieces}</p> </label>
+                    <label title="No. of pieces" className={gameStyles.numberOfPiecesInactive}> <p>{this.props.newNumberOfPieces}</p> </label>
                 </div>;
         } else if (this.props.challengerId) {
             challengeButton =
@@ -117,15 +117,15 @@ export class Game extends Component {
                 </div>;
                 numPiecesButtons =
                     <div className={gameStyles.numberOfPieces}>
-                        <label className={gameStyles.numberOfPiecesInactive}> <p>{this.props.newNumberOfPieces}</p> </label>
+                        <label title="No. of pieces" className={gameStyles.numberOfPiecesInactive}> <p>{this.props.newNumberOfPieces}</p> </label>
                     </div>;
         } else {
             challengeButton = <button onClick={this.reChallenge}> Re-Challenge </button>;
             numPiecesButtons = 
                 <div className={gameStyles.numberOfPieces}>
-                    <button id="minus" onClick={this.handleChange}> - </button>
-                    <label> <p>{this.state.numberOfPieces}</p> </label>
-                    <button id="plus" onClick={this.handleChange}> + </button>
+                    <button id="minus" title="Decrease no. of pieces" onClick={this.handleChange}> - </button>
+                    <label title="No. of pieces"> <p>{this.state.numberOfPieces}</p> </label>
+                    <button id="plus" title="Increase no. of pieces" onClick={this.handleChange}> + </button>
                 </div>;
         }
 
