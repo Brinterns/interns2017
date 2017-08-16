@@ -97,7 +97,7 @@ export class Board extends Component {
             oppPieceHolderSize -= (this.props.numOppPiecesFinished - 1);
         }
         for (var i = 0; i < oppPieceHolderSize; i++) {
-            oppPieceHolder.push(<OpponentPiece className={boardStyles.oppPiece} key={i}/>)
+            oppPieceHolder.push(<OpponentPiece className={boardStyles.piece} key={i}/>)
         }
         for (var i = 0; i < 24; i += 3) {
             squareCols.push(
