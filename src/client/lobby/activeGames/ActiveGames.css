@@ -28,19 +28,17 @@
     font-size: calc(3px + 2 * (1vw + 1vh - 1vmin));
 }
 
-.boardMainDiv {
-    position: fixed;
-    width: 100%;
-    text-align: center;
-    top: 55%;
-    transform: translate(-50%, -50%);
-
+.minimapDiv {
+    position: fixed !important;
+    left: 0% !important;
+    top: 0% !important;
+    background-color: #0265CB;
+    border: solid black 0.12em;
+    width: calc(54 * (1vw + 1vh - 1vmin));
 }
 
-@media (max-width: 800px) {
-    .boardMainDiv {
-        top: 50%;
-    }
+.boardMainDiv {
+    width: 100%;
 }
 
 .squaresColumn {
@@ -48,57 +46,46 @@
 }
 
 .oppPieceHolder {
-    bottom: calc(45% + 1.17 * (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));
-    right: 17.5%;
-    height: auto;
-    width: auto;
-    direction: rtl;
-    position: absolute;
+    margin-right: calc(1 * (1vw + 1vh - 1vmin));
+    text-align: right;
+    display: block;
 }
 
 .oppPieceHolder p {
-    margin: 0;
-    margin-right: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
-    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    text-align: right;
     font-size: calc(2 * (1vw + 1vh - 1vmin));
     color: #FAD000;
+    margin-right: calc(1 * (1vw + 1vh - 1vmin));
 }
-
-.pieceHolder {
-    top: calc(55% + 1.17 * (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));
-    left: 24.5%;
-    height: auto;
-    width: auto;
-    position: absolute;
-}
-
-.pieceHolder p {
-    margin: 0;
-    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
-    margin-bottom: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
-    font-size: calc(2 * (1vw + 1vh - 1vmin));
-    color: #FAD000;
-}
-
 
 .oppPiece {
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
-    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
-    margin-right: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
-    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
     display: inline-block;
+    margin-left: calc(0.5 * (1vw + 1vh - 1vmin));
 }
+
+.pieceHolder {
+    margin-left: calc(1 * (1vw + 1vh - 1vmin));
+    text-align: left;
+    display: block;
+}
+
+.pieceHolder p {
+    text-align: left;
+    font-size: calc(2 * (1vw + 1vh - 1vmin));
+    color: #FAD000;
+    margin-left: calc(1 * (1vw + 1vh - 1vmin));
+}
+
 
 .piece {
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
-    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
-    margin-right: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
-    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
     display: inline-block;
+    margin-right: calc(0.5 * (1vw + 1vh - 1vmin));
 }
 
 .squarePiece {

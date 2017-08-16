@@ -64,12 +64,12 @@ export default class MiniMap extends Component {
         }
         return (
             <div className={boardStyles.minimapDiv}>
-                <div className={boardStyles.boardMainDiv}>
-                    {squareCols}
-                </div>
                 <div className={boardStyles.oppPieceHolder}>
                     <p> {this.props.gameState.playerName} </p>
                     {oppPieceHolder}
+                </div>
+                <div className={boardStyles.boardMainDiv}>
+                    {squareCols}
                 </div>
                 <div className={boardStyles.pieceHolder}>
                     {pieceHolder}
