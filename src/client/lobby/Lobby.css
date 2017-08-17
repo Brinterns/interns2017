@@ -404,6 +404,7 @@
 }
 
 .buttonDiv {
+    padding-left: calc(27.5% - 8 * (1vw + 1vh - 1vmin));
     vertical-align: top;
     position: relative;
     width: 27.5%;
