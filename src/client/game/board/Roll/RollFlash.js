@@ -27,7 +27,7 @@ export default class RollFlash extends Component {
                     <div style={(rollArray[2] === "1" ) ? background1 : background0} className={blinkBool ? rollStyles.squareBlink2 : rollStyles.squareNoBlink} />
                     <div style={(rollArray[3] === "1" ) ? background1 : background0} className={blinkBool ? rollStyles.squareBlink3 : rollStyles.squareNoBlink} />
                 </div>
-                {(this.props.rollNumber !== 'Roll') ? <h1>{this.props.rollNumber}</h1> : null}
+                {(this.props.rollNumber !== 'Roll') ? <h1 className={rollStyles.rollNumber}>{this.props.rollNumber}</h1> : null}
             </div>
         );
     }
