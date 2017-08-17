@@ -84,6 +84,20 @@ function movePiece(position, user) {
     userStats.squaresMoved += user.data.lastRoll;
     var d = new Date();
     userStats.totalTimeTaken += milliToSeconds(d.getTime() - user.data.rollStartTime - 1650);
+    handleMoveUserPiece(user, opponent, room, position, nextPos);
+    //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
+    handleTakePiece(user, opponent, userStats, room, nextPos);
+    //if moved piece lands on rosetta square, allow reroll and reset roll timer
+    if (handleRosetta(user, room, position, d)) {
+        return;
+    }
+    //balances out the increment for this piece being in the final range as it has just moved there
+    handleFinalRange(user, userStats, room, position, nextPos);
+    userStats.turnsTaken ++;
+    endTurn(user);
+}
+
+function handleMoveUserPiece(user, opponent, room, position, nextPos) {
     if (position !== 0) {
         user.data.squares[playerPath[position-1]] = false;
     }
@@ -91,7 +105,7 @@ function movePiece(position, user) {
         user.data.numPiecesFinished ++;
         user.message('finishedpieces', user.data.numPiecesFinished);
         opponent.message('finishedopppieces', user.data.numPiecesFinished);
-        shared.getSpectators(user.getRoom()).forEach(function(spectator) {
+        shared.getSpectators(room).forEach(function(spectator) {
             if (user.id === room.data.spectatedId) {
                 spectator.message('finishedpieces', user.data.numPiecesFinished);
             } else {
@@ -106,7 +120,7 @@ function movePiece(position, user) {
     user.message('piecepositions', user.data.piecePositions);
     user.message('squares', user.data.squares);
     opponent.message('opponentsquares', reverseSquares(user.data.piecePositions));
-    shared.getSpectators(user.getRoom()).forEach(function(spectator) {
+    shared.getSpectators(room).forEach(function(spectator) {
         if (user.id === room.data.spectatedId) {
             spectator.message('piecepositions', user.data.piecePositions);
             spectator.message('squares', user.data.squares);
@@ -114,14 +128,16 @@ function movePiece(position, user) {
             spectator.message('opponentsquares', reverseSquares(user.data.piecePositions));
         }
     });
-    //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
+}
+
+function handleTakePiece(user, opponent, userStats, room, nextPos) {
     if ((nextPos > 4) && (nextPos < 13) && opponent.data.piecePositions.includes(nextPos)) {
         opponent.data.piecePositions[opponent.data.piecePositions.indexOf(nextPos)] = 0;
         opponent.data.squares[playerPath[nextPos-1]] = false;
         opponent.message('piecepositions', opponent.data.piecePositions);
         opponent.message('squares', opponent.data.squares);
         user.message('opponentsquares', reverseSquares(opponent.data.piecePositions));
-        shared.getSpectators(user.getRoom()).forEach(function(spectator) {
+        shared.getSpectators(room).forEach(function(spectator) {
             if (user.id === room.data.spectatedId) {
                 spectator.message('opponentsquares', reverseSquares(opponent.data.piecePositions));
             } else {
@@ -132,22 +148,25 @@ function movePiece(position, user) {
         userStats.piecesTaken ++;
         getUserStats(opponent).piecesLost ++;
     }
-    //if moved piece lands on rosetta square, allow reroll and reset roll timer
+}
+
+function handleRosetta(user, room, position, d) {
     if (rosettaSquares.includes(playerPath[position+user.data.lastRoll-1])) {
         room.messageMembers('currentplayer', room.data.currentPlayer);
         user.data.rolledDice = false;
         user.data.rollStartTime = d.getTime();
-        return;
+        return true;
     }
-    //balances out the increment for this piece being in the final range as it has just moved there
+    return false;
+}
+
+function handleFinalRange(user, userStats, room, position, nextPos) {
     if ((nextPos >= 11 && nextPos <= 14) && (!(position >= 11 && position <= 14))) {
         if (user.data.numPiecesFinished === (room.data.numberOfPieces - 1)) {
             userStats.turnsLastInEndRange --;
         }
         userStats.turnsInEndRange --;
     }
-    userStats.turnsTaken ++;
-    endTurn(user);
 }
 
 function reverseSquares(positions) {

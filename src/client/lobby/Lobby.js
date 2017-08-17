@@ -175,6 +175,17 @@ export class Lobby extends Component {
             })
         );
 
+        const usersPanel =
+            <div>
+                <div className={lobbyStyles.tabPanelSort}>
+                    <label  onClick={() => {this.setState({sortRank: !this.state.sortRank})}}>
+                        <img src={this.state.sortRank ? trophygold : trophy} />
+                        &nbsp;Sort
+                    </label>
+                </div>
+                    <div className={lobbyStyles.tabPanelFilter}><span><label><input defaultChecked={false} type="checkbox" onClick={this.filterOnline}/> Online only</label> </span></div>
+                    {userDisplayList}
+            </div>;
         const normalDisplay =
             <div className={lobbyStyles.container}>
                 <div className={lobbyStyles.tabList}>
@@ -188,14 +199,7 @@ export class Lobby extends Component {
                     </div>
                 </div>
                 <div className={lobbyStyles.tabPanel}>
-                    <div className={lobbyStyles.tabPanelSort}>
-                        <label  onClick={() => {this.setState({sortRank: !this.state.sortRank})}}>
-                            <img src={this.state.sortRank ? trophygold : trophy} />
-                            &nbsp;Sort
-                        </label>
-                    </div>
-                    <div className={lobbyStyles.tabPanelFilter}><span><label><input defaultChecked={false} type="checkbox" onClick={this.filterOnline}/> Online only</label> </span></div>
-                    {userDisplayList}
+                    {usersPanel}
                 </div>
                 <div className={lobbyStyles.gameTabPanel}>
                     <ActiveGames tabbed={false} />
@@ -214,14 +218,7 @@ export class Lobby extends Component {
                     </Tab>
                 </TabList>
                 <TabPanel>
-                    <div className={lobbyStyles.tabPanelSort}>
-                        <label  onClick={() => {this.setState({sortRank: !this.state.sortRank})}}>
-                            <img src={this.state.sortRank ? trophygold : trophy} />
-                            &nbsp;Sort
-                        </label>
-                    </div>
-                    <div className={lobbyStyles.tabPanelFilter}><span><label><input defaultChecked={false} type="checkbox" onClick={this.filterOnline}/> Online only</label> </span></div>
-                    {userDisplayList}
+                    {usersPanel}
                 </TabPanel>
                 <TabPanel className={lobbyStyles.gameTabPanel}>
                     <ActiveGames tabbed={true} />

@@ -83,42 +83,10 @@ function challengeRespond(user, user2, accept, numberOfPieces=7) {
     } else {
         user.data.opponentDbId = user2.data.dbId;
         user2.data.opponentDbId = user.data.dbId;
-        if (!user.data.challenging) {
-            user.data.challenging = [];
-        }
-        if (!user2.data.challengers) {
-            user2.data.challengers = [];
-        }
-        user.data.challengers.forEach(challenger => {
-            if (challenger.id !== user2.id) {
-                challengeRespond(user, cloak.getUser(challenger.id), false);
-            } else {
-                numberOfPieces = challenger.numberOfPieces;
-            }
-        });
-        user.data.challenging.forEach(challenging => {
-            challengeRespond(cloak.getUser(challenging.id), user, false);
-        });
-        user2.data.challengers.forEach(challenger => {
-            challengeRespond(user2, cloak.getUser(challenger.id), false);
-        });
-        user2.data.challenging.forEach(challenging => {
-            if (challenging.id !== user.id) {
-                challengeRespond(cloak.getUser(challenging.id), user2, false);
-            }
-        });
-        user.data.challengers = [];
-        user2.data.challenging = [];
+        numberOfPieces = clearChallenges(user, user2, numberOfPieces);
         let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
         createdRoom.data.opponentDisconnect = false;
         createdRoom.data.messages = [];
-        if (isNaN(numberOfPieces)) {
-            numberOfPieces = 7;
-        } else if (numberOfPieces < 3) {
-            numberOfPieces = 3;
-        } else if (numberOfPieces > 9) {
-            numberOfPieces = 9;
-        }
         createdRoom.data.numberOfPieces = numberOfPieces;
         userJoinRoom(user, createdRoom);
         userJoinRoom(user2, createdRoom);
@@ -132,6 +100,43 @@ function challengeRespond(user, user2, accept, numberOfPieces=7) {
             initRoomStats(createdRoom, user, user2);
         }, 100);
     }
+}
+
+function clearChallenges(user, user2, numberOfPieces) {
+    if (!user.data.challenging) {
+        user.data.challenging = [];
+    }
+    if (!user2.data.challengers) {
+        user2.data.challengers = [];
+    }
+    user.data.challengers.forEach(challenger => {
+        if (challenger.id !== user2.id) {
+            challengeRespond(user, cloak.getUser(challenger.id), false);
+        } else {
+            numberOfPieces = challenger.numberOfPieces;
+        }
+    });
+    user.data.challenging.forEach(challenging => {
+        challengeRespond(cloak.getUser(challenging.id), user, false);
+    });
+    user2.data.challengers.forEach(challenger => {
+        challengeRespond(user2, cloak.getUser(challenger.id), false);
+    });
+    user2.data.challenging.forEach(challenging => {
+        if (challenging.id !== user.id) {
+            challengeRespond(cloak.getUser(challenging.id), user2, false);
+        }
+    });
+    user.data.challengers = [];
+    user2.data.challenging = [];
+    if (isNaN(numberOfPieces)) {
+        numberOfPieces = 7;
+    } else if (numberOfPieces < 3) {
+        numberOfPieces = 3;
+    } else if (numberOfPieces > 9) {
+        numberOfPieces = 9;
+    }
+    return numberOfPieces;
 }
 
 function userJoinRoom(user, room) {

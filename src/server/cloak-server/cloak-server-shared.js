@@ -101,76 +101,83 @@ function reconnectUser(ids, user) {
         user.joinRoom(room);
         updateMessagesId(id, user);
         if (room.isLobby) {
-            if (!user.data.challengers) {
-                user.data.challengers = [];
-            }
-            if (!user.data.challenging) {
-                user.data.challenging = [];
-            }
-            user.message('updatechallengers', user.data.challengers);
-            user.message('updatechallenging', user.data.challenging);
-            user.data.challengers.forEach(challengerInfo => {
-                var challenger = cloak.getUser(challengerInfo.id);
-                challenger.data.challenging = challenger.data.challenging.map(function(challengingInfo) {
-                    if (challengingInfo.id === user2.id) {
-                        challengingInfo.id = user.id;
-                    }
-                    return challengingInfo;
-                });
-                challenger.message('updatechallenging', challenger.data.challenging);
-            });
-            user.data.challenging.forEach(challengingInfo => {
-                var challenging = cloak.getUser(challengingInfo.id);
-                challenging.data.challengers = challenging.data.challengers.map(function(challengerInfo) {
-                    if (challengerInfo.id === user2.id) {
-                        challengerInfo.id = user.id;
-                    }
-                    return challengerInfo;
-                });
-                challenging.message('updatechallengers', challenging.data.challengers);
-            });
-            user.message('gotolobby');
+            reconnectLobby(user, user2, room);
         } else {
-            if (user2.data.isPlayer) {
-                if (!user.data.rolledDice) {
-                    user.data.lastRoll = null;
-                }
-                if (user2.id === room.data.currentPlayer) {
-                    room.data.currentPlayer = user.id;
-                }
-                if (user2.id === room.data.winnerId) {
-                    room.data.winnerId = user.id;
-                }
-                if (user2.id === room.data.spectatedId) {
-                    room.data.spectatedId = user.id;
-                }
-                if (user2.id === room.data.challengerId) {
-                    room.data.challengerId = user.id;
-                }
-
-                user.message('joingame', room.id);
-            } else {
-                user.message('spectategame', room.id);
-            }
-            user.message('currentplayer', room.data.currentPlayer);
-            const opponent = room.getMembers().filter(member => {
-                return (member.id !== user.id) && (member.id !== user2.id) && member.data.isPlayer;
-            })[0];
-            if (opponent) {
-                opponent.message('currentplayeronly', room.data.currentPlayer);
-            }
-            getSpectators(room).forEach(spectator => {
-                gameRoomFunctions.getRoomInfo(spectator);
-            });
-            room.data.gameinfo.playerIds[room.data.gameinfo.playerIds.indexOf(user2.id)] = user.id;
-            user.message('updatestats', JSON.stringify(room.data.gameinfo));
-            user.message('updategamemessages', JSON.stringify(room.data.messages));
-            user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces]);
+            reconnectGame(user, user2, room);
         }
         user2.delete();
     } else {
         user.message('gotologin');
     }
+}
+
+function reconnectLobby(user, user2, room) {
+    if (!user.data.challengers) {
+        user.data.challengers = [];
+    }
+    if (!user.data.challenging) {
+        user.data.challenging = [];
+    }
+    user.message('updatechallengers', user.data.challengers);
+    user.message('updatechallenging', user.data.challenging);
+    user.data.challengers.forEach(challengerInfo => {
+        var challenger = cloak.getUser(challengerInfo.id);
+        challenger.data.challenging = challenger.data.challenging.map(function(challengingInfo) {
+            if (challengingInfo.id === user2.id) {
+                challengingInfo.id = user.id;
+            }
+            return challengingInfo;
+        });
+        challenger.message('updatechallenging', challenger.data.challenging);
+    });
+    user.data.challenging.forEach(challengingInfo => {
+        var challenging = cloak.getUser(challengingInfo.id);
+        challenging.data.challengers = challenging.data.challengers.map(function(challengerInfo) {
+            if (challengerInfo.id === user2.id) {
+                challengerInfo.id = user.id;
+            }
+            return challengerInfo;
+        });
+        challenging.message('updatechallengers', challenging.data.challengers);
+    });
+    user.message('gotolobby');
+}
+
+function reconnectGame(user, user2, room) {
+    if (user2.data.isPlayer) {
+        if (!user.data.rolledDice) {
+            user.data.lastRoll = null;
+        }
+        if (user2.id === room.data.currentPlayer) {
+            room.data.currentPlayer = user.id;
+        }
+        if (user2.id === room.data.winnerId) {
+            room.data.winnerId = user.id;
+        }
+        if (user2.id === room.data.spectatedId) {
+            room.data.spectatedId = user.id;
+        }
+        if (user2.id === room.data.challengerId) {
+            room.data.challengerId = user.id;
+        }
+        user.message('joingame', room.id);
+    } else {
+        user.message('spectategame', room.id);
+    }
+    user.message('currentplayer', room.data.currentPlayer);
+    const opponent = room.getMembers().filter(member => {
+        return (member.id !== user.id) && (member.id !== user2.id) && member.data.isPlayer;
+    })[0];
+    if (opponent) {
+        opponent.message('currentplayeronly', room.data.currentPlayer);
+    }
+    getSpectators(room).forEach(spectator => {
+        gameRoomFunctions.getRoomInfo(spectator);
+    });
+    room.data.gameinfo.playerIds[room.data.gameinfo.playerIds.indexOf(user2.id)] = user.id;
+    user.message('updatestats', JSON.stringify(room.data.gameinfo));
+    user.message('updategamemessages', JSON.stringify(room.data.messages));
+    user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces]);
 }
 
 
