@@ -30,7 +30,7 @@ export class Board extends Component {
     squareType(i) {
         const pos = playerPath.indexOf(i) + 1;
         var pieceClassName = boardStyles.squarePiece;
-        if ((pos !== 15) && this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos) && !this.props.winnerId) {
+        if ((pos !== 15) && this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos) && !this.props.winnerId && !this.props.opponentSquares[i]) {
             pieceClassName = boardStyles.moveableSquarePiece;
             if ((this.props.rollNumber + pos) === 15) {
                 pieceClassName = boardStyles.finishSquarePiece;
