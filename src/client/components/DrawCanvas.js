@@ -94,10 +94,7 @@ export default class DrawCanvas extends Component {
                 <button className={canvasStyles.colourButton} onClick={this.toggleColourPicker} style={buttonColour}/>
                 <div className={canvasStyles.lineDropDown}>
                     <img onClick={this.redoImg} src={linepicker}/>
-                    { this.state.showLinePicker ?
-                        <LinePicker setLineWidth={this.setLineWidth} />
-                        : null
-                    }
+                    {this.state.showLinePicker ? <LinePicker setLineWidth={this.setLineWidth} /> : null}
                 </div>
                 {this.props.edit ? updateCanvasButtons : null}
                 <div className={this.props.canvasClassName}>
