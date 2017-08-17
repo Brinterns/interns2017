@@ -52,7 +52,7 @@ export class Game extends Component {
     }
 
     handleChange(event) {
-        if ((event.target.id === "minus") && (this.state.numberOfPieces > 3)) {
+        if ((event.target.id === "minus") && (this.state.numberOfPieces > 1)) {
             this.setState({
                 numberOfPieces: this.state.numberOfPieces - 1
             });

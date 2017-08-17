@@ -131,8 +131,8 @@ function clearChallenges(user, user2, numberOfPieces) {
     user2.data.challenging = [];
     if (isNaN(numberOfPieces)) {
         numberOfPieces = 7;
-    } else if (numberOfPieces < 3) {
-        numberOfPieces = 3;
+    } else if (numberOfPieces < 1) {
+        numberOfPieces = 1;
     } else if (numberOfPieces > 9) {
         numberOfPieces = 9;
     }
