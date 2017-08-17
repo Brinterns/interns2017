@@ -52,7 +52,6 @@ function buildClient() {
         buildClientConfig,
         gulp.parallel(
             buildClientIndex,
-            buildClientCssVendors,
             buildClientJsVendors,
             buildClientWebpack
         )
@@ -89,21 +88,8 @@ function buildClientIndex() {
         .pipe(gulp.dest(locationConfig.client.dist.location));
 }
 
-function buildClientCssVendors() {
-    return gulp.src([
-        require.resolve('bootstrap/dist/css/bootstrap.min.css')
-    ])
-        .pipe(removeSourceMappingURLs())
-        .pipe($.concat('vendors.css'))
-        .pipe(gulp.dest(locationConfig.client.dist.css));
-}
-
 function buildClientJsVendors() {
     return gulp.src([
-        require.resolve('jquery/dist/jquery.min.js'),
-        require.resolve('bootstrap/dist/js/bootstrap.min.js'),
-        require.resolve('underscore/underscore-min.js'),
-        require.resolve('socket.io-client/dist/socket.io.min.js'),
         require.resolve('cloak/cloak-client.min.js')
     ])
         .pipe(removeSourceMappingURLs())
