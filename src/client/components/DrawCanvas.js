@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {SketchField, Tools} from 'react-sketch';
 import ColourPicker from './ColourPicker';
+import LinePicker from './LinePicker';
 import bin from '../images/icons/bin.png';
 import redo from '../images/icons/redo.png';
 import undo from '../images/icons/undo.png';
@@ -8,11 +9,7 @@ import closeButton from '../images/icons/closebutton.png';
 import upload from '../images/icons/upload.png';
 import linepicker from '../images/icons/linepicker.png';
 import canvasStyles from './Components.css';
-import line5 from '../images/linewidth/line5.png';
-import line10 from '../images/linewidth/line10.png';
-import line15 from '../images/linewidth/line15.png';
-import line20 from '../images/linewidth/line20.png';
-import line30 from '../images/linewidth/line30.png';
+
 
 export default class DrawCanvas extends Component {
     constructor(props) {
@@ -26,6 +23,7 @@ export default class DrawCanvas extends Component {
         this.undoImg = this.undoImg.bind(this);
         this.redoImg = this.redoImg.bind(this);
         this.clearImg = this.clearImg.bind(this);
+        this.setLineWidth = this.setLineWidth.bind(this);
         this.toggleColourPicker = this.toggleColourPicker.bind(this);
         this.colourSelected = this.colourSelected.bind(this);
         {this.setBackground()};
@@ -66,7 +64,7 @@ export default class DrawCanvas extends Component {
         });
     }
 
-    setLineSize(lineWidth) {
+    setLineWidth(lineWidth) {
         this.setState({
             currentLineWidth: lineWidth,
             showLinePicker: false
@@ -97,13 +95,7 @@ export default class DrawCanvas extends Component {
                 <div className={canvasStyles.lineDropDown}>
                     <img onClick={this.redoImg} src={linepicker}/>
                     { this.state.showLinePicker ?
-                        <div className={canvasStyles.lineDropDownContent}>
-                            <img src={line5} onClick={() => {this.setLineSize(1)}} />
-                            <img src={line10} onClick={() => {this.setLineSize(5)}} />
-                            <img src={line15} onClick={() => {this.setLineSize(15)}} />
-                            <img src={line20} onClick={() => {this.setLineSize(20)}} />
-                            <img src={line30} onClick={() => {this.setLineSize(30)}} />
-                        </div>
+                        <LinePicker setLineWidth={this.setLineWidth} />
                         : null
                     }
                 </div>
