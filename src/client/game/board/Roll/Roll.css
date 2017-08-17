@@ -6,6 +6,12 @@
     display: block !important;
 }
 
+.rollNumber {
+    transform: translate(-50%, -50%) !important;
+    top: 50% !important;
+    left: 50%;
+}
+
 .unClickableSquare {
     display: inline-block !important;
     height: calc(6 * (1vw + 1vh - 1vmin));
