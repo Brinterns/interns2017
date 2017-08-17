@@ -184,7 +184,7 @@ export class Game extends Component {
                     {this.props.forfeit ? forfeitDiv : null}
                 </div>
                 <div className={gameStyles.spectatorDiv}>
-                    <p title={spectatorText}>Spectators ({this.props.spectators.length})</p>
+                    <p title={spectatorText}> Spectators ({this.props.spectators.length}) </p>
                 </div>
                 {this.props.winnerId ? null : <Stats id={this.props.id} stats={this.props.gameStats}/>}
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
