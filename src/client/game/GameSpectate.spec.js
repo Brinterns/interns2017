@@ -26,6 +26,7 @@ describe('<GameSpectate />', () => {
                 rolled: true,
                 rollNumber: 'Roll',
                 opponentRollNumber: null,
+                spectators: [],
                 //Game states
                 squares: Array(24).fill(false),
                 opponentSquares: Array(24).fill(false),
