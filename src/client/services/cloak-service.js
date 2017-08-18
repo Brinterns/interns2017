@@ -34,7 +34,8 @@ import {
     oppRollSequence,
     updateGameStats,
     updateSpectators,
-    updatePowerUps
+    updatePowerUps,
+    newPowerUp
 } from '../game/Game-actions';
 
 import { dispatch } from '../store';
@@ -178,6 +179,9 @@ export function RunCloakConfig() {
             updatepowerups: (powerups) => {
                 dispatch(updatePowerUps(JSON.parse(powerups)));
             },
+            newpowerup: (powerUp) => {
+                dispatch(newPowerUp(powerUp));
+            }
         }
     });
 }

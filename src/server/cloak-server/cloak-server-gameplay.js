@@ -172,7 +172,8 @@ function handlePowerupTake(user, room, nextPos) {
             return powerUpIndex !== playerPath[nextPos-1];
         });
         room.messageMembers('updatepowerups', JSON.stringify(room.data.powerUps));
-        user.data.powerUp = powerUpTypes[shared.getRandomIntInclusive(0, powerUpTypes.length-1)];;
+        user.data.powerUp = powerUpTypes[shared.getRandomIntInclusive(0, powerUpTypes.length-1)];
+        user.message('newpowerup', user.data.powerUp);
     }
 }
 

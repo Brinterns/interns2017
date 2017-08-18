@@ -92,6 +92,16 @@
     position: absolute;
 }
 
+.powerUpDiv {
+    position: absolute;
+    margin-top : calc(15 * (1vw + 1vh - 1vmin));
+    left: 5%;
+    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
+    border: solid 0.12em #FAD000;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+}
+
 @media (max-width: 800px) {
     .pieceHolder {
         top: calc(50% + 1.17 * (1.5 * var(--squareSide) + calc(0.5 * (1vw + 1vh - 1vmin))));

@@ -26,6 +26,7 @@ export const UPDATE_GAME_STATS = namespace + 'UPDATE_GAME_STATS';
 export const UPDATE_SPECTATORS = namespace + 'UPDATE_SPECTATORS';
 export const OPPONENT_ROLLED_SEQUENCE = namespace + 'OPPONENT_ROLLED_SEQUENCE';
 export const UPDATE_POWER_UPS = namespace + 'UPDATE_POWER_UPS';
+export const NEW_POWER_UP = namespace + 'NEW_POWER_UP';
 
 export function updateUserGameId(id) {
     return {
@@ -45,6 +46,13 @@ export function updatePowerUps(powerups) {
     return {
         type: UPDATE_POWER_UPS,
         payload: powerups
+    }
+}
+
+export function newPowerUp(powerUp) {
+    return {
+        type: NEW_POWER_UP,
+        payload: powerUp
     }
 }
 

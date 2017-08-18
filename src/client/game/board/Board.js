@@ -114,6 +114,14 @@ export class Board extends Component {
         }
         const rollSequenceNotClickable = (<RollFlash sequence={this.props.rollSequence} rollNumber={this.props.rollNumber} className={boardStyles.rollButton} />);
         const rollSequenceClickable = (<div onClick={this.onClick} > <Roll rollNumber={this.props.rollNumber} isPlayerTurn={this.props.isPlayerTurn}/></div>);
+        var powerUpStyle;
+        if (this.props.powerUp) {
+            var picture = require('../../images/powerups/'+ this.props.powerUp +'.png');
+            powerUpStyle = {
+                background: 'url(' + picture + ')',
+                backgroundSize: 'calc(5.4 * (1vw + 1vh - 1vmin))'
+            }
+        }
         return (
             <div>
                 <div className={boardStyles.boardMainDiv}>
@@ -122,6 +130,7 @@ export class Board extends Component {
                 <div className={boardStyles.rollButton}>
                     {((this.props.rollNumber !== 'Roll' || this.props.rollSequence) && this.props.isPlayerTurn) ? rollSequenceNotClickable : rollSequenceClickable}
                 </div>
+                <div className={boardStyles.powerUpDiv} style={powerUpStyle} />
                 <div className={boardStyles.oppPieceHolder}>
                     {oppPieceHolder}
                 </div>
@@ -147,7 +156,8 @@ const mapStateToProps = state => ({
     moveablePositions: state.game.moveablePositions,
     numOppPiecesFinished: state.game.numOppPiecesFinished,
     numPiecesFinished: state.game.numPiecesFinished,
-    powerUps: state.game.powerUps
+    powerUps: state.game.powerUps,
+    powerUp: state.game.powerUp
 });
 
 export default connect(
