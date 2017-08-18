@@ -228,3 +228,15 @@
     text-shadow: 0 0 calc(0.25 * (1vw + 1vh - 1vmin)) black !important;
     font-size: calc(1.5px + 1.25 * (1vw + 1vh - 1vmin)) !important;
 }
+
+.powerUp {
+    position: absolute;
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    animation: spin 4s linear infinite;
+}
+
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

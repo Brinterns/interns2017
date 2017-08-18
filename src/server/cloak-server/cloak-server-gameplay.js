@@ -40,7 +40,9 @@ function messageRoll(total, user) {
 function endTurn(user) {
     user.data.rolledDice = false;
     const room = user.getRoom();
-    room.data.currentPlayer = shared.getOpponent(user).id;
+    const opponent = shared.getOpponent(user);
+    randomPowerUp(room, user, opponent);
+    room.data.currentPlayer = opponent.id;
     const numPiecesEndRange = user.data.piecePositions.filter((position) => {
         return (position >= 11 && position <= 14);
     }).length;
@@ -192,6 +194,17 @@ function milliToSeconds(millis) {
 function sendStats(user) {
     const room = user.getRoom();
     room.messageMembers('updatestats', JSON.stringify(room.data.gameinfo));
+}
+
+function randomPowerUp(room, user, opponent) {
+    //only look to random powerups in war zone
+    var freeSquares = [];
+    for (var i = 5; i < 13; i++) {
+        if (!user.data.squares[playerPath[i-1]] && !opponent.data.squares[playerPath[i-1]]) {
+            freeSquares.push(i);
+        }
+    }
+    console.log(freeSquares);
 }
 
 

@@ -30,6 +30,15 @@ export default class Square extends Component {
                 backgroundSize: 'calc(5.4 * (1vw + 1vh - 1vmin))'
             }
         }
+        var picture2 = require('../../images/powerups/push.png');
+        const powerUpStyle = {
+
+            background: 'url(' + picture2 + ')',
+            backgroundSize: 'calc(5.4 * (1vw + 1vh - 1vmin))',
+            backgroundRepeat: 'no-repeat'
+        }
+
+        // <div style={powerUpStyle} className={boardStyles.powerUp} />
         return (
             <div className={this.props.minimap ? boardStyles.squareMiniMap : boardStyles.square} style={squareStyle}>
                 <div className={rosettaSquares.includes(i) ? (this.props.minimap ? boardStyles.rosettaMiniMap : boardStyles.rosetta) : null}>
