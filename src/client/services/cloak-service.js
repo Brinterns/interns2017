@@ -33,7 +33,8 @@ import {
     rollSequence,
     oppRollSequence,
     updateGameStats,
-    updateSpectators
+    updateSpectators,
+    updatePowerUps
 } from '../game/Game-actions';
 
 import { dispatch } from '../store';
@@ -173,7 +174,10 @@ export function RunCloakConfig() {
             },
             finishedopppieces: (numPiecesFinished) => {
                 dispatch(updateOppFinishedPieces(numPiecesFinished));
-            }
+            },
+            updatepowerups: (powerups) => {
+                dispatch(updatePowerUps(JSON.parse(powerups)));
+            },
         }
     });
 }

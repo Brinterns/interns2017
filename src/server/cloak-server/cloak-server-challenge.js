@@ -88,6 +88,7 @@ function challengeRespond(user, user2, accept, numberOfPieces=7) {
         createdRoom.data.opponentDisconnect = false;
         createdRoom.data.messages = [];
         createdRoom.data.numberOfPieces = numberOfPieces;
+        createdRoom.data.powerUps = [];
         userJoinRoom(user, createdRoom);
         userJoinRoom(user2, createdRoom);
         createdRoom.data.spectatedId = user.id;
@@ -165,6 +166,7 @@ function initRoomStats(room, user, user2) {
     room.data.gameinfo.players = [Object.assign({}, initalPlayerState), Object.assign({}, initalPlayerState)];
     room.data.gameinfo.players[0].name = user.name;
     room.data.gameinfo.players[1].name = user2.name;
+
     gamePlayFunctions.sendStats(user);
 }
 
