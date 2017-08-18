@@ -84,6 +84,7 @@ function challengeRespond(user, user2, accept, numberOfPieces=7) {
         user.data.opponentDbId = user2.data.dbId;
         user2.data.opponentDbId = user.data.dbId;
         numberOfPieces = clearChallenges(user, user2, numberOfPieces);
+       
         let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
         createdRoom.data.opponentDisconnect = false;
         createdRoom.data.messages = [];
