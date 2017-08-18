@@ -91,6 +91,8 @@ function movePiece(position, user) {
     handleMoveUserPiece(user, opponent, room, position, nextPos);
     //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
     handleTakePiece(user, opponent, userStats, room, nextPos);
+    //If moved piece lands on power up, obtain the powerup
+    handlePowerupTake(user, room, nextPos);
     //if moved piece lands on rosetta square, allow reroll and reset roll timer
     if (handleRosetta(user, room, position, d)) {
         return;
@@ -164,6 +166,15 @@ function handleRosetta(user, room, position, d) {
     return false;
 }
 
+function handlePowerupTake(user, room, nextPos) {
+    const powerUp = room.data.powerUps.filter((powerUp) => {return powerUp.index === playerPath[nextPos-1]});
+    room.data.powerUps = room.data.powerUps.filter((powerUp) => {return powerUp.index !== playerPath[nextPos-1]});
+    if (powerUp.length) {
+        room.messageMembers('updatepowerups', JSON.stringify(room.data.powerUps));
+        user.data.powerUp = powerUp[0].type;
+    }
+}
+
 function handleFinalRange(user, userStats, room, position, nextPos) {
     if ((nextPos >= 11 && nextPos <= 14) && (!(position >= 11 && position <= 14))) {
         if (user.data.numPiecesFinished === (room.data.numberOfPieces - 1)) {
@@ -199,6 +210,10 @@ function sendStats(user) {
 }
 
 function randomPowerUp(room, user, opponent) {
+    const randomNum = shared.getRandomIntInclusive(0,5);
+    if (randomNum < 4) {
+        return;
+    }
     //only look to random powerups in war zone
     var freeSquares = [];
     for (var i = 4; i <= 11; i++) {

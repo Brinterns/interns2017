@@ -4,6 +4,8 @@ var gameRoomFunctions = require('./cloak-server-gameroom');
 var gamePlayFunctions = require('./cloak-server-gameplay');
 var shared = require('./cloak-server-shared');
 
+const powerUpTypes = ['push'];
+
 function challengePlayer(id, numberOfPieces, user) {
     var user2 = cloak.getUser(id);
     if (!user2.data.challenging) {
@@ -147,6 +149,7 @@ function userJoinRoom(user, room) {
     user.data.piecePositions = Array(room.data.numberOfPieces).fill(0);
     user.data.numPiecesFinished = 0;
     user.data.lastRoll = null;
+    user.data.powerUps = null;
 }
 
 function initRoomStats(room, user, user2) {
