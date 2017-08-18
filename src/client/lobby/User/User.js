@@ -59,6 +59,7 @@ export default class User extends Component {
                     <button onClick={() => {this.props.cancelChallenge(this.props.user.id)}}> Cancel </button>
                     <div className={userStyles.numberOfPieces}>
                         <label title="No. of pieces" className={userStyles.numberOfPiecesInactive}> <p>{this.props.challenging.numberOfPieces}</p> </label>
+                        {this.props.challenging.powerUps ? <img title="Power Ups Disabled" src={powerupactive} /> : <img title="Power Ups Enabled" src={powerup} />}
                     </div>
                 </div>;
         } else if (this.props.challenger) {
@@ -70,12 +71,13 @@ export default class User extends Component {
                     </div>
                     <div className={userStyles.numberOfPieces}>
                         <label title="No. of pieces" className={userStyles.numberOfPiecesInactive}> <p>{this.props.challenger.numberOfPieces}</p> </label>
+                        {this.props.challenger.powerUps ? <img title="Power Ups Disabled" src={powerupactive} /> : <img title="Power Ups Enabled" src={powerup} />}
                     </div>
                 </div>;
         } else {
             challengeButtons =
                 <div className={userStyles.buttonDiv}>
-                    <button onClick={() => {this.props.challengeUser(this.props.user.id, this.state.numberOfPieces)}}> Challenge </button>
+                    <button onClick={() => {this.props.challengeUser(this.props.user.id, this.state.numberOfPieces, this.state.powerUps)}}> Challenge </button>
                     <div className={userStyles.numberOfPieces}>
                         <label title="No. of pieces"> <p>{this.state.numberOfPieces}</p> </label>
                         <div>
