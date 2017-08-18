@@ -149,7 +149,7 @@ function userJoinRoom(user, room) {
     user.data.piecePositions = Array(room.data.numberOfPieces).fill(0);
     user.data.numPiecesFinished = 0;
     user.data.lastRoll = null;
-    user.data.powerUps = null;
+    user.data.powerUp = null;
 }
 
 function initRoomStats(room, user, user2) {

@@ -167,11 +167,12 @@ function handleRosetta(user, room, position, d) {
 }
 
 function handlePowerupTake(user, room, nextPos) {
-    const powerUp = room.data.powerUps.filter((powerUp) => {return powerUp.index === playerPath[nextPos-1]});
-    room.data.powerUps = room.data.powerUps.filter((powerUp) => {return powerUp.index !== playerPath[nextPos-1]});
-    if (powerUp.length) {
+    if (room.data.powerUps.includes(playerPath[nextPos-1])) {
+        room.data.powerUps = room.data.powerUps.filter((powerUpIndex) => {
+            return powerUpIndex !== playerPath[nextPos-1];
+        });
         room.messageMembers('updatepowerups', JSON.stringify(room.data.powerUps));
-        user.data.powerUp = powerUp[0].type;
+        user.data.powerUp = powerUpTypes[shared.getRandomIntInclusive(0, powerUpTypes.length-1)];;
     }
 }
 
@@ -230,12 +231,7 @@ function randomPowerUp(room, user, opponent) {
     //random which square index will have the powerup from all the free squares
     //random which powerup to place on the square
     const powerUpIndex = freeSquares[shared.getRandomIntInclusive(0,freeSquares.length-1)];
-    const powerUp = powerUpTypes[shared.getRandomIntInclusive(0, powerUpTypes.length-1)];
-    const powerUpObject = {
-        type: powerUp,
-        index: powerUpIndex
-    }
-    room.data.powerUps.push(powerUpObject);
+    room.data.powerUps.push(powerUpIndex);
     room.messageMembers('updatepowerups', JSON.stringify(room.data.powerUps));
 }
 

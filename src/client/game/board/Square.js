@@ -32,7 +32,7 @@ export default class Square extends Component {
         }
         var powerUpStyle;
         if (this.props.powerUp) {
-            var picture2 = require('../../images/powerups/'+ this.props.powerUp +'.png');
+            var picture2 = require('../../images/powerups/powerup.png');
             powerUpStyle = {
                 background: 'url(' + picture2 + ')',
                 backgroundSize: 'calc(5.4 * (1vw + 1vh - 1vmin))',

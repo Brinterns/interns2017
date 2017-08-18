@@ -42,8 +42,10 @@ export class Board extends Component {
         } else if ((i === 6) && this.props.numOppPiecesFinished) {
             displayNumber = (this.props.numOppPiecesFinished > 1) ? this.props.numOppPiecesFinished : null;
         }
-        const powerUpFilter = this.props.powerUps.filter((powerUp) => {return powerUp.index === i});
-        const powerUp = powerUpFilter.length ? powerUpFilter[0].type : null;
+        var powerUp = false;
+        if (this.props.powerUps.includes(i)) {
+            powerUp = true;
+        }
         return (
             <Square index={i} position={pos} displayNumber={displayNumber} movePiece={this.handleMovePiece} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={pieceClassName} powerUp={powerUp} setHighlightSquare={this.setHighlightSquare} highlight={(pos === this.state.highlightSquarePosition)} key={i} />
         );
