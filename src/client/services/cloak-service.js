@@ -4,7 +4,8 @@ import {
     updateRoomNames,
     updateUsers,
     updateChallenging,
-    updateChallengers
+    updateChallengers,
+    updateMiniMap
 } from '../lobby/Lobby-actions';
 
 import {
@@ -16,7 +17,7 @@ import {
     updateCurrentPlayerOnly,
     opponentDisconnect,
     gameOver,
-    challengerId,
+    challengerDetails,
     rolledValue,
     updateGameState,
     updateSquares,
@@ -30,13 +31,15 @@ import {
     resetNotificationBool,
     resetStore,
     rollSequence,
+    oppRollSequence,
     updateGameStats,
-    updateNumSpectators
+    updateSpectators
 } from '../game/Game-actions';
 
 import { dispatch } from '../store';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
+
 
 
 export function RunCloakConfig() {
@@ -85,6 +88,12 @@ export function RunCloakConfig() {
             updatelobbymessages: (messages) => {
                 dispatch(updateLobbyMessages(JSON.parse(messages)));
             },
+            minimapstate: (gameState) => {
+                dispatch(updateMiniMap(JSON.parse(gameState)));
+            },
+            redirect: (url) => {
+                window.location = (url);
+            },
             /***********************************************************/
             /*                       Stats messages                     */
             /***********************************************************/
@@ -114,10 +123,9 @@ export function RunCloakConfig() {
             currentplayeronly: (current) => {
                 dispatch(updateCurrentPlayerOnly(current));
             },
-            updatenumspectators: (num) => {
-                dispatch(updateNumSpectators(num));
+            updatespectators: (spectators) => {
+                dispatch(updateSpectators(spectators));
             },
-            //Roll messages
             rolledvalue: (value) => {
                 dispatch(rolledValue(value));
             },
@@ -126,6 +134,9 @@ export function RunCloakConfig() {
             },
             rollsequence: (sequence) => {
                 dispatch(rollSequence(sequence));
+            },
+            opponentsequence: (sequence) => {
+                dispatch(oppRollSequence(sequence));
             },
             //End game messages
             opponentdisconnect: () => {
@@ -138,8 +149,8 @@ export function RunCloakConfig() {
                 dispatch(resetStore());
                 browserHistory.push('/lobby');
             },
-            challengerid: (id) => {
-                dispatch(challengerId(id));
+            challengerdetails: (id) => {
+                dispatch(challengerDetails(id));
             },
             //Game state messages
             gamestate: (json) => {

@@ -18,7 +18,10 @@ function getRoomUserInfo(room) {
             listOfRoomUsers.push(userJson);
         }
     });
-    room.messageMembers('updatenumspectators', shared.getSpectators(room).length);
+    const spectatorNames = shared.getSpectators(room).map(function(spectator) {
+        return spectator.name;
+    });
+    room.messageMembers('updatespectators', spectatorNames);
     room.messageMembers('updateplayers', JSON.stringify(listOfRoomUsers));
 }
 
@@ -33,18 +36,19 @@ function getRoomInfo(user) {
         }
         var opponent;
         if (user.data.isPlayer) {
-            opponent = shared.getOpponent(user)
+            opponent = shared.getOpponent(user);
         } else {
             const spectatedPlayer = cloak.getUser(room.data.spectatedId);
             opponent = shared.getOpponent(spectatedPlayer);
             user.data.squares = spectatedPlayer.data.squares;
             user.data.piecePositions = spectatedPlayer.data.piecePositions;
-            user.data.finishedPieces = spectatedPlayer.data.finishedPieces;
+            user.data.numPiecesFinished = spectatedPlayer.data.numPiecesFinished;
             user.message('spectatingid', room.data.spectatedId);
         }
 
         var gameStateJson = {
             id: user.id,
+            numberOfPieces: room.data.numberOfPieces,
             squares: user.data.squares,
             piecePositions: user.data.piecePositions,
             opponentSquares: opponent ? gameplay.reverseSquares(opponent.data.piecePositions) : [],
@@ -61,6 +65,29 @@ function getRoomInfo(user) {
         }
         getRoomUserInfo(room);
     }
+}
+
+function getGameInfo(roomId, user) {
+    const room = cloak.getRoom(roomId);
+    const spectatedPlayer = cloak.getUser(room.data.spectatedId);
+    const opponent = shared.getOpponent(spectatedPlayer);
+    user.data.squares = spectatedPlayer.data.squares;
+    user.data.piecePositions = spectatedPlayer.data.piecePositions;
+    user.data.numPiecesFinished = spectatedPlayer.data.numPiecesFinished;
+    var gameStateJson = {
+        roomId: roomId,
+        squares: user.data.squares,
+        piecePositions: user.data.piecePositions,
+        opponentSquares: opponent ? gameplay.reverseSquares(opponent.data.piecePositions) : [],
+        finishedPieces: user.data.numPiecesFinished,
+        finishedOppPieces: opponent ? opponent.data.numPiecesFinished : null,
+        winnerId: room.data.winnerId,
+        opponentDisconnect: room.data.opponentDisconnect,
+        name: spectatedPlayer.name,
+        opponentName: opponent.name,
+        numberOfPieces: room.data.numberOfPieces
+    };
+    user.message('minimapstate', JSON.stringify(gameStateJson));
 }
 
 function calculateNewElo(playerRank, opponentRank, won) {
@@ -96,9 +123,11 @@ function win(winBool, user) {
 
 var roomExit = function(arg) {
     const users = this.getMembers();
-    const spectators = shared.getSpectators(this);
-    this.messageMembers('updatenumspectators', shared.getSpectators(this).length);
-    if (((users.length - spectators.length) === 1) && !this.data.winnerId) {
+    const spectatorNames = shared.getSpectators(this).map(function(spectator) {
+        return spectator.name;
+    });
+    this.messageMembers('updatespectators', spectatorNames);
+    if (((users.length - spectatorNames.length) === 1) && !this.data.winnerId) {
         this.data.opponentDisconnect = true;
         var user = users[0];
         var opponentName;
@@ -128,13 +157,13 @@ var roomExit = function(arg) {
                     this.data.winnerId = user.id;
                     user.message('opponentdisconnect');
                     user.message('gameover', this.data.winnerId);
-                    spectators.forEach(spectator => {
+                    spectatorNames.forEach(spectator => {
                         spectator.message('gameover', this.data.winnerId);
                     });
                 });
             });
         });
-    } else if ((users.length - spectators.length) === 1) {
+    } else if ((users.length - spectatorNames.length) === 1) {
         const user = users[0];
         this.data.opponentDisconnect = true;
         user.message('opponentdisconnect');
@@ -142,5 +171,6 @@ var roomExit = function(arg) {
 }
 
 module.exports.getRoomInfo = getRoomInfo;
+module.exports.getGameInfo = getGameInfo;
 module.exports.roomExit = roomExit;
 module.exports.win = win;

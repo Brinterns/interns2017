@@ -6,7 +6,7 @@ export const UPDATE_CURRENT_PLAYER = namespace + 'UPDATE_CURRENT_PLAYER';
 export const UPDATE_CURRENT_PLAYER_ONLY = namespace + 'UPDATE_CURRENT_PLAYER_ONLY';
 export const OPPONENT_DISCONNECT = namespace + 'OPPONENT_DISCONNECT';
 export const GAME_OVER = namespace + 'GAME_OVER';
-export const CHALLENGER_ID = namespace + 'CHALLENGER_ID';
+export const CHALLENGER_DETAILS = namespace + 'CHALLENGER_DETAILS';
 export const TOGGLE_FORFEIT = namespace + 'TOGGLE_FORFEIT';
 export const ROLLED_NUMBER = namespace + 'ROLLED_NUMBER';
 export const UPDATE_GAME_STATE = namespace + 'UPDATE_GAME_STATE';
@@ -23,7 +23,8 @@ export const RESET_STORE = namespace + 'RESET_STORE';
 export const UPDATE_MESSAGES = namespace + 'UPDATE_MESSAGES';
 export const ROLLED_SEQUENCE = namespace + 'ROLLED_SEQUENCE';
 export const UPDATE_GAME_STATS = namespace + 'UPDATE_GAME_STATS';
-export const UPDATE_NUMBER_OF_SPECTATORS = namespace + 'UPDATE_NUMBER_OF_SPECTATORS';
+export const UPDATE_SPECTATORS = namespace + 'UPDATE_SPECTATORS';
+export const OPPONENT_ROLLED_SEQUENCE = namespace + 'OPPONENT_ROLLED_SEQUENCE';
 
 export function updateUserGameId(id) {
     return {
@@ -39,10 +40,10 @@ export function spectatingId(id) {
     }
 }
 
-export function updateNumSpectators(num) {
+export function updateSpectators(spectators) {
     return {
-        type: UPDATE_NUMBER_OF_SPECTATORS,
-        payload: num
+        type: UPDATE_SPECTATORS,
+        payload: spectators
     }
 }
 
@@ -68,6 +69,13 @@ export function resetRollText() {
 export function rollSequence(sequence) {
     return {
         type: ROLLED_SEQUENCE,
+        payload: sequence
+    }
+}
+
+export function oppRollSequence(sequence) {
+    return {
+        type: OPPONENT_ROLLED_SEQUENCE,
         payload: sequence
     }
 }
@@ -133,9 +141,9 @@ export function gameOver(winnerId) {
     }
 }
 
-export function challengerId(challengerId) {
+export function challengerDetails(challengerId) {
     return {
-        type: CHALLENGER_ID,
+        type: CHALLENGER_DETAILS,
         payload: challengerId
     }
 }

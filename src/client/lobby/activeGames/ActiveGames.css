@@ -1,0 +1,100 @@
+.mapHolder {
+    width: 0;
+    background-color: green;
+    position: absolute;
+}
+
+.game {
+    padding: calc(1.5 * (1vw + 1vh - 1vmin));
+    margin-top: calc(1.5 * (1vw + 1vh - 1vmin));
+    margin-left: calc(1.5 * (1vw + 1vh - 1vmin));
+    margin-right: calc(1.5 * (1vw + 1vh - 1vmin));
+    border-style: solid;
+    border-color: black;
+    border-width: 0.12em;
+    background-color: #FFE562;
+}
+
+.game h1 {
+    margin: 0;
+    margin-bottom: calc(1.5 * (1vw + 1vh - 1vmin));
+    color: black;
+    display: block;
+    font-size: calc(10px + 1.5 * (1vw + 1vh - 1vmin));
+}
+
+.game h2 {
+    margin: 0;
+    color: #a8a6a6;
+    font-size: calc(3px + 2 * (1vw + 1vh - 1vmin));
+}
+
+
+.game img {
+    height: calc(3 * (1vw + 1vh - 1vmin));
+    width: calc(3 * (1vw + 1vh - 1vmin));
+    float: right;
+    cursor: crosshair;
+    margin-top: calc(-1.6 * (1vw + 1vh - 1vmin));
+}
+
+.spectatorDiv {
+    text-align: center !important;
+}
+
+.minimapDiv {
+    position: relative;
+    top: calc(-11.5 * (1vw + 1vh - 1vmin));
+    background-color: rgba(0,0,0,0.8) !important;
+    width: calc(35 * (1vw + 1vh - 1vmin));
+    max-height: 100%;
+}
+
+.boardMainDiv {
+    width: 100%;
+}
+
+.squaresColumn {
+    display: inline-block;
+}
+
+.oppPieceHolder {
+    margin-right: calc(1 * (1vw + 1vh - 1vmin));
+    text-align: right;
+    display: block;
+}
+
+.oppPieceHolder p {
+    text-align: right;
+    font-size: calc(2 * (1vw + 1vh - 1vmin));
+    color: #FAD000;
+}
+
+.pieceHolder {
+    margin-left: calc(1 * (1vw + 1vh - 1vmin));
+    text-align: left;
+    display: block;
+}
+
+.pieceHolder p {
+    text-align: left;
+    font-size: calc(2 * (1vw + 1vh - 1vmin));
+    color: #FAD000;
+}
+
+.piece {
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSideMini));
+    width: calc(0.9 * var(--squareSideMini));
+    display: inline-block;
+    margin-right: calc(0.2 * (1vw + 1vh - 1vmin));
+}
+
+.squarePiece {
+    position: absolute;
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSideMini));
+    width: calc(0.9 * var(--squareSideMini));
+    margin-top: calc((var(--squareSideMini) - 0.9 * var(--squareSideMini)) / 2);
+    margin-left: calc((var(--squareSideMini) - 0.9 * var(--squareSideMini)) / 2);
+}

@@ -7,6 +7,39 @@
     margin-left: calc(0.5 * (1vw + 1vh - 1vmin)) !important;
 }
 
+.lineDropDown {
+    display: inline-block;
+    position: relative;
+    margin-left: calc(0.5 * (1vw + 1vh - 1vmin)) !important;
+}
+
+.lineDropDown img {
+    margin-bottom: calc(0.1 * (1vw + 1vh - 1vmin));
+}
+
+.lineDropDownContent {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: calc(0.55  * (1vw + 1vh - 1vmin));
+    z-index: 1;
+}
+
+.lineDropDownContent img {
+    height: calc(1  * (1vw + 1vh - 1vmin)) !important;
+    width: calc(8 * (1vw + 1vh - 1vmin)) !important;
+    text-align: center;
+}
+
+.lineDropDown:hover .lineDropDownContent {
+    display: block;
+}
+
+.lineDropDown:active .lineDropDownContent {
+    display: block;
+}
+
 .colourButton {
     height: calc(1.8 * (1vw + 1vh - 1vmin));
     width: calc(1.8 * (1vw + 1vh - 1vmin));
@@ -15,6 +48,8 @@
     margin-top: calc(0.5 * (1vw + 1vh - 1vmin));
     vertical-align: middle;
     border-radius: 50%;
+    outline: none;
+    border-width: calc(0.1 * (1vw + 1vh - 1vmin));
 }
 
 .colourPicker {

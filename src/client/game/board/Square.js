@@ -19,9 +19,9 @@ export default class Square extends Component {
         if (!blankSquares.includes(i)) {
             var picture =  require('../../images/board/boardsquares' + this.props.index + '.png');
             squareStyle = {
-                background: 'url(' + picture + ')',
-                backgroundSize: 'calc(6 * (1vw + 1vh - 1vmin))'
+                background: 'url(' + picture + ')'
             }
+            squareStyle.backgroundSize = this.props.minimap ? 'calc(3 * (1vw + 1vh - 1vmin))' : 'calc(6 * (1vw + 1vh - 1vmin))'
         }
         if (this.props.index === 8) {
             var picture = require('../../images/board/finalsquare.png');
@@ -31,10 +31,10 @@ export default class Square extends Component {
             }
         }
         return (
-            <div className={boardStyles.square} style={squareStyle}>
-                <div className={rosettaSquares.includes(i) ? boardStyles.rosetta : null}>
-                    {this.props.piece ? <Piece displayNumber={this.props.displayNumber} setHighlightSquare={this.props.setHighlightSquare} position={this.props.position} className={this.props.pieceClassName} movePiece={this.props.movePiece}/> : null}
-                    {this.props.opponentPiece ? <OpponentPiece displayNumber={this.props.displayNumber} className={boardStyles.squareOpponentPiece}/> : null}
+            <div className={this.props.minimap ? boardStyles.squareMiniMap : boardStyles.square} style={squareStyle}>
+                <div className={rosettaSquares.includes(i) ? (this.props.minimap ? boardStyles.rosettaMiniMap : boardStyles.rosetta) : null}>
+                    {this.props.piece ? <Piece displayNumber={this.props.displayNumber} setHighlightSquare={this.props.setHighlightSquare} position={this.props.position} className={this.props.pieceClassName} movePiece={this.props.movePiece} minimap={this.props.minimap}/> : null}
+                    {this.props.opponentPiece ? <OpponentPiece displayNumber={this.props.displayNumber} className={this.props.pieceClassName} minimap={this.props.minimap}/> : null}
                     {this.props.highlight ? <div className={boardStyles.moveHighlighter} style={highlightStyle} /> : null}
                 </div>
             </div>

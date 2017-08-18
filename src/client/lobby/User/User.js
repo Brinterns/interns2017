@@ -6,6 +6,22 @@ import {emojify} from 'react-emojione';
 export default class User extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            numberOfPieces: 7
+        }
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event) {
+        if ((event.target.id === "minus") && (this.state.numberOfPieces > 1)) {
+            this.setState({
+                numberOfPieces: this.state.numberOfPieces - 1
+            });
+        } else if ((event.target.id === "plus") && (this.state.numberOfPieces < 9)) {
+            this.setState({
+                numberOfPieces: this.state.numberOfPieces + 1
+            });
+        }
     }
 
     render() {
@@ -21,29 +37,40 @@ export default class User extends Component {
                       ctx.drawImage(img, 0, 0, 300, 150);
                     };
                     img.src = this.props.user.avatar;
-                },50);
+                }, 50);
             }
         }
         var challengeButtons;
-        if (!this.props.user.inLobby) {
+        if (!this.props.user.inLobby || this.props.user.isMe) {
             challengeButtons = null;
         } else if (this.props.challenging) {
             challengeButtons =
                 <div className={userStyles.buttonDiv}>
                     <button onClick={() => {this.props.cancelChallenge(this.props.user.id)}}> Cancel </button>
+                    <div className={userStyles.numberOfPieces}>
+                        <label title="No. of pieces" className={userStyles.numberOfPiecesInactive}> <p>{this.props.challenging.numberOfPieces}</p> </label>
+                    </div>
                 </div>;
-        } else if (this.props.challenged) {
+        } else if (this.props.challenger) {
             challengeButtons =
                 <div className={userStyles.buttonDiv}>
                     <div className={userStyles.buttonHolder}>
                         <button className={userStyles.declineButton} onClick={() => {this.props.challengeRespond(false, this.props.user.id)}}> &#x2716; </button>
                         <button className={userStyles.acceptButton} onClick={() => {this.props.challengeRespond(true, this.props.user.id)}}> &#10004; </button>
                     </div>
+                    <div className={userStyles.numberOfPieces}>
+                        <label title="No. of pieces" className={userStyles.numberOfPiecesInactive}> <p>{this.props.challenger.numberOfPieces}</p> </label>
+                    </div>
                 </div>;
         } else {
             challengeButtons =
                 <div className={userStyles.buttonDiv}>
-                    <button onClick={() => {this.props.challengeUser(this.props.user.id)}}> Challenge </button>
+                    <button onClick={() => {this.props.challengeUser(this.props.user.id, this.state.numberOfPieces)}}> Challenge </button>
+                    <div className={userStyles.numberOfPieces}>
+                        <button id="minus" title="Decrease no. of pieces" className={userStyles.numberOfPiecesMinus} onClick={this.handleChange}> - </button>
+                        <label title="No. of pieces"> <p>{this.state.numberOfPieces}</p> </label>
+                        <button id="plus" title="Increase no. of pieces" onClick={this.handleChange}> + </button>
+                    </div>
                 </div>;
         }
         var displayName = this.props.user.name;
@@ -53,6 +80,8 @@ export default class User extends Component {
             displayName += " (Spectating)";
         } else if (!this.props.user.inLobby) {
             displayName += " (In-Game)";
+        } else if (this.props.user.isMe) {
+            displayName += " (You)";
         }
         return (
             <div className={this.props.user.online ? userStyles.onlineBackground : userStyles.offlineBackground}>

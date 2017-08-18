@@ -7,7 +7,7 @@ import {
     UPDATE_CURRENT_PLAYER_ONLY,
     OPPONENT_DISCONNECT,
     GAME_OVER,
-    CHALLENGER_ID,
+    CHALLENGER_DETAILS,
     TOGGLE_FORFEIT,
     ROLLED_NUMBER,
     ROLLED_SEQUENCE,
@@ -24,7 +24,8 @@ import {
     RESET_NOTIFICATION_BOOL,
     RESET_STORE,
     UPDATE_GAME_STATS,
-    UPDATE_NUMBER_OF_SPECTATORS
+    UPDATE_SPECTATORS,
+    OPPONENT_ROLLED_SEQUENCE
 } from './Game-actions';
 
 
@@ -42,13 +43,15 @@ const initialState = {
     gameOver : false,
     forfeit: false,
     winnerId: null,
-    numSpectators: 0,
+    spectators: [],
     //Roll states
     rolled: true,
     rollNumber: 'Roll',
     opponentRollNumber: null,
     rollSequence: null,
+    oppRollSequence: null,
     //Game states
+    numberOfPieces: 7,
     squares: Array(24).fill(false),
     opponentSquares: Array(24).fill(false),
     piecePositions: Array(numberOfPieces).fill(0),
@@ -57,9 +60,11 @@ const initialState = {
     numOppPiecesFinished: 0,
     //Notification states
     notificationBool: false,
+    notificationName: "",
     notificationText: null,
     opponentDisconnect: false,
     challengerId: null,
+    newNumberOfPieces: 7,
     //Game statistics
     gameStats: null
 };
@@ -109,9 +114,10 @@ const game = (state = initialState, action) => {
                 gameOver: true
             });
         }
-        case CHALLENGER_ID: {
+        case CHALLENGER_DETAILS: {
             return updateState(state, {
-                challengerId: action.payload
+                challengerId: action.payload[0],
+                newNumberOfPieces: action.payload[1]
             });
         }
         case TOGGLE_FORFEIT: {
@@ -130,13 +136,21 @@ const game = (state = initialState, action) => {
                 rollSequence: action.payload
             });
         }
+        case OPPONENT_ROLLED_SEQUENCE: {
+            return updateState(state, {
+                oppRollSequence: action.payload,
+                notificationName: state.listOfPlayers.filter(player => {
+                    return player.id === state.currentPlayer;
+                })[0].name,
+                notificationBool: false
+            });
+        }
         case OPPONENT_ROLLED_NUMBER: {
             return updateState(state, {
                 opponentRollNumber: action.payload,
                 notificationBool: true,
-                notificationText: state.listOfPlayers.filter(player => {
-                    return player.id === state.currentPlayer;
-                })[0].name + " rolled a " + action.payload
+                oppRollSequence: null,
+                notificationText: state.notificationName + " rolled a " + action.payload
             });
         }
         case UPDATE_SQUARES: {
@@ -174,17 +188,20 @@ const game = (state = initialState, action) => {
                 if (state.opponentRollNumber === 0) {
                     return updateState(state, {
                         rollNumber: 'Roll',
+                        oppRollSequence: null,
                         rollSequence: null
                     });
                 }
                 return updateState(state, {
                     rollNumber: 'Roll',
+                    oppRollSequence: null,
                     rollSequence: null,
                     notificationText: "It's your turn!"
                 });
             }
             return updateState(state, {
-                notificationBool: false
+                notificationBool: false,
+                opponentRollNumber: null
             });
         }
         case RESET_NOTIFICATION_BOOL: {
@@ -198,6 +215,7 @@ const game = (state = initialState, action) => {
         case UPDATE_GAME_STATE: {
             return updateState(state, {
                 id: action.payload.id,
+                numberOfPieces: action.payload.numberOfPieces,
                 squares: action.payload.squares,
                 piecePositions: action.payload.piecePositions,
                 opponentSquares: action.payload.opponentSquares,
@@ -207,9 +225,9 @@ const game = (state = initialState, action) => {
                 opponentDisconnect: action.payload.opponentDisconnect
             });
         }
-        case UPDATE_NUMBER_OF_SPECTATORS: {
+        case UPDATE_SPECTATORS: {
             return updateState(state, {
-                numSpectators: action.payload
+                spectators: action.payload
             });
         }
         case UPDATE_GAME_STATS: {

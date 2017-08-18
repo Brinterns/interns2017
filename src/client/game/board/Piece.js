@@ -12,7 +12,6 @@ export default class Piece extends Component {
 
     movePiece() {
         this.props.movePiece(this.props.position);
-
     }
 
     enter() {
@@ -25,14 +24,14 @@ export default class Piece extends Component {
 
     render() {
         var picture = require('../../images/board/playerpiece.png');
-        const style = {
+        var style = {
             background: 'url(' + picture + ')',
-            backgroundSize: 'calc(5.4 * (1vw + 1vh - 1vmin))',
             backgroundRepeat: 'no-repeat'
         }
+        style.backgroundSize = this.props.minimap ? 'calc(2.7 * (1vw + 1vh - 1vmin))' : 'calc(5.4 * (1vw + 1vh - 1vmin))';
         return (
             <div onMouseEnter style={style} onMouseEnter={this.enter} onMouseLeave={this.exit} className={this.props.className} onClick={this.movePiece}>
-                <h1 className={pieceStyles.displayNumber}> {this.props.displayNumber} </h1>
+                <h1 className={this.props.minimap ? pieceStyles.displayNumberMiniMap : pieceStyles.displayNumber}> {this.props.displayNumber} </h1>
             </div>
         );
     }

@@ -1,6 +1,6 @@
 {
   "name": "interns2017",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Interns 2017",
   "main": "app.js",
   "engines": {
@@ -58,6 +58,7 @@
     "react-test-renderer": "^15.6.1",
     "redux": "^3.5.2",
     "sass-loader": "^3.2.0",
+    "sinon": "^3.2.0",
     "style-loader": "^0.13.1",
     "underscore": "^1.8.3",
     "url-loader": "^0.5.9",

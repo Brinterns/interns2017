@@ -8,14 +8,14 @@ export default class OpponentPiece extends Component {
     }
     render() {
         var picture = require('../../images/board/opponentpiece.png');
-        const style = {
+        var style = {
             background: 'url(' + picture + ')',
-            backgroundSize: 'calc(5.4 * (1vw + 1vh - 1vmin))',
             backgroundRepeat: 'no-repeat'
         }
+        style.backgroundSize = this.props.minimap ? 'calc(2.7 * (1vw + 1vh - 1vmin))' : 'calc(5.4 * (1vw + 1vh - 1vmin))';
         return (
             <div className={this.props.className} style={style}>
-                <h1 className={pieceStyles.displayNumber}> {this.props.displayNumber} </h1>
+                <h1 className={this.props.minimap ? pieceStyles.displayNumberMiniMap : pieceStyles.displayNumber}> {this.props.displayNumber} </h1>
             </div>
         );
     }

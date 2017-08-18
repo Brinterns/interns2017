@@ -13,6 +13,7 @@ describe('<User />', () => {
             winLossRecord: {wins: 0, loses: 0},
             inLobby: true,
             online: true,
+            isMe: false,
             rank: 5
         };
     });
@@ -36,7 +37,7 @@ describe('<User />', () => {
 
     it('Shows the right button when the user is not in a challenge', () => {
         const wrapper = shallow(<User user={user} />);
-        expect(wrapper.find("button").text()).toEqual(" Challenge ");
+        expect(wrapper.find("button").first().text()).toEqual(" Challenge ");
     });
 
     it('Shows the right button when the user makes a challenge', () => {
@@ -45,9 +46,42 @@ describe('<User />', () => {
     });
 
     it('Shows the right buttons when the user has been challenged', () => {
-        const wrapper = shallow(<User user={user} challenged={true} />);
+        const challenger = {
+            id: 1,
+            numberOfPieces: 7
+        };
+        const wrapper = shallow(<User user={user} challenger={challenger} />);
         expect(wrapper.find("button").first().text()).toEqual(" \u2716 ");
-        expect(wrapper.find("button").last().text()).toEqual(" \u2714 ");
+        expect(wrapper.find("button").at(1).text()).toEqual(" \u2714 ");
+    });
+
+    it('Shows the plus and minus buttons for an in lobby user', () => {
+        const wrapper = shallow(<User user={user} />);
+        expect(wrapper.find("button").at(1).text()).toEqual(" - ");
+        expect(wrapper.find("button").last().text()).toEqual(" + ");
+    });
+
+    it('Shows the right default number of pieces', () => {
+        const wrapper = shallow(<User user={user} />);
+        expect(wrapper.find("label").text()).toEqual(" 7 ");
+    });
+
+    it('Shows the right number of pieces when the user is being challenged', () => {
+        const challenger = {
+            id: 1,
+            numberOfPieces: 3
+        };
+        const wrapper = shallow(<User user={user} challenger={challenger} />);
+        expect(wrapper.find("label").text()).toEqual(" 3 ");
+    });
+
+    it('Shows the right number of pieces when the user is making a challenge', () => {
+        const challenging = {
+            id: 1,
+            numberOfPieces: 9
+        };
+        const wrapper = shallow(<User user={user} challenging={challenging} />);
+        expect(wrapper.find("label").text()).toEqual(" 9 ");
     });
 
     it('Shows the right name when the other user is in a game', () => {
@@ -61,5 +95,11 @@ describe('<User />', () => {
         user.inLobby = false;
         const wrapper = shallow(<User user={user} challenging={true} />);
         expect(wrapper.find("h1").text()).toEqual(" " + user.name + " (Offline) ");
+    });
+
+    it('Shows the right name when the user you', () => {
+        user.isMe = true;
+        const wrapper = shallow(<User user={user} challenging={true} />);
+        expect(wrapper.find("h1").text()).toEqual(" " + user.name + " (You) ");
     });
 });

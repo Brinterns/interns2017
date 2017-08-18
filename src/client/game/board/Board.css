@@ -1,6 +1,8 @@
 :root {
     --squareMargin: calc(0.5 * (1vw + 1vh - 1vmin)) calc(0.275 * (1vw + 1vh - 1vmin)) calc(0.5 * (1vw + 1vh - 1vmin)) calc(0.275 * (1vw + 1vh - 1vmin));
     --squareSide: calc(6 * (1vw + 1vh - 1vmin));
+    --squareSideMini: calc(3 * (1vw + 1vh - 1vmin));
+    --squareMarginMini:  calc(0.25 * (1vw + 1vh - 1vmin)) calc(0.1375 * (1vw + 1vh - 1vmin)) calc(0.25 * (1vw + 1vh - 1vmin)) calc(0.1375 * (1vw + 1vh - 1vmin));
 }
 
 
@@ -29,10 +31,24 @@
     border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
 }
 
+.squareMiniMap {
+    margin: var(--squareMarginMini);
+    height: var(--squareSideMini);
+    width: var(--squareSideMini);
+    border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
+}
+
 .rosetta {
     background-color: rgba(232, 18, 18, 0.6) !important;
     height: var(--squareSide);
     width: var(--squareSide);
+    border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
+}
+
+.rosettaMiniMap {
+    background-color: rgba(232, 18, 18, 0.6) !important;
+    height: var(--squareSideMini);
+    width: var(--squareSideMini);
     border-radius: calc(0.5 * (1vw + 1vh - 1vmin));
 }
 
@@ -135,17 +151,6 @@
     cursor: pointer;
 }
 
-
-.oppPiece {
-    border-radius: 50%;
-    height: calc(0.9 * var(--squareSide));
-    width: calc(0.9 * var(--squareSide));
-    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
-    margin-right: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
-    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
-    display: inline-block;
-}
-
 .squarePiece {
     position: absolute;
     border-radius: 50%;
@@ -189,15 +194,6 @@
     }
 }
 
-.squareOpponentPiece {
-    position: absolute;
-    border-radius: 50%;
-    height: calc(0.9 * var(--squareSide));
-    width: calc(0.9 * var(--squareSide));
-    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
-    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
-}
-
 .moveHighlighter {
     position: absolute;
     background-color: none;
@@ -216,8 +212,19 @@
     position: relative !important;
     transform: translate(0%, 100%) !important;
     top: 0% !important;
-    right: 0% !important;
+    right: -40% !important;
     color: white !important;
-    text-shadow: 0 0 calc(0.5 * (1vw + 1vh - 1vmin)) black;
+    text-shadow: 0 0 calc(0.5 * (1vw + 1vh - 1vmin)) black !important;
     font-size: calc(3px + 2.5 * (1vw + 1vh - 1vmin)) !important;
+}
+
+.displayNumberMiniMap {
+    margin: 0 !important;
+    position: relative !important;
+    transform: translate(0%, 100%) !important;
+    top: 0% !important;
+    right: -40% !important;
+    color: white !important;
+    text-shadow: 0 0 calc(0.25 * (1vw + 1vh - 1vmin)) black !important;
+    font-size: calc(1.5px + 1.25 * (1vw + 1vh - 1vmin)) !important;
 }

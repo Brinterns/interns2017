@@ -12,6 +12,7 @@ import trophy from '../images/icons/trophy.png';
 import trophygold from '../images/icons/trophygold.png';
 import pencil from '../images/icons/pencil.png';
 import DrawCanvas from '../components/DrawCanvas';
+import ActiveGames from './activeGames/ActiveGames';
 
 
 import { RunCloakConfig } from '../services/cloak-service';
@@ -30,7 +31,6 @@ export class Lobby extends Component {
         this.challengeUser = this.challengeUser.bind(this);
         this.cancelChallenge = this.cancelChallenge.bind(this);
         this.challengeRespond = this.challengeRespond.bind(this);
-        this.observeGame = this.observeGame.bind(this);
         this.handleToggleRules = this.handleToggleRules.bind(this);
         this.handleAvatarClick = this.handleAvatarClick.bind(this);
         this.upload = this.upload.bind(this);
@@ -56,7 +56,7 @@ export class Lobby extends Component {
     reconnectWait() {
         setTimeout(() => {
             if (cloak.connected()) {
-                cloak.message('reconnectuser', localStorage.getItem('userId'));
+                cloak.message('reconnectuser', [localStorage.getItem('userId'), localStorage.getItem('dbId')]);
             } else {
                 this.reconnectWait();
             }
@@ -73,8 +73,8 @@ export class Lobby extends Component {
         }
     }
 
-    challengeUser(id) {
-        cloak.message('challengeplayer', id);
+    challengeUser(id, numberOfPieces) {
+        cloak.message('challengeplayer', [id, numberOfPieces]);
     }
 
     cancelChallenge(id) {
@@ -87,10 +87,6 @@ export class Lobby extends Component {
         } else {
             cloak.message('declinechallenge', id);
         }
-    }
-
-    observeGame(gameId) {
-        cloak.message('observegame', gameId);
     }
 
     handleToggleRules() {
@@ -117,62 +113,79 @@ export class Lobby extends Component {
     }
 
     render() {
-        let otherUsers = [];
+        let users = [];
         let name = '';
         let myCanvas = null;
         let userAvatar = null;
         let rank = '';
 
         var sortedList = Object.assign([], this.props.listOfUsers);
+        var sorted = false;
         if (this.state.sortRank) {
+            sorted = true;
             sortedList.sort(function(a, b) {
                 return a.rank - b.rank;
             });
         }
-        sortedList.forEach((user) => {
-            if (this.props.id !== user.id) {
-                if (!(this.state.filterOnline && !user.online)) {
-                    otherUsers.push(user);
+        sortedList.forEach(user => {
+            if (user.id === this.props.id) {
+                name = user.name;
+                userAvatar = user.avatar;
+                rank = user.rank;
+                user.isMe = true;
+                if (user.avatar) {
+                    myCanvas = document.getElementById('myavatar');
+                    if (myCanvas) {
+                        setTimeout (() => {
+                            var ctx = myCanvas.getContext('2d');
+                            ctx.clearRect(0,0,myCanvas.width, myCanvas.height);
+                            var img = new Image;
+                            img.onload = function() {
+                                ctx.drawImage(img, 0, 0, 300, 150);
+                            };
+                            img.src = user.avatar;
+                        }, 50);
+                    }
                 }
-                return;
+            } else {
+                user.isMe = false;
             }
-            name = user.name;
-            userAvatar = user.avatar;
-            rank = user.rank;
-            if (user.avatar) {
-                myCanvas = document.getElementById('myavatar');
-                if (myCanvas) {
-                    setTimeout (() => {
-                        var ctx = myCanvas.getContext('2d');
-                        ctx.clearRect(0,0,myCanvas.width, myCanvas.height);
-                        var img = new Image;
-                        img.onload = function() {
-                            ctx.drawImage(img, 0, 0, 300, 150);
-                        };
-                        img.src = user.avatar;
-                    },50);
-                }
+            if (!(this.state.filterOnline && !user.online) && (!user.isMe || sorted)) {
+                users.push(user);
             }
         });
 
         const userDisplayList = (
-            otherUsers.map((user, i) => {
-                const challenging = (this.props.challenging.indexOf(user.id) >= 0);
-                const challenged = (this.props.challengers.indexOf(user.id) >= 0);
-                return <User index={i} key={i} user={user} challenging={challenging} challenged={challenged} challengeUser={this.challengeUser} cancelChallenge={this.cancelChallenge} challengeRespond={this.challengeRespond} />;
-            })
-        );
-        const gamesDisplayList = (
-            this.props.listOfActiveGames.map((game, i) => {
-                return (
-                    <div key={i} className={lobbyStyles.game}>
-                        <h1> {emojify(game.name)} </h1>
-                        {game.winner ? <h2> {game.winner} Won </h2> : <button onClick={() => {this.observeGame(game.id)}}> Spectate </button>}
-                    </div>
-                );
+            users.map((user, i) => {
+                var challenging = null;
+                var challenger = null;
+                const challengingTemp = this.props.challenging.filter(function(challengingInfo) {
+                    return challengingInfo.id === user.id;
+                });
+                if (challengingTemp) {
+                    challenging = challengingTemp[0];
+                }
+                const challengerTemp = this.props.challengers.filter(function(challengerInfo) {
+                    return challengerInfo.id === user.id;
+                });
+                if (challengerTemp) {
+                    challenger = challengerTemp[0];
+                }
+                return <User index={i} key={i} user={user} challenging={challenging} challenger={challenger} challengeUser={this.challengeUser} cancelChallenge={this.cancelChallenge} challengeRespond={this.challengeRespond} />;
             })
         );
 
+        const usersPanel =
+            <div>
+                <div className={lobbyStyles.tabPanelSort}>
+                    <label  onClick={() => {this.setState({sortRank: !this.state.sortRank})}}>
+                        <img src={this.state.sortRank ? trophygold : trophy} />
+                        &nbsp;Sort
+                    </label>
+                </div>
+                    <div className={lobbyStyles.tabPanelFilter}><span><label><input defaultChecked={false} type="checkbox" onClick={this.filterOnline}/> Online only</label> </span></div>
+                    {userDisplayList}
+            </div>;
         const normalDisplay =
             <div className={lobbyStyles.container}>
                 <div className={lobbyStyles.tabList}>
@@ -186,17 +199,10 @@ export class Lobby extends Component {
                     </div>
                 </div>
                 <div className={lobbyStyles.tabPanel}>
-                    <div className={lobbyStyles.tabPanelSort}>
-                        <label  onClick={() => {this.setState({sortRank: !this.state.sortRank})}}>
-                            <img src={this.state.sortRank ? trophygold : trophy} />
-                            &nbsp;Sort
-                        </label>
-                    </div>
-                    <div className={lobbyStyles.tabPanelFilter}><span><label><input defaultChecked={false} type="checkbox" onClick={this.filterOnline}/> Online only</label> </span></div>
-                    {userDisplayList}
+                    {usersPanel}
                 </div>
                 <div className={lobbyStyles.gameTabPanel}>
-                    {gamesDisplayList}
+                    <ActiveGames tabbed={false} />
                 </div>
             </div>;
         const tabbedDisplay =
@@ -212,17 +218,10 @@ export class Lobby extends Component {
                     </Tab>
                 </TabList>
                 <TabPanel>
-                    <div className={lobbyStyles.tabPanelSort}>
-                        <label  onClick={() => {this.setState({sortRank: !this.state.sortRank})}}>
-                            <img src={this.state.sortRank ? trophygold : trophy} />
-                            &nbsp;Sort
-                        </label>
-                    </div>
-                    <div className={lobbyStyles.tabPanelFilter}><span><label><input defaultChecked={false} type="checkbox" onClick={this.filterOnline}/> Online only</label> </span></div>
-                    {userDisplayList}
+                    {usersPanel}
                 </TabPanel>
                 <TabPanel className={lobbyStyles.gameTabPanel}>
-                    {gamesDisplayList}
+                    <ActiveGames tabbed={true} />
                 </TabPanel>
             </Tabs>;
 
@@ -258,7 +257,6 @@ const mapStateToProps = state => ({
     listOfUsers: state.lobby.listOfUsers,
     challenging: state.lobby.challenging,
     challengers: state.lobby.challengers,
-    listOfActiveGames: state.lobby.listOfActiveGames,
     messages: state.lobby.messages,
     winLossRecord: state.lobby.winLossRecord,
     elorank: state.lobby.elorank

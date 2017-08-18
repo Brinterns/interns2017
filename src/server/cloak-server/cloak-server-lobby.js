@@ -25,9 +25,9 @@ function clearDisconnected(userList) {
     }
     let newList = [];
     for (var i = 0; i < userList.length; ++i) {
-        const opponent = cloak.getUser(userList[i]);
-        if (opponent && opponent.connected()) {
-            newList.push(opponent.id);
+        const opponent = cloak.getUser(userList[i].id);
+        if (opponent && (opponent.data.refreshing || opponent.connected())) {
+            newList.push({id: userList[i].id, numberOfPieces: userList[i].numberOfPieces});
         }
     }
     return newList;
@@ -38,81 +38,86 @@ function getLobbyUserInfo() {
         let listOfUserInfo = [];
         let listOfDbIds = [];
         cloak.getUsers().forEach(function(user, index, cloakUsers) {
-            if (!user.connected()) {
-                return;
-            }
-            const room = user.getRoom();
-            if (room) {
-                listOfDbIds.push(user.data.dbId);
-                if (!user.data.winLossRecord) {
-                    user.data.winLossRecord = {wins: 0, loses: 0};
-                    user.data.elorank = 1200;
-                }
-                var userJson = {
-                    id: user.id,
-                    name: user.name,
-                    inChallenge: user.data.challenger || user.data.challenging,
-                    winLossRecord: user.data.winLossRecord,
-                    elorank: user.data.elorank,
-                    avatar: user.data.avatar,
-                    inLobby: room.isLobby,
-                    online: true,
-                    rank: null,
-                    spectating: false
-                };
-                if (room.isLobby) {
-                    user.data.challenging = clearDisconnected(user.data.challenging);
-                    user.data.challengers = clearDisconnected(user.data.challengers);
-                    userJson.inChallenge = user.data.challenger || user.data.challenging;
-                    user.data.isPlayer = false;
-                    listOfUserInfo.unshift(userJson);
-                } else {
-                    if (!user.data.isPlayer) {
-                        userJson.spectating = true;
-                    }
-                    listOfUserInfo.push(userJson);
-                }
-            }
+            cloakUserInfo(user, listOfUserInfo, listOfDbIds);
             if (index === (cloakUsers.length - 1)) {
                 resolve(new Promise(function(resolve, reject) {
-                    const allUsers = db.getAllUsers();
-                    allUsers.count().then(function(size) {
-                        let count = 0;
-                        allUsers.forEach(function(dbUser) {
-                            if (!listOfDbIds.includes(dbUser.cloakid)) {
-                                var dbUserJson = {
-                                    id: null,
-                                    name: dbUser.name,
-                                    inChallenge: false,
-                                    winLossRecord: {wins: dbUser.wins, loses: dbUser.loses},
-                                    elorank: dbUser.elorank,
-                                    avatar: dbUser.avatar,
-                                    inLobby: false,
-                                    online: false,
-                                    rank: null
-                                }
-                                listOfUserInfo.push(dbUserJson);
-                            }
-                            if (count === (size - 1)) {
-                                var sortedList = Object.assign([], listOfUserInfo);
-                                sortedList.sort(function(a, b) {
-                                    return b.elorank - a.elorank;
-                                });
-                                const ranks = sortedList.map(function(item) {
-                                    return item.elorank;
-                                });
-                                for (var i = 0; i < listOfUserInfo.length; i++) {
-                                    listOfUserInfo[i].rank = ranks.indexOf(listOfUserInfo[i].elorank) + 1;
-                                }
-                                resolve(JSON.stringify(listOfUserInfo));
-                            }
-                            count++;
-                        });
-                    });
+                    dbUserInfo(resolve, listOfUserInfo, listOfDbIds);
                 }));
             }
         });
         updateLobbyActiveGames();
+    });
+}
+
+function cloakUserInfo(user, listOfUserInfo, listOfDbIds) {
+    const room = user.getRoom();
+    if (room) {
+        listOfDbIds.push(user.data.dbId);
+        if (!user.data.winLossRecord) {
+            user.data.winLossRecord = {wins: 0, loses: 0};
+            user.data.elorank = 1200;
+        }
+        var userJson = {
+            id: user.id,
+            name: user.name,
+            inChallenge: user.data.challenger || user.data.challenging,
+            winLossRecord: user.data.winLossRecord,
+            elorank: user.data.elorank,
+            avatar: user.data.avatar,
+            inLobby: room.isLobby,
+            online: true,
+            rank: null,
+            spectating: false
+        };
+        if (user.connected() && room.isLobby) {
+            user.data.challenging = clearDisconnected(user.data.challenging);
+            user.data.challengers = clearDisconnected(user.data.challengers);
+            userJson.inChallenge = user.data.challenger || user.data.challenging;
+            user.data.isPlayer = false;
+            listOfUserInfo.unshift(userJson);
+        } else if (user.connected()) {
+            if (!user.data.isPlayer) {
+                userJson.spectating = true;
+            }
+            listOfUserInfo.push(userJson);
+        }
+    }
+}
+
+function dbUserInfo(resolve, listOfUserInfo, listOfDbIds) {
+    const allUsers = db.getAllUsers();
+    allUsers.count().then(function(size) {
+        let count = 0;
+        allUsers.forEach(function(dbUser) {
+            if (!listOfDbIds.includes(dbUser.cloakid)) {
+                var dbUserJson = {
+                    id: null,
+                    name: dbUser.name,
+                    inChallenge: false,
+                    winLossRecord: {wins: dbUser.wins, loses: dbUser.loses},
+                    elorank: dbUser.elorank,
+                    avatar: dbUser.avatar,
+                    inLobby: false,
+                    online: false,
+                    rank: null
+                }
+                listOfUserInfo.push(dbUserJson);
+            }
+            if (count === (size - 1)) {
+                var sortedList = Object.assign([], listOfUserInfo);
+                sortedList.sort(function(a, b) {
+                    return b.elorank - a.elorank;
+                });
+                const ranks = sortedList.map(function(item) {
+                    return item.elorank;
+                });
+                for (var i = 0; i < listOfUserInfo.length; i++) {
+                    listOfUserInfo[i].rank = ranks.indexOf(listOfUserInfo[i].elorank) + 1;
+                }
+                resolve(JSON.stringify(listOfUserInfo));
+            }
+            count++;
+        });
     });
 }
 

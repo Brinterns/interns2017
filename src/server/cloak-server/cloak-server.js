@@ -35,8 +35,11 @@ module.exports = function(expressServer) {
             getroominfo: function(msg, user) {
                 gameRoomFunctions.getRoomInfo(user);
             },
-            challengeplayer: function(id, user) {
-                challengeFunctions.challengePlayer(id, user);
+            getgameinfo: function(roomId, user) {
+                gameRoomFunctions.getGameInfo(roomId, user);
+            },
+            challengeplayer: function(options, user) {
+                challengeFunctions.challengePlayer(options[0], options[1], user);
             },
             cancelchallenge: function(id, user) {
                 challengeFunctions.cancelChallenge(id, user);
@@ -50,8 +53,8 @@ module.exports = function(expressServer) {
             observegame: function(gameId, user) {
                 lobbyFunctions.observeGame(gameId, user);
             },
-            rechallenge: function(_, user) {
-                challengeFunctions.reChallenge(user);
+            rechallenge: function(numberOfPieces, user) {
+                challengeFunctions.reChallenge(user, numberOfPieces);
             },
             rechallengeresponse: function(accept, user) {
                 challengeFunctions.reChallengeResponse(accept, user);
@@ -65,8 +68,8 @@ module.exports = function(expressServer) {
             win: function(winBool, user) {
                 gameRoomFunctions.win(winBool, user);
             },
-            reconnectuser: function(id, user) {
-                sharedFunctions.reconnectUser(id, user);
+            reconnectuser: function(ids, user) {
+                sharedFunctions.reconnectUser(ids, user);
             },
             sendmessage: function(message, user) {
                 sharedFunctions.sendMessage(message, user);
@@ -76,6 +79,10 @@ module.exports = function(expressServer) {
                 const rollNumber = gamePlayFunctions.rollDice(user);
                 const rollSequence = ("1".repeat(rollNumber) + "0".repeat(4-rollNumber)).split('').sort(function(){return 0.5-Math.random()});
                 user.message("rollsequence", rollSequence);
+                sharedFunctions.getOpponent(user).message("opponentsequence", rollSequence);
+                sharedFunctions.getSpectators(user.getRoom()).forEach(function(spectator) {
+                    spectator.message('opponentsequence', rollSequence);
+                });
                 setTimeout(() => {
                     gamePlayFunctions.messageRoll(rollNumber, user);
                     var opponent = sharedFunctions.getOpponent(user);
