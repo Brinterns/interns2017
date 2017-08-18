@@ -136,7 +136,7 @@ function clearChallenges(user, user2, numberOfPieces) {
     } else if (numberOfPieces > 9) {
         numberOfPieces = 9;
     }
-    return numberOfPieces;
+    return Math.ceil(numberOfPieces);
 }
 
 function userJoinRoom(user, room) {
