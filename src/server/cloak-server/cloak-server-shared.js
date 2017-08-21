@@ -178,7 +178,7 @@ function reconnectGame(user, user2, room) {
     user.message('updatestats', JSON.stringify(room.data.gameinfo));
     user.message('newpowerup', user.data.powerUp);
     user.message('updategamemessages', JSON.stringify(room.data.messages));
-    user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces]);
+    user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newPowerUps]);
 }
 
 

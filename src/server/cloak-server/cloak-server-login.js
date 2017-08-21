@@ -7,8 +7,8 @@ var lobbyFunctions = require('./cloak-server-lobby');
 function setUsername(name, user) {
     user.name = (name === "") ? getUsername(shared.getRandomIntInclusive(0,140)) : name;
     //ensure length of name being set isn't greater than the limit
-    if (user.name.length > 15) {
-        user.name.slice(0, 14);
+    if (user.name.length > 14) {
+        user.name = user.name.slice(0, 14);
     }
 
     db.find(user.data.dbId).then(function(resp) {

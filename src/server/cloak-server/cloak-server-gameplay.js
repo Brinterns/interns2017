@@ -43,7 +43,9 @@ function endTurn(user) {
     user.data.rolledDice = false;
     const room = user.getRoom();
     const opponent = shared.getOpponent(user);
-    randomPowerUp(room, user, opponent);
+    if (room.data.enablePowerUps) {
+        randomPowerUp(room, user, opponent);
+    }
     room.data.currentPlayer = opponent.id;
     const numPiecesEndRange = user.data.piecePositions.filter((position) => {
         return (position >= 11 && position <= 14);
