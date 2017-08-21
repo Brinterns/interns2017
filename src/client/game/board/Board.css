@@ -94,7 +94,7 @@
 
 .powerUpDiv {
     position: absolute;
-    margin-top : calc(15 * (1vw + 1vh - 1vmin));
+    top: calc(30% - calc(2 * (1vw + 1vh - 1vmin)));
     left: 5%;
     font-size: calc(1.5 * (1vw + 1vh - 1vmin));
     border: solid 0.12em #FAD000;
