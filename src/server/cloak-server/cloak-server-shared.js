@@ -187,6 +187,9 @@ function reconnectGame(user, user2, room) {
     user.message('updatestats', JSON.stringify(room.data.gameinfo));
     user.message('updategamemessages', JSON.stringify(room.data.messages));
     user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newPowerUps]);
+    if (user.id === room.data.currentPlayer) {
+        user.message('updatemoveid', room.data.moveId);
+    }
 }
 
 
