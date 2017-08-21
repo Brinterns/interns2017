@@ -8,6 +8,8 @@ import ChatBox from '../Chat/ChatBox';
 import Stats from './statistics/Stats';
 import {emojify} from 'react-emojione';
 import RollFlash from './board/Roll/RollFlash';
+import powerup from '../images/powerups/pushinactive.png';
+import powerupactive from '../images/powerups/push.png';
 
 import { RunCloakConfig } from '../services/cloak-service';
 
@@ -20,12 +22,14 @@ export class Game extends Component {
         super(props);
         this.state = {
             numberOfPieces: 7,
+            powerUps: false,
             rules: false
         };
         this.handleToggleRules = this.handleToggleRules.bind(this);
         this.onWin = this.onWin.bind(this);
         this.onClickForfeit = this.onClickForfeit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.togglePowerUps = this.togglePowerUps.bind(this);
         this.reChallenge = this.reChallenge.bind(this);
         this.returnToLobby = this.returnToLobby.bind(this);
         {this.getGameInfo()};
@@ -63,8 +67,14 @@ export class Game extends Component {
         }
     }
 
+    togglePowerUps() {
+        this.setState({
+            powerUps: !this.state.powerUps
+        });
+    }
+
     reChallenge() {
-        cloak.message('rechallenge', this.state.numberOfPieces);
+        cloak.message('rechallenge', [this.state.numberOfPieces, this.state.powerUps]);
     }
 
     reChallengeResponse(accept) {
@@ -108,6 +118,7 @@ export class Game extends Component {
             numPiecesButtons =
                 <div className={gameStyles.numberOfPieces}>
                     <label title="No. of pieces" className={gameStyles.numberOfPiecesInactive}> <p>{this.props.newNumberOfPieces}</p> </label>
+                    {this.props.newPowerUps ? <img title="Power Ups Enabled" src={powerupactive} /> : <img title="Power Ups Disabled" src={powerup} />}
                 </div>;
         } else if (this.props.challengerId) {
             challengeButton =
@@ -115,17 +126,21 @@ export class Game extends Component {
                     <button className={gameStyles.acceptButton} onClick={() => {this.reChallengeResponse(true)}}> &#10004; </button>
                     <button className={gameStyles.declineButton} onClick={() => {this.reChallengeResponse(false)}}> &#x2716; </button>
                 </div>;
-                numPiecesButtons =
-                    <div className={gameStyles.numberOfPieces}>
-                        <label title="No. of pieces" className={gameStyles.numberOfPiecesInactive}> <p>{this.props.newNumberOfPieces}</p> </label>
-                    </div>;
+            numPiecesButtons =
+                <div className={gameStyles.numberOfPieces}>
+                    <label title="No. of pieces" className={gameStyles.numberOfPiecesInactive}> <p>{this.props.newNumberOfPieces}</p> </label>
+                    {this.props.newPowerUps ? <img title="Power Ups Enabled" src={powerupactive} /> : <img title="Power Ups Disabled" src={powerup} />}
+                </div>;
         } else {
             challengeButton = <button onClick={this.reChallenge}> Re-Challenge </button>;
             numPiecesButtons = 
                 <div className={gameStyles.numberOfPieces}>
-                    <button id="minus" title="Decrease no. of pieces" onClick={this.handleChange}> - </button>
                     <label title="No. of pieces"> <p>{this.state.numberOfPieces}</p> </label>
-                    <button id="plus" title="Increase no. of pieces" onClick={this.handleChange}> + </button>
+                    <div>
+                        <button id="plus" title="Increase no. of pieces" onClick={this.handleChange}> + </button>
+                        <button id="minus" title="Decrease no. of pieces" onClick={this.handleChange}> - </button>
+                    </div>
+                    {this.state.powerUps ? <img title="Disable Power Ups" className={gameStyles.powerUpClickable} src={powerupactive} onClick={this.togglePowerUps} /> : <img title="Enable Power Ups" className={gameStyles.powerUpClickable} src={powerup} onClick={this.togglePowerUps} />}
                 </div>;
         }
 
@@ -216,6 +231,7 @@ const mapStateToProps = state => ({
     opponentDisconnect: state.game.opponentDisconnect,
     challengerId: state.game.challengerId,
     newNumberOfPieces: state.game.newNumberOfPieces,
+    newPowerUps: state.game.newPowerUps,
     //Game stats
     gameStats: state.game.gameStats
 });

@@ -57,8 +57,8 @@ describe('<User />', () => {
 
     it('Shows the plus and minus buttons for an in lobby user', () => {
         const wrapper = shallow(<User user={user} />);
-        expect(wrapper.find("button").at(1).text()).toEqual(" - ");
-        expect(wrapper.find("button").last().text()).toEqual(" + ");
+        expect(wrapper.find("button").at(1).text()).toEqual(" + ");
+        expect(wrapper.find("button").last().text()).toEqual(" - ");
     });
 
     it('Shows the right default number of pieces', () => {
