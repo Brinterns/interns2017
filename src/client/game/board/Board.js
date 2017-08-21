@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import boardStyles from './Board.css';
 import Piece from './Piece';
+import PowerUp from './powerup/PowerUp';
 import RollFlash from './Roll/RollFlash';
 import Roll from './Roll/Roll';
 import OpponentPiece from './OpponentPiece';
@@ -114,13 +115,6 @@ export class Board extends Component {
         }
         const rollSequenceNotClickable = (<RollFlash sequence={this.props.rollSequence} rollNumber={this.props.rollNumber} className={boardStyles.rollButton} />);
         const rollSequenceClickable = (<div onClick={this.onClick} > <Roll rollNumber={this.props.rollNumber} isPlayerTurn={this.props.isPlayerTurn}/></div>);
-        var powerUpStyle;
-        if (this.props.powerUp) {
-            var picture = require('../../images/powerups/'+ this.props.powerUp +'.png');
-            powerUpStyle = {
-                background: 'url(' + picture + ')'
-            }
-        }
         return (
             <div>
                 <div className={boardStyles.boardMainDiv}>
@@ -129,7 +123,7 @@ export class Board extends Component {
                 <div className={boardStyles.rollButton}>
                     {((this.props.rollNumber !== 'Roll' || this.props.rollSequence) && this.props.isPlayerTurn) ? rollSequenceNotClickable : rollSequenceClickable}
                 </div>
-                <div className={boardStyles.powerUpDiv} style={powerUpStyle} />
+                <PowerUp powerUp={this.props.powerUp} />
                 <div className={boardStyles.oppPieceHolder}>
                     {oppPieceHolder}
                 </div>
