@@ -29,8 +29,14 @@ function getRoomInfo(user) {
     const room = user.getRoom();
     if (room && !room.isLobby) {
         if (!room.data.currentPlayer) {
-            var startingPlayer = room.getMembers()[shared.getRandomIntInclusive(0, 1)]
+            var startingPlayer = room.getMembers()[shared.getRandomIntInclusive(0, 1)];
             room.data.currentPlayer = startingPlayer.id;
+            room.data.moveId = shared.generateMoveId();
+            if (user.id === room.data.currentPlayer) {
+                user.message('updatemoveid', room.data.moveId);
+            } else {
+                shared.getOpponent(user).message('updatemoveid', room.data.moveId);
+            }
             var d = new Date();
             startingPlayer.data.rollStartTime = d.getTime();
         }
