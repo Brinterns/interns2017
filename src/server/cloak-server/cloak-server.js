@@ -93,8 +93,10 @@ module.exports = function(expressServer) {
                     }
                 }, 1750);
             },
-            movepiece: function(position, user) {
-                gamePlayFunctions.movePiece(position, user);
+            movepiece: function(options, user) {
+                setTimeout(() => {
+                    gamePlayFunctions.movePiece(options[0], options[1], user);
+                }, 1000);
             }
         },
         lobby: {

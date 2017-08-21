@@ -1,5 +1,6 @@
 import {
     UPDATE_USER_ID,
+    UPDATE_MOVE_ID,
     UPDATE_SPECTATING_ID,
     UPDATE_MESSAGES,
     UPDATE_LIST_OF_PLAYERS,
@@ -36,6 +37,7 @@ const initialState = {
     messages: [],
     //Identity states
     id: null,
+    moveId: null,
     spectatingId: null,
     currentPlayer: null,
     listOfPlayers: [],
@@ -90,6 +92,11 @@ const game = (state = initialState, action) => {
         case UPDATE_USER_ID: {
             return updateState(state, {
                 id: action.payload
+            });
+        }
+        case UPDATE_MOVE_ID: {
+            return updateState(state, {
+                moveId: action.payload
             });
         }
         case UPDATE_CURRENT_PLAYER: {
