@@ -94,9 +94,7 @@ module.exports = function(expressServer) {
                 }, 1750);
             },
             movepiece: function(options, user) {
-                setTimeout(() => {
-                    gamePlayFunctions.movePiece(options[0], options[1], user);
-                }, 1000);
+                gamePlayFunctions.movePiece(options[0], options[1], user);
             }
         },
         lobby: {
