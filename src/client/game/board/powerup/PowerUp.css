@@ -14,6 +14,7 @@
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
     background-size: calc(5.4 * (1vw + 1vh - 1vmin)) !important;
+    background-repeat: no-repeat;
     opacity: 1.0;
     cursor: pointer;
 }
@@ -23,5 +24,6 @@
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
     background-size: calc(5.4 * (1vw + 1vh - 1vmin)) !important;
+    background-repeat: no-repeat;
     opacity: 0.6;
 }

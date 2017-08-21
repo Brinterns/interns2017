@@ -227,7 +227,7 @@ function randomPowerUp(room, user, opponent) {
     var freeSquares = [];
     for (var i = 4; i <= 11; i++) {
         //if there are no powerups on a space and no player pieces then add the square index as free
-        if (!room.data.powerUps.filter((powerUp) => {return playerPath[i] === powerUp.index}).length){
+        if (!room.data.powerUps.includes(playerPath[i])){
             if (!user.data.squares[playerPath[i]] && !opponent.data.squares[playerPath[i]]) {
                 freeSquares.push(playerPath[i]);
             }
@@ -236,9 +236,12 @@ function randomPowerUp(room, user, opponent) {
     if (freeSquares.length === 0) {
         return;
     }
+    console.log(freeSquares);
     //random which square index will have the powerup from all the free squares
     //random which powerup to place on the square
     const powerUpIndex = freeSquares[shared.getRandomIntInclusive(0,freeSquares.length-1)];
+
+
     room.data.powerUps.push(powerUpIndex);
     room.messageMembers('updatepowerups', JSON.stringify(room.data.powerUps));
 }
