@@ -39,7 +39,7 @@ module.exports = function(expressServer) {
                 gameRoomFunctions.getGameInfo(roomId, user);
             },
             challengeplayer: function(options, user) {
-                challengeFunctions.challengePlayer(options[0], options[1], user);
+                challengeFunctions.challengePlayer(options[0], options[1], options[2], user);
             },
             cancelchallenge: function(id, user) {
                 challengeFunctions.cancelChallenge(id, user);
@@ -53,8 +53,8 @@ module.exports = function(expressServer) {
             observegame: function(gameId, user) {
                 lobbyFunctions.observeGame(gameId, user);
             },
-            rechallenge: function(numberOfPieces, user) {
-                challengeFunctions.reChallenge(user, numberOfPieces);
+            rechallenge: function(options, user) {
+                challengeFunctions.reChallenge(user, options[0], options[1]);
             },
             rechallengeresponse: function(accept, user) {
                 challengeFunctions.reChallengeResponse(accept, user);

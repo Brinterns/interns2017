@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
-import userStyles from '../Lobby.css';
 import {emojify} from 'react-emojione';
+import userStyles from '../Lobby.css';
+import powerup from '../../images/powerups/pushinactive.png';
+import powerupactive from '../../images/powerups/push.png';
 
 export default class User extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            numberOfPieces: 7
+            numberOfPieces: 7,
+            powerUps: false
         }
         this.handleChange = this.handleChange.bind(this);
+        this.togglePowerUps = this.togglePowerUps.bind(this);
     }
 
     handleChange(event) {
@@ -22,6 +26,12 @@ export default class User extends Component {
                 numberOfPieces: this.state.numberOfPieces + 1
             });
         }
+    }
+
+    togglePowerUps() {
+        this.setState({
+            powerUps: !this.state.powerUps
+        });
     }
 
     render() {
@@ -49,6 +59,7 @@ export default class User extends Component {
                     <button onClick={() => {this.props.cancelChallenge(this.props.user.id)}}> Cancel </button>
                     <div className={userStyles.numberOfPieces}>
                         <label title="No. of pieces" className={userStyles.numberOfPiecesInactive}> <p>{this.props.challenging.numberOfPieces}</p> </label>
+                        {this.props.challenging.powerUps ? <img title="Power Ups Enabled" src={powerupactive} /> : <img title="Power Ups Disabled" src={powerup} />}
                     </div>
                 </div>;
         } else if (this.props.challenger) {
@@ -60,16 +71,20 @@ export default class User extends Component {
                     </div>
                     <div className={userStyles.numberOfPieces}>
                         <label title="No. of pieces" className={userStyles.numberOfPiecesInactive}> <p>{this.props.challenger.numberOfPieces}</p> </label>
+                        {this.props.challenger.powerUps ? <img title="Power Ups Enabled" src={powerupactive} /> : <img title="Power Ups Disabled" src={powerup} />}
                     </div>
                 </div>;
         } else {
             challengeButtons =
                 <div className={userStyles.buttonDiv}>
-                    <button onClick={() => {this.props.challengeUser(this.props.user.id, this.state.numberOfPieces)}}> Challenge </button>
+                    <button onClick={() => {this.props.challengeUser(this.props.user.id, this.state.numberOfPieces, this.state.powerUps)}}> Challenge </button>
                     <div className={userStyles.numberOfPieces}>
-                        <button id="minus" title="Decrease no. of pieces" className={userStyles.numberOfPiecesMinus} onClick={this.handleChange}> - </button>
                         <label title="No. of pieces"> <p>{this.state.numberOfPieces}</p> </label>
-                        <button id="plus" title="Increase no. of pieces" onClick={this.handleChange}> + </button>
+                        <div>
+                            <button id="plus" title="Increase no. of pieces" onClick={this.handleChange}> + </button>
+                            <button id="minus" title="Decrease no. of pieces" className={userStyles.numberOfPiecesMinus} onClick={this.handleChange}> - </button>
+                        </div>
+                        {this.state.powerUps ? <img title="Disable Power Ups" className={userStyles.powerUpClickable} src={powerupactive} onClick={this.togglePowerUps} /> : <img title="Enable Power Ups" className={userStyles.powerUpClickable} src={powerup} onClick={this.togglePowerUps} />}
                     </div>
                 </div>;
         }
