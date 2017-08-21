@@ -35,7 +35,8 @@ import {
     updateGameStats,
     updateSpectators,
     updatePowerUps,
-    newPowerUp
+    newPowerUp,
+    enablePowerUps
 } from '../game/Game-actions';
 
 import { dispatch } from '../store';
@@ -181,7 +182,11 @@ export function RunCloakConfig() {
             },
             newpowerup: (powerUp) => {
                 dispatch(newPowerUp(powerUp));
-            }
+            },
+            enablepowerups: (enabled) => {
+                console.log("enable power ups = " + enabled);
+                dispatch(enablePowerUps(enabled));
+            },
         }
     });
 }

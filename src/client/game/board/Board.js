@@ -123,7 +123,7 @@ export class Board extends Component {
                 <div className={boardStyles.rollButton}>
                     {((this.props.rollNumber !== 'Roll' || this.props.rollSequence) && this.props.isPlayerTurn) ? rollSequenceNotClickable : rollSequenceClickable}
                 </div>
-                <PowerUp powerUp={this.props.powerUp} />
+                {this.props.enablePowerUps ? <PowerUp powerUp={this.props.powerUp} /> : null}
                 <div className={boardStyles.oppPieceHolder}>
                     {oppPieceHolder}
                 </div>
@@ -150,7 +150,8 @@ const mapStateToProps = state => ({
     numOppPiecesFinished: state.game.numOppPiecesFinished,
     numPiecesFinished: state.game.numPiecesFinished,
     powerUps: state.game.powerUps,
-    powerUp: state.game.powerUp
+    powerUp: state.game.powerUp,
+    enablePowerUps: state.game.enablePowerUps
 });
 
 export default connect(

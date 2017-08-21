@@ -97,6 +97,8 @@ function challengeRespond(user, user2, accept, numberOfPieces=7, enablePowerUps=
         userJoinRoom(user2, createdRoom);
         createdRoom.data.spectatedId = user.id;
         createdRoom.messageMembers('joingame', createdRoom.id);
+        console.log("enable power ups = " + enablePowerUps);
+        createdRoom.messageMembers('enablepowerups', createdRoom.data.enablePowerUps);
         setTimeout(function() {
             lobbyFunctions.updateLobbyActiveGames();
             lobbyFunctions.updateLobbyUsers();
