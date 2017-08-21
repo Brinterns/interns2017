@@ -11,12 +11,15 @@ export default class PowerUp extends Component {
         if (this.props.powerUp) {
             var picture = require('../../../images/powerups/'+ this.props.powerUp +'.png');
             powerUpStyle = {
-                background: 'url(' + picture + ')'
+                background: 'url(' + picture + ')',
+                backgroundRepeat: 'no-repeat'
             }
         }
 
         return (
-            <div className={powerUpStyles.powerUpDiv} style={powerUpStyle} />
+            <div className={powerUpStyles.powerUpDiv}>
+                <div className={this.props.useable ? powerUpStyles.powerClickable : powerUpStyles.powerUnclickable} style={powerUpStyle}/>
+            </div>
         );
     }
 }

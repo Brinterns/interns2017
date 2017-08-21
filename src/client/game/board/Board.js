@@ -123,7 +123,7 @@ export class Board extends Component {
                 <div className={boardStyles.rollButton}>
                     {((this.props.rollNumber !== 'Roll' || this.props.rollSequence) && this.props.isPlayerTurn) ? rollSequenceNotClickable : rollSequenceClickable}
                 </div>
-                {this.props.enablePowerUps ? <PowerUp powerUp={this.props.powerUp} /> : null}
+                {this.props.enablePowerUps ? <PowerUp powerUp={this.props.powerUp} useable={this.props.isPlayerTurn && !this.props.rollSequence}/> : null}
                 <div className={boardStyles.oppPieceHolder}>
                     {oppPieceHolder}
                 </div>
