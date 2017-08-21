@@ -213,9 +213,9 @@ function sendStats(user) {
 
 function randomPowerUp(room, user, opponent) {
     const randomNum = shared.getRandomIntInclusive(0,5);
-    if (randomNum < 4) {
-        return;
-    }
+    // if (randomNum < 4) {
+    //     return;
+    // }
     //only look to random powerups in war zone
     var freeSquares = [];
     for (var i = 4; i <= 11; i++) {

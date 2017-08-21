@@ -100,6 +100,7 @@
     border: solid 0.12em #FAD000;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
+    background-size: calc(5.4 * (1vw + 1vh - 1vmin)) !important;
 }
 
 @media (max-width: 800px) {

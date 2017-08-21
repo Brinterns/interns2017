@@ -118,8 +118,7 @@ export class Board extends Component {
         if (this.props.powerUp) {
             var picture = require('../../images/powerups/'+ this.props.powerUp +'.png');
             powerUpStyle = {
-                background: 'url(' + picture + ')',
-                backgroundSize: 'calc(5.4 * (1vw + 1vh - 1vmin))'
+                background: 'url(' + picture + ')'
             }
         }
         return (

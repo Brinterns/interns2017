@@ -176,6 +176,7 @@ function reconnectGame(user, user2, room) {
     });
     room.data.gameinfo.playerIds[room.data.gameinfo.playerIds.indexOf(user2.id)] = user.id;
     user.message('updatestats', JSON.stringify(room.data.gameinfo));
+    user.message('newpowerup', user.data.powerUp);
     user.message('updategamemessages', JSON.stringify(room.data.messages));
     user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces]);
 }
