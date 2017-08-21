@@ -10,6 +10,7 @@ import {
 
 import {
     updateUserGameId,
+    updateMoveId,
     spectatingId,
     updateGameMessages,
     updateListOfPlayers,
@@ -107,6 +108,9 @@ export function RunCloakConfig() {
             /*                       Game messages                     */
             /***********************************************************/
             //Identity Messages
+            updatemoveid: (id) => {
+                dispatch(updateMoveId(id));
+            },
             updateplayers: (userinfo) => {
                 dispatch(updateListOfPlayers(JSON.parse(userinfo)));
             },

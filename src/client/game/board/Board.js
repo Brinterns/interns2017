@@ -79,7 +79,7 @@ export class Board extends Component {
             this.setState({
                 highlightSquarePosition: null
             });
-            cloak.message('movepiece', position);
+            cloak.message('movepiece', [position, this.props.moveId]);
         }
     }
 
@@ -136,6 +136,7 @@ export class Board extends Component {
 }
 
 const mapStateToProps = state => ({
+    moveId: state.game.moveId,
     winnerId: state.game.winnerId,
     //Roll states
     rolled: state.game.rolled,

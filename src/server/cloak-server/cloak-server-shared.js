@@ -5,9 +5,18 @@ var gameRoomFunctions = require('./cloak-server-gameroom');
 const maxMessages = 1000;
 
 function getRandomIntInclusive(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function generateMoveId() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < 7; ++i) {
+        text += possible.charAt(getRandomIntInclusive(0, possible.length-1));
+    }
+    return text;
 }
 
 function getOpponent(user) {
@@ -180,10 +189,14 @@ function reconnectGame(user, user2, room) {
     user.message('newpowerup', user.data.powerUp);
     user.message('updategamemessages', JSON.stringify(room.data.messages));
     user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newPowerUps]);
+    if (user.id === room.data.currentPlayer) {
+        user.message('updatemoveid', room.data.moveId);
+    }
 }
 
 
-module.exports.getRandomIntInclusive = getRandomIntInclusive
+module.exports.getRandomIntInclusive = getRandomIntInclusive;
+module.exports.generateMoveId = generateMoveId;
 module.exports.updateMessagesId = updateMessagesId;
 module.exports.sendMessages = sendMessages;
 module.exports.getOpponent = getOpponent;

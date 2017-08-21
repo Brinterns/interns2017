@@ -42,7 +42,7 @@ function messageRoll(total, user) {
 function endTurn(user) {
     user.data.rolledDice = false;
     const room = user.getRoom();
-    const opponent = shared.getOpponent(user);
+    var opponent = shared.getOpponent(user);
     if (room.data.enablePowerUps) {
         randomPowerUp(room, user, opponent);
     }
@@ -57,7 +57,8 @@ function endTurn(user) {
     room.messageMembers('currentplayer', room.data.currentPlayer);
     sendStats(user);
     var d = new Date();
-    shared.getOpponent(user).data.rollStartTime = d.getTime();
+    opponent.data.rollStartTime = d.getTime();
+    opponent.message('updatemoveid', room.data.moveId);
 }
 
 function canMove(squares, opponentSquares, nextPos, moveablePositions, position) {
@@ -81,28 +82,31 @@ function checkMoves(user, rollNumber, opponentSquares) {
     user.message('moveablepositions', moveablePositions);
 }
 
-function movePiece(position, user) {
-    const room = user.getRoom();
-    var opponent = shared.getOpponent(user);
-    var nextPos = position + user.data.lastRoll;
-    var userStats = getUserStats(user);
-    user.data.squares[playerPath[nextPos-1]] = true;
-    userStats.squaresMoved += user.data.lastRoll;
-    var d = new Date();
-    userStats.totalTimeTaken += milliToSeconds(d.getTime() - user.data.rollStartTime - 1650);
-    handleMoveUserPiece(user, opponent, room, position, nextPos);
-    //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
-    handleTakePiece(user, opponent, userStats, room, nextPos);
-    //If moved piece lands on power up, obtain the powerup
-    handlePowerupTake(user, room, nextPos);
-    //if moved piece lands on rosetta square, allow reroll and reset roll timer
-    if (handleRosetta(user, room, position, d)) {
-        return;
+function movePiece(position, userMoveId, user) {
+    var room = user.getRoom();
+    if (userMoveId === room.data.moveId) {
+        room.data.moveId = shared.generateMoveId();
+        var opponent = shared.getOpponent(user);
+        var nextPos = position + user.data.lastRoll;
+        var userStats = getUserStats(user);
+        user.data.squares[playerPath[nextPos-1]] = true;
+        userStats.squaresMoved += user.data.lastRoll;
+        var d = new Date();
+        userStats.totalTimeTaken += milliToSeconds(d.getTime() - user.data.rollStartTime - 1650);
+        handleMoveUserPiece(user, opponent, room, position, nextPos);
+        //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
+        handleTakePiece(user, opponent, userStats, room, nextPos);
+        //If moved piece lands on power up, obtain the powerup
+        handlePowerupTake(user, room, nextPos);
+        //if moved piece lands on rosetta square, allow reroll and reset roll timer
+        if (handleRosetta(user, room, position, d)) {
+            return;
+        }
+        //balances out the increment for this piece being in the final range as it has just moved there
+        handleFinalRange(user, userStats, room, position, nextPos);
+        userStats.turnsTaken ++;
+        endTurn(user);
     }
-    //balances out the increment for this piece being in the final range as it has just moved there
-    handleFinalRange(user, userStats, room, position, nextPos);
-    userStats.turnsTaken ++;
-    endTurn(user);
 }
 
 function handleMoveUserPiece(user, opponent, room, position, nextPos) {
@@ -161,6 +165,7 @@ function handleTakePiece(user, opponent, userStats, room, nextPos) {
 function handleRosetta(user, room, position, d) {
     if (rosettaSquares.includes(playerPath[position+user.data.lastRoll-1])) {
         room.messageMembers('currentplayer', room.data.currentPlayer);
+        user.message('updatemoveid', room.data.moveId);
         user.data.rolledDice = false;
         user.data.rollStartTime = d.getTime();
         return true;
