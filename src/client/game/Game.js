@@ -74,7 +74,7 @@ export class Game extends Component {
     }
 
     reChallenge() {
-        cloak.message('rechallenge', this.state.numberOfPieces);
+        cloak.message('rechallenge', [this.state.numberOfPieces, this.state.powerUps]);
     }
 
     reChallengeResponse(accept) {
@@ -118,6 +118,7 @@ export class Game extends Component {
             numPiecesButtons =
                 <div className={gameStyles.numberOfPieces}>
                     <label title="No. of pieces" className={gameStyles.numberOfPiecesInactive}> <p>{this.props.newNumberOfPieces}</p> </label>
+                    {this.props.newPowerUps ? <img title="Power Ups Disabled" src={powerupactive} /> : <img title="Power Ups Enabled" src={powerup} />}
                 </div>;
         } else if (this.props.challengerId) {
             challengeButton =
@@ -125,10 +126,11 @@ export class Game extends Component {
                     <button className={gameStyles.acceptButton} onClick={() => {this.reChallengeResponse(true)}}> &#10004; </button>
                     <button className={gameStyles.declineButton} onClick={() => {this.reChallengeResponse(false)}}> &#x2716; </button>
                 </div>;
-                numPiecesButtons =
-                    <div className={gameStyles.numberOfPieces}>
-                        <label title="No. of pieces" className={gameStyles.numberOfPiecesInactive}> <p>{this.props.newNumberOfPieces}</p> </label>
-                    </div>;
+            numPiecesButtons =
+                <div className={gameStyles.numberOfPieces}>
+                    <label title="No. of pieces" className={gameStyles.numberOfPiecesInactive}> <p>{this.props.newNumberOfPieces}</p> </label>
+                    {this.props.newPowerUps ? <img title="Power Ups Disabled" src={powerupactive} /> : <img title="Power Ups Enabled" src={powerup} />}
+                </div>;
         } else {
             challengeButton = <button onClick={this.reChallenge}> Re-Challenge </button>;
             numPiecesButtons = 
@@ -229,6 +231,7 @@ const mapStateToProps = state => ({
     opponentDisconnect: state.game.opponentDisconnect,
     challengerId: state.game.challengerId,
     newNumberOfPieces: state.game.newNumberOfPieces,
+    newPowerUps: state.game.newPowerUps,
     //Game stats
     gameStats: state.game.gameStats
 });

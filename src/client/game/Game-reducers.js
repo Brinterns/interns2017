@@ -65,6 +65,7 @@ const initialState = {
     opponentDisconnect: false,
     challengerId: null,
     newNumberOfPieces: 7,
+    newPowerUps: false,
     //Game statistics
     gameStats: null
 };
@@ -117,7 +118,8 @@ const game = (state = initialState, action) => {
         case CHALLENGER_DETAILS: {
             return updateState(state, {
                 challengerId: action.payload[0],
-                newNumberOfPieces: action.payload[1]
+                newNumberOfPieces: action.payload[1],
+                newPowerUps: action.payload[2]
             });
         }
         case TOGGLE_FORFEIT: {

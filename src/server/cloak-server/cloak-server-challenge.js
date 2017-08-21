@@ -48,25 +48,26 @@ function declineChallenge(id, user) {
     challengeRespond(user, cloak.getUser(id), false);
 }
 
-function reChallenge(user, numberOfPieces) {
+function reChallenge(user, numberOfPieces, powerUps) {
     var room = user.getRoom();
     const opponent = shared.getOpponent(user);
     room.data.challengerId = user.id;
     room.data.newNumberOfPieces = numberOfPieces;
-    user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces]);
-    opponent.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces]);
+    room.data.newPowerUps = powerUps;
+    user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newPowerUps]);
+    opponent.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newPowerUps]);
 }
 
 function reChallengeResponse(accept, user) {
     var room = user.getRoom();
     if (accept) {
-        challengeRespond(user, shared.getOpponent(user), accept, room.data.newNumberOfPieces);
+        challengeRespond(user, shared.getOpponent(user), accept, room.data.newNumberOfPieces, room.data.newPowerUps);
     } else {
         const opponent = shared.getOpponent(user);
         room.data.challengerId = null;
         room.data.newNumberOfPieces = 7;
-        user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces]);
-        opponent.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces]);
+        user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newPowerUps]);
+        opponent.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newPowerUps]);
     }
 }
 
