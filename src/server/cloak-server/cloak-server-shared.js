@@ -104,7 +104,7 @@ function reconnectUser(ids, user) {
         }
         user.name = user2.name;
         user.data = Object.assign({}, user2.data);
-        user2.data.refreshing = true;
+        user2.data.newId = user.id;
         user.message('userid', user.id);
         const room = user2.getRoom();
         user.joinRoom(room);
