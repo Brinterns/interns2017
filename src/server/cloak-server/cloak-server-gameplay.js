@@ -250,6 +250,7 @@ module.exports.endTurn = endTurn;
 module.exports.rollDice = rollDice;
 module.exports.messageRoll = messageRoll;
 module.exports.movePiece = movePiece;
+module.exports.canMove = canMove;
 module.exports.reverseSquares = reverseSquares;
 module.exports.checkMoves = checkMoves;
 module.exports.sendStats = sendStats;

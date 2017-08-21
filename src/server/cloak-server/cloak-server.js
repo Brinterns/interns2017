@@ -6,6 +6,7 @@ var sharedFunctions = require('./cloak-server-shared');
 var gameRoomFunctions = require('./cloak-server-gameroom');
 var gamePlayFunctions = require('./cloak-server-gameplay');
 var challengeFunctions = require('./cloak-server-challenge');
+var powerupFunctions = require('./cloak-server-powerups');
 
 
 module.exports = function(expressServer) {
@@ -95,6 +96,9 @@ module.exports = function(expressServer) {
             },
             movepiece: function(options, user) {
                 gamePlayFunctions.movePiece(options[0], options[1], user);
+            },
+            activatepowerup: function(powerUp, user) {
+                powerupFunctions.powerupActivated(user, powerUp);
             }
         },
         lobby: {

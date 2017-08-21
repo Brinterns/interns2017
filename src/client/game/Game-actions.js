@@ -29,6 +29,7 @@ export const OPPONENT_ROLLED_SEQUENCE = namespace + 'OPPONENT_ROLLED_SEQUENCE';
 export const UPDATE_POWER_UPS = namespace + 'UPDATE_POWER_UPS';
 export const NEW_POWER_UP = namespace + 'NEW_POWER_UP';
 export const ENABLE_POWER_UPS = namespace + 'ENABLE_POWER_UPS';
+export const UPDATE_POWER_UP_PIECES = namespace + 'UPDATE_POWER_UP_PIECES';
 
 export function updateUserGameId(id) {
     return {
@@ -69,6 +70,13 @@ export function enablePowerUps(enable) {
     return {
         type: ENABLE_POWER_UPS,
         payload: enable
+    }
+}
+
+export function updatePowerablePieces(powerUpPieces) {
+    return {
+        type: UPDATE_POWER_UP_PIECES,
+        payload: powerUpPieces
     }
 }
 

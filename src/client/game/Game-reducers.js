@@ -29,7 +29,8 @@ import {
     OPPONENT_ROLLED_SEQUENCE,
     UPDATE_POWER_UPS,
     NEW_POWER_UP,
-    ENABLE_POWER_UPS
+    ENABLE_POWER_UPS,
+    UPDATE_POWER_UP_PIECES
 } from './Game-actions';
 
 
@@ -74,6 +75,7 @@ const initialState = {
     powerUp: null,
     enablePowerUps: false,
     newEnablePowerUps: false,
+    powerUpPieces: [],
     //Game statistics
     gameStats: null
 };
@@ -263,6 +265,11 @@ const game = (state = initialState, action) => {
         case ENABLE_POWER_UPS: {
             return updateState(state, {
                 enablePowerUps: action.payload
+            });
+        }
+        case UPDATE_POWER_UP_PIECES: {
+            return updateState(state, {
+                powerUpPieces: action.payload
             });
         }
         case RESET_STORE: {

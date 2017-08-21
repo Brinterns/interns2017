@@ -37,6 +37,10 @@ export class Board extends Component {
                 pieceClassName = boardStyles.finishSquarePiece;
             }
         }
+        if (this.props.isPlayerTurn && !this.props.rollSequence && this.props.powerUpPieces.includes(i)) {
+            pieceClassName = boardStyles.moveableSquarePiece;
+        }
+
         var displayNumber = null;
         if ((i === 8) && this.props.numPiecesFinished) {
             displayNumber = (this.props.numPiecesFinished > 1) ? this.props.numPiecesFinished : null;
@@ -152,7 +156,8 @@ const mapStateToProps = state => ({
     numPiecesFinished: state.game.numPiecesFinished,
     powerUps: state.game.powerUps,
     powerUp: state.game.powerUp,
-    enablePowerUps: state.game.enablePowerUps
+    enablePowerUps: state.game.enablePowerUps,
+    powerUpPieces: state.game.powerUpPieces
 });
 
 export default connect(

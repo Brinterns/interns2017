@@ -13,7 +13,6 @@ export default class PowerUp extends Component {
 
     pageClick(e) {
         if (e.target.id !== "powerup") {
-            console.log("clicked non power up");
             document.body.style.cursor = "auto";
             this.setState({
                 powerUpClicked: false
@@ -28,6 +27,7 @@ export default class PowerUp extends Component {
         if (!this.state.powerUpClicked) {
             var picture = require('../../../images/powerups/cursors/'+ this.props.powerUp +'.png');
             document.body.style.cursor = "url('" + picture + "'), auto";
+            cloak.message('activatepowerup', this.props.powerUp);
         } else {
             document.body.style.cursor = "auto";
         }
