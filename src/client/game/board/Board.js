@@ -16,6 +16,13 @@ const playerPath = [
     2,  5,  8
 ];
 
+const opponentPath = [
+    12, 15, 18, 21,
+    22, 19, 16, 13,
+    10, 7,  4,  1,
+    0, 3,   6
+];
+
 export class Board extends Component {
     constructor(props) {
         super(props);
@@ -97,6 +104,9 @@ export class Board extends Component {
                 if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos) && !this.props.winnerId) {
                     pieceHolder.push(<Piece position={pos} className={boardStyles.moveablePiece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
                     continue;
+                } else if (this.props.isPlayerTurn && !this.props.rollSequence  && (this.props.powerUpPieces.length > 0) && !this.props.squares[playerPath[0]]) {
+                    pieceHolder.push(<Piece position={pos} className={boardStyles.moveablePiece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
+                    continue;
                 }
                 pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
             }
@@ -106,6 +116,10 @@ export class Board extends Component {
             oppPieceHolderSize -= (this.props.numOppPiecesFinished - 1);
         }
         for (var i = 0; i < oppPieceHolderSize; i++) {
+            if (this.props.isPlayerTurn && !this.props.rollSequence && (this.props.powerUpPieces.length > 0) && !(this.props.opponentSquares[opponentPath[0]])) {
+                oppPieceHolder.push(<OpponentPiece className={boardStyles.moveablePiece} key={i}/>);
+                continue;
+            }
             oppPieceHolder.push(<OpponentPiece className={boardStyles.piece} key={i}/>)
         }
         for (var i = 0; i < 24; i += 3) {

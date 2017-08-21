@@ -110,7 +110,8 @@ const game = (state = initialState, action) => {
         case UPDATE_CURRENT_PLAYER: {
             return updateState(state, {
                 currentPlayer: action.payload,
-                rolled: false
+                rolled: false,
+                powerUpPieces: []
             });
         }
         case UPDATE_CURRENT_PLAYER_ONLY: {
