@@ -236,7 +236,6 @@ function randomPowerUp(room, user, opponent) {
     if (freeSquares.length === 0) {
         return;
     }
-    console.log(freeSquares);
     //random which square index will have the powerup from all the free squares
     //random which powerup to place on the square
     const powerUpIndex = freeSquares[shared.getRandomIntInclusive(0,freeSquares.length-1)];

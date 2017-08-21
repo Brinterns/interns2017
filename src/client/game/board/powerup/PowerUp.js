@@ -4,6 +4,36 @@ import powerUpStyles from './PowerUp.css';
 export default class PowerUp extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            powerUpClicked: false
+        }
+        this.togglePowerUp = this.togglePowerUp.bind(this);+
+        document.addEventListener('click', this.pageClick.bind(this), true);
+    }
+
+    pageClick(e) {
+        if (e.target.id !== "powerup") {
+            console.log("clicked non power up");
+            document.body.style.cursor = "auto";
+            this.setState({
+                powerUpClicked: false
+            });
+        }
+    }
+
+    togglePowerUp() {
+        if (!this.props.useable) {
+            return;
+        }
+        if (!this.state.powerUpClicked) {
+            var picture = require('../../../images/powerups/cursors/'+ this.props.powerUp +'.png');
+            document.body.style.cursor = "url('" + picture + "'), auto";
+        } else {
+            document.body.style.cursor = "auto";
+        }
+        this.setState({
+            powerUpClicked: !this.state.powerUpClicked
+        });
     }
 
     render() {
@@ -18,7 +48,7 @@ export default class PowerUp extends Component {
 
         return (
             <div className={powerUpStyles.powerUpDiv}>
-                <div className={this.props.useable ? powerUpStyles.powerClickable : powerUpStyles.powerUnclickable} style={powerUpStyle}/>
+                <div id="powerup" className={this.props.useable ? powerUpStyles.powerClickable : powerUpStyles.powerUnclickable} style={powerUpStyle} onClick={this.togglePowerUp}/>
             </div>
         );
     }
