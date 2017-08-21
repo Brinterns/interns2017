@@ -51,7 +51,9 @@ function endTurn(user) {
     room.messageMembers('currentplayer', room.data.currentPlayer);
     sendStats(user);
     var d = new Date();
-    shared.getOpponent(user).data.rollStartTime = d.getTime();
+    var opponent = shared.getOpponent(user);
+    opponent.data.rollStartTime = d.getTime();
+    opponent.message('updatemoveid', room.data.moveId);
 }
 
 function canMove(squares, opponentSquares, nextPos, moveablePositions, position) {
@@ -97,7 +99,6 @@ function movePiece(position, userMoveId, user) {
         handleFinalRange(user, userStats, room, position, nextPos);
         userStats.turnsTaken ++;
         endTurn(user);
-        opponent.message('updatemoveid', room.data.moveId);
     }
 }
 
