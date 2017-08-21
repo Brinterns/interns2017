@@ -59,7 +59,7 @@ export default class User extends Component {
                     <button onClick={() => {this.props.cancelChallenge(this.props.user.id)}}> Cancel </button>
                     <div className={userStyles.numberOfPieces}>
                         <label title="No. of pieces" className={userStyles.numberOfPiecesInactive}> <p>{this.props.challenging.numberOfPieces}</p> </label>
-                        {this.props.challenging.powerUps ? <img title="Power Ups Disabled" src={powerupactive} /> : <img title="Power Ups Enabled" src={powerup} />}
+                        {this.props.challenging.powerUps ? <img title="Power Ups Enabled" src={powerupactive} /> : <img title="Power Ups Disabled" src={powerup} />}
                     </div>
                 </div>;
         } else if (this.props.challenger) {
@@ -71,7 +71,7 @@ export default class User extends Component {
                     </div>
                     <div className={userStyles.numberOfPieces}>
                         <label title="No. of pieces" className={userStyles.numberOfPiecesInactive}> <p>{this.props.challenger.numberOfPieces}</p> </label>
-                        {this.props.challenger.powerUps ? <img title="Power Ups Disabled" src={powerupactive} /> : <img title="Power Ups Enabled" src={powerup} />}
+                        {this.props.challenger.powerUps ? <img title="Power Ups Enabled" src={powerupactive} /> : <img title="Power Ups Disabled" src={powerup} />}
                     </div>
                 </div>;
         } else {

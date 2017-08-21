@@ -118,7 +118,7 @@ export class Game extends Component {
             numPiecesButtons =
                 <div className={gameStyles.numberOfPieces}>
                     <label title="No. of pieces" className={gameStyles.numberOfPiecesInactive}> <p>{this.props.newNumberOfPieces}</p> </label>
-                    {this.props.newPowerUps ? <img title="Power Ups Disabled" src={powerupactive} /> : <img title="Power Ups Enabled" src={powerup} />}
+                    {this.props.newPowerUps ? <img title="Power Ups Enabled" src={powerupactive} /> : <img title="Power Ups Disabled" src={powerup} />}
                 </div>;
         } else if (this.props.challengerId) {
             challengeButton =
@@ -129,7 +129,7 @@ export class Game extends Component {
             numPiecesButtons =
                 <div className={gameStyles.numberOfPieces}>
                     <label title="No. of pieces" className={gameStyles.numberOfPiecesInactive}> <p>{this.props.newNumberOfPieces}</p> </label>
-                    {this.props.newPowerUps ? <img title="Power Ups Disabled" src={powerupactive} /> : <img title="Power Ups Enabled" src={powerup} />}
+                    {this.props.newPowerUps ? <img title="Power Ups Enabled" src={powerupactive} /> : <img title="Power Ups Disabled" src={powerup} />}
                 </div>;
         } else {
             challengeButton = <button onClick={this.reChallenge}> Re-Challenge </button>;
