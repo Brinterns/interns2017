@@ -8,8 +8,7 @@ import ChatBox from '../Chat/ChatBox';
 import Stats from './statistics/Stats';
 import {emojify} from 'react-emojione';
 import RollFlash from './board/Roll/RollFlash';
-import powerup from '../images/powerups/pushinactive.png';
-import powerupactive from '../images/powerups/push.png';
+import powerup from '../images/powerups/push.png';
 
 import { RunCloakConfig } from '../services/cloak-service';
 
@@ -118,7 +117,8 @@ export class Game extends Component {
             numPiecesButtons =
                 <div className={gameStyles.numberOfPieces}>
                     <label title="No. of pieces" className={gameStyles.numberOfPiecesInactive}> <p>{this.props.newNumberOfPieces}</p> </label>
-                    {this.props.newEnablePowerUps ? <img title="Power Ups Enabled" src={powerupactive} /> : <img title="Power Ups Disabled" src={powerup} />}
+                    {this.props.newEnablePowerUps ? <img title="Power Ups Enabled" src={powerup} /> :
+                    <img title="Power Ups Disabled" className={gameStyles.powerupsDisabled} src={powerup} />}
                 </div>;
         } else if (this.props.challengerId) {
             challengeButton =
@@ -129,7 +129,8 @@ export class Game extends Component {
             numPiecesButtons =
                 <div className={gameStyles.numberOfPieces}>
                     <label title="No. of pieces" className={gameStyles.numberOfPiecesInactive}> <p>{this.props.newNumberOfPieces}</p> </label>
-                    {this.props.newEnablePowerUps ? <img title="Power Ups Enabled" src={powerupactive} /> : <img title="Power Ups Disabled" src={powerup} />}
+                    {this.props.newEnablePowerUps ? <img title="Power Ups Enabled" src={powerup} /> :
+                    <img title="Power Ups Disabled" className={gameStyles.powerupsDisabled} src={powerup} />}
                 </div>;
         } else {
             challengeButton = <button onClick={this.reChallenge}> Re-Challenge </button>;
@@ -140,7 +141,8 @@ export class Game extends Component {
                         <button id="plus" title="Increase no. of pieces" onClick={this.handleChange}> + </button>
                         <button id="minus" title="Decrease no. of pieces" onClick={this.handleChange}> - </button>
                     </div>
-                    {this.state.enablePowerUps ? <img title="Disable Power Ups" className={gameStyles.powerUpClickable} src={powerupactive} onClick={this.togglePowerUps} /> : <img title="Enable Power Ups" className={gameStyles.powerUpClickable} src={powerup} onClick={this.togglePowerUps} />}
+                    {this.state.enablePowerUps ? <img title="Disable Power Ups" style={{cursor: "pointer"}} src={powerup} onClick={this.togglePowerUps} /> :
+                    <img title="Enable Power Ups" className={gameStyles.powerupsDisabled} style={{cursor: "pointer"}} src={powerup} onClick={this.togglePowerUps} />}
                 </div>;
         }
 
