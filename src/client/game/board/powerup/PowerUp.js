@@ -13,7 +13,6 @@ export default class PowerUp extends Component {
 
     pageClick(e) {
         if (e.target.id !== "powerup") {
-            console.log("clicked non power up");
             document.body.style.cursor = "auto";
             this.setState({
                 powerUpClicked: false
