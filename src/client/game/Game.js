@@ -8,6 +8,8 @@ import ChatBox from '../Chat/ChatBox';
 import Stats from './statistics/Stats';
 import {emojify} from 'react-emojione';
 import RollFlash from './board/Roll/RollFlash';
+import powerup from '../images/powerups/pushinactive.png';
+import powerupactive from '../images/powerups/push.png';
 
 import { RunCloakConfig } from '../services/cloak-service';
 
@@ -20,12 +22,14 @@ export class Game extends Component {
         super(props);
         this.state = {
             numberOfPieces: 7,
+            powerUps: false,
             rules: false
         };
         this.handleToggleRules = this.handleToggleRules.bind(this);
         this.onWin = this.onWin.bind(this);
         this.onClickForfeit = this.onClickForfeit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.togglePowerUps = this.togglePowerUps.bind(this);
         this.reChallenge = this.reChallenge.bind(this);
         this.returnToLobby = this.returnToLobby.bind(this);
         {this.getGameInfo()};
@@ -61,6 +65,12 @@ export class Game extends Component {
                 numberOfPieces: this.state.numberOfPieces + 1
             });
         }
+    }
+
+    togglePowerUps() {
+        this.setState({
+            powerUps: !this.state.powerUps
+        });
     }
 
     reChallenge() {
@@ -123,9 +133,12 @@ export class Game extends Component {
             challengeButton = <button onClick={this.reChallenge}> Re-Challenge </button>;
             numPiecesButtons = 
                 <div className={gameStyles.numberOfPieces}>
-                    <button id="minus" title="Decrease no. of pieces" onClick={this.handleChange}> - </button>
                     <label title="No. of pieces"> <p>{this.state.numberOfPieces}</p> </label>
-                    <button id="plus" title="Increase no. of pieces" onClick={this.handleChange}> + </button>
+                    <div>
+                        <button id="plus" title="Increase no. of pieces" onClick={this.handleChange}> + </button>
+                        <button id="minus" title="Decrease no. of pieces" onClick={this.handleChange}> - </button>
+                    </div>
+                    {this.state.powerUps ? <img title="Disable Power Ups" className={gameStyles.powerUpClickable} src={powerupactive} onClick={this.togglePowerUps} /> : <img title="Enable Power Ups" className={gameStyles.powerUpClickable} src={powerup} onClick={this.togglePowerUps} />}
                 </div>;
         }
 
