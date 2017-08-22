@@ -39,8 +39,10 @@ export class Board extends Component {
     }
 
     squareType(i) {
-        const pos = playerPath.indexOf(i) + 1;
-        var movePieceFunction = this.handleMovePiece;
+        //Empty function for moving opponent pieces, only allowing your pieces to be moved
+        var movePieceFunction = this.props.squares[i] ? this.handleMovePiece : () => {};
+        const pos = this.props.squares[i] ? playerPath.indexOf(i) + 1 : opponentPath.indexOf(i) + 1;
+
         var pieceClassName = boardStyles.squarePiece;
         if ((pos !== 15) && this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos) && !this.props.winnerId && !this.props.opponentSquares[i]) {
             pieceClassName = boardStyles.moveableSquarePiece;

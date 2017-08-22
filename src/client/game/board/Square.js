@@ -44,7 +44,7 @@ export default class Square extends Component {
                 <div className={rosettaSquares.includes(i) ? (this.props.minimap ? boardStyles.rosettaMiniMap : boardStyles.rosetta) : null}>
                     {this.props.powerUp ? <div style={powerUpStyle} className={boardStyles.powerUp} /> : null}
                     {this.props.piece ? <Piece displayNumber={this.props.displayNumber} setHighlightSquare={this.props.setHighlightSquare} position={this.props.position} className={this.props.pieceClassName} movePiece={this.props.movePiece} minimap={this.props.minimap}/> : null}
-                    {this.props.opponentPiece ? <OpponentPiece displayNumber={this.props.displayNumber} className={this.props.pieceClassName} minimap={this.props.minimap}/> : null}
+                    {this.props.opponentPiece ? <OpponentPiece movePiece={this.props.movePiece} displayNumber={this.props.displayNumber} className={this.props.pieceClassName} minimap={this.props.minimap} position={this.props.position} /> : null}
                     {this.props.highlight ? <div className={boardStyles.moveHighlighter} style={highlightStyle} /> : null}
                 </div>
             </div>
