@@ -7,7 +7,7 @@ export default class PowerUp extends Component {
         this.state = {
             powerUpClicked: false
         }
-        this.togglePowerUp = this.togglePowerUp.bind(this);+
+        this.togglePowerUp = this.togglePowerUp.bind(this);
         document.addEventListener('click', this.pageClick.bind(this), true);
     }
 

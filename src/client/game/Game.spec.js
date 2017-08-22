@@ -113,7 +113,7 @@ describe('<Game />', () => {
         const store = mockStore(state);
         wrapper = shallow(<Game store={store}/>).shallow();
         wrapper.find("img").first().simulate("click");
-        expect(wrapper.state().powerUps).toEqual(true);
+        expect(wrapper.state().enablePowerUps).toEqual(true);
     })
 
     it('Shows the correct number of spectators', () => {
