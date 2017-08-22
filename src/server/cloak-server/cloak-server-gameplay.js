@@ -60,6 +60,17 @@ function endTurn(user) {
     var d = new Date();
     opponent.data.rollStartTime = d.getTime();
     opponent.message('updatemoveid', room.data.moveId);
+
+    opponent.data.piecePowerUps.forEach((piecePowerUp) => {
+        if (piecePowerUp.turnsLeft === 1 || !piecePowerUp.turnsLeft) {
+            piecePowerUp.powerUp = null;
+            piecePowerUp.turnsLeft = null;
+        } else {
+            piecePowerUp.turnsLeft --;
+        }
+    });
+    powerUpFunctions.messageActivePowerUps(user, opponent);
+    powerUpFunctions.messageActivePowerUps(opponent, user);
 }
 
 function canMove(squares, opponentSquares, nextPos, moveablePositions, position) {

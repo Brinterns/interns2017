@@ -57,7 +57,7 @@ export class Board extends Component {
         }
         var powerUpImg = null;
         this.props.activePowerUps.forEach((activePowerUp) => {
-            if(activePowerUp.powerUp && (activePowerUp.squareIndex === i)) {
+            if((i !== 8) && (i !== 6) && activePowerUp.powerUp && (activePowerUp.squareIndex === i)) {
                 powerUpImg = activePowerUp.powerUp;
             }
         });
