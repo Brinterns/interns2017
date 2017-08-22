@@ -14,6 +14,7 @@ export default class PowerUp extends Component {
     pageClick(e) {
         if (e.target.id !== "powerup") {
             document.body.style.cursor = "auto";
+            this.props.togglePowerUp(false);
             this.setState({
                 powerUpClicked: false
             });
@@ -31,6 +32,7 @@ export default class PowerUp extends Component {
         } else {
             document.body.style.cursor = "auto";
         }
+        this.props.togglePowerUp(!this.state.powerUpClicked);
         this.setState({
             powerUpClicked: !this.state.powerUpClicked
         });

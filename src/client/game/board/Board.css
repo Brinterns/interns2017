@@ -251,3 +251,24 @@
 }
 
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+.powerUpSquarePiece {
+    position: absolute;
+    box-shadow: 0 0 calc(1.5 * (1vw + 1vh - 1vmin)) calc(0.35 * (1vw + 1vh - 1vmin)) white;
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+}
+
+.powerUpHolderPiece {
+    box-shadow: 0 0 calc(1.5 * (1vw + 1vh - 1vmin)) calc(0.35 * (1vw + 1vh - 1vmin)) white;
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    margin-left: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-right: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
+    display: inline-block;
+}

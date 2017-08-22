@@ -27,12 +27,14 @@ export class Board extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            highlightSquarePosition: null
+            highlightSquarePosition: null,
+            powerUpActive: false
         }
         this.onClick = this.onClick.bind(this);
         this.squareType = this.squareType.bind(this);
         this.handleMovePiece = this.handleMovePiece.bind(this);
         this.setHighlightSquare = this.setHighlightSquare.bind(this);
+        this.togglePowerUp = this.togglePowerUp.bind(this);
     }
 
     squareType(i) {
@@ -44,8 +46,8 @@ export class Board extends Component {
                 pieceClassName = boardStyles.finishSquarePiece;
             }
         }
-        if (this.props.isPlayerTurn && !this.props.rollSequence && this.props.powerUpPieces.includes(i)) {
-            pieceClassName = boardStyles.moveableSquarePiece;
+        if (this.state.powerUpActive && this.props.isPlayerTurn && !this.props.rollSequence && this.props.powerUpPieces.includes(i)) {
+            pieceClassName = boardStyles.powerUpSquarePiece;
         }
 
         var displayNumber = null;
@@ -94,6 +96,12 @@ export class Board extends Component {
         }
     }
 
+    togglePowerUp(bool) {
+        this.setState({
+            powerUpActive: bool
+        });
+    }
+
     render() {
         const pieceHolder = [];
         const oppPieceHolder = [];
@@ -104,8 +112,8 @@ export class Board extends Component {
                 if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos) && !this.props.winnerId) {
                     pieceHolder.push(<Piece position={pos} className={boardStyles.moveablePiece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
                     continue;
-                } else if (this.props.isPlayerTurn && !this.props.rollSequence  && (this.props.powerUpPieces.length > 0) && !this.props.squares[playerPath[0]]) {
-                    pieceHolder.push(<Piece position={pos} className={boardStyles.moveablePiece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
+                } else if (this.state.powerUpActive && this.props.isPlayerTurn && !this.props.rollSequence  && (this.props.powerUpPieces.length > 0) && !this.props.squares[playerPath[0]]) {
+                    pieceHolder.push(<Piece position={pos} className={boardStyles.powerUpHolderPiece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
                     continue;
                 }
                 pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
@@ -116,8 +124,8 @@ export class Board extends Component {
             oppPieceHolderSize -= (this.props.numOppPiecesFinished - 1);
         }
         for (var i = 0; i < oppPieceHolderSize; i++) {
-            if (this.props.isPlayerTurn && !this.props.rollSequence && (this.props.powerUpPieces.length > 0) && !(this.props.opponentSquares[opponentPath[0]])) {
-                oppPieceHolder.push(<OpponentPiece className={boardStyles.moveablePiece} key={i}/>);
+            if (this.state.powerUpActive && this.props.isPlayerTurn && !this.props.rollSequence && (this.props.powerUpPieces.length > 0) && !(this.props.opponentSquares[opponentPath[0]])) {
+                oppPieceHolder.push(<OpponentPiece className={boardStyles.powerUpHolderPiece} key={i}/>);
                 continue;
             }
             oppPieceHolder.push(<OpponentPiece className={boardStyles.piece} key={i}/>)
@@ -141,7 +149,7 @@ export class Board extends Component {
                 <div className={boardStyles.rollButton}>
                     {((this.props.rollNumber !== 'Roll' || this.props.rollSequence) && this.props.isPlayerTurn) ? rollSequenceNotClickable : rollSequenceClickable}
                 </div>
-                {this.props.enablePowerUps ? <PowerUp powerUp={this.props.powerUp} useable={this.props.isPlayerTurn && !this.props.rollSequence}/> : null}
+                {this.props.enablePowerUps ? <PowerUp powerUp={this.props.powerUp} useable={this.props.isPlayerTurn && !this.props.rollSequence} togglePowerUp={this.togglePowerUp}/> : null}
                 <div className={boardStyles.oppPieceHolder}>
                     {oppPieceHolder}
                 </div>
