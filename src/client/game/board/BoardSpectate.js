@@ -27,8 +27,10 @@ export class BoardSpectate extends Component {
         } else if ((i === 6) && this.props.numOppPiecesFinished) {
             displayNumber = (this.props.numOppPiecesFinished > 1) ? this.props.numOppPiecesFinished : null;
         }
+        const powerUpFilter = this.props.powerUps.filter((powerUp) => {return powerUp.index === i});
+        const powerUp = powerUpFilter.length ? powerUpFilter[0].type : null;
         return (
-            <Square index={i} position={pos} displayNumber={displayNumber} movePiece={() => {}} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={boardStyles.squarePiece} setHighlightSquare={() => {}} highlight={false} key={i} />
+            <Square index={i} position={pos} displayNumber={displayNumber} movePiece={() => {}} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={boardStyles.squarePiece} powerUp={powerUp} setHighlightSquare={() => {}} highlight={false} key={i} />
         );
     }
 
@@ -83,7 +85,8 @@ const mapStateToProps = state => ({
     piecePositions: state.game.piecePositions,
     opponentSquares: state.game.opponentSquares,
     numOppPiecesFinished: state.game.numOppPiecesFinished,
-    numPiecesFinished: state.game.numPiecesFinished
+    numPiecesFinished: state.game.numPiecesFinished,
+    powerUps: state.game.powerUps
 });
 
 export default connect(

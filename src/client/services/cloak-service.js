@@ -34,7 +34,11 @@ import {
     rollSequence,
     oppRollSequence,
     updateGameStats,
-    updateSpectators
+    updateSpectators,
+    updatePowerUps,
+    newPowerUp,
+    enablePowerUps,
+    updatePowerablePieces
 } from '../game/Game-actions';
 
 import { dispatch } from '../store';
@@ -177,7 +181,20 @@ export function RunCloakConfig() {
             },
             finishedopppieces: (numPiecesFinished) => {
                 dispatch(updateOppFinishedPieces(numPiecesFinished));
+            },
+            updatepowerups: (powerups) => {
+                dispatch(updatePowerUps(JSON.parse(powerups)));
+            },
+            newpowerup: (powerUp) => {
+                dispatch(newPowerUp(powerUp));
+            },
+            enablepowerups: (enabled) => {
+                dispatch(enablePowerUps(enabled));
+            },
+            powerpieces: (powerUpPieces) => {
+                dispatch(updatePowerablePieces(powerUpPieces));
             }
+
         }
     });
 }

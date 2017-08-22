@@ -10,7 +10,7 @@ function setUsername(name, user) {
     if (user.name.length > 14) {
         user.name = user.name.slice(0, 14);
     }
-    
+
     db.find(user.data.dbId).then(function(resp) {
         if (resp) {
             db.update(user.data, user.name);

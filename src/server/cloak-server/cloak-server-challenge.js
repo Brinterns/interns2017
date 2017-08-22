@@ -4,7 +4,7 @@ var gameRoomFunctions = require('./cloak-server-gameroom');
 var gamePlayFunctions = require('./cloak-server-gameplay');
 var shared = require('./cloak-server-shared');
 
-function challengePlayer(id, numberOfPieces, powerUps, user) {
+function challengePlayer(id, numberOfPieces, enablePowerUps, user) {
     var user2 = cloak.getUser(id);
     if (!user2.data.challenging) {
         user2.data.challenging = [];
@@ -19,8 +19,8 @@ function challengePlayer(id, numberOfPieces, powerUps, user) {
         if (!user2.data.challengers) {
             user2.data.challengers = [];
         }
-        user.data.challenging.push({id: id, numberOfPieces: numberOfPieces, powerUps: powerUps});
-        user2.data.challengers.push({id: user.id, numberOfPieces: numberOfPieces, powerUps: powerUps});
+        user.data.challenging.push({id: id, numberOfPieces: numberOfPieces, enablePowerUps: enablePowerUps});
+        user2.data.challengers.push({id: user.id, numberOfPieces: numberOfPieces, enablePowerUps: enablePowerUps});
         user.message('updatechallenging', user.data.challenging);
         user2.message('updatechallengers', user2.data.challengers);
         lobbyFunctions.getLobbyUserInfo().then(function(listOfUserInfo) {
@@ -48,30 +48,31 @@ function declineChallenge(id, user) {
     challengeRespond(user, cloak.getUser(id), false);
 }
 
-function reChallenge(user, numberOfPieces, powerUps) {
+function reChallenge(user, numberOfPieces, enablePowerUps) {
     var room = user.getRoom();
     const opponent = shared.getOpponent(user);
     room.data.challengerId = user.id;
     room.data.newNumberOfPieces = numberOfPieces;
-    room.data.newPowerUps = powerUps;
-    user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newPowerUps]);
-    opponent.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newPowerUps]);
+    room.data.newEnablePowerUps = enablePowerUps;
+    user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps]);
+    opponent.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps]);
 }
 
 function reChallengeResponse(accept, user) {
     var room = user.getRoom();
     if (accept) {
-        challengeRespond(user, shared.getOpponent(user), accept, room.data.newNumberOfPieces, room.data.newPowerUps);
+        challengeRespond(user, shared.getOpponent(user), accept, room.data.newNumberOfPieces, room.data.newEnablePowerUps);
     } else {
         const opponent = shared.getOpponent(user);
         room.data.challengerId = null;
         room.data.newNumberOfPieces = 7;
-        user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newPowerUps]);
-        opponent.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newPowerUps]);
+        room.data.newEnablePowerUps = false;
+        user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps]);
+        opponent.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps]);
     }
 }
 
-function challengeRespond(user, user2, accept, numberOfPieces=7, powerUps=false) {
+function challengeRespond(user, user2, accept, numberOfPieces=7, enablePowerUps=false) {
     if (!accept) {
         user.data.challengers = user.data.challengers.filter(challenger => {
             return challenger.id !== user2.id;
@@ -84,18 +85,20 @@ function challengeRespond(user, user2, accept, numberOfPieces=7, powerUps=false)
     } else {
         user.data.opponentDbId = user2.data.dbId;
         user2.data.opponentDbId = user.data.dbId;
-        const values = clearChallenges(user, user2, numberOfPieces, powerUps);
+        const values = clearChallenges(user, user2, numberOfPieces, enablePowerUps);
         numberOfPieces = values[0];
-        powerUps = values[1];
+        enablePowerUps = values[1];
         let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
         createdRoom.data.opponentDisconnect = false;
         createdRoom.data.messages = [];
         createdRoom.data.numberOfPieces = numberOfPieces;
-        createdRoom.data.powerUps = powerUps;
+        createdRoom.data.powerUps = [];
+        createdRoom.data.enablePowerUps = enablePowerUps;
         userJoinRoom(user, createdRoom);
         userJoinRoom(user2, createdRoom);
         createdRoom.data.spectatedId = user.id;
         createdRoom.messageMembers('joingame', createdRoom.id);
+        createdRoom.messageMembers('enablepowerups', createdRoom.data.enablePowerUps);
         setTimeout(function() {
             lobbyFunctions.updateLobbyActiveGames();
             lobbyFunctions.updateLobbyUsers();
@@ -106,7 +109,7 @@ function challengeRespond(user, user2, accept, numberOfPieces=7, powerUps=false)
     }
 }
 
-function clearChallenges(user, user2, numberOfPieces, powerUps) {
+function clearChallenges(user, user2, numberOfPieces, enablePowerUps) {
     if (!user.data.challenging) {
         user.data.challenging = [];
     }
@@ -118,7 +121,7 @@ function clearChallenges(user, user2, numberOfPieces, powerUps) {
             challengeRespond(user, cloak.getUser(challenger.id), false);
         } else {
             numberOfPieces = challenger.numberOfPieces;
-            powerUps = challenger.powerUps;
+            enablePowerUps = challenger.enablePowerUps;
         }
     });
     user.data.challenging.forEach(challenging => {
@@ -141,7 +144,7 @@ function clearChallenges(user, user2, numberOfPieces, powerUps) {
     } else if (numberOfPieces > 9) {
         numberOfPieces = 9;
     }
-    return [Math.ceil(numberOfPieces), powerUps];
+    return [Math.ceil(numberOfPieces), enablePowerUps];
 }
 
 function userJoinRoom(user, room) {
@@ -151,6 +154,7 @@ function userJoinRoom(user, room) {
     user.data.piecePositions = Array(room.data.numberOfPieces).fill(0);
     user.data.numPiecesFinished = 0;
     user.data.lastRoll = null;
+    user.data.powerUp = null;
 }
 
 function initRoomStats(room, user, user2) {
@@ -170,6 +174,7 @@ function initRoomStats(room, user, user2) {
     room.data.gameinfo.players = [Object.assign({}, initalPlayerState), Object.assign({}, initalPlayerState)];
     room.data.gameinfo.players[0].name = user.name;
     room.data.gameinfo.players[1].name = user2.name;
+
     gamePlayFunctions.sendStats(user);
 }
 

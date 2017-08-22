@@ -65,6 +65,7 @@ function getRoomInfo(user) {
         };
         user.message('gamestate', JSON.stringify(gameStateJson));
         user.message('currentplayer', room.data.currentPlayer);
+        user.message('updatepowerups', JSON.stringify(room.data.powerUps));
         if (opponent && user.data.lastRoll) {
             user.message('rolledvalue', user.data.lastRoll);
             gameplay.checkMoves(user, user.data.lastRoll, opponent.data.squares);

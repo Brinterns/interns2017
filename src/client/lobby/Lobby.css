@@ -494,8 +494,8 @@
     min-width: 25px;
 }
 
-.powerUpClickable {
-    cursor: pointer;
+.powerupsDisabled {
+    opacity: 0.6;
 }
 
 .numberOfPiecesInactive {

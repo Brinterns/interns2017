@@ -1,0 +1,29 @@
+.powerUpDiv {
+    position: absolute;
+    top: calc(30% - calc(2 * (1vw + 1vh - 1vmin)));
+    left: 5%;
+    border: solid #FAD000 0.12em;
+    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
+    margin-top: calc(0.01 * var(--squareSide));
+    height: calc(0.92 * var(--squareSide));
+    width: calc(0.92 * var(--squareSide));
+}
+
+.powerClickable {
+    position: relative;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    background-size: calc(5.4 * (1vw + 1vh - 1vmin)) !important;
+    background-repeat: no-repeat !important;
+    opacity: 1.0;
+    cursor: pointer;
+}
+
+.powerUnclickable {
+    position: relative;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    background-size: calc(5.4 * (1vw + 1vh - 1vmin)) !important;
+    background-repeat: no-repeat !important;
+    opacity: 0.6;
+}

@@ -26,7 +26,11 @@ import {
     RESET_STORE,
     UPDATE_GAME_STATS,
     UPDATE_SPECTATORS,
-    OPPONENT_ROLLED_SEQUENCE
+    OPPONENT_ROLLED_SEQUENCE,
+    UPDATE_POWER_UPS,
+    NEW_POWER_UP,
+    ENABLE_POWER_UPS,
+    UPDATE_POWER_UP_PIECES
 } from './Game-actions';
 
 
@@ -67,7 +71,11 @@ const initialState = {
     opponentDisconnect: false,
     challengerId: null,
     newNumberOfPieces: 7,
-    newPowerUps: false,
+    powerUps: [],
+    powerUp: null,
+    enablePowerUps: false,
+    newEnablePowerUps: false,
+    powerUpPieces: [],
     //Game statistics
     gameStats: null
 };
@@ -102,7 +110,8 @@ const game = (state = initialState, action) => {
         case UPDATE_CURRENT_PLAYER: {
             return updateState(state, {
                 currentPlayer: action.payload,
-                rolled: false
+                rolled: false,
+                powerUpPieces: []
             });
         }
         case UPDATE_CURRENT_PLAYER_ONLY: {
@@ -126,7 +135,7 @@ const game = (state = initialState, action) => {
             return updateState(state, {
                 challengerId: action.payload[0],
                 newNumberOfPieces: action.payload[1],
-                newPowerUps: action.payload[2]
+                newEnablePowerUps: action.payload[2]
             });
         }
         case TOGGLE_FORFEIT: {
@@ -242,6 +251,26 @@ const game = (state = initialState, action) => {
         case UPDATE_GAME_STATS: {
             return updateState(state, {
                 gameStats: action.payload
+            });
+        }
+        case UPDATE_POWER_UPS: {
+            return updateState(state, {
+                powerUps: action.payload
+            });
+        }
+        case NEW_POWER_UP: {
+            return updateState(state, {
+                powerUp: action.payload
+            });
+        }
+        case ENABLE_POWER_UPS: {
+            return updateState(state, {
+                enablePowerUps: action.payload
+            });
+        }
+        case UPDATE_POWER_UP_PIECES: {
+            return updateState(state, {
+                powerUpPieces: action.payload
             });
         }
         case RESET_STORE: {

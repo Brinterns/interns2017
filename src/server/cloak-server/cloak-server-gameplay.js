@@ -17,6 +17,8 @@ const opponentPath = [
     0, 3,   6
 ];
 
+const powerUpTypes = ['push'];
+
 function rollDice(user) {
     var total = 0;
     for (var i = 0; i < 4; i ++) {
@@ -40,7 +42,11 @@ function messageRoll(total, user) {
 function endTurn(user) {
     user.data.rolledDice = false;
     const room = user.getRoom();
-    room.data.currentPlayer = shared.getOpponent(user).id;
+    var opponent = shared.getOpponent(user);
+    if (room.data.enablePowerUps) {
+        randomPowerUp(room, user, opponent);
+    }
+    room.data.currentPlayer = opponent.id;
     const numPiecesEndRange = user.data.piecePositions.filter((position) => {
         return (position >= 11 && position <= 14);
     }).length;
@@ -51,7 +57,6 @@ function endTurn(user) {
     room.messageMembers('currentplayer', room.data.currentPlayer);
     sendStats(user);
     var d = new Date();
-    var opponent = shared.getOpponent(user);
     opponent.data.rollStartTime = d.getTime();
     opponent.message('updatemoveid', room.data.moveId);
 }
@@ -91,6 +96,8 @@ function movePiece(position, userMoveId, user) {
         handleMoveUserPiece(user, opponent, room, position, nextPos);
         //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
         handleTakePiece(user, opponent, userStats, room, nextPos);
+        //If moved piece lands on power up, obtain the powerup
+        handlePowerupTake(user, room, nextPos);
         //if moved piece lands on rosetta square, allow reroll and reset roll timer
         if (handleRosetta(user, room, position, d)) {
             return;
@@ -166,6 +173,17 @@ function handleRosetta(user, room, position, d) {
     return false;
 }
 
+function handlePowerupTake(user, room, nextPos) {
+    if (room.data.powerUps.includes(playerPath[nextPos-1])) {
+        room.data.powerUps = room.data.powerUps.filter((powerUpIndex) => {
+            return powerUpIndex !== playerPath[nextPos-1];
+        });
+        room.messageMembers('updatepowerups', JSON.stringify(room.data.powerUps));
+        user.data.powerUp = powerUpTypes[shared.getRandomIntInclusive(0, powerUpTypes.length-1)];
+        user.message('newpowerup', user.data.powerUp);
+    }
+}
+
 function handleFinalRange(user, userStats, room, position, nextPos) {
     if ((nextPos >= 11 && nextPos <= 14) && (!(position >= 11 && position <= 14))) {
         if (user.data.numPiecesFinished === (room.data.numberOfPieces - 1)) {
@@ -200,11 +218,40 @@ function sendStats(user) {
     room.messageMembers('updatestats', JSON.stringify(room.data.gameinfo));
 }
 
+function randomPowerUp(room, user, opponent) {
+    const randomNum = shared.getRandomIntInclusive(0,6);
+    if (randomNum < 5) {
+        return;
+    }
+    //only look to random powerups in war zone
+    var freeSquares = [];
+    for (var i = 4; i <= 11; i++) {
+        //if there are no powerups on a space and no player pieces then add the square index as free
+        if (!room.data.powerUps.includes(playerPath[i])){
+            if (!user.data.squares[playerPath[i]] && !opponent.data.squares[playerPath[i]]) {
+                freeSquares.push(playerPath[i]);
+            }
+        }
+    }
+    if (freeSquares.length === 0) {
+        return;
+    }
+    //random which square index will have the powerup from all the free squares
+    //random which powerup to place on the square
+    const powerUpIndex = freeSquares[shared.getRandomIntInclusive(0,freeSquares.length-1)];
+    room.data.powerUps.push(powerUpIndex);
+    room.messageMembers('updatepowerups', JSON.stringify(room.data.powerUps));
+}
+
 
 module.exports.endTurn = endTurn;
 module.exports.rollDice = rollDice;
 module.exports.messageRoll = messageRoll;
 module.exports.movePiece = movePiece;
+module.exports.canMove = canMove;
 module.exports.reverseSquares = reverseSquares;
+module.exports.handleMoveUserPiece = handleMoveUserPiece;
+module.exports.handleTakePiece = handleTakePiece;
 module.exports.checkMoves = checkMoves;
 module.exports.sendStats = sendStats;
+module.exports.getUserStats = getUserStats;
