@@ -9,7 +9,6 @@ export default class OpponentPiece extends Component {
     }
 
     movePiece() {
-        console.log("peice position is = " + this.props.position);
         this.props.movePiece(this.props.position, true);
     }
 

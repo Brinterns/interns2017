@@ -219,10 +219,10 @@ function sendStats(user) {
 }
 
 function randomPowerUp(room, user, opponent) {
-    const randomNum = shared.getRandomIntInclusive(0,5);
-    // if (randomNum < 4) {
-    //     return;
-    // }
+    const randomNum = shared.getRandomIntInclusive(0,6);
+    if (randomNum < 5) {
+        return;
+    }
     //only look to random powerups in war zone
     var freeSquares = [];
     for (var i = 4; i <= 11; i++) {
@@ -239,8 +239,6 @@ function randomPowerUp(room, user, opponent) {
     //random which square index will have the powerup from all the free squares
     //random which powerup to place on the square
     const powerUpIndex = freeSquares[shared.getRandomIntInclusive(0,freeSquares.length-1)];
-
-
     room.data.powerUps.push(powerUpIndex);
     room.messageMembers('updatepowerups', JSON.stringify(room.data.powerUps));
 }

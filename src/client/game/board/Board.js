@@ -41,7 +41,8 @@ export class Board extends Component {
     squareType(i) {
         //Empty function for moving opponent pieces, only allowing your pieces to be moved
         var movePieceFunction = this.props.squares[i] ? this.handleMovePiece : () => {};
-        const pos = this.props.squares[i] ? playerPath.indexOf(i) + 1 : opponentPath.indexOf(i) + 1;
+        const pos = playerPath.indexOf(i) + 1;
+        const relativePos = this.props.squares[i] ? playerPath.indexOf(i) + 1 : opponentPath.indexOf(i) + 1;
 
         var pieceClassName = boardStyles.squarePiece;
         if ((pos !== 15) && this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos) && !this.props.winnerId && !this.props.opponentSquares[i]) {
@@ -67,7 +68,7 @@ export class Board extends Component {
             powerUp = true;
         }
         return (
-            <Square index={i} position={pos} displayNumber={displayNumber} movePiece={movePieceFunction} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={pieceClassName} powerUp={powerUp} setHighlightSquare={this.setHighlightSquare} highlight={(pos === this.state.highlightSquarePosition)} key={i} />
+            <Square index={i} position={relativePos} displayNumber={displayNumber} movePiece={movePieceFunction} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={pieceClassName} powerUp={powerUp} setHighlightSquare={this.setHighlightSquare} highlight={(pos === this.state.highlightSquarePosition)} key={i} />
         );
     }
 

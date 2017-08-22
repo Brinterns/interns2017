@@ -56,13 +56,13 @@ function powerUsed(position, userMoveId, opponentBool, user) {
         }
         user.message('updatemoveid', room.data.moveId);
     }
+    gamePlayFunctions.sendStats(user);
 }
 
 function pushPiece(position, user, opponentBool) {
     var room = user.getRoom();
     var opponent = shared.getOpponent(user);
     var nextPos = position + 1;
-
     if (!opponentBool) {
         var userStats = gamePlayFunctions.getUserStats(user);
         user.data.squares[playerPath[nextPos-1]] = true;
@@ -76,7 +76,6 @@ function pushPiece(position, user, opponentBool) {
         //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
         gamePlayFunctions.handleTakePiece(opponent, user, userStats, room, nextPos);
     }
-
     //If moved piece lands on power up, remove the powerup
     if (room.data.powerUps.includes(playerPath[nextPos-1])) {
         room.data.powerUps = room.data.powerUps.filter((powerUpIndex) => {
@@ -84,7 +83,6 @@ function pushPiece(position, user, opponentBool) {
         });
         room.messageMembers('updatepowerups', JSON.stringify(room.data.powerUps));
     }
-
     user.data.powerUp = null;
     user.message('newpowerup', user.data.powerUp);
     user.message('powerpieces', []);

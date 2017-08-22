@@ -99,13 +99,6 @@ function challengeRespond(user, user2, accept, numberOfPieces=7, enablePowerUps=
         createdRoom.data.spectatedId = user.id;
         createdRoom.messageMembers('joingame', createdRoom.id);
         createdRoom.messageMembers('enablepowerups', createdRoom.data.enablePowerUps);
-
-
-        user.message('newpowerup', user.data.powerUp);
-        user2.message('newpowerup', user2.data.powerUp);
-
-
-        
         setTimeout(function() {
             lobbyFunctions.updateLobbyActiveGames();
             lobbyFunctions.updateLobbyUsers();
@@ -161,7 +154,7 @@ function userJoinRoom(user, room) {
     user.data.piecePositions = Array(room.data.numberOfPieces).fill(0);
     user.data.numPiecesFinished = 0;
     user.data.lastRoll = null;
-    user.data.powerUp = "push";
+    user.data.powerUp = null;
 }
 
 function initRoomStats(room, user, user2) {
