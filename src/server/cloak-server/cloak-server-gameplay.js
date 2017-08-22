@@ -252,5 +252,7 @@ module.exports.messageRoll = messageRoll;
 module.exports.movePiece = movePiece;
 module.exports.canMove = canMove;
 module.exports.reverseSquares = reverseSquares;
+module.exports.handleMoveUserPiece = handleMoveUserPiece;
+module.exports.handleTakePiece = handleTakePiece;
 module.exports.checkMoves = checkMoves;
 module.exports.sendStats = sendStats;

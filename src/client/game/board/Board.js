@@ -35,10 +35,12 @@ export class Board extends Component {
         this.handleMovePiece = this.handleMovePiece.bind(this);
         this.setHighlightSquare = this.setHighlightSquare.bind(this);
         this.togglePowerUp = this.togglePowerUp.bind(this);
+        this.usePowerUp = this.usePowerUp.bind(this);
     }
 
     squareType(i) {
         const pos = playerPath.indexOf(i) + 1;
+        var movePieceFunction = this.handleMovePiece;
         var pieceClassName = boardStyles.squarePiece;
         if ((pos !== 15) && this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos) && !this.props.winnerId && !this.props.opponentSquares[i]) {
             pieceClassName = boardStyles.moveableSquarePiece;
@@ -46,8 +48,10 @@ export class Board extends Component {
                 pieceClassName = boardStyles.finishSquarePiece;
             }
         }
+
         if (this.state.powerUpActive && this.props.isPlayerTurn && !this.props.rollSequence && this.props.powerUpPieces.includes(i)) {
             pieceClassName = boardStyles.powerUpSquarePiece;
+            movePieceFunction = this.usePowerUp;
         }
 
         var displayNumber = null;
@@ -61,7 +65,7 @@ export class Board extends Component {
             powerUp = true;
         }
         return (
-            <Square index={i} position={pos} displayNumber={displayNumber} movePiece={this.handleMovePiece} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={pieceClassName} powerUp={powerUp} setHighlightSquare={this.setHighlightSquare} highlight={(pos === this.state.highlightSquarePosition)} key={i} />
+            <Square index={i} position={pos} displayNumber={displayNumber} movePiece={movePieceFunction} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={pieceClassName} powerUp={powerUp} setHighlightSquare={this.setHighlightSquare} highlight={(pos === this.state.highlightSquarePosition)} key={i} />
         );
     }
 
@@ -102,6 +106,11 @@ export class Board extends Component {
         });
     }
 
+    usePowerUp(position) {
+        cloak.message('usepowerup', [position, this.props.moveId]);
+        this.togglePowerUp(false);
+    }
+
     render() {
         const pieceHolder = [];
         const oppPieceHolder = [];
@@ -113,7 +122,7 @@ export class Board extends Component {
                     pieceHolder.push(<Piece position={pos} className={boardStyles.moveablePiece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
                     continue;
                 } else if (this.state.powerUpActive && this.props.isPlayerTurn && !this.props.rollSequence  && (this.props.powerUpPieces.length > 0) && !this.props.squares[playerPath[0]]) {
-                    pieceHolder.push(<Piece position={pos} className={boardStyles.powerUpHolderPiece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
+                    pieceHolder.push(<Piece position={pos} className={boardStyles.powerUpHolderPiece} movePiece={this.usePowerUp} setHighlightSquare={this.setHighlightSquare} key={i}/>);
                     continue;
                 }
                 pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
@@ -125,7 +134,7 @@ export class Board extends Component {
         }
         for (var i = 0; i < oppPieceHolderSize; i++) {
             if (this.state.powerUpActive && this.props.isPlayerTurn && !this.props.rollSequence && (this.props.powerUpPieces.length > 0) && !(this.props.opponentSquares[opponentPath[0]])) {
-                oppPieceHolder.push(<OpponentPiece className={boardStyles.powerUpHolderPiece} key={i}/>);
+                oppPieceHolder.push(<OpponentPiece movePiece={this.usePowerUp} className={boardStyles.powerUpHolderPiece} key={i}/>);
                 continue;
             }
             oppPieceHolder.push(<OpponentPiece className={boardStyles.piece} key={i}/>)

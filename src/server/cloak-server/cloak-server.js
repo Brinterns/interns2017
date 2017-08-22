@@ -99,6 +99,9 @@ module.exports = function(expressServer) {
             },
             activatepowerup: function(powerUp, user) {
                 powerupFunctions.powerupActivated(user, powerUp);
+            },
+            usepowerup: function(options, user) {
+                powerupFunctions.powerUsed(options[0], options[1], user);
             }
         },
         lobby: {

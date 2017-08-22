@@ -42,4 +42,44 @@ function pushActivated(user) {
     user.message('powerpieces', pushablePieces);
 }
 
+function powerUsed(position, userMoveId, user) {
+    var room = user.getRoom();
+    if (userMoveId === room.data.moveId) {
+        room.data.moveId = shared.generateMoveId();
+        switch(user.data.powerUp) {
+            case "push":
+                pushPiece(position, user);
+                break;
+            default:
+                console.log("cannot use powerup");
+                break;
+        }
+        user.message('updatemoveid', room.data.moveId);
+    }
+}
+
+function pushPiece(position, user) {
+    var room = user.getRoom();
+    var opponent = shared.getOpponent(user);
+    var nextPos = position + 1;
+    user.data.squares[playerPath[nextPos-1]] = true;
+    gamePlayFunctions.handleMoveUserPiece(user, opponent, room, position, nextPos);
+    //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
+    gamePlayFunctions.handleTakePiece(user, opponent, userStats, room, nextPos);
+    //If moved piece lands on power up, remove the powerup
+    if (room.data.powerUps.includes(playerPath[nextPos-1])) {
+        room.data.powerUps = room.data.powerUps.filter((powerUpIndex) => {
+            return powerUpIndex !== playerPath[nextPos-1];
+        });
+        room.messageMembers('updatepowerups', JSON.stringify(room.data.powerUps));
+    }
+    user.data.powerUp = null;
+    user.message('newpowerup', user.data.powerUp);
+    user.message('powerpieces', []);
+}
+
+
+
+
 module.exports.powerupActivated = powerupActivated;
+module.exports.powerUsed = powerUsed;
