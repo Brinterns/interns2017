@@ -17,7 +17,7 @@ const opponentPath = [
     0, 3,   6
 ];
 
-const powerUpTypes = ['push', 'shield'];
+const powerUpTypes = ['push'];
 
 function rollDice(user) {
     var total = 0;
@@ -256,3 +256,4 @@ module.exports.handleMoveUserPiece = handleMoveUserPiece;
 module.exports.handleTakePiece = handleTakePiece;
 module.exports.checkMoves = checkMoves;
 module.exports.sendStats = sendStats;
+module.exports.getUserStats = getUserStats;

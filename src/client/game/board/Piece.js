@@ -11,7 +11,7 @@ export default class Piece extends Component {
     }
 
     movePiece() {
-        this.props.movePiece(this.props.position);
+        this.props.movePiece(this.props.position, false);
     }
 
     enter() {

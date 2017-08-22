@@ -106,8 +106,8 @@ export class Board extends Component {
         });
     }
 
-    usePowerUp(position) {
-        cloak.message('usepowerup', [position, this.props.moveId]);
+    usePowerUp(position, opponentBool) {
+        cloak.message('usepowerup', [position, this.props.moveId, opponentBool]);
         this.togglePowerUp(false);
     }
 
@@ -134,10 +134,10 @@ export class Board extends Component {
         }
         for (var i = 0; i < oppPieceHolderSize; i++) {
             if (this.state.powerUpActive && this.props.isPlayerTurn && !this.props.rollSequence && (this.props.powerUpPieces.length > 0) && !(this.props.opponentSquares[opponentPath[0]])) {
-                oppPieceHolder.push(<OpponentPiece movePiece={this.usePowerUp} className={boardStyles.powerUpHolderPiece} key={i}/>);
+                oppPieceHolder.push(<OpponentPiece movePiece={this.usePowerUp} className={boardStyles.powerUpHolderPiece} position={0} key={i}/>);
                 continue;
             }
-            oppPieceHolder.push(<OpponentPiece className={boardStyles.piece} key={i}/>)
+            oppPieceHolder.push(<OpponentPiece movePiece={() => {}} className={boardStyles.piece} key={i}/>)
         }
         for (var i = 0; i < 24; i += 3) {
             squareCols.push(

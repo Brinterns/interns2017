@@ -42,13 +42,13 @@ function pushActivated(user) {
     user.message('powerpieces', pushablePieces);
 }
 
-function powerUsed(position, userMoveId, user) {
+function powerUsed(position, userMoveId, opponentBool, user) {
     var room = user.getRoom();
     if (userMoveId === room.data.moveId) {
         room.data.moveId = shared.generateMoveId();
         switch(user.data.powerUp) {
             case "push":
-                pushPiece(position, user);
+                pushPiece(position, user, opponentBool);
                 break;
             default:
                 console.log("cannot use powerup");
@@ -58,14 +58,25 @@ function powerUsed(position, userMoveId, user) {
     }
 }
 
-function pushPiece(position, user) {
+function pushPiece(position, user, opponentBool) {
     var room = user.getRoom();
     var opponent = shared.getOpponent(user);
     var nextPos = position + 1;
-    user.data.squares[playerPath[nextPos-1]] = true;
-    gamePlayFunctions.handleMoveUserPiece(user, opponent, room, position, nextPos);
-    //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
-    gamePlayFunctions.handleTakePiece(user, opponent, userStats, room, nextPos);
+
+    if (!opponentBool) {
+        var userStats = gamePlayFunctions.getUserStats(user);
+        user.data.squares[playerPath[nextPos-1]] = true;
+        gamePlayFunctions.handleMoveUserPiece(user, opponent, room, position, nextPos);
+        //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
+        gamePlayFunctions.handleTakePiece(user, opponent, userStats, room, nextPos);
+    } else {
+        var userStats = gamePlayFunctions.getUserStats(opponent);
+        opponent.data.squares[playerPath[nextPos-1]] = true;
+        gamePlayFunctions.handleMoveUserPiece(opponent, user, room, position, nextPos);
+        //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
+        gamePlayFunctions.handleTakePiece(opponent, user, userStats, room, nextPos);
+    }
+
     //If moved piece lands on power up, remove the powerup
     if (room.data.powerUps.includes(playerPath[nextPos-1])) {
         room.data.powerUps = room.data.powerUps.filter((powerUpIndex) => {
@@ -73,6 +84,7 @@ function pushPiece(position, user) {
         });
         room.messageMembers('updatepowerups', JSON.stringify(room.data.powerUps));
     }
+
     user.data.powerUp = null;
     user.message('newpowerup', user.data.powerUp);
     user.message('powerpieces', []);
