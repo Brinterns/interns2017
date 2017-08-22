@@ -30,7 +30,8 @@ import {
     UPDATE_POWER_UPS,
     NEW_POWER_UP,
     ENABLE_POWER_UPS,
-    UPDATE_POWER_UP_PIECES
+    UPDATE_POWER_UP_PIECES,
+    UPDATE_ACTIVE_POWER_UPS
 } from './Game-actions';
 
 
@@ -76,6 +77,7 @@ const initialState = {
     enablePowerUps: false,
     newEnablePowerUps: false,
     powerUpPieces: [],
+    activePowerUps: [],
     //Game statistics
     gameStats: null
 };
@@ -271,6 +273,11 @@ const game = (state = initialState, action) => {
         case UPDATE_POWER_UP_PIECES: {
             return updateState(state, {
                 powerUpPieces: action.payload
+            });
+        }
+        case UPDATE_ACTIVE_POWER_UPS: {
+            return updateState(state, {
+                activePowerUps: action.payload
             });
         }
         case RESET_STORE: {

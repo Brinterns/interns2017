@@ -272,3 +272,13 @@
     margin-top: calc((var(--squareSide) - 0.9 * var(--squareSide)) / 2);
     display: inline-block;
 }
+
+.activePowerUpDiv {
+    position: absolute;
+    border-radius: 50%;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    margin-left: calc((var(--squareSide) - 1.2 * var(--squareSide)) / 2);
+    margin-right: calc((var(--squareSide) - 1.2 * var(--squareSide)) / 2);
+    margin-top: calc((var(--squareSide) - 1.2 * var(--squareSide)) / 2);
+}

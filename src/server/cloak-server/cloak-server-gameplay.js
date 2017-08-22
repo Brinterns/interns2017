@@ -1,6 +1,7 @@
 var cloak = require('cloak');
 var shared = require('./cloak-server-shared');
 var gameRoomFunctions = require('./cloak-server-gameroom');
+var powerUpFunctions = require('./cloak-server-powerups');
 
 //Game playing variables
 const rosettaSquares = [3,5,13,21,23];
@@ -17,7 +18,7 @@ const opponentPath = [
     0, 3,   6
 ];
 
-const powerUpTypes = ['push'];
+const powerUpTypes = ['push', 'shield'];
 
 function rollDice(user) {
     var total = 0;
@@ -128,7 +129,13 @@ function handleMoveUserPiece(user, opponent, room, position, nextPos) {
             gameRoomFunctions.win(true, user);
         }
     }
-    user.data.piecePositions[user.data.piecePositions.indexOf(position)] = nextPos;
+    const index = user.data.piecePositions.indexOf(position);
+    user.data.piecePositions[index] = nextPos;
+    user.data.piecePowerUps[index].position = nextPos;
+    user.data.piecePowerUps[index].squareIndex = playerPath[nextPos-1];
+    powerUpFunctions.messageActivePowerUps(user, opponent);
+    powerUpFunctions.messageActivePowerUps(opponent, user);
+
     user.message('piecepositions', user.data.piecePositions);
     user.message('squares', user.data.squares);
     opponent.message('opponentsquares', reverseSquares(user.data.piecePositions));
