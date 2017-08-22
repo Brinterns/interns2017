@@ -78,13 +78,16 @@ module.exports = function(expressServer) {
             rolldice: function(_, user) {
                 user.data.rolledDice = true;
                 const rollNumber = gamePlayFunctions.rollDice(user);
-                const rollSequence = ("1".repeat(rollNumber) + "0".repeat(4-rollNumber)).split('').sort(function(){return 0.5-Math.random()});
+                const rollSequence = ("1".repeat(rollNumber) + "0".repeat(4-rollNumber)).split('').sort(function() {return 0.5-Math.random()});
                 user.message("rollsequence", rollSequence);
                 sharedFunctions.getOpponent(user).message("opponentsequence", rollSequence);
                 sharedFunctions.getSpectators(user.getRoom()).forEach(function(spectator) {
                     spectator.message('opponentsequence', rollSequence);
                 });
                 setTimeout(() => {
+                    if (user.data.newId) {
+                        user = cloak.getUser(user.data.newId);
+                    }
                     gamePlayFunctions.messageRoll(rollNumber, user);
                     var opponent = sharedFunctions.getOpponent(user);
                     if (rollNumber === 0) {
