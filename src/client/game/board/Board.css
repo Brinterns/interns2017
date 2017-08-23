@@ -264,7 +264,7 @@
 
 .powerUpSquarePiece {
     position: absolute;
-    box-shadow: 0 0 calc(1.5 * (1vw + 1vh - 1vmin)) calc(0.35 * (1vw + 1vh - 1vmin)) white;
+    box-shadow: 0 0 calc(1.5 * (1vw + 1vh - 1vmin)) calc(0.35 * (1vw + 1vh - 1vmin)) purple;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
@@ -273,7 +273,7 @@
 }
 
 .powerUpHolderPiece {
-    box-shadow: 0 0 calc(1.5 * (1vw + 1vh - 1vmin)) calc(0.35 * (1vw + 1vh - 1vmin)) white;
+    box-shadow: 0 0 calc(1.5 * (1vw + 1vh - 1vmin)) calc(0.35 * (1vw + 1vh - 1vmin)) purple;
     border-radius: 50%;
     height: calc(0.9 * var(--squareSide));
     width: calc(0.9 * var(--squareSide));
