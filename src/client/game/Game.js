@@ -164,8 +164,9 @@ export class Game extends Component {
         );
         let gameInfo = null;
         let currentPlayerText = null;
-        let opponentRoll;
+        let notifMessage;
         let currentPlayerName = "";
+        let notifDiv = null;
         if (this.props.listOfPlayers.length) {
             const currentPlayer = this.props.listOfPlayers.filter(player => {
                 return player.id === this.props.currentPlayer;
@@ -175,10 +176,17 @@ export class Game extends Component {
                 currentPlayerText = isPlayerTurn ? "It's your turn" : "It's " + currentPlayerName + "'s turn";
             }
 
-            if (this.props.notificationText && ((this.props.opponentRollNumber === 0) || (isPlayerTurn && !isNaN(this.props.notificationText.slice(-1))))) {
-                opponentRoll = (<div><p>{emojify(this.props.notificationText)}</p><p className={gameStyles.turnNotif}>{currentPlayerText}</p></div>);
+            if (this.props.powerUpNotif) {
+                currentPlayerName = emojify(currentPlayer.name);
+                notifMessage = currentPlayerName + " used ";
+                var picture = require('../images/powerups/'+ this.props.powerUpNotif +'.png');
+                notifDiv = (<div className={gameStyles.powerNotificationDiv}> <p>{notifMessage}</p> <div style={{background: 'url(' + picture + ')'}} /> </div>);
+            } else if (this.props.notificationText && ((this.props.opponentRollNumber === 0) || (isPlayerTurn && !isNaN(this.props.notificationText.slice(-1))))) {
+                notifMessage = (<div><p>{emojify(this.props.notificationText)}</p><p className={gameStyles.turnNotif}>{currentPlayerText}</p></div>);
+                notifDiv = (<div className={gameStyles.notificationDiv}> {notifMessage} </div>);
             } else if (this.props.opponentRollNumber !== null) {
-                opponentRoll = (<p className={isPlayerTurn ? gameStyles.turnNotif : null}>{emojify(this.props.notificationText)}</p>);
+                notifMessage = (<p className={isPlayerTurn ? gameStyles.turnNotif : null}>{emojify(this.props.notificationText)}</p>);
+                notifDiv = (<div className={gameStyles.notificationDiv}> {notifMessage} </div>);
             }
 
             gameInfo = <ul> {this.props.listOfPlayers.map((player, index) => {
@@ -207,7 +215,7 @@ export class Game extends Component {
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
                 {this.state.rules && !this.props.winnerId ? <Rules toggleRules={this.handleToggleRules} /> : null}
                 {(!this.props.winnerId && this.props.opponentRollSequence) ? <div className={gameStyles.notificationDiv}> <p>{currentPlayerName} is rolling</p> <RollFlash sequence={this.props.opponentRollSequence}/> </div> : null}
-                {(!this.props.winnerId && this.props.notificationBool) ? <div className={gameStyles.notificationDiv}> {opponentRoll} </div> : null}
+                {(!this.props.winnerId && this.props.notificationBool) ? notifDiv : null}
             </div>
         );
     }
@@ -234,6 +242,7 @@ const mapStateToProps = state => ({
     challengerId: state.game.challengerId,
     newNumberOfPieces: state.game.newNumberOfPieces,
     newEnablePowerUps: state.game.newEnablePowerUps,
+    powerUpNotif: state.game.powerUpNotif,
     //Game stats
     gameStats: state.game.gameStats
 });

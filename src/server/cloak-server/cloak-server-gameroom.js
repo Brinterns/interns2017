@@ -1,6 +1,7 @@
 var cloak = require('cloak');
 var shared = require('./cloak-server-shared');
 var lobbyFunctions = require('./cloak-server-lobby');
+var powerUpFunctions = require('./cloak-server-powerups');
 var gameplay = require('./cloak-server-gameplay');
 var EloRank = require('elo-rank');
 var db = require('../db');
@@ -43,6 +44,7 @@ function getRoomInfo(user) {
         var opponent;
         if (user.data.isPlayer) {
             opponent = shared.getOpponent(user);
+            user.message('activepowerups', powerUpFunctions.getActivePowerUps(user, opponent));
         } else {
             const spectatedPlayer = cloak.getUser(room.data.spectatedId);
             opponent = shared.getOpponent(spectatedPlayer);
@@ -50,6 +52,7 @@ function getRoomInfo(user) {
             user.data.piecePositions = spectatedPlayer.data.piecePositions;
             user.data.numPiecesFinished = spectatedPlayer.data.numPiecesFinished;
             user.message('spectatingid', room.data.spectatedId);
+            user.message('activepowerups', powerUpFunctions.getActivePowerUps(spectatedPlayer, shared.getOpponent(spectatedPlayer)));
         }
 
         var gameStateJson = {
@@ -92,7 +95,9 @@ function getGameInfo(roomId, user) {
         opponentDisconnect: room.data.opponentDisconnect,
         name: spectatedPlayer.name,
         opponentName: opponent.name,
-        numberOfPieces: room.data.numberOfPieces
+        numberOfPieces: room.data.numberOfPieces,
+        powerUps: room.data.powerUps,
+        activePowerUps: powerUpFunctions.getActivePowerUps(spectatedPlayer, opponent)
     };
     user.message('minimapstate', JSON.stringify(gameStateJson));
 }
