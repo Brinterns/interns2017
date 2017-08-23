@@ -14,12 +14,14 @@ export default class PowerUp extends Component {
     pageClick(e) {
         if (e.target.id !== "powerup") {
             document.body.style.cursor = "auto";
-            if (e.target.id !== "piece") {
-                this.props.togglePowerUp(false);
+            if (this.refs.powerup) {
+                if (e.target.id !== "piece") {
+                    this.props.togglePowerUp(false);
+                }
+                this.setState({
+                    powerUpClicked: false
+                });
             }
-            this.setState({
-                powerUpClicked: false
-            });
         }
     }
 
@@ -51,7 +53,7 @@ export default class PowerUp extends Component {
         }
 
         return (
-            <div className={powerUpStyles.powerUpDiv}>
+            <div ref="powerup" className={powerUpStyles.powerUpDiv}>
                 <div id="powerup" className={(this.props.useable && this.props.powerUp) ? powerUpStyles.powerClickable : powerUpStyles.powerUnclickable} style={powerUpStyle} onClick={this.togglePowerUp}/>
             </div>
         );
