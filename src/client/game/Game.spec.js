@@ -38,7 +38,8 @@ describe('<Game />', () => {
                 notificationBool: false,
                 notificationText: null,
                 opponentDisconnect: false,
-                challengerId: null
+                challengerId: null,
+                powerUpNotif: null
             }
         };
     });
@@ -120,6 +121,26 @@ describe('<Game />', () => {
         state.game.spectators = ['John', 'Matt', 'Test'];
         const store = mockStore(state);
         wrapper = shallow(<Game store={store}/>).shallow();
+        for ( var i = 0; i < 5; i ++ ) {
+            console.log(wrapper.find("p").at(i).text());
+        }
         expect(wrapper.find("p").at(0).text()).toEqual(' Spectators (3) ');
+    });
+
+    it('Shows the correct notification text when oppoennt uses power up', () => {
+        state.game.id = 1;
+        state.game.listOfPlayers = [{
+            id: 1,
+            name: 'Bob'
+        }, {
+            id: 2,
+            name: 'Sam'
+        }];
+        state.game.currentPlayer = 2;
+        state.game.powerUpNotif = "push";
+        state.game.notificationBool = true;
+        const store = mockStore(state);
+        wrapper = shallow(<Game store={store}/>).shallow();
+        expect(wrapper.find("p").at(2).text()).toEqual('Sam used ');
     });
 });
