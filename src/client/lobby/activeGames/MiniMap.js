@@ -28,14 +28,14 @@ export default class MiniMap extends Component {
             displayNumber = (this.props.gameState.numOppPiecesFinished > 1) ? this.props.gameState.numOppPiecesFinished : null;
         }
         var powerUp = this.props.gameState.powerUps.includes(i);
-        var powerUpImg = null;
+        var powerUpInfo = null;
         this.props.gameState.activePowerUps.forEach((activePowerUp) => {
             if((i !== 8) && (i !== 6) && activePowerUp.powerUp && (activePowerUp.squareIndex === i)) {
-                powerUpImg = activePowerUp.powerUp;
+                powerUpInfo = activePowerUp;
             }
         });
         return (
-            <Square index={i} position={pos} displayNumber={displayNumber} movePiece={() => {}} piece={this.props.gameState.squares[i]} opponentPiece={this.props.gameState.opponentSquares[i]} pieceClassName={boardStyles.squarePiece} setHighlightSquare={() => {}} highlight={false} minimap={true} powerUp={powerUp} powerUpImg={powerUpImg} key={i} />
+            <Square index={i} position={pos} displayNumber={displayNumber} movePiece={() => {}} piece={this.props.gameState.squares[i]} opponentPiece={this.props.gameState.opponentSquares[i]} pieceClassName={boardStyles.squarePiece} setHighlightSquare={() => {}} highlight={false} minimap={true} powerUp={powerUp} powerUpInfo={powerUpInfo} key={i} />
         );
     }
 

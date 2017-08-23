@@ -291,6 +291,7 @@
     margin-left: calc((var(--squareSide) + 0.05 * var(--squareSide)) / 2.5);
     margin-right: calc((var(--squareSide) + 0.05 * var(--squareSide)) / 2.5);
     margin-top: calc((var(--squareSide) + 0.05 * var(--squareSide)) / 2.5);
+    vertical-align: middle;
 }
 
 .activePowerUpMiniMap {
@@ -301,4 +302,26 @@
     margin-left: calc((var(--squareSideMini) + 0.05 * var(--squareSideMini)) / 2.5);
     margin-right: calc((var(--squareSideMini) + 0.05 * var(--squareSideMini)) / 2.5);
     margin-top: calc((var(--squareSideMini) + 0.05 * var(--squareSideMini)) / 2.5);
+}
+
+.activePowerUpDiv p {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: black;
+}
+
+.activePowerUpMiniMap p {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: black;
+}
+
+.turnsLeft {
+    font-size: calc(2.5 * (1vw + 1vh - 1vmin));
+}
+
+.turnsLeftMiniMap {
+    font-size: calc(1.25 * (1vw + 1vh - 1vmin));
 }

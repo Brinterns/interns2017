@@ -121,9 +121,6 @@ describe('<Game />', () => {
         state.game.spectators = ['John', 'Matt', 'Test'];
         const store = mockStore(state);
         wrapper = shallow(<Game store={store}/>).shallow();
-        for ( var i = 0; i < 5; i ++ ) {
-            console.log(wrapper.find("p").at(i).text());
-        }
         expect(wrapper.find("p").at(0).text()).toEqual(' Spectators (3) ');
     });
 
