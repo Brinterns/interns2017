@@ -35,15 +35,15 @@ export class BoardSpectate extends Component {
         } else if ((i === 6) && this.props.numOppPiecesFinished) {
             displayNumber = (this.props.numOppPiecesFinished > 1) ? this.props.numOppPiecesFinished : null;
         }
-        var powerUpImg = null;
+        var powerUpInfo = null;
         this.props.activePowerUps.forEach((activePowerUp) => {
             if((i !== 8) && (i !== 6) && activePowerUp.powerUp && (activePowerUp.squareIndex === i)) {
-                powerUpImg = activePowerUp.powerUp;
+                powerUpInfo = activePowerUp;
             }
         });
         var powerUp = this.props.powerUps.includes(i);
         return (
-            <Square index={i} position={pos} displayNumber={displayNumber} movePiece={() => {}} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={boardStyles.squarePiece} powerUp={powerUp} setHighlightSquare={() => {}} highlight={false} powerUpImg={powerUpImg} key={i} />
+            <Square index={i} position={pos} displayNumber={displayNumber} movePiece={() => {}} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={boardStyles.squarePiece} powerUp={powerUp} setHighlightSquare={() => {}} highlight={false} powerUpInfo={powerUpInfo} key={i} />
         );
     }
 
