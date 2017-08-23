@@ -27,3 +27,13 @@
     background-repeat: no-repeat !important;
     opacity: 0.6;
 }
+
+.powerUnclickable img {
+    position: absolute;
+    top : 0;
+    right: 0;
+    height: calc(0.25 * var(--squareSide));
+    width: calc(0.25 * var(--squareSide));
+    margin-right: calc(0.05 * var(--squareSide));
+    cursor: help;
+}

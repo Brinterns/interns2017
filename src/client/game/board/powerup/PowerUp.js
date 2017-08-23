@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import powerUpStyles from './PowerUp.css';
+import info from '../../../images/powerups/info.png';
 
 export default class PowerUp extends Component {
     constructor(props) {
@@ -54,7 +55,9 @@ export default class PowerUp extends Component {
 
         return (
             <div ref="powerup" className={powerUpStyles.powerUpDiv}>
-                <div id="powerup" className={(this.props.useable && this.props.powerUp) ? powerUpStyles.powerClickable : powerUpStyles.powerUnclickable} style={powerUpStyle} onClick={this.togglePowerUp}/>
+                <div id="powerup" className={(this.props.useable && this.props.powerUp) ? powerUpStyles.powerClickable : powerUpStyles.powerUnclickable} style={powerUpStyle} onClick={this.togglePowerUp}>
+                    <img src={info} />
+                </div>
             </div>
         );
     }
