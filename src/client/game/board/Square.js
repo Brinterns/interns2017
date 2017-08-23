@@ -56,7 +56,7 @@ export default class Square extends Component {
                     {this.props.opponentPiece ? <OpponentPiece movePiece={this.props.movePiece} displayNumber={this.props.displayNumber} className={this.props.pieceClassName} minimap={this.props.minimap} position={this.props.position} /> : null}
                     {this.props.highlight ? <div className={boardStyles.moveHighlighter} style={highlightStyle} /> : null}
                     {this.props.powerUpInfo ? <div className={this.props.minimap ? boardStyles.activePowerUpMiniMap : boardStyles.activePowerUpDiv} style={activePowerUp} /> : null}
-                    {this.props.powerUpInfo ? <div className={boardStyles.activePowerUpDiv}> <p className={this.props.minimap ? boardStyles.turnsLeftMiniMap : boardStyles.turnsLeft}>{this.props.powerUpInfo.turnsLeft}</p> </div> : null}
+                    {this.props.powerUpInfo ? <div className={this.props.minimap ? boardStyles.activePowerUpMiniMap : boardStyles.activePowerUpDiv}> <p className={this.props.minimap ? boardStyles.turnsLeftMiniMap : boardStyles.turnsLeft}>{this.props.powerUpInfo.turnsLeft}</p> </div> : null}
                 </div>
             </div>
         );
