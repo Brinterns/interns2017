@@ -27,8 +27,7 @@ export class BoardSpectate extends Component {
         } else if ((i === 6) && this.props.numOppPiecesFinished) {
             displayNumber = (this.props.numOppPiecesFinished > 1) ? this.props.numOppPiecesFinished : null;
         }
-        const powerUpFilter = this.props.powerUps.filter((powerUp) => {return powerUp.index === i});
-        const powerUp = powerUpFilter.length ? powerUpFilter[0].type : null;
+        var powerUp = this.props.powerUps.includes(i);
         return (
             <Square index={i} position={pos} displayNumber={displayNumber} movePiece={() => {}} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={boardStyles.squarePiece} powerUp={powerUp} setHighlightSquare={() => {}} highlight={false} key={i} />
         );
