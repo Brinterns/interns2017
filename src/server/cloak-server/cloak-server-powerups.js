@@ -80,7 +80,10 @@ function powerUsed(position, userMoveId, opponentBool, user) {
         room.data.moveId = shared.generateMoveId();
         switch(user.data.powerUp) {
             case "push":
-                pushPiece(position, user, opponentBool);
+                pushPullPiece(position, user, opponentBool);
+                break;
+            case "pull":
+                pushPullPiece(position, user, opponentBool);
                 break;
             case "shield":
                 shieldPiece(position, user);
@@ -94,10 +97,10 @@ function powerUsed(position, userMoveId, opponentBool, user) {
     gamePlayFunctions.sendStats(user);
 }
 
-function pushPiece(position, user, opponentBool) {
+function pushPullPiece(position, user, opponentBool) {
     var room = user.getRoom();
     var opponent = shared.getOpponent(user);
-    var nextPos = position + 1;
+    var nextPos = (user.data.powerUp === "push") ? position + 1 : position - 1;
     if (!opponentBool) {
         const oppIndex = opponent.data.piecePositions.indexOf(nextPos);
         if ((oppIndex !== -1) && opponent.data.piecePowerUps[oppIndex].powerUp === "shield") {
