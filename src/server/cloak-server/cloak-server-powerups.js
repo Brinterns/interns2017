@@ -55,12 +55,12 @@ function pullActivated(user) {
     var pullablePieces = [];
     var opponent = shared.getOpponent(user);
     user.data.piecePositions.forEach((position) => {
-        if ((position > 0) && ((position === 1) || gamePlayFunctions.canMove(user.data.squares, opponent.data.squares, position - 1, [], position - 2))) {
+        if ((position > 0) && (position < 15) && ((position === 1) || gamePlayFunctions.canMove(user.data.squares, opponent.data.squares, position - 1, [], position - 2))) {
             pullablePieces.push(playerPath[position-1]);
         }
     });
     opponent.data.piecePositions.forEach((position) => {
-        if ((position > 0) && ((position === 1) || gamePlayFunctions.canMove(opponent.data.squares, user.data.squares, position - 1, [], position - 2))) {
+        if ((position > 0) && (position < 15) && ((position === 1) || gamePlayFunctions.canMove(opponent.data.squares, user.data.squares, position - 1, [], position - 2))) {
             pullablePieces.push(opponentPath[position-1]);
         }
     });
@@ -81,7 +81,7 @@ function remoteAttackActivated(user) {
     var remoteAttackablePieces = [];
     var opponent = shared.getOpponent(user);
     opponent.data.piecePositions.forEach((position) => {
-        if (position > 0) {
+        if ((position > 0) && (position < 15)) {
             remoteAttackablePieces.push(opponentPath[position-1]);
         }
     });
