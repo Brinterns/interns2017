@@ -51,11 +51,16 @@ export class Board extends Component {
                 pieceClassName = boardStyles.finishSquarePiece;
             }
         }
-
-        if (this.state.powerUpActive && this.props.isPlayerTurn && !this.props.rollSequence && this.props.powerUpPieces.includes(i)) {
+        if (this.state.powerUpActive && this.props.powerUpPieces.includes(i)) {
             pieceClassName = boardStyles.powerUpSquarePiece;
             movePieceFunction = this.usePowerUp;
         }
+        var powerUpImg = null;
+        this.props.activePowerUps.forEach((activePowerUp) => {
+            if((i !== 8) && (i !== 6) && activePowerUp.powerUp && (activePowerUp.squareIndex === i)) {
+                powerUpImg = activePowerUp.powerUp;
+            }
+        });
 
         var displayNumber = null;
         if ((i === 8) && this.props.numPiecesFinished) {
@@ -68,7 +73,7 @@ export class Board extends Component {
             powerUp = true;
         }
         return (
-            <Square index={i} position={relativePos} displayNumber={displayNumber} movePiece={movePieceFunction} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={pieceClassName} powerUp={powerUp} setHighlightSquare={this.setHighlightSquare} highlight={(pos === this.state.highlightSquarePosition)} key={i} />
+            <Square index={i} position={relativePos} displayNumber={displayNumber} movePiece={movePieceFunction} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={pieceClassName} powerUp={powerUp} setHighlightSquare={this.setHighlightSquare} highlight={(pos === this.state.highlightSquarePosition)} powerUpImg={powerUpImg} key={i} />
         );
     }
 
@@ -124,7 +129,7 @@ export class Board extends Component {
                 if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos) && !this.props.winnerId) {
                     pieceHolder.push(<Piece position={pos} className={boardStyles.moveablePiece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
                     continue;
-                } else if (this.state.powerUpActive && this.props.isPlayerTurn && !this.props.rollSequence  && (this.props.powerUpPieces.length > 0) && !this.props.squares[playerPath[0]]) {
+                } else if (this.state.powerUpActive && (this.props.powerUp === "push") && (this.props.powerUpPieces.length > 0) && !this.props.squares[playerPath[0]]) {
                     pieceHolder.push(<Piece position={pos} className={boardStyles.powerUpHolderPiece} movePiece={this.usePowerUp} setHighlightSquare={this.setHighlightSquare} key={i}/>);
                     continue;
                 }
@@ -136,7 +141,7 @@ export class Board extends Component {
             oppPieceHolderSize -= (this.props.numOppPiecesFinished - 1);
         }
         for (var i = 0; i < oppPieceHolderSize; i++) {
-            if (this.state.powerUpActive && this.props.isPlayerTurn && !this.props.rollSequence && (this.props.powerUpPieces.length > 0) && !(this.props.opponentSquares[opponentPath[0]])) {
+            if (this.state.powerUpActive && (this.props.powerUp === "push") && (this.props.powerUpPieces.length > 0) && !(this.props.opponentSquares[opponentPath[0]])) {
                 oppPieceHolder.push(<OpponentPiece movePiece={this.usePowerUp} className={boardStyles.powerUpHolderPiece} position={0} key={i}/>);
                 continue;
             }
@@ -191,7 +196,8 @@ const mapStateToProps = state => ({
     powerUps: state.game.powerUps,
     powerUp: state.game.powerUp,
     enablePowerUps: state.game.enablePowerUps,
-    powerUpPieces: state.game.powerUpPieces
+    powerUpPieces: state.game.powerUpPieces,
+    activePowerUps: state.game.activePowerUps
 });
 
 export default connect(

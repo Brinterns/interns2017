@@ -20,6 +20,9 @@ function powerupActivated(user, powerUp) {
         case "push":
             pushActivated(user);
             break;
+        case "shield":
+            shieldActivated(user);
+            break;
         default:
             console.log("Power up not found");
             break;
@@ -42,6 +45,16 @@ function pushActivated(user) {
     user.message('powerpieces', pushablePieces);
 }
 
+function shieldActivated(user) {
+    var shieldablePieces = [];
+    user.data.piecePositions.forEach((position) => {
+        if ((position > 0) && (position < 15)) {
+            shieldablePieces.push(playerPath[position-1]);
+        }
+    });
+    user.message('powerpieces', shieldablePieces);
+}
+
 function powerUsed(position, userMoveId, opponentBool, user) {
     var room = user.getRoom();
     if (userMoveId === room.data.moveId) {
@@ -49,6 +62,9 @@ function powerUsed(position, userMoveId, opponentBool, user) {
         switch(user.data.powerUp) {
             case "push":
                 pushPiece(position, user, opponentBool);
+                break;
+            case "shield":
+                shieldPiece(position, user);
                 break;
             default:
                 console.log("cannot use powerup");
@@ -64,17 +80,27 @@ function pushPiece(position, user, opponentBool) {
     var opponent = shared.getOpponent(user);
     var nextPos = position + 1;
     if (!opponentBool) {
-        var userStats = gamePlayFunctions.getUserStats(user);
-        user.data.squares[playerPath[nextPos-1]] = true;
-        gamePlayFunctions.handleMoveUserPiece(user, opponent, room, position, nextPos);
-        //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
-        gamePlayFunctions.handleTakePiece(user, opponent, userStats, room, nextPos);
+        const oppIndex = opponent.data.piecePositions.indexOf(nextPos);
+        if ((oppIndex !== -1) && opponent.data.piecePowerUps[oppIndex].powerUp === "shield") {
+            gamePlayFunctions.handleMoveUserPiece(user, opponent, room, position, nextPos, true);
+        } else {
+            var userStats = gamePlayFunctions.getUserStats(user);
+            user.data.squares[playerPath[nextPos-1]] = true;
+            gamePlayFunctions.handleMoveUserPiece(user, opponent, room, position, nextPos, false);
+            //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
+            gamePlayFunctions.handleTakePiece(user, opponent, userStats, room, nextPos);
+        }
     } else {
-        var userStats = gamePlayFunctions.getUserStats(opponent);
-        opponent.data.squares[playerPath[nextPos-1]] = true;
-        gamePlayFunctions.handleMoveUserPiece(opponent, user, room, position, nextPos);
-        //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
-        gamePlayFunctions.handleTakePiece(opponent, user, userStats, room, nextPos);
+        const oppIndex = user.data.piecePositions.indexOf(nextPos);
+        if ((oppIndex !== -1) && user.data.piecePowerUps[oppIndex].powerUp === "shield") {
+            gamePlayFunctions.handleMoveUserPiece(opponent, user, room, position, nextPos, true);
+        } else {
+            var userStats = gamePlayFunctions.getUserStats(opponent);
+            opponent.data.squares[playerPath[nextPos-1]] = true;
+            gamePlayFunctions.handleMoveUserPiece(opponent, user, room, position, nextPos, false);
+            //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
+            gamePlayFunctions.handleTakePiece(opponent, user, userStats, room, nextPos);
+        }
     }
     //If moved piece lands on power up, remove the powerup
     if (room.data.powerUps.includes(playerPath[nextPos-1])) {
@@ -83,13 +109,34 @@ function pushPiece(position, user, opponentBool) {
         });
         room.messageMembers('updatepowerups', JSON.stringify(room.data.powerUps));
     }
+    clearPowerUp(user);
+}
+
+function messageActivePowerUps(user, opponent) {
+    var activePowerUps = Object.assign([], user.data.piecePowerUps);
+    opponent.data.piecePowerUps.forEach((piecePowerUp) => {
+        var copy = Object.assign({}, piecePowerUp);
+        copy.squareIndex = opponentPath[piecePowerUp.position - 1];
+        activePowerUps.push(copy);
+    });
+    user.message('activepowerups', activePowerUps);
+}
+
+function shieldPiece(position, user) {
+    const index = user.data.piecePositions.indexOf(position);
+    user.data.piecePowerUps[index] = {powerUp: "shield", turnsLeft: 3, squareIndex: playerPath[position-1], position: position};
+    const opponent = shared.getOpponent(user);
+    messageActivePowerUps(user, opponent);
+    messageActivePowerUps(opponent, user);
+    clearPowerUp(user);
+}
+
+function clearPowerUp(user) {
     user.data.powerUp = null;
     user.message('newpowerup', user.data.powerUp);
     user.message('powerpieces', []);
 }
 
-
-
-
 module.exports.powerupActivated = powerupActivated;
 module.exports.powerUsed = powerUsed;
+module.exports.messageActivePowerUps = messageActivePowerUps;

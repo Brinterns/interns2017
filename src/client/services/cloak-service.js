@@ -38,7 +38,8 @@ import {
     updatePowerUps,
     newPowerUp,
     enablePowerUps,
-    updatePowerablePieces
+    updatePowerablePieces,
+    updateActivePowerUps
 } from '../game/Game-actions';
 
 import { dispatch } from '../store';
@@ -193,8 +194,10 @@ export function RunCloakConfig() {
             },
             powerpieces: (powerUpPieces) => {
                 dispatch(updatePowerablePieces(powerUpPieces));
+            },
+            activepowerups: (activePowerUps) => {
+                dispatch(updateActivePowerUps(activePowerUps));
             }
-
         }
     });
 }

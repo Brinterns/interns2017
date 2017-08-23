@@ -2,6 +2,7 @@ var cloak = require('cloak');
 var db = require('../db');
 var lobbyFunctions = require('./cloak-server-lobby');
 var gameRoomFunctions = require('./cloak-server-gameroom');
+var powerUpFunctions = require('./cloak-server-powerups');
 const maxMessages = 1000;
 
 function getRandomIntInclusive(min, max) {
@@ -189,6 +190,7 @@ function reconnectGame(user, user2, room) {
     user.message('newpowerup', user.data.powerUp);
     user.message('updategamemessages', JSON.stringify(room.data.messages));
     user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps]);
+    powerUpFunctions.messageActivePowerUps(user, opponent);
     if (user.id === room.data.currentPlayer) {
         user.message('updatemoveid', room.data.moveId);
     }
