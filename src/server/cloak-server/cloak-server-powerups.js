@@ -80,17 +80,27 @@ function pushPiece(position, user, opponentBool) {
     var opponent = shared.getOpponent(user);
     var nextPos = position + 1;
     if (!opponentBool) {
-        var userStats = gamePlayFunctions.getUserStats(user);
-        user.data.squares[playerPath[nextPos-1]] = true;
-        gamePlayFunctions.handleMoveUserPiece(user, opponent, room, position, nextPos);
-        //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
-        gamePlayFunctions.handleTakePiece(user, opponent, userStats, room, nextPos);
+        const oppIndex = opponent.data.piecePositions.indexOf(nextPos);
+        if ((oppIndex !== -1) && opponent.data.piecePowerUps[oppIndex].powerUp === "shield") {
+            gamePlayFunctions.handleMoveUserPiece(user, opponent, room, position, nextPos, true);
+        } else {
+            var userStats = gamePlayFunctions.getUserStats(user);
+            user.data.squares[playerPath[nextPos-1]] = true;
+            gamePlayFunctions.handleMoveUserPiece(user, opponent, room, position, nextPos, false);
+            //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
+            gamePlayFunctions.handleTakePiece(user, opponent, userStats, room, nextPos);
+        }
     } else {
-        var userStats = gamePlayFunctions.getUserStats(opponent);
-        opponent.data.squares[playerPath[nextPos-1]] = true;
-        gamePlayFunctions.handleMoveUserPiece(opponent, user, room, position, nextPos);
-        //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
-        gamePlayFunctions.handleTakePiece(opponent, user, userStats, room, nextPos);
+        const oppIndex = user.data.piecePositions.indexOf(nextPos);
+        if ((oppIndex !== -1) && user.data.piecePowerUps[oppIndex].powerUp === "shield") {
+            gamePlayFunctions.handleMoveUserPiece(opponent, user, room, position, nextPos, true);
+        } else {
+            var userStats = gamePlayFunctions.getUserStats(opponent);
+            opponent.data.squares[playerPath[nextPos-1]] = true;
+            gamePlayFunctions.handleMoveUserPiece(opponent, user, room, position, nextPos, false);
+            //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
+            gamePlayFunctions.handleTakePiece(opponent, user, userStats, room, nextPos);
+        }
     }
     //If moved piece lands on power up, remove the powerup
     if (room.data.powerUps.includes(playerPath[nextPos-1])) {
