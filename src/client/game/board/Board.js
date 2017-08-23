@@ -55,10 +55,10 @@ export class Board extends Component {
             pieceClassName = boardStyles.powerUpSquarePiece;
             movePieceFunction = this.usePowerUp;
         }
-        var powerUpImg = null;
+        var powerUpInfo = null;
         this.props.activePowerUps.forEach((activePowerUp) => {
             if((i !== 8) && (i !== 6) && activePowerUp.powerUp && (activePowerUp.squareIndex === i)) {
-                powerUpImg = activePowerUp.powerUp;
+                powerUpInfo = activePowerUp;
             }
         });
 
@@ -73,7 +73,7 @@ export class Board extends Component {
             powerUp = true;
         }
         return (
-            <Square index={i} position={relativePos} displayNumber={displayNumber} movePiece={movePieceFunction} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={pieceClassName} powerUp={powerUp} setHighlightSquare={this.setHighlightSquare} highlight={(pos === this.state.highlightSquarePosition)} powerUpImg={powerUpImg} key={i} />
+            <Square index={i} position={relativePos} displayNumber={displayNumber} movePiece={movePieceFunction} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={pieceClassName} powerUp={powerUp} setHighlightSquare={this.setHighlightSquare} highlight={(pos === this.state.highlightSquarePosition)} powerUpInfo={powerUpInfo} key={i} />
         );
     }
 
