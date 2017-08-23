@@ -31,7 +31,8 @@ import {
     NEW_POWER_UP,
     ENABLE_POWER_UPS,
     UPDATE_POWER_UP_PIECES,
-    UPDATE_ACTIVE_POWER_UPS
+    UPDATE_ACTIVE_POWER_UPS,
+    UPDATE_POWER_UP_NOTIFICATION
 } from './Game-actions';
 
 
@@ -78,6 +79,7 @@ const initialState = {
     newEnablePowerUps: false,
     powerUpPieces: [],
     activePowerUps: [],
+    powerUpNotif: null,
     //Game statistics
     gameStats: null
 };
@@ -162,7 +164,8 @@ const game = (state = initialState, action) => {
                 notificationName: state.listOfPlayers.filter(player => {
                     return player.id === state.currentPlayer;
                 })[0].name,
-                notificationBool: false
+                notificationBool: false,
+                powerUpNotif: null
             });
         }
         case OPPONENT_ROLLED_NUMBER: {
@@ -228,6 +231,15 @@ const game = (state = initialState, action) => {
             if (state.currentPlayer === state.id ) {
                 return updateState(state, {
                     notificationBool: false
+                });
+            }
+            return state;
+        }
+        case UPDATE_POWER_UP_NOTIFICATION: {
+            if(state.currentPlayer !== state.id) {
+                return updateState(state, {
+                    notificationBool: action.payload[1],
+                    powerUpNotif: action.payload[0]
                 });
             }
             return state;

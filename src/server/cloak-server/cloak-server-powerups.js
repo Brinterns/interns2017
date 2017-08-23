@@ -59,6 +59,7 @@ function powerUsed(position, userMoveId, opponentBool, user) {
     var room = user.getRoom();
     if (userMoveId === room.data.moveId) {
         room.data.moveId = shared.generateMoveId();
+        var powerUp = user.data.powerUp;
         switch(user.data.powerUp) {
             case "push":
                 pushPiece(position, user, opponentBool);
@@ -71,6 +72,7 @@ function powerUsed(position, userMoveId, opponentBool, user) {
                 break;
         }
         user.message('updatemoveid', room.data.moveId);
+        room.messageMembers('powernotify', powerUp);
     }
     gamePlayFunctions.sendStats(user);
 }

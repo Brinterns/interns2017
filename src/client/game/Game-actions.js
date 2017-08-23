@@ -31,6 +31,7 @@ export const NEW_POWER_UP = namespace + 'NEW_POWER_UP';
 export const ENABLE_POWER_UPS = namespace + 'ENABLE_POWER_UPS';
 export const UPDATE_POWER_UP_PIECES = namespace + 'UPDATE_POWER_UP_PIECES';
 export const UPDATE_ACTIVE_POWER_UPS = namespace + 'UPDATE_ACTIVE_POWER_UPS';
+export const UPDATE_POWER_UP_NOTIFICATION = namespace + 'UPDATE_POWER_UP_NOTIFICATION';
 
 export function updateUserGameId(id) {
     return {
@@ -85,6 +86,13 @@ export function updateActivePowerUps(activePowerUps) {
     return {
         type: UPDATE_ACTIVE_POWER_UPS,
         payload: activePowerUps
+    }
+}
+
+export function updatePowerUpNotif(powerUpNotif) {
+    return {
+        type: UPDATE_POWER_UP_NOTIFICATION,
+        payload: powerUpNotif
     }
 }
 
