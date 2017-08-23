@@ -189,13 +189,15 @@ function reconnectGame(user, user2, room) {
     user.data.powerUp = "push";
 
 
+
     room.data.gameinfo.playerIds[room.data.gameinfo.playerIds.indexOf(user2.id)] = user.id;
     user.message('updatestats', JSON.stringify(room.data.gameinfo));
     user.message('enablepowerups', room.data.enablePowerUps);
     user.message('newpowerup', user.data.powerUp);
     user.message('updategamemessages', JSON.stringify(room.data.messages));
     user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps]);
-    powerUpFunctions.messageActivePowerUps(user, opponent);
+    user.data.isPlayer ? powerUpFunctions.messageActivePowerUps(user, opponent) : powerUpFunctions.messageActivePowerUps(cloak.getUser(room.data.spectatedId), getOpponent(cloak.getUser(room.data.spectatedId)));
+
     if (user.id === room.data.currentPlayer) {
         user.message('updatemoveid', room.data.moveId);
     }

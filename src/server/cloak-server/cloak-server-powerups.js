@@ -122,6 +122,12 @@ function messageActivePowerUps(user, opponent) {
         activePowerUps.push(copy);
     });
     user.message('activepowerups', activePowerUps);
+    const room = user.getRoom();
+    if (user.id === room.data.spectatedId) {
+        shared.getSpectators(room).forEach((spectator) => {
+            spectator.message('activepowerups', activePowerUps);
+        });
+    }
 }
 
 function shieldPiece(position, user) {
