@@ -20,6 +20,9 @@ function powerupActivated(user, powerUp) {
         case "push":
             pushActivated(user);
             break;
+        case "pull":
+            pullActivated(user);
+            break;
         case "shield":
             shieldActivated(user);
             break;
@@ -33,16 +36,32 @@ function pushActivated(user) {
     var pushablePieces = [];
     var opponent = shared.getOpponent(user);
     user.data.piecePositions.forEach((position) => {
-        if ((position > 0) && gamePlayFunctions.canMove(user.data.squares, opponent.data.squares, position + 1, [], position)) {
+        if (gamePlayFunctions.canMove(user.data.squares, opponent.data.squares, position + 1, [], position)) {
             pushablePieces.push(playerPath[position-1]);
         }
     });
     opponent.data.piecePositions.forEach((position) => {
-        if ((position > 0) && gamePlayFunctions.canMove(opponent.data.squares, user.data.squares, position + 1, [], position)) {
+        if (gamePlayFunctions.canMove(opponent.data.squares, user.data.squares, position + 1, [], position)) {
             pushablePieces.push(opponentPath[position-1]);
         }
     });
     user.message('powerpieces', pushablePieces);
+}
+
+function pullActivated(user) {
+    var pullablePieces = [];
+    var opponent = shared.getOpponent(user);
+    user.data.piecePositions.forEach((position) => {
+        if ((position > 0) && ((position === 1) || gamePlayFunctions.canMove(user.data.squares, opponent.data.squares, position - 1, [], position - 2))) {
+            pullablePieces.push(playerPath[position-1]);
+        }
+    });
+    opponent.data.piecePositions.forEach((position) => {
+        if ((position > 0) && ((position === 1) || gamePlayFunctions.canMove(opponent.data.squares, user.data.squares, position - 1, [], position - 2))) {
+            pullablePieces.push(opponentPath[position-1]);
+        }
+    });
+    user.message('powerpieces', pullablePieces);
 }
 
 function shieldActivated(user) {
