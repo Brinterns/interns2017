@@ -101,18 +101,24 @@ function movePiece(position, userMoveId, user) {
         var opponent = shared.getOpponent(user);
         var nextPos = position + user.data.lastRoll;
         var userStats = getUserStats(user);
-        user.data.squares[playerPath[nextPos-1]] = true;
-        userStats.squaresMoved += user.data.lastRoll;
         var d = new Date();
         userStats.totalTimeTaken += milliToSeconds(d.getTime() - user.data.rollStartTime - 1650);
-        handleMoveUserPiece(user, opponent, room, position, nextPos);
-        //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
-        handleTakePiece(user, opponent, userStats, room, nextPos);
-        //If moved piece lands on power up, obtain the powerup
-        handlePowerupTake(user, room, nextPos);
-        //if moved piece lands on rosetta square, allow reroll and reset roll timer
-        if (handleRosetta(user, room, position, d)) {
-            return;
+
+        const oppIndex = opponent.data.piecePositions.indexOf(nextPos);
+        if ((oppIndex !== -1) && opponent.data.piecePowerUps[oppIndex].powerUp === "shield") {
+            handleMoveUserPiece(user, opponent, room, position, nextPos, true);
+        } else {
+            user.data.squares[playerPath[nextPos-1]] = true;
+            userStats.squaresMoved += user.data.lastRoll;
+            handleMoveUserPiece(user, opponent, room, position, nextPos, false);
+            //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
+            handleTakePiece(user, opponent, userStats, room, nextPos);
+            //If moved piece lands on power up, obtain the powerup
+            handlePowerupTake(user, room, nextPos);
+            //if moved piece lands on rosetta square, allow reroll and reset roll timer
+            if (handleRosetta(user, room, position, d)) {
+                return;
+            }
         }
         //balances out the increment for this piece being in the final range as it has just moved there
         handleFinalRange(user, userStats, room, position, nextPos);
@@ -121,8 +127,8 @@ function movePiece(position, userMoveId, user) {
     }
 }
 
-function handleMoveUserPiece(user, opponent, room, position, nextPos) {
-    if (position !== 0) {
+function handleMoveUserPiece(user, opponent, room, position, nextPos, shielded) {
+    if (!shielded && (position !== 0)) {
         user.data.squares[playerPath[position-1]] = false;
     }
     if (nextPos === 15) {
@@ -140,13 +146,18 @@ function handleMoveUserPiece(user, opponent, room, position, nextPos) {
             gameRoomFunctions.win(true, user);
         }
     }
-    const index = user.data.piecePositions.indexOf(position);
-    user.data.piecePositions[index] = nextPos;
-    user.data.piecePowerUps[index].position = nextPos;
-    user.data.piecePowerUps[index].squareIndex = playerPath[nextPos-1];
+    if (shielded) {
+        const index = opponent.data.piecePositions.indexOf(nextPos);
+        opponent.data.piecePowerUps[index].powerUp = null;
+        opponent.data.piecePowerUps[index].turnsLeft = null;
+    } else {
+        const index = user.data.piecePositions.indexOf(position);
+        user.data.piecePositions[index] = nextPos;
+        user.data.piecePowerUps[index].position = nextPos;
+        user.data.piecePowerUps[index].squareIndex = playerPath[nextPos-1];
+    }
     powerUpFunctions.messageActivePowerUps(user, opponent);
     powerUpFunctions.messageActivePowerUps(opponent, user);
-
     user.message('piecepositions', user.data.piecePositions);
     user.message('squares', user.data.squares);
     opponent.message('opponentsquares', reverseSquares(user.data.piecePositions));
