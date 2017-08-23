@@ -173,9 +173,10 @@ function shieldPiece(position, user) {
 function remoteAttackPiece(position, user) {
     var opponent = shared.getOpponent(user);
     const index = opponent.data.piecePositions.indexOf(position);
+    const currentPowerUp = opponent.data.piecePowerUps[index].powerUp;
     opponent.data.piecePowerUps[index].powerUp = null;
     opponent.data.piecePowerUps[index].turnsLeft = null;
-    if (opponent.data.piecePowerUps[index].powerUp === "shield") {
+    if (currentPowerUp === "shield") {
         messageActivePowerUps(user, opponent);
         messageActivePowerUps(opponent, user);
     } else {
