@@ -1,6 +1,7 @@
 var cloak = require('cloak');
 var shared = require('./cloak-server-shared');
 var lobbyFunctions = require('./cloak-server-lobby');
+var powerUpFunctions = require('./cloak-server-powerups');
 var gameplay = require('./cloak-server-gameplay');
 var EloRank = require('elo-rank');
 var db = require('../db');
@@ -71,6 +72,7 @@ function getRoomInfo(user) {
             gameplay.checkMoves(user, user.data.lastRoll, opponent.data.squares);
         }
         getRoomUserInfo(room);
+        user.data.isPlayer ? null : powerUpFunctions.messageActivePowerUps(cloak.getUser(room.data.spectatedId), shared.getOpponent(cloak.getUser(room.data.spectatedId)));
     }
 }
 

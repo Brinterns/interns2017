@@ -96,7 +96,7 @@ function challengeRespond(user, user2, accept, numberOfPieces=7, enablePowerUps=
         createdRoom.data.enablePowerUps = enablePowerUps;
         userJoinRoom(user, createdRoom);
         userJoinRoom(user2, createdRoom);
-        user.data.powerUp = "shield";
+        user2.data.powerUp = "shield";
         createdRoom.data.spectatedId = user.id;
         createdRoom.messageMembers('joingame', createdRoom.id);
         createdRoom.messageMembers('enablepowerups', createdRoom.data.enablePowerUps);
