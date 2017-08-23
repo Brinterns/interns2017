@@ -183,7 +183,7 @@ function remoteAttackPiece(position, user) {
         opponent.data.piecePositions[index] = 0;
         const reverseSquares = gamePlayFunctions.reverseSquares(opponent.data.piecePositions);
         const room = user.getRoom();
-        opponent.data.squares[opponentPath[position-1]] = false;
+        opponent.data.squares[playerPath[position-1]] = false;
         opponent.message('piecepositions', opponent.data.piecePositions);
         opponent.message('squares', opponent.data.squares);
         user.message('opponentsquares', reverseSquares);
