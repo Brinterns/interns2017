@@ -184,6 +184,11 @@ function reconnectGame(user, user2, room) {
     getSpectators(room).forEach(spectator => {
         gameRoomFunctions.getRoomInfo(spectator);
     });
+
+
+    user.data.powerUp = "push";
+
+
     room.data.gameinfo.playerIds[room.data.gameinfo.playerIds.indexOf(user2.id)] = user.id;
     user.message('updatestats', JSON.stringify(room.data.gameinfo));
     user.message('enablepowerups', room.data.enablePowerUps);
