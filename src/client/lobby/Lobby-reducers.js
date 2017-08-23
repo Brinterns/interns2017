@@ -32,7 +32,8 @@ const initialState = {
     name: null,
     opponentName: null,
     numberOfPieces: 7,
-    powerUps: []
+    powerUps: [],
+    activePowerUps: []
 };
 
 const lobby = (state = initialState, action) => {
@@ -86,7 +87,8 @@ const lobby = (state = initialState, action) => {
                 name: action.payload.name,
                 opponentName: action.payload.opponentName,
                 numberOfPieces: action.payload.numberOfPieces,
-                powerUps: action.payload.powerUps
+                powerUps: action.payload.powerUps,
+                activePowerUps: action.payload.activePowerUps
             });
         }
         default: {

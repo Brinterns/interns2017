@@ -44,6 +44,7 @@ function getRoomInfo(user) {
         var opponent;
         if (user.data.isPlayer) {
             opponent = shared.getOpponent(user);
+            user.message('activepowerups', powerUpFunctions.getActivePowerUps(user, opponent));
         } else {
             const spectatedPlayer = cloak.getUser(room.data.spectatedId);
             opponent = shared.getOpponent(spectatedPlayer);
@@ -51,6 +52,7 @@ function getRoomInfo(user) {
             user.data.piecePositions = spectatedPlayer.data.piecePositions;
             user.data.numPiecesFinished = spectatedPlayer.data.numPiecesFinished;
             user.message('spectatingid', room.data.spectatedId);
+            user.message('activepowerups', powerUpFunctions.getActivePowerUps(spectatedPlayer, shared.getOpponent(spectatedPlayer)));
         }
 
         var gameStateJson = {
@@ -72,7 +74,6 @@ function getRoomInfo(user) {
             gameplay.checkMoves(user, user.data.lastRoll, opponent.data.squares);
         }
         getRoomUserInfo(room);
-        user.data.isPlayer ? null : powerUpFunctions.messageActivePowerUps(cloak.getUser(room.data.spectatedId), shared.getOpponent(cloak.getUser(room.data.spectatedId)));
     }
 }
 
@@ -95,7 +96,8 @@ function getGameInfo(roomId, user) {
         name: spectatedPlayer.name,
         opponentName: opponent.name,
         numberOfPieces: room.data.numberOfPieces,
-        powerUps: room.data.powerUps
+        powerUps: room.data.powerUps,
+        activePowerUps: powerUpFunctions.getActivePowerUps(spectatedPlayer, opponent)
     };
     user.message('minimapstate', JSON.stringify(gameStateJson));
 }

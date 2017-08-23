@@ -292,3 +292,13 @@
     margin-right: calc((var(--squareSide) + 0.05 * var(--squareSide)) / 2.5);
     margin-top: calc((var(--squareSide) + 0.05 * var(--squareSide)) / 2.5);
 }
+
+.activePowerUpMiniMap {
+    position: absolute;
+    border-radius: 50%;
+    height: calc(0.67 * var(--squareSideMini));
+    width: calc(0.67 * var(--squareSideMini));
+    margin-left: calc((var(--squareSideMini) + 0.05 * var(--squareSideMini)) / 2.5);
+    margin-right: calc((var(--squareSideMini) + 0.05 * var(--squareSideMini)) / 2.5);
+    margin-top: calc((var(--squareSideMini) + 0.05 * var(--squareSideMini)) / 2.5);
+}

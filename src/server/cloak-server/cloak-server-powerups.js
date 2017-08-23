@@ -114,13 +114,18 @@ function pushPiece(position, user, opponentBool) {
     clearPowerUp(user);
 }
 
-function messageActivePowerUps(user, opponent) {
+function getActivePowerUps(user, opponent) {
     var activePowerUps = Object.assign([], user.data.piecePowerUps);
     opponent.data.piecePowerUps.forEach((piecePowerUp) => {
         var copy = Object.assign({}, piecePowerUp);
         copy.squareIndex = opponentPath[piecePowerUp.position - 1];
         activePowerUps.push(copy);
     });
+    return activePowerUps;
+}
+
+function messageActivePowerUps(user, opponent) {
+    const activePowerUps = getActivePowerUps(user, opponent);
     user.message('activepowerups', activePowerUps);
     const room = user.getRoom();
     if (user.id === room.data.spectatedId) {
@@ -147,4 +152,5 @@ function clearPowerUp(user) {
 
 module.exports.powerupActivated = powerupActivated;
 module.exports.powerUsed = powerUsed;
+module.exports.getActivePowerUps = getActivePowerUps;
 module.exports.messageActivePowerUps = messageActivePowerUps;
