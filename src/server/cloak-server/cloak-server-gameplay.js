@@ -18,7 +18,7 @@ const opponentPath = [
     0, 3,   6
 ];
 
-const powerUpTypes = ['push', 'shield', 'pull'];
+const powerUpTypes = ['push', 'shield', 'pull', 'remoteattack'];
 
 function rollDice(user) {
     var total = 0;
