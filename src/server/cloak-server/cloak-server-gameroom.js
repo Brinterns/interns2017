@@ -92,7 +92,8 @@ function getGameInfo(roomId, user) {
         opponentDisconnect: room.data.opponentDisconnect,
         name: spectatedPlayer.name,
         opponentName: opponent.name,
-        numberOfPieces: room.data.numberOfPieces
+        numberOfPieces: room.data.numberOfPieces,
+        powerUps: room.data.powerUps
     };
     user.message('minimapstate', JSON.stringify(gameStateJson));
 }

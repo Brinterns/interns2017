@@ -31,7 +31,8 @@ const initialState = {
     numOppPiecesFinished: 0,
     name: null,
     opponentName: null,
-    numberOfPieces: 7
+    numberOfPieces: 7,
+    powerUps: []
 };
 
 const lobby = (state = initialState, action) => {
@@ -84,7 +85,8 @@ const lobby = (state = initialState, action) => {
                 opponentDisconnect: action.payload.opponentDisconnect,
                 name: action.payload.name,
                 opponentName: action.payload.opponentName,
-                numberOfPieces: action.payload.numberOfPieces
+                numberOfPieces: action.payload.numberOfPieces,
+                powerUps: action.payload.powerUps
             });
         }
         default: {

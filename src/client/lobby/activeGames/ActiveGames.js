@@ -37,7 +37,8 @@ const mapStateToProps = state => ({
     numOppPiecesFinished: state.lobby.numOppPiecesFinished,
     name: state.lobby.name,
     playerName: state.lobby.opponentName,
-    numberOfPieces: state.lobby.numberOfPieces
+    numberOfPieces: state.lobby.numberOfPieces,
+    powerUps: state.lobby.powerUps
 });
 
 export default connect(
