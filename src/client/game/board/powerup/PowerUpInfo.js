@@ -5,6 +5,7 @@ import infohover from '../../../images/powerups/infohover.png';
 import pull from '../../../images/powerups/pull.png';
 import push from '../../../images/powerups/push.png';
 import shield from '../../../images/powerups/shield.png';
+import swap from '../../../images/powerups/swap.png';
 import remoteattack from '../../../images/powerups/remoteattack.png';
 
 export default class PowerUpInfo extends Component {
@@ -41,6 +42,7 @@ export default class PowerUpInfo extends Component {
                         {this.getPowerUpInfo(push, "Push any valid piece one square forwards")}
                         {this.getPowerUpInfo(pull, "Pull any valid piece one square backwards")}
                         {this.getPowerUpInfo(shield, "Protect a piece from being jumped or remote attacked, lasts for 3 turns or until the piece is attacked")}
+                        {this.getPowerUpInfo(swap, "Swap one of your pieces with an opposing piece (war-zone) only")}
                         <p>(Rare)</p>
                         {this.getPowerUpInfo(remoteattack, "Target any opponent piece on the board")}
                     </div>
