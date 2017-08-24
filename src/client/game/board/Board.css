@@ -292,6 +292,7 @@
     margin-right: calc((var(--squareSide) + 0.05 * var(--squareSide)) / 2.5);
     margin-top: calc((var(--squareSide) + 0.05 * var(--squareSide)) / 2.5);
     vertical-align: middle;
+    pointer-events: none;
 }
 
 .activePowerUpMiniMap {
@@ -302,6 +303,7 @@
     margin-left: calc((var(--squareSideMini) + 0.05 * var(--squareSideMini)) / 2.5);
     margin-right: calc((var(--squareSideMini) + 0.05 * var(--squareSideMini)) / 2.5);
     margin-top: calc((var(--squareSideMini) + 0.05 * var(--squareSideMini)) / 2.5);
+    pointer-events: none;
 }
 
 .activePowerUpDiv p {
@@ -309,6 +311,7 @@
     padding: 0;
     text-align: center;
     color: black;
+    pointer-events: none;
 }
 
 .activePowerUpMiniMap p {
@@ -316,6 +319,7 @@
     padding: 0;
     text-align: center;
     color: black;
+    pointer-events: none;
 }
 
 .turnsLeft {
