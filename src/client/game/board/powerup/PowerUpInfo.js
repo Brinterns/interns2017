@@ -45,7 +45,6 @@ export default class PowerUpInfo extends Component {
                         {this.getPowerUpInfo(remoteattack, "Target any opponent piece on the board")}
                     </div>
                     : null
-
                 }
             </div>
         );
