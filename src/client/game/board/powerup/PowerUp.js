@@ -55,9 +55,8 @@ export default class PowerUp extends Component {
 
         return (
             <div ref="powerup" className={powerUpStyles.powerUpDiv}>
-                <div id="powerup" className={(this.props.useable && this.props.powerUp) ? powerUpStyles.powerClickable : powerUpStyles.powerUnclickable} style={powerUpStyle} onClick={this.togglePowerUp}>
-                    <PowerUpInfo />
-                </div>
+                <div id="powerup" className={(this.props.useable && this.props.powerUp) ? powerUpStyles.powerClickable : powerUpStyles.powerUnclickable} style={powerUpStyle} onClick={this.togglePowerUp} />
+                <PowerUpInfo />
             </div>
         );
     }
