@@ -490,7 +490,6 @@
     float: right;
     height: calc(2.5 * (1vw + 1vh - 1vmin));
     width: calc(4 * (1vw + 1vh - 1vmin));
-    vertical-align: top;
     min-height: 25px;
     min-width: 40px;
 }
