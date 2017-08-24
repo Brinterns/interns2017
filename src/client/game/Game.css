@@ -259,14 +259,10 @@
 .numberOfPieces img {
     margin: 0 0 0 calc(2.5 * (1vw + 1vh - 1vmin)) !important;
     height: calc(2.5 * (1vw + 1vh - 1vmin));
-    width: calc(2.5 * (1vw + 1vh - 1vmin));
+    width: calc(4 * (1vw + 1vh - 1vmin));
     min-height: 25px;
-    min-width: 25px;
+    min-width: 40px;
     vertical-align: top;
-}
-
-.powerupsDisabled {
-    opacity: 0.6;
 }
 
 .numberOfPiecesInactive {

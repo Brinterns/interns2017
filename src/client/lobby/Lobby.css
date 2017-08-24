@@ -489,13 +489,9 @@
 .numberOfPieces img {
     float: right;
     height: calc(2.5 * (1vw + 1vh - 1vmin));
-    width: calc(2.5 * (1vw + 1vh - 1vmin));
+    width: calc(4 * (1vw + 1vh - 1vmin));
     min-height: 25px;
-    min-width: 25px;
-}
-
-.powerupsDisabled {
-    opacity: 0.6;
+    min-width: 40px;
 }
 
 .numberOfPiecesInactive {
