@@ -19,6 +19,7 @@ const opponentPath = [
 ];
 
 const powerUpTypes = ['push', 'shield', 'pull', 'remoteattack', 'swap'];
+const powerUpProbs = [23, 46, 69, 77, 100];
 
 function rollDice(user) {
     var total = 0;
@@ -208,7 +209,13 @@ function handlePowerupTake(user, room, nextPos) {
             return powerUpIndex !== playerPath[nextPos-1];
         });
         room.messageMembers('updatepowerups', JSON.stringify(room.data.powerUps));
-        user.data.powerUp = powerUpTypes[shared.getRandomIntInclusive(0, powerUpTypes.length-1)];
+        const randomNumber = shared.getRandomIntInclusive(1, 100);
+        for (var i = 0; i < powerUpProbs.length; i ++) {
+            if (randomNumber <= powerUpProbs[i]) {
+                user.data.powerUp = powerUpTypes[i];
+                break;
+            }
+        }
         user.message('newpowerup', user.data.powerUp);
     }
 }
