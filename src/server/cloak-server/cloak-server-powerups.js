@@ -239,45 +239,38 @@ function swapPiece(position, user, opponent) {
         });
         user.message('powerpieces', opponentSwapablePieces);
     } else {
-        const room = user.getRoom();
         //Index of user piece in piece positions array
-        const index = user.data.piecePositions.indexOf(user.data.swapPos);
-        const oppIndex = opponent.data.piecePositions.indexOf(position);
-        user.data.piecePositions[index] = position;
-        user.data.piecePowerUps[index].position = position;
-        user.data.piecePowerUps[index].squareIndex = playerPath[position-1];
-        user.data.squares[playerPath[user.data.swapPos-1]] = false;
-        user.data.squares[playerPath[position-1]] = true;
-        opponent.data.piecePositions[oppIndex] = user.data.swapPos;
-        opponent.data.piecePowerUps[oppIndex].position = user.data.swapPos;
-        opponent.data.piecePowerUps[oppIndex].squareIndex = playerPath[user.data.swapPos-1];
-        opponent.data.squares[playerPath[position-1]] = false;
-        opponent.data.squares[playerPath[user.data.swapPos-1]] = true;
+        updatePieces(user, user.data.piecePositions.indexOf(user.data.swapPos), user.data.swapPos, position);
+        updatePieces(opponent, opponent.data.piecePositions.indexOf(position), position, user.data.swapPos);
         user.data.swapPos = null;
-
-        const reverseSquares = gamePlayFunctions.reverseSquares(opponent.data.piecePositions);
-        const oppReverseSquares = gamePlayFunctions.reverseSquares(user.data.piecePositions);
         messageActivePowerUps(user, opponent);
         messageActivePowerUps(opponent, user);
-        user.message('piecepositions', user.data.piecePositions);
-        opponent.message('piecepositions', opponent.data.piecePositions);
-        user.message('squares', user.data.squares);
-        opponent.message('squares', opponent.data.squares);
-        user.message('opponentsquares', reverseSquares);
-        opponent.message('opponentsquares', oppReverseSquares);
-        shared.getSpectators(room).forEach(function(spectator) {
-            if (user.id === room.data.spectatedId) {
-                spectator.message('piecepositions', user.data.piecePositions);
-                spectator.message('squares', user.data.squares);
-                spectator.message('opponentsquares', reverseSquares);
-            } else {
-                spectator.message('piecepositions', opponent.data.piecePositions);
-                spectator.message('squares', opponent.data.squares);
-                spectator.message('opponentsquare', oppReverseSquares);
-            }
-        });
+        updatePiecesMessages(user, gamePlayFunctions.reverseSquares(opponent.data.piecePositions));
+        updatePiecesMessages(opponent, gamePlayFunctions.reverseSquares(user.data.piecePositions));
         clearPowerUp(user);
     }
+}
+
+function updatePieces(user, index, oldPos, newPos) {
+    user.data.piecePositions[index] = newPos;
+    user.data.piecePowerUps[index].position = newPos;
+    user.data.piecePowerUps[index].squareIndex = playerPath[newPos-1];
+    user.data.squares[playerPath[oldPos-1]] = false;
+    user.data.squares[playerPath[newPos-1]] = true;
+}
+
+function updatePiecesMessages(user, reverseSquares) {
+    const room = user.getRoom();
+    user.message('piecepositions', user.data.piecePositions);
+    user.message('squares', user.data.squares);
+    user.message('opponentsquares', reverseSquares);
+    shared.getSpectators(room).forEach(function(spectator) {
+        if (user.id === room.data.spectatedId) {
+            spectator.message('piecepositions', user.data.piecePositions);
+            spectator.message('squares', user.data.squares);
+            spectator.message('opponentsquares', reverseSquares);
+        }
+    });
 }
 
 function clearPowerUp(user) {
