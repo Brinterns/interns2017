@@ -13,10 +13,10 @@ export default class PowerUp extends Component {
 
     pageClick(e) {
         if (e.target.id !== "powerup") {
-            document.body.style.cursor = "auto";
             if (this.refs.powerup) {
                 if (e.target.id !== "piece") {
                     this.props.togglePowerUp(false);
+                    document.body.style.cursor = "auto";
                 }
                 this.setState({
                     powerUpClicked: false

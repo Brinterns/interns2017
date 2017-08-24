@@ -29,6 +29,9 @@ function powerupActivated(user, powerUp) {
         case "remoteattack":
             remoteAttackActivated(user);
             break;
+        case "swap":
+            swapActivated(user);
+            break;
         default:
             console.log("Power up not found");
             break;
@@ -88,37 +91,52 @@ function remoteAttackActivated(user) {
     user.message('powerpieces', remoteAttackablePieces);
 }
 
+function swapActivated(user) {
+    var swapablePieces = [];
+    user.data.piecePositions.forEach((position) => {
+        if ((position > 4) && (position < 13)) {
+            swapablePieces.push(playerPath[position-1]);
+        }
+    });
+    user.message('powerpieces', swapablePieces);
+}
+
 function powerUsed(position, userMoveId, opponentBool, user) {
     var room = user.getRoom();
     if (userMoveId === room.data.moveId) {
         room.data.moveId = shared.generateMoveId();
         var powerUp = user.data.powerUp;
-        switch(user.data.powerUp) {
+        var opponent = shared.getOpponent(user);
+        switch(powerUp) {
             case "push":
-                pushPullPiece(position, user, opponentBool);
+                pushPullPiece(position, user, opponent, opponentBool);
                 break;
             case "pull":
-                pushPullPiece(position, user, opponentBool);
+                pushPullPiece(position, user, opponent, opponentBool);
                 break;
             case "shield":
-                shieldPiece(position, user);
+                shieldPiece(position, user, opponent);
                 break;
             case "remoteattack":
-                remoteAttackPiece(position, user);
+                remoteAttackPiece(position, user, opponent);
+                break;
+            case "swap":
+                swapPiece(position, user, opponent);
                 break;
             default:
                 console.log("cannot use powerup");
                 break;
         }
         user.message('updatemoveid', room.data.moveId);
-        room.messageMembers('powernotify', powerUp);
+        if ((powerUp !== "swap") || (opponent.data.piecePositions.indexOf(position)) >= 0) {
+            room.messageMembers('powernotify', powerUp);
+        }
     }
     gamePlayFunctions.sendStats(user);
 }
 
-function pushPullPiece(position, user, opponentBool) {
+function pushPullPiece(position, user, opponent, opponentBool) {
     var room = user.getRoom();
-    var opponent = shared.getOpponent(user);
     var nextPos = (user.data.powerUp === "push") ? position + 1 : position - 1;
     if (!opponentBool) {
         const oppIndex = opponent.data.piecePositions.indexOf(nextPos);
@@ -174,17 +192,15 @@ function messageActivePowerUps(user, opponent) {
     }
 }
 
-function shieldPiece(position, user) {
+function shieldPiece(position, user, opponent) {
     const index = user.data.piecePositions.indexOf(position);
     user.data.piecePowerUps[index] = {powerUp: "shield", turnsLeft: 3, squareIndex: playerPath[position-1], position: position};
-    const opponent = shared.getOpponent(user);
     messageActivePowerUps(user, opponent);
     messageActivePowerUps(opponent, user);
     clearPowerUp(user);
 }
 
-function remoteAttackPiece(position, user) {
-    var opponent = shared.getOpponent(user);
+function remoteAttackPiece(position, user, opponent) {
     const index = opponent.data.piecePositions.indexOf(position);
     const currentPowerUp = opponent.data.piecePowerUps[index].powerUp;
     opponent.data.piecePowerUps[index].powerUp = null;
@@ -210,6 +226,58 @@ function remoteAttackPiece(position, user) {
         });
     }
     clearPowerUp(user);
+}
+
+function swapPiece(position, user, opponent) {
+    if (user.data.piecePositions.indexOf(position) >= 0) {
+        user.data.swapPos = position;
+        var opponentSwapablePieces = [];
+        opponent.data.piecePositions.forEach((position) => {
+            if ((position > 4) && (position < 13)) {
+                opponentSwapablePieces.push(playerPath[position-1]);
+            }
+        });
+        user.message('powerpieces', opponentSwapablePieces);
+    } else {
+        const room = user.getRoom();
+        //Index of user piece in piece positions array
+        const index = user.data.piecePositions.indexOf(user.data.swapPos);
+        const oppIndex = opponent.data.piecePositions.indexOf(position);
+        user.data.piecePositions[index] = position;
+        user.data.piecePowerUps[index].position = position;
+        user.data.piecePowerUps[index].squareIndex = playerPath[position-1];
+        user.data.squares[playerPath[user.data.swapPos-1]] = false;
+        user.data.squares[playerPath[position-1]] = true;
+        opponent.data.piecePositions[oppIndex] = user.data.swapPos;
+        opponent.data.piecePowerUps[oppIndex].position = user.data.swapPos;
+        opponent.data.piecePowerUps[oppIndex].squareIndex = playerPath[user.data.swapPos-1];
+        opponent.data.squares[playerPath[position-1]] = false;
+        opponent.data.squares[playerPath[user.data.swapPos-1]] = true;
+        user.data.swapPos = null;
+
+        const reverseSquares = gamePlayFunctions.reverseSquares(opponent.data.piecePositions);
+        const oppReverseSquares = gamePlayFunctions.reverseSquares(user.data.piecePositions);
+        messageActivePowerUps(user, opponent);
+        messageActivePowerUps(opponent, user);
+        user.message('piecepositions', user.data.piecePositions);
+        opponent.message('piecepositions', opponent.data.piecePositions);
+        user.message('squares', user.data.squares);
+        opponent.message('squares', opponent.data.squares);
+        user.message('opponentsquares', reverseSquares);
+        opponent.message('opponentsquares', oppReverseSquares);
+        shared.getSpectators(room).forEach(function(spectator) {
+            if (user.id === room.data.spectatedId) {
+                spectator.message('piecepositions', user.data.piecePositions);
+                spectator.message('squares', user.data.squares);
+                spectator.message('opponentsquares', reverseSquares);
+            } else {
+                spectator.message('piecepositions', opponent.data.piecePositions);
+                spectator.message('squares', opponent.data.squares);
+                spectator.message('opponentsquare', oppReverseSquares);
+            }
+        });
+        clearPowerUp(user);
+    }
 }
 
 function clearPowerUp(user) {
