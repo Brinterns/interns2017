@@ -13,6 +13,13 @@ const playerPath = [
     2,  5,  8
 ];
 
+const opponentPath = [
+    12, 15, 18, 21,
+    22, 19, 16, 13,
+    10, 7,  4,  1,
+    0, 3,   6
+];
+
 export class BoardSpectate extends Component {
     constructor(props) {
         super(props);
@@ -21,14 +28,22 @@ export class BoardSpectate extends Component {
 
     squareType(i) {
         const pos = playerPath.indexOf(i) + 1;
+        const relativePos = this.props.squares[i] ? playerPath.indexOf(i) + 1 : opponentPath.indexOf(i) + 1;
         var displayNumber = null;
         if ((i === 8) && this.props.numPiecesFinished) {
             displayNumber = (this.props.numPiecesFinished > 1) ? this.props.numPiecesFinished : null;
         } else if ((i === 6) && this.props.numOppPiecesFinished) {
             displayNumber = (this.props.numOppPiecesFinished > 1) ? this.props.numOppPiecesFinished : null;
         }
+        var powerUpInfo = null;
+        this.props.activePowerUps.forEach((activePowerUp) => {
+            if((i !== 8) && (i !== 6) && activePowerUp.powerUp && (activePowerUp.squareIndex === i)) {
+                powerUpInfo = activePowerUp;
+            }
+        });
+        var powerUp = this.props.powerUps.includes(i);
         return (
-            <Square index={i} position={pos} displayNumber={displayNumber} movePiece={() => {}} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={boardStyles.squarePiece} setHighlightSquare={() => {}} highlight={false} key={i} />
+            <Square index={i} position={pos} displayNumber={displayNumber} movePiece={() => {}} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={boardStyles.squarePiece} powerUp={powerUp} setHighlightSquare={() => {}} highlight={false} powerUpInfo={powerUpInfo} key={i} />
         );
     }
 
@@ -83,7 +98,10 @@ const mapStateToProps = state => ({
     piecePositions: state.game.piecePositions,
     opponentSquares: state.game.opponentSquares,
     numOppPiecesFinished: state.game.numOppPiecesFinished,
-    numPiecesFinished: state.game.numPiecesFinished
+    numPiecesFinished: state.game.numPiecesFinished,
+    powerUps: state.game.powerUps,
+    powerUpPieces: state.game.powerUpPieces,
+    activePowerUps: state.game.activePowerUps
 });
 
 export default connect(

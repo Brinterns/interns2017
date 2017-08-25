@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import boardStyles from './Board.css';
 import Piece from './Piece';
+import PowerUp from './powerup/PowerUp';
 import RollFlash from './Roll/RollFlash';
 import Roll from './Roll/Roll';
 import OpponentPiece from './OpponentPiece';
@@ -15,20 +16,34 @@ const playerPath = [
     2,  5,  8
 ];
 
+const opponentPath = [
+    12, 15, 18, 21,
+    22, 19, 16, 13,
+    10, 7,  4,  1,
+    0, 3,   6
+];
+
 export class Board extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            highlightSquarePosition: null
+            highlightSquarePosition: null,
+            powerUpActive: false
         }
         this.onClick = this.onClick.bind(this);
         this.squareType = this.squareType.bind(this);
         this.handleMovePiece = this.handleMovePiece.bind(this);
         this.setHighlightSquare = this.setHighlightSquare.bind(this);
+        this.togglePowerUp = this.togglePowerUp.bind(this);
+        this.usePowerUp = this.usePowerUp.bind(this);
     }
 
     squareType(i) {
+        //Empty function for moving opponent pieces, only allowing your pieces to be moved
+        var movePieceFunction = this.props.squares[i] ? this.handleMovePiece : () => {};
         const pos = playerPath.indexOf(i) + 1;
+        const relativePos = this.props.squares[i] ? playerPath.indexOf(i) + 1 : opponentPath.indexOf(i) + 1;
+
         var pieceClassName = boardStyles.squarePiece;
         if ((pos !== 15) && this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos) && !this.props.winnerId && !this.props.opponentSquares[i]) {
             pieceClassName = boardStyles.moveableSquarePiece;
@@ -36,14 +51,26 @@ export class Board extends Component {
                 pieceClassName = boardStyles.finishSquarePiece;
             }
         }
+        if (this.state.powerUpActive && this.props.powerUpPieces.includes(i)) {
+            pieceClassName = boardStyles.powerUpSquarePiece;
+            movePieceFunction = this.usePowerUp;
+        }
+        var powerUpInfo = null;
+        this.props.activePowerUps.forEach((activePowerUp) => {
+            if((i !== 8) && (i !== 6) && activePowerUp.powerUp && (activePowerUp.squareIndex === i)) {
+                powerUpInfo = activePowerUp;
+            }
+        });
+
         var displayNumber = null;
         if ((i === 8) && this.props.numPiecesFinished) {
             displayNumber = (this.props.numPiecesFinished > 1) ? this.props.numPiecesFinished : null;
         } else if ((i === 6) && this.props.numOppPiecesFinished) {
             displayNumber = (this.props.numOppPiecesFinished > 1) ? this.props.numOppPiecesFinished : null;
         }
+        var powerUp = this.props.powerUps.includes(i);
         return (
-            <Square index={i} position={pos} displayNumber={displayNumber} movePiece={this.handleMovePiece} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={pieceClassName} setHighlightSquare={this.setHighlightSquare} highlight={(pos === this.state.highlightSquarePosition)} key={i} />
+            <Square index={i} position={relativePos} displayNumber={displayNumber} movePiece={movePieceFunction} piece={this.props.squares[i]} opponentPiece={this.props.opponentSquares[i]} pieceClassName={pieceClassName} powerUp={powerUp} setHighlightSquare={this.setHighlightSquare} highlight={(pos === this.state.highlightSquarePosition)} powerUpInfo={powerUpInfo} key={i} />
         );
     }
 
@@ -74,7 +101,21 @@ export class Board extends Component {
             this.setState({
                 highlightSquarePosition: null
             });
-            cloak.message('movepiece', position);
+            cloak.message('movepiece', [position, this.props.moveId]);
+        }
+    }
+
+    togglePowerUp(bool) {
+        this.setState({
+            powerUpActive: bool
+        });
+    }
+
+    usePowerUp(position, opponentBool) {
+        cloak.message('usepowerup', [position, this.props.moveId, opponentBool]);
+        if ((this.props.powerUp !== "swap") || (this.props.piecePositions.indexOf(position) === -1)) {
+            this.togglePowerUp(false);
+            document.body.style.cursor = "auto";
         }
     }
 
@@ -88,6 +129,9 @@ export class Board extends Component {
                 if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos) && !this.props.winnerId) {
                     pieceHolder.push(<Piece position={pos} className={boardStyles.moveablePiece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
                     continue;
+                } else if (this.state.powerUpActive && (this.props.powerUp === "push") && (this.props.powerUpPieces.length > 0) && !this.props.squares[playerPath[0]]) {
+                    pieceHolder.push(<Piece position={pos} className={boardStyles.powerUpHolderPiece} movePiece={this.usePowerUp} setHighlightSquare={this.setHighlightSquare} key={i}/>);
+                    continue;
                 }
                 pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
             }
@@ -97,7 +141,11 @@ export class Board extends Component {
             oppPieceHolderSize -= (this.props.numOppPiecesFinished - 1);
         }
         for (var i = 0; i < oppPieceHolderSize; i++) {
-            oppPieceHolder.push(<OpponentPiece className={boardStyles.piece} key={i}/>)
+            if (this.state.powerUpActive && (this.props.powerUp === "push") && (this.props.powerUpPieces.length > 0) && !(this.props.opponentSquares[opponentPath[0]])) {
+                oppPieceHolder.push(<OpponentPiece movePiece={this.usePowerUp} className={boardStyles.powerUpHolderPiece} position={0} key={i}/>);
+                continue;
+            }
+            oppPieceHolder.push(<OpponentPiece movePiece={() => {}} className={boardStyles.piece} key={i}/>)
         }
         for (var i = 0; i < 24; i += 3) {
             squareCols.push(
@@ -118,6 +166,7 @@ export class Board extends Component {
                 <div className={boardStyles.rollButton}>
                     {((this.props.rollNumber !== 'Roll' || this.props.rollSequence) && this.props.isPlayerTurn) ? rollSequenceNotClickable : rollSequenceClickable}
                 </div>
+                {this.props.enablePowerUps ? <PowerUp powerUp={this.props.powerUp} useable={this.props.isPlayerTurn && !this.props.rollSequence} togglePowerUp={this.togglePowerUp}/> : null}
                 <div className={boardStyles.oppPieceHolder}>
                     {oppPieceHolder}
                 </div>
@@ -130,6 +179,7 @@ export class Board extends Component {
 }
 
 const mapStateToProps = state => ({
+    moveId: state.game.moveId,
     winnerId: state.game.winnerId,
     //Roll states
     rolled: state.game.rolled,
@@ -142,7 +192,12 @@ const mapStateToProps = state => ({
     piecePositions: state.game.piecePositions,
     moveablePositions: state.game.moveablePositions,
     numOppPiecesFinished: state.game.numOppPiecesFinished,
-    numPiecesFinished: state.game.numPiecesFinished
+    numPiecesFinished: state.game.numPiecesFinished,
+    powerUps: state.game.powerUps,
+    powerUp: state.game.powerUp,
+    enablePowerUps: state.game.enablePowerUps,
+    powerUpPieces: state.game.powerUpPieces,
+    activePowerUps: state.game.activePowerUps
 });
 
 export default connect(

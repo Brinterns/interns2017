@@ -1,6 +1,7 @@
 var cloak = require('cloak');
 var shared = require('./cloak-server-shared');
 var lobbyFunctions = require('./cloak-server-lobby');
+var powerUpFunctions = require('./cloak-server-powerups');
 var gameplay = require('./cloak-server-gameplay');
 var EloRank = require('elo-rank');
 var db = require('../db');
@@ -29,14 +30,21 @@ function getRoomInfo(user) {
     const room = user.getRoom();
     if (room && !room.isLobby) {
         if (!room.data.currentPlayer) {
-            var startingPlayer = room.getMembers()[shared.getRandomIntInclusive(0, 1)]
+            var startingPlayer = room.getMembers()[shared.getRandomIntInclusive(0, 1)];
             room.data.currentPlayer = startingPlayer.id;
+            room.data.moveId = shared.generateMoveId();
+            if (user.id === room.data.currentPlayer) {
+                user.message('updatemoveid', room.data.moveId);
+            } else {
+                shared.getOpponent(user).message('updatemoveid', room.data.moveId);
+            }
             var d = new Date();
             startingPlayer.data.rollStartTime = d.getTime();
         }
         var opponent;
         if (user.data.isPlayer) {
             opponent = shared.getOpponent(user);
+            user.message('activepowerups', powerUpFunctions.getActivePowerUps(user, opponent));
         } else {
             const spectatedPlayer = cloak.getUser(room.data.spectatedId);
             opponent = shared.getOpponent(spectatedPlayer);
@@ -44,6 +52,7 @@ function getRoomInfo(user) {
             user.data.piecePositions = spectatedPlayer.data.piecePositions;
             user.data.numPiecesFinished = spectatedPlayer.data.numPiecesFinished;
             user.message('spectatingid', room.data.spectatedId);
+            user.message('activepowerups', powerUpFunctions.getActivePowerUps(spectatedPlayer, shared.getOpponent(spectatedPlayer)));
         }
 
         var gameStateJson = {
@@ -59,6 +68,7 @@ function getRoomInfo(user) {
         };
         user.message('gamestate', JSON.stringify(gameStateJson));
         user.message('currentplayer', room.data.currentPlayer);
+        user.message('updatepowerups', JSON.stringify(room.data.powerUps));
         if (opponent && user.data.lastRoll) {
             user.message('rolledvalue', user.data.lastRoll);
             gameplay.checkMoves(user, user.data.lastRoll, opponent.data.squares);
@@ -85,7 +95,9 @@ function getGameInfo(roomId, user) {
         opponentDisconnect: room.data.opponentDisconnect,
         name: spectatedPlayer.name,
         opponentName: opponent.name,
-        numberOfPieces: room.data.numberOfPieces
+        numberOfPieces: room.data.numberOfPieces,
+        powerUps: room.data.powerUps,
+        activePowerUps: powerUpFunctions.getActivePowerUps(spectatedPlayer, opponent)
     };
     user.message('minimapstate', JSON.stringify(gameStateJson));
 }

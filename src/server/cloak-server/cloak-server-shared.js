@@ -2,12 +2,22 @@ var cloak = require('cloak');
 var db = require('../db');
 var lobbyFunctions = require('./cloak-server-lobby');
 var gameRoomFunctions = require('./cloak-server-gameroom');
+var powerUpFunctions = require('./cloak-server-powerups');
 const maxMessages = 1000;
 
 function getRandomIntInclusive(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function generateMoveId() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < 7; ++i) {
+        text += possible.charAt(getRandomIntInclusive(0, possible.length-1));
+    }
+    return text;
 }
 
 function getOpponent(user) {
@@ -95,7 +105,7 @@ function reconnectUser(ids, user) {
         }
         user.name = user2.name;
         user.data = Object.assign({}, user2.data);
-        user2.data.refreshing = true;
+        user2.data.newId = user.id;
         user.message('userid', user.id);
         const room = user2.getRoom();
         user.joinRoom(room);
@@ -176,12 +186,26 @@ function reconnectGame(user, user2, room) {
     });
     room.data.gameinfo.playerIds[room.data.gameinfo.playerIds.indexOf(user2.id)] = user.id;
     user.message('updatestats', JSON.stringify(room.data.gameinfo));
+    user.message('enablepowerups', room.data.enablePowerUps);
+    user.message('newpowerup', user.data.powerUp);
     user.message('updategamemessages', JSON.stringify(room.data.messages));
-    user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces]);
+    user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps]);
+
+    if (user.data.isPlayer) {
+        user.message('activepowerups', powerUpFunctions.getActivePowerUps(user, opponent));
+    } else {
+        const spectatedPlayer = cloak.getUser(room.data.spectatedId);
+        user.message('activepowerups', powerUpFunctions.getActivePowerUps(spectatedPlayer, shared.getOpponent(spectatedPlayer)));
+    }
+
+    if (user.id === room.data.currentPlayer) {
+        user.message('updatemoveid', room.data.moveId);
+    }
 }
 
 
-module.exports.getRandomIntInclusive = getRandomIntInclusive
+module.exports.getRandomIntInclusive = getRandomIntInclusive;
+module.exports.generateMoveId = generateMoveId;
 module.exports.updateMessagesId = updateMessagesId;
 module.exports.sendMessages = sendMessages;
 module.exports.getOpponent = getOpponent;

@@ -6,6 +6,7 @@ var sharedFunctions = require('./cloak-server-shared');
 var gameRoomFunctions = require('./cloak-server-gameroom');
 var gamePlayFunctions = require('./cloak-server-gameplay');
 var challengeFunctions = require('./cloak-server-challenge');
+var powerupFunctions = require('./cloak-server-powerups');
 
 
 module.exports = function(expressServer) {
@@ -39,7 +40,7 @@ module.exports = function(expressServer) {
                 gameRoomFunctions.getGameInfo(roomId, user);
             },
             challengeplayer: function(options, user) {
-                challengeFunctions.challengePlayer(options[0], options[1], user);
+                challengeFunctions.challengePlayer(options[0], options[1], options[2], user);
             },
             cancelchallenge: function(id, user) {
                 challengeFunctions.cancelChallenge(id, user);
@@ -53,8 +54,8 @@ module.exports = function(expressServer) {
             observegame: function(gameId, user) {
                 lobbyFunctions.observeGame(gameId, user);
             },
-            rechallenge: function(numberOfPieces, user) {
-                challengeFunctions.reChallenge(user, numberOfPieces);
+            rechallenge: function(options, user) {
+                challengeFunctions.reChallenge(user, options[0], options[1]);
             },
             rechallengeresponse: function(accept, user) {
                 challengeFunctions.reChallengeResponse(accept, user);
@@ -66,6 +67,9 @@ module.exports = function(expressServer) {
                 user.message('updatechallengers', user.data.challengesr);
             },
             win: function(winBool, user) {
+                if (winBool) {
+                    return;
+                }
                 gameRoomFunctions.win(winBool, user);
             },
             reconnectuser: function(ids, user) {
@@ -77,13 +81,16 @@ module.exports = function(expressServer) {
             rolldice: function(_, user) {
                 user.data.rolledDice = true;
                 const rollNumber = gamePlayFunctions.rollDice(user);
-                const rollSequence = ("1".repeat(rollNumber) + "0".repeat(4-rollNumber)).split('').sort(function(){return 0.5-Math.random()});
+                const rollSequence = ("1".repeat(rollNumber) + "0".repeat(4-rollNumber)).split('').sort(function() {return 0.5-Math.random()});
                 user.message("rollsequence", rollSequence);
                 sharedFunctions.getOpponent(user).message("opponentsequence", rollSequence);
                 sharedFunctions.getSpectators(user.getRoom()).forEach(function(spectator) {
                     spectator.message('opponentsequence', rollSequence);
                 });
                 setTimeout(() => {
+                    if (user.data.newId) {
+                        user = cloak.getUser(user.data.newId);
+                    }
                     gamePlayFunctions.messageRoll(rollNumber, user);
                     var opponent = sharedFunctions.getOpponent(user);
                     if (rollNumber === 0) {
@@ -93,8 +100,14 @@ module.exports = function(expressServer) {
                     }
                 }, 1750);
             },
-            movepiece: function(position, user) {
-                gamePlayFunctions.movePiece(position, user);
+            movepiece: function(options, user) {
+                gamePlayFunctions.movePiece(options[0], options[1], user);
+            },
+            activatepowerup: function(powerUp, user) {
+                powerupFunctions.powerupActivated(user, powerUp);
+            },
+            usepowerup: function(options, user) {
+                powerupFunctions.powerUsed(options[0], options[1], options[2], user);
             }
         },
         lobby: {

@@ -1,0 +1,73 @@
+.powerUpDiv {
+    position: absolute;
+    top: calc(30% - calc(2 * (1vw + 1vh - 1vmin)));
+    left: 5%;
+    border: solid #FAD000 0.12em;
+    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
+    margin-top: calc(0.01 * var(--squareSide));
+    height: calc(0.92 * var(--squareSide));
+    width: calc(0.92 * var(--squareSide));
+}
+
+.powerClickable {
+    position: relative;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    background-size: calc(5.4 * (1vw + 1vh - 1vmin)) !important;
+    background-repeat: no-repeat !important;
+    opacity: 1.0;
+    cursor: pointer;
+}
+
+.powerUnclickable {
+    position: relative;
+    height: calc(0.9 * var(--squareSide));
+    width: calc(0.9 * var(--squareSide));
+    background-size: calc(5.4 * (1vw + 1vh - 1vmin)) !important;
+    background-repeat: no-repeat !important;
+    opacity: 0.6;
+}
+
+
+.infoImg {
+    position: absolute;
+    top : 0%;
+    right: 0%;
+    height: calc(0.25 * var(--squareSide));
+    width: calc(0.25 * var(--squareSide));
+    cursor: help;
+}
+
+.infoDropDown {
+    position: relative;
+    top: calc(-3.5 * (1vw + 1vh - 1vmin));
+    left: calc(3.5 * (1vw + 1vh - 1vmin));
+    background-color: rgba(0,0,0, 0.75);
+    color: #FAD000;
+    z-index: 2;
+    width: calc(20 * (1vw + 1vh - 1vmin));
+    min-width: 200px;
+    padding: 0.1em;
+    box-shadow: 5px 0px 20px rgba(0, 0, 0, 0.6);
+}
+
+.powerUpInfo {
+    display: block;
+    text-align: left;
+}
+
+.powerUpInfo img {
+    width: calc(3 * (1vw + 1vh - 1vmin));
+    height: calc(3 * (1vw + 1vh - 1vmin));
+    min-width: 30px;
+    min-height: 30px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.powerUpInfo p {
+    display: inline-block;
+    min-width: 165px;
+    width: calc(16.5 * (1vw + 1vh - 1vmin));
+    font-size: calc(8px + 0.5 * (1vw + 1vh - 1vmin));
+}
