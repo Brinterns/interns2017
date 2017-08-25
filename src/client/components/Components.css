@@ -41,8 +41,8 @@
 }
 
 .colourButton {
-    height: calc(1.8 * (1vw + 1vh - 1vmin));
-    width: calc(1.8 * (1vw + 1vh - 1vmin));
+    height: calc(1.8 * (1vw + 1vh - 1vmin)) !important;
+    width: calc(1.8 * (1vw + 1vh - 1vmin)) !important;
     min-height: 16px !important;
     min-width: 16px !important;
     margin-top: calc(0.5 * (1vw + 1vh - 1vmin));

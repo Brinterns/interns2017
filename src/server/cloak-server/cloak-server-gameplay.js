@@ -18,8 +18,8 @@ const opponentPath = [
     0, 3,   6
 ];
 
-const powerUpTypes = ['push', 'shield', 'pull', 'remoteattack', 'swap'];
-const powerUpProbs = [23, 46, 69, 77, 100];
+const powerUpTypes = ['push', 'shield', 'pull', 'remoteattack', 'swap', 'boot'];
+const powerUpProbs = [23, 46, 69, 77, 100, 108];
 
 function rollDice(user) {
     var total = 0;
@@ -209,7 +209,7 @@ function handlePowerupTake(user, room, nextPos) {
             return powerUpIndex !== playerPath[nextPos-1];
         });
         room.messageMembers('updatepowerups', JSON.stringify(room.data.powerUps));
-        const randomNumber = shared.getRandomIntInclusive(1, 100);
+        const randomNumber = shared.getRandomIntInclusive(1, 108);
         for (var i = 0; i < powerUpProbs.length; i ++) {
             if (randomNumber <= powerUpProbs[i]) {
                 user.data.powerUp = powerUpTypes[i];

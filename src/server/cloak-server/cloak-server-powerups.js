@@ -24,7 +24,10 @@ function powerupActivated(user, powerUp) {
             pullActivated(user);
             break;
         case "shield":
-            shieldActivated(user);
+            shieldBootActivated(user);
+            break;
+        case "boot":
+            shieldBootActivated(user);
             break;
         case "remoteattack":
             remoteAttackActivated(user);
@@ -70,14 +73,14 @@ function pullActivated(user) {
     user.message('powerpieces', pullablePieces);
 }
 
-function shieldActivated(user) {
-    var shieldablePieces = [];
+function shieldBootActivated(user) {
+    var activePieces = [];
     user.data.piecePositions.forEach((position) => {
         if ((position > 0) && (position < 15)) {
-            shieldablePieces.push(playerPath[position-1]);
+            activePieces.push(playerPath[position-1]);
         }
     });
-    user.message('powerpieces', shieldablePieces);
+    user.message('powerpieces', activePieces);
 }
 
 function remoteAttackActivated(user) {
@@ -115,13 +118,16 @@ function powerUsed(position, userMoveId, opponentBool, user) {
                 pushPullPiece(position, user, opponent, opponentBool);
                 break;
             case "shield":
-                shieldPiece(position, user, opponent);
+                shieldBootPiece(position, user, opponent, "shield");
                 break;
             case "remoteattack":
                 remoteAttackPiece(position, user, opponent);
                 break;
             case "swap":
                 swapPiece(position, user, opponent);
+                break;
+            case "boot":
+                shieldBootPiece(position, user, opponent, "boot");
                 break;
             default:
                 console.log("cannot use powerup");
@@ -192,9 +198,9 @@ function messageActivePowerUps(user, opponent) {
     }
 }
 
-function shieldPiece(position, user, opponent) {
+function shieldBootPiece(position, user, opponent, type) {
     const index = user.data.piecePositions.indexOf(position);
-    user.data.piecePowerUps[index] = {powerUp: "shield", turnsLeft: 3, squareIndex: playerPath[position-1], position: position};
+    user.data.piecePowerUps[index] = {powerUp: type, turnsLeft: 3, squareIndex: playerPath[position-1], position: position};
     messageActivePowerUps(user, opponent);
     messageActivePowerUps(opponent, user);
     clearPowerUp(user);
