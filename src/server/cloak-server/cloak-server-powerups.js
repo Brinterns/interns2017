@@ -289,3 +289,4 @@ module.exports.powerupActivated = powerupActivated;
 module.exports.powerUsed = powerUsed;
 module.exports.getActivePowerUps = getActivePowerUps;
 module.exports.messageActivePowerUps = messageActivePowerUps;
+module.exports.updatePiecesMessages = updatePiecesMessages;

@@ -156,14 +156,6 @@ function userJoinRoom(user, room) {
     user.data.numPiecesFinished = 0;
     user.data.lastRoll = null;
     user.data.powerUp = 'boot';
-
-    setTimeout( () => {
-        user.message('newpowerup', user.data.powerUp);
-        if (user.name === "j") {
-            user.data.powerUp = "shield";
-            user.message('newpowerup', user.data.powerUp);
-        }
-    }, 1000);
 }
 
 function initRoomStats(room, user, user2) {

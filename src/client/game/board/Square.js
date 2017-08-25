@@ -47,7 +47,6 @@ export default class Square extends Component {
                 background: 'url(' + picture3 + ')',
                 backgroundRepeat: 'no-repeat'
             }
-            // activePowerUpColor = (this.props.powerUpInfo.powerUp === "boot") ? "white" : "black";
             activePowerUp.backgroundSize = this.props.minimap ? 'calc(2  * (1vw + 1vh - 1vmin))' : 'calc(4 * (1vw + 1vh - 1vmin))';
         }
         return (
