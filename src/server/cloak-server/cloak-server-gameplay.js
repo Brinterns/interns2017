@@ -76,9 +76,9 @@ function endTurn(user) {
 }
 
 function canMove(user, opponentSquares, nextPos, moveablePositions, position) {
-    if ((nextPos === 15) || (!user.data.squares[playerPath[nextPos-1]] && (nextPos < 15))) {
+    if (nextPos <= 15) {
         const index = user.data.piecePositions.indexOf(position);
-        if (!((nextPos === 8) && opponentSquares[opponentPath[nextPos-1]]) || (user.data.piecePowerUps[index].powerUp === "boot")) {
+        if ((!((nextPos === 8) && opponentSquares[opponentPath[nextPos-1]]) && !user.data.squares[playerPath[nextPos-1]]) || (user.data.piecePowerUps[index].powerUp === "boot")) {
             moveablePositions.push(position);
             return true;
         }
@@ -114,14 +114,15 @@ function movePiece(position, userMoveId, user) {
             const pieceIndex = user.data.piecePositions.indexOf(position);
             user.data.squares[playerPath[nextPos-1]] = true;
             userStats.squaresMoved += user.data.lastRoll;
-
             //If piece to move has boot powerup, deal with pieces that the piece passes during the move
             if ((position < 15) && (user.data.lastRoll > 1) && user.data.piecePowerUps[pieceIndex].powerUp === "boot") {
-                handleBootMove(user, opponent, position+1, nextPos-1);
+                handleBootMove(user, opponent, position+1, nextPos);
+            } else {
+                //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
+                handleTakePiece(user, opponent, userStats, room, nextPos);
             }
+            user.data.squares[playerPath[nextPos-1]] = true;
             handleMoveUserPiece(user, opponent, room, position, nextPos, false);
-            //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
-            handleTakePiece(user, opponent, userStats, room, nextPos);
             //If moved piece lands on power up, obtain the powerup
             handlePowerupTake(user, room, nextPos);
             //if moved piece lands on rosetta square, allow reroll and reset roll timer
@@ -227,11 +228,16 @@ function handlePowerupTake(user, room, nextPos) {
                 break;
             }
         }
+        user.data.powerUp = "boot";
         user.message('newpowerup', user.data.powerUp);
     }
 }
 
 function handleBootHit(player, position, isUser, opponent) {
+    //cannot jump over an opponent piece in their safe zone
+    if (!isUser && (position >= 13 || position <= 4)) {
+        return;
+    }
     const index = player.data.piecePositions.indexOf(position);
     if (index > -1) {
         if (player.data.piecePowerUps[index].powerUp === "shield") {
