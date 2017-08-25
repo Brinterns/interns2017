@@ -45,12 +45,12 @@ function pushActivated(user) {
     var pushablePieces = [];
     var opponent = shared.getOpponent(user);
     user.data.piecePositions.forEach((position) => {
-        if (gamePlayFunctions.canMove(user.data.squares, opponent.data.squares, position + 1, [], position)) {
+        if (gamePlayFunctions.canMove(user, opponent.data.squares, position + 1, [], position)) {
             pushablePieces.push(playerPath[position-1]);
         }
     });
     opponent.data.piecePositions.forEach((position) => {
-        if (gamePlayFunctions.canMove(opponent.data.squares, user.data.squares, position + 1, [], position)) {
+        if (gamePlayFunctions.canMove(opponent, user.data.squares, position + 1, [], position)) {
             pushablePieces.push(opponentPath[position-1]);
         }
     });
@@ -61,12 +61,12 @@ function pullActivated(user) {
     var pullablePieces = [];
     var opponent = shared.getOpponent(user);
     user.data.piecePositions.forEach((position) => {
-        if ((position > 0) && (position < 15) && ((position === 1) || gamePlayFunctions.canMove(user.data.squares, opponent.data.squares, position - 1, [], position - 2))) {
+        if ((position > 0) && (position < 15) && ((position === 1) || gamePlayFunctions.canMove(user, opponent.data.squares, position - 1, [], position - 2))) {
             pullablePieces.push(playerPath[position-1]);
         }
     });
     opponent.data.piecePositions.forEach((position) => {
-        if ((position > 0) && (position < 15) && ((position === 1) || gamePlayFunctions.canMove(opponent.data.squares, user.data.squares, position - 1, [], position - 2))) {
+        if ((position > 0) && (position < 15) && ((position === 1) || gamePlayFunctions.canMove(opponent, user.data.squares, position - 1, [], position - 2))) {
             pullablePieces.push(opponentPath[position-1]);
         }
     });

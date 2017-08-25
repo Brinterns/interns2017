@@ -75,8 +75,8 @@ function endTurn(user) {
     powerUpFunctions.messageActivePowerUps(opponent, user);
 }
 
-function canMove(squares, opponentSquares, nextPos, moveablePositions, position) {
-    if ((nextPos === 15) || (!squares[playerPath[nextPos-1]] && (nextPos < 15))) {
+function canMove(user, opponentSquares, nextPos, moveablePositions, position) {
+    if ((nextPos === 15) || (!user.data.squares[playerPath[nextPos-1]] && (nextPos < 15))) {
         const index = user.data.piecePositions.indexOf(position);
         if (!((nextPos === 8) && opponentSquares[opponentPath[nextPos-1]]) || (user.data.piecePowerUps[index].powerUp === "boot")) {
             moveablePositions.push(position);
@@ -89,7 +89,7 @@ function canMove(squares, opponentSquares, nextPos, moveablePositions, position)
 function checkMoves(user, rollNumber, opponentSquares) {
     var moveablePositions = [];
     const moveablePieces = user.data.piecePositions.filter((position) => {
-        return (position >= 0) && canMove(user.data.squares, opponentSquares, position + rollNumber, moveablePositions, position);
+        return (position >= 0) && canMove(user, opponentSquares, position + rollNumber, moveablePositions, position);
     });
     if (moveablePieces.length === 0) {
         endTurn(user);
