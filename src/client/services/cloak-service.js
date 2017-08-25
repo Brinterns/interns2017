@@ -10,6 +10,7 @@ import {
 
 import {
     updateUserGameId,
+    updateMoveId,
     spectatingId,
     updateGameMessages,
     updateListOfPlayers,
@@ -33,7 +34,13 @@ import {
     rollSequence,
     oppRollSequence,
     updateGameStats,
-    updateSpectators
+    updateSpectators,
+    updatePowerUps,
+    newPowerUp,
+    enablePowerUps,
+    updatePowerablePieces,
+    updateActivePowerUps,
+    updatePowerUpNotif
 } from '../game/Game-actions';
 
 import { dispatch } from '../store';
@@ -104,6 +111,9 @@ export function RunCloakConfig() {
             /*                       Game messages                     */
             /***********************************************************/
             //Identity Messages
+            updatemoveid: (id) => {
+                dispatch(updateMoveId(id));
+            },
             updateplayers: (userinfo) => {
                 dispatch(updateListOfPlayers(JSON.parse(userinfo)));
             },
@@ -173,6 +183,27 @@ export function RunCloakConfig() {
             },
             finishedopppieces: (numPiecesFinished) => {
                 dispatch(updateOppFinishedPieces(numPiecesFinished));
+            },
+            updatepowerups: (powerups) => {
+                dispatch(updatePowerUps(JSON.parse(powerups)));
+            },
+            newpowerup: (powerUp) => {
+                dispatch(newPowerUp(powerUp));
+            },
+            enablepowerups: (enabled) => {
+                dispatch(enablePowerUps(enabled));
+            },
+            powerpieces: (powerUpPieces) => {
+                dispatch(updatePowerablePieces(powerUpPieces));
+            },
+            activepowerups: (activePowerUps) => {
+                dispatch(updateActivePowerUps(activePowerUps));
+            },
+            powernotify: (powerUpUsed) => {
+                dispatch(updatePowerUpNotif([powerUpUsed, true]));
+                setTimeout(() => {
+                    dispatch(updatePowerUpNotif([null, false]));
+                }, 1500);
             }
         }
     });

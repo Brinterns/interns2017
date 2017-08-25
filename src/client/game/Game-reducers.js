@@ -1,5 +1,6 @@
 import {
     UPDATE_USER_ID,
+    UPDATE_MOVE_ID,
     UPDATE_SPECTATING_ID,
     UPDATE_MESSAGES,
     UPDATE_LIST_OF_PLAYERS,
@@ -25,7 +26,13 @@ import {
     RESET_STORE,
     UPDATE_GAME_STATS,
     UPDATE_SPECTATORS,
-    OPPONENT_ROLLED_SEQUENCE
+    OPPONENT_ROLLED_SEQUENCE,
+    UPDATE_POWER_UPS,
+    NEW_POWER_UP,
+    ENABLE_POWER_UPS,
+    UPDATE_POWER_UP_PIECES,
+    UPDATE_ACTIVE_POWER_UPS,
+    UPDATE_POWER_UP_NOTIFICATION
 } from './Game-actions';
 
 
@@ -36,6 +43,7 @@ const initialState = {
     messages: [],
     //Identity states
     id: null,
+    moveId: null,
     spectatingId: null,
     currentPlayer: null,
     listOfPlayers: [],
@@ -65,6 +73,13 @@ const initialState = {
     opponentDisconnect: false,
     challengerId: null,
     newNumberOfPieces: 7,
+    powerUps: [],
+    powerUp: null,
+    enablePowerUps: false,
+    newEnablePowerUps: false,
+    powerUpPieces: [],
+    activePowerUps: [],
+    powerUpNotif: null,
     //Game statistics
     gameStats: null
 };
@@ -91,10 +106,16 @@ const game = (state = initialState, action) => {
                 id: action.payload
             });
         }
+        case UPDATE_MOVE_ID: {
+            return updateState(state, {
+                moveId: action.payload
+            });
+        }
         case UPDATE_CURRENT_PLAYER: {
             return updateState(state, {
                 currentPlayer: action.payload,
-                rolled: false
+                rolled: false,
+                powerUpPieces: []
             });
         }
         case UPDATE_CURRENT_PLAYER_ONLY: {
@@ -117,7 +138,8 @@ const game = (state = initialState, action) => {
         case CHALLENGER_DETAILS: {
             return updateState(state, {
                 challengerId: action.payload[0],
-                newNumberOfPieces: action.payload[1]
+                newNumberOfPieces: action.payload[1],
+                newEnablePowerUps: action.payload[2]
             });
         }
         case TOGGLE_FORFEIT: {
@@ -142,7 +164,8 @@ const game = (state = initialState, action) => {
                 notificationName: state.listOfPlayers.filter(player => {
                     return player.id === state.currentPlayer;
                 })[0].name,
-                notificationBool: false
+                notificationBool: false,
+                powerUpNotif: null
             });
         }
         case OPPONENT_ROLLED_NUMBER: {
@@ -212,6 +235,15 @@ const game = (state = initialState, action) => {
             }
             return state;
         }
+        case UPDATE_POWER_UP_NOTIFICATION: {
+            if(state.currentPlayer !== state.id) {
+                return updateState(state, {
+                    notificationBool: action.payload[1],
+                    powerUpNotif: action.payload[0]
+                });
+            }
+            return state;
+        }
         case UPDATE_GAME_STATE: {
             return updateState(state, {
                 id: action.payload.id,
@@ -233,6 +265,31 @@ const game = (state = initialState, action) => {
         case UPDATE_GAME_STATS: {
             return updateState(state, {
                 gameStats: action.payload
+            });
+        }
+        case UPDATE_POWER_UPS: {
+            return updateState(state, {
+                powerUps: action.payload
+            });
+        }
+        case NEW_POWER_UP: {
+            return updateState(state, {
+                powerUp: action.payload
+            });
+        }
+        case ENABLE_POWER_UPS: {
+            return updateState(state, {
+                enablePowerUps: action.payload
+            });
+        }
+        case UPDATE_POWER_UP_PIECES: {
+            return updateState(state, {
+                powerUpPieces: action.payload
+            });
+        }
+        case UPDATE_ACTIVE_POWER_UPS: {
+            return updateState(state, {
+                activePowerUps: action.payload
             });
         }
         case RESET_STORE: {

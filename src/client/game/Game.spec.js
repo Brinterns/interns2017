@@ -38,7 +38,8 @@ describe('<Game />', () => {
                 notificationBool: false,
                 notificationText: null,
                 opponentDisconnect: false,
-                challengerId: null
+                challengerId: null,
+                powerUpNotif: null
             }
         };
     });
@@ -56,10 +57,10 @@ describe('<Game />', () => {
         state.game.id = 1;
         state.game.winnerId = 1;
         state.game.listOfPlayers = [{
-            id: 2,
+            id: 1,
             name: 'Bob'
         }, {
-            id: 3,
+            id: 2,
             name: 'Sam'
         }];
         const store = mockStore(state);
@@ -71,10 +72,10 @@ describe('<Game />', () => {
         state.game.id = 1;
         state.game.winnerId = 1;
         state.game.listOfPlayers = [{
-            id: 2,
+            id: 1,
             name: 'Bob'
         }, {
-            id: 3,
+            id: 2,
             name: 'Sam'
         }];
         state.game.challengerId = 1;
@@ -87,10 +88,10 @@ describe('<Game />', () => {
         state.game.id = 1;
         state.game.winnerId = 1;
         state.game.listOfPlayers = [{
-            id: 2,
+            id: 1,
             name: 'Bob'
         }, {
-            id: 3,
+            id: 2,
             name: 'Sam'
         }];
         state.game.challengerId = 2;
@@ -100,10 +101,43 @@ describe('<Game />', () => {
         expect(wrapper.find("button").at(3).text()).toEqual(' \u2716 ');
     });
 
+    it('Toggles power-ups if the image is clicked', () => {
+        state.game.id = 1;
+        state.game.winnerId = 1;
+        state.game.listOfPlayers = [{
+            id: 1,
+            name: 'Bob'
+        }, {
+            id: 2,
+            name: 'Sam'
+        }];
+        const store = mockStore(state);
+        wrapper = shallow(<Game store={store}/>).shallow();
+        wrapper.find("img").first().simulate("click");
+        expect(wrapper.state().enablePowerUps).toEqual(true);
+    })
+
     it('Shows the correct number of spectators', () => {
         state.game.spectators = ['John', 'Matt', 'Test'];
         const store = mockStore(state);
         wrapper = shallow(<Game store={store}/>).shallow();
         expect(wrapper.find("p").at(0).text()).toEqual(' Spectators (3) ');
+    });
+
+    it('Shows the correct notification text when oppoennt uses power up', () => {
+        state.game.id = 1;
+        state.game.listOfPlayers = [{
+            id: 1,
+            name: 'Bob'
+        }, {
+            id: 2,
+            name: 'Sam'
+        }];
+        state.game.currentPlayer = 2;
+        state.game.powerUpNotif = "push";
+        state.game.notificationBool = true;
+        const store = mockStore(state);
+        wrapper = shallow(<Game store={store}/>).shallow();
+        expect(wrapper.find("p").at(2).text()).toEqual('Sam used ');
     });
 });

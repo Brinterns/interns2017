@@ -64,8 +64,9 @@ export class GameSpectate extends Component {
 
         let gameInfo = null;
         let currentPlayerText = null;
-        let playerRoll;
+        let notifMessage;
         let currentPlayerName = "";
+        let notifDiv = null;
         if (this.props.listOfPlayers.length) {
             const currentPlayer = this.props.listOfPlayers.filter(player => {
                 return player.id === this.props.currentPlayer;
@@ -74,9 +75,13 @@ export class GameSpectate extends Component {
                 currentPlayerName = emojify(currentPlayer.name);
                 currentPlayerText = "It's " + currentPlayerName + "'s turn";
             }
-
-            if (this.props.playerRollNumber !== null) {
-                playerRoll = (<p>{emojify(this.props.notificationText)}</p>);
+            if (this.props.powerUpNotif) {
+                notifMessage = currentPlayerName + " used ";
+                var picture = require('../images/powerups/'+ this.props.powerUpNotif +'.png');
+                notifDiv = (<div className={gameStyles.powerNotificationDiv}> <p>{notifMessage}</p> <div style={{background: 'url(' + picture + ')'}} /> </div>);
+            } else if (this.props.playerRollNumber !== null) {
+                notifMessage = (<p>{emojify(this.props.notificationText)}</p>);
+                notifDiv = (<div className={gameStyles.notificationDiv}> {notifMessage} </div>);
             }
 
             gameInfo = <ul> {this.props.listOfPlayers.map((player, index) => {
@@ -116,7 +121,7 @@ export class GameSpectate extends Component {
                 </div>
                 <Stats id={this.props.id} stats={this.props.gameStats}/>
                 <ChatBox id={this.props.id} messages={this.props.messages}/>
-                {(!this.props.winnerId && this.props.notificationBool) ? <div className={gameStyles.notificationDiv}> {playerRoll} </div> : null}
+                {(!this.props.winnerId && this.props.notificationBool) ? notifDiv : null}
                 {(!this.props.winnerId && this.props.playerRollSequence) ? <div className={gameStyles.notificationDiv}> <p>{currentPlayerName} is rolling</p> <RollFlash sequence={this.props.playerRollSequence}/>  </div> : null}
             </div>
         );
@@ -140,6 +145,7 @@ const mapStateToProps = state => ({
     //Notification states
     notificationBool: state.game.notificationBool,
     notificationText: state.game.notificationText,
+    powerUpNotif: state.game.powerUpNotif,
     //Game stats
     gameStats: state.game.gameStats
 });

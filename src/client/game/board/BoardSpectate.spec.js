@@ -37,7 +37,9 @@ describe('<BoardSpectate />', () => {
                 //Notification states
                 notificationBool: false,
                 notificationText: null,
-                opponentDisconnect: false
+                opponentDisconnect: false,
+                powerUps: [],
+                activePowerUps: []
             }
         };
     });
