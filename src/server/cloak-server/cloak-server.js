@@ -67,6 +67,9 @@ module.exports = function(expressServer) {
                 user.message('updatechallengers', user.data.challengesr);
             },
             win: function(winBool, user) {
+                if (winBool) {
+                    return;
+                }
                 gameRoomFunctions.win(winBool, user);
             },
             reconnectuser: function(ids, user) {
