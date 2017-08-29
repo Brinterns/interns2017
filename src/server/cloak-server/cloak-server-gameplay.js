@@ -2,6 +2,7 @@ var cloak = require('cloak');
 var shared = require('./cloak-server-shared');
 var gameRoomFunctions = require('./cloak-server-gameroom');
 var powerUpFunctions = require('./cloak-server-powerups');
+var gamePlayFunctions = require('./cloak-server-gameplay');
 
 //Game playing variables
 const rosettaSquares = [3,5,13,21,23];
@@ -18,8 +19,8 @@ const opponentPath = [
     0, 3,   6
 ];
 
-const powerUpTypes = ['push', 'shield', 'pull', 'remoteattack', 'swap'];
-const powerUpProbs = [23, 46, 69, 77, 100];
+const powerUpTypes = ['push', 'shield', 'pull', 'remoteattack', 'swap', 'boot'];
+const powerUpProbs = [20, 40, 60, 70, 90, 100];
 
 function rollDice(user) {
     var total = 0;
@@ -74,9 +75,10 @@ function endTurn(user) {
     powerUpFunctions.messageActivePowerUps(opponent, user);
 }
 
-function canMove(squares, opponentSquares, nextPos, moveablePositions, position) {
-    if ((nextPos === 15) || (!squares[playerPath[nextPos-1]] && (nextPos < 15))) {
-        if (!((nextPos === 8) && opponentSquares[opponentPath[nextPos-1]])) {
+function canMove(user, opponentSquares, nextPos, moveablePositions, position) {
+    if (nextPos <= 15) {
+        const index = user.data.piecePositions.indexOf(position);
+        if ((!((nextPos === 8) && opponentSquares[opponentPath[nextPos-1]]) && !user.data.squares[playerPath[nextPos-1]]) || (user.data.piecePowerUps[index].powerUp === "boot")) {
             moveablePositions.push(position);
             return true;
         }
@@ -87,7 +89,7 @@ function canMove(squares, opponentSquares, nextPos, moveablePositions, position)
 function checkMoves(user, rollNumber, opponentSquares) {
     var moveablePositions = [];
     const moveablePieces = user.data.piecePositions.filter((position) => {
-        return (position >= 0) && canMove(user.data.squares, opponentSquares, position + rollNumber, moveablePositions, position);
+        return (position >= 0) && canMove(user, opponentSquares, position + rollNumber, moveablePositions, position);
     });
     if (moveablePieces.length === 0) {
         endTurn(user);
@@ -109,11 +111,18 @@ function movePiece(position, userMoveId, user) {
         if ((oppIndex !== -1) && opponent.data.piecePowerUps[oppIndex].powerUp === "shield") {
             handleMoveUserPiece(user, opponent, room, position, nextPos, true);
         } else {
+            const pieceIndex = user.data.piecePositions.indexOf(position);
             user.data.squares[playerPath[nextPos-1]] = true;
             userStats.squaresMoved += user.data.lastRoll;
+            //If piece to move has boot powerup, deal with pieces that the piece passes during the move
+            if ((position < 15) && (user.data.lastRoll > 1) && user.data.piecePowerUps[pieceIndex].powerUp === "boot") {
+                handleBootMove(user, opponent, position+1, nextPos);
+            } else {
+                //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
+                handleTakePiece(user, opponent, userStats, room, nextPos);
+            }
+            user.data.squares[playerPath[nextPos-1]] = true;
             handleMoveUserPiece(user, opponent, room, position, nextPos, false);
-            //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
-            handleTakePiece(user, opponent, userStats, room, nextPos);
             //If moved piece lands on power up, obtain the powerup
             handlePowerupTake(user, room, nextPos);
             //if moved piece lands on rosetta square, allow reroll and reset roll timer
@@ -174,7 +183,10 @@ function handleMoveUserPiece(user, opponent, room, position, nextPos, shielded) 
 
 function handleTakePiece(user, opponent, userStats, room, nextPos) {
     if ((nextPos > 4) && (nextPos < 13) && opponent.data.piecePositions.includes(nextPos)) {
-        opponent.data.piecePositions[opponent.data.piecePositions.indexOf(nextPos)] = 0;
+        const oppIndex = opponent.data.piecePositions.indexOf(nextPos);
+        opponent.data.piecePositions[oppIndex] = 0;
+        opponent.data.piecePowerUps[oppIndex].powerUp = null;
+        opponent.data.piecePowerUps[oppIndex].turnsLeft = null;
         opponent.data.squares[playerPath[nextPos-1]] = false;
         opponent.message('piecepositions', opponent.data.piecePositions);
         opponent.message('squares', opponent.data.squares);
@@ -218,6 +230,40 @@ function handlePowerupTake(user, room, nextPos) {
         }
         user.message('newpowerup', user.data.powerUp);
     }
+}
+
+function handleBootHit(player, position, isUser, opponent) {
+    //cannot jump over an opponent piece in their safe zone
+    if (!isUser && (position >= 13 || position <= 4)) {
+        return;
+    }
+    const index = player.data.piecePositions.indexOf(position);
+    if (index > -1) {
+        if (player.data.piecePowerUps[index].powerUp === "shield") {
+            player.data.piecePowerUps[index].powerUp = null;
+            player.data.piecePowerUps[index].turnsLeft = null;
+        } else {
+            player.data.piecePositions[index] = 0;
+            player.data.squares[playerPath[position-1]] = false;
+            player.data.piecePowerUps[index].powerUp = null;
+            player.data.piecePowerUps[index].turnsLeft = null;
+            getUserStats(player).piecesLost ++;
+            //If the player losing a piece is not the user with boots, increment the piece taken state for
+            //use with the boots
+            if (!isUser) {
+                getUserStats(opponent).piecesTaken ++;
+            }
+        }
+    }
+}
+
+function handleBootMove(user, opponent, first, final) {
+    for (var i = first; i <= final; i ++) {
+        handleBootHit(user, i, true, opponent);
+        handleBootHit(opponent, i, false, user);
+    }
+    powerUpFunctions.updatePiecesMessages(user, gamePlayFunctions.reverseSquares(opponent.data.piecePositions));
+    powerUpFunctions.updatePiecesMessages(opponent, gamePlayFunctions.reverseSquares(user.data.piecePositions));
 }
 
 function handleFinalRange(user, userStats, room, position, nextPos) {

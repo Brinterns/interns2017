@@ -311,6 +311,7 @@
     padding: 0;
     text-align: center;
     color: black;
+    text-shadow: 0.1px 0 0 white, 0 -0.1px 0 white, 0 0.1px 0 white, -0.1px 0 0 white;
     pointer-events: none;
 }
 
