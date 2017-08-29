@@ -81,11 +81,9 @@ export default class User extends Component {
                 <div className={userStyles.buttonDiv}>
                     <button onClick={() => {this.props.challengeUser(this.props.user.id, this.state.numberOfPieces, this.state.enablePowerUps)}}> Challenge </button>
                     <div className={userStyles.numberOfPieces}>
+                        <button id="minus" title="Decrease no. of pieces" className={userStyles.numberOfPiecesMinus} onClick={this.handleChange}> - </button>
                         <label title="No. of pieces"> <p>{this.state.numberOfPieces}</p> </label>
-                        <div>
-                            <button id="plus" title="Increase no. of pieces" onClick={this.handleChange}> + </button>
-                            <button id="minus" title="Decrease no. of pieces" className={userStyles.numberOfPiecesMinus} onClick={this.handleChange}> - </button>
-                        </div>
+                        <button id="plus" title="Increase no. of pieces" onClick={this.handleChange}> + </button>
                         {this.state.enablePowerUps ? <img title="Disable Power Ups" style={{cursor: "pointer"}} src={powerupsactive} onClick={this.togglePowerUps} /> :
                         <img title="Enable Power Ups" style={{cursor: "pointer"}} src={powerups} onClick={this.togglePowerUps} />}
                     </div>

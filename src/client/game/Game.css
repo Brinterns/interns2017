@@ -225,11 +225,12 @@
 .numberOfPieces button {
     padding: 0;
     margin: 0 !important;
-    display: block;
-    height: calc(1.25 * (1vw + 1vh - 1vmin));
-    width: calc(1.25 * (1vw + 1vh - 1vmin));
-    min-height: 12.5px;
-    min-width: 12.5px;
+    display: inline-block;
+    height: calc(2.5 * (1vw + 1vh - 1vmin));
+    width: calc(1vw + 1vh - 1vmin);
+    min-height: 25px;
+    min-width: 10px;
+    vertical-align: top;
     font-size: calc(7px + 0.5 * (1vw + 1vh - 1vmin));
 }
 
@@ -259,9 +260,9 @@
 .numberOfPieces img {
     margin: 0 0 0 calc(2.5 * (1vw + 1vh - 1vmin)) !important;
     height: calc(2.5 * (1vw + 1vh - 1vmin));
-    width: calc(4 * (1vw + 1vh - 1vmin));
+    width: calc(3.25 * (1vw + 1vh - 1vmin));
     min-height: 25px;
-    min-width: 40px;
+    min-width: 32.5px;
     vertical-align: top;
 }
 

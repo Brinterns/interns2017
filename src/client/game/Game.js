@@ -137,11 +137,9 @@ export class Game extends Component {
             challengeButton = <button onClick={this.reChallenge}> Re-Challenge </button>;
             numPiecesButtons =
                 <div className={gameStyles.numberOfPieces}>
+                    <button id="minus" title="Decrease no. of pieces" onClick={this.handleChange}> - </button>
                     <label title="No. of pieces"> <p>{this.state.numberOfPieces}</p> </label>
-                    <div>
-                        <button id="plus" title="Increase no. of pieces" onClick={this.handleChange}> + </button>
-                        <button id="minus" title="Decrease no. of pieces" onClick={this.handleChange}> - </button>
-                    </div>
+                    <button id="plus" title="Increase no. of pieces" onClick={this.handleChange}> + </button>
                     {this.state.enablePowerUps ? <img title="Disable Power Ups" style={{cursor: "pointer"}} src={powerupsactive} onClick={this.togglePowerUps} /> :
                     <img title="Enable Power Ups" style={{cursor: "pointer"}} src={powerups} onClick={this.togglePowerUps} />}
                 </div>;

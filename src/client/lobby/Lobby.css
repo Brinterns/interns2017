@@ -449,16 +449,12 @@
     text-align: left;
 }
 
-.numberOfPieces div {
-    display: inline-block;
-}
-
 .numberOfPieces button {
-    display: block;
-    height: calc(1.25 * (1vw + 1vh - 1vmin));
-    width: calc(1.25 * (1vw + 1vh - 1vmin));
-    min-height: 12.5px;
-    min-width: 12.5px;
+    display: inline-block;
+    height: calc(2.5 * (1vw + 1vh - 1vmin));
+    width: calc(1vw + 1vh - 1vmin);
+    min-height: 25px;
+    min-width: 10px;
     float: none;
     font-size: calc(7px + 0.5 * (1vw + 1vh - 1vmin));
 }
@@ -475,6 +471,7 @@
     border-color: black;
     border-width: 1px;
     text-align: center;
+    float: none;
 }
 
 .numberOfPieces p {
@@ -489,9 +486,9 @@
 .numberOfPieces img {
     float: right;
     height: calc(2.5 * (1vw + 1vh - 1vmin));
-    width: calc(4 * (1vw + 1vh - 1vmin));
+    width: calc(3.25 * (1vw + 1vh - 1vmin));
     min-height: 25px;
-    min-width: 40px;
+    min-width: 32.5px;
 }
 
 .numberOfPiecesInactive {
