@@ -114,14 +114,14 @@ function movePiece(position, userMoveId, user) {
         userStats.totalTimeTaken += milliToSeconds(d.getTime() - user.data.rollStartTime - 1650);
 
         const oppIndex = opponent.data.piecePositions.indexOf(nextPos);
-        if ((oppIndex !== -1) && (nextPos > 4) && (nextPos < 15) && opponent.data.piecePowerUps[oppIndex].powerUp === "shield") {
+        if ((oppIndex !== -1) && (nextPos > 4) && (nextPos < room.data.warZoneEnd) && opponent.data.piecePowerUps[oppIndex].powerUp === "shield") {
             handleMoveUserPiece(user, opponent, room, position, nextPos, true);
         } else {
             const pieceIndex = user.data.piecePositions.indexOf(position);
             user.data.squares[playerPath[nextPos-1]] = true;
             userStats.squaresMoved += user.data.lastRoll;
             //If piece to move has boot powerup, deal with pieces that the piece passes during the move
-            if ((position < 15) && (user.data.lastRoll > 1) && user.data.piecePowerUps[pieceIndex].powerUp === "boot") {
+            if ((position < room.data.finalPosition) && (user.data.lastRoll > 1) && user.data.piecePowerUps[pieceIndex].powerUp === "boot") {
                 handleBootMove(user, opponent, position+1, nextPos);
             } else {
                 //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
@@ -147,7 +147,7 @@ function handleMoveUserPiece(user, opponent, room, position, nextPos, shielded) 
     if (!shielded && (position !== 0)) {
         user.data.squares[playerPath[position-1]] = false;
     }
-    if (nextPos === 15) {
+    if (nextPos === room.data.finalPosition) {
         user.data.numPiecesFinished ++;
         user.message('finishedpieces', user.data.numPiecesFinished);
         opponent.message('finishedopppieces', user.data.numPiecesFinished);
@@ -188,7 +188,7 @@ function handleMoveUserPiece(user, opponent, room, position, nextPos, shielded) 
 }
 
 function handleTakePiece(user, opponent, userStats, room, nextPos) {
-    if ((nextPos > 4) && (nextPos < 13) && opponent.data.piecePositions.includes(nextPos)) {
+    if ((nextPos > 4) && (nextPos < room.data.warZoneEnd) && opponent.data.piecePositions.includes(nextPos)) {
         const oppIndex = opponent.data.piecePositions.indexOf(nextPos);
         opponent.data.piecePositions[oppIndex] = 0;
         opponent.data.piecePowerUps[oppIndex].powerUp = null;
@@ -274,7 +274,7 @@ function handleBootMove(user, opponent, first, final) {
 }
 
 function handleFinalRange(user, userStats, room, position, nextPos) {
-    if ((nextPos >= 11 && nextPos <= 14) && (!(position >= 11 && position <= 14))) {
+    if ((nextPos >= room.data.finalPosition-4 && nextPos <= room.data.finalPosition-1) && (!(position >= room.data.finalPosition-4 && position <= room.data.finalPosition-1))) {
         if (user.data.numPiecesFinished === (room.data.numberOfPieces - 1)) {
             userStats.turnsLastInEndRange --;
         }
