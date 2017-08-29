@@ -76,9 +76,10 @@ function endTurn(user) {
 }
 
 function canMove(user, opponentSquares, nextPos, moveablePositions, position) {
-    if (nextPos <= 15) {
+    const finalPos = user.getRoom().data.finalPosition;
+    if (nextPos <= finalPos) {
         const index = user.data.piecePositions.indexOf(position);
-        if ((!((nextPos === 8) && opponentSquares[opponentPath[nextPos-1]]) && !user.data.squares[playerPath[nextPos-1]]) || (user.data.piecePowerUps[index].powerUp === "boot") || (nextPos === 15)) {
+        if ((!(rosettaSquares.includes(playerPath[nextPos-1]) && opponentSquares[opponentPath[nextPos-1]]) && !user.data.squares[playerPath[nextPos-1]]) || (user.data.piecePowerUps[index].powerUp === "boot") || (nextPos === finalPos)) {
             moveablePositions.push(position);
             return true;
         }

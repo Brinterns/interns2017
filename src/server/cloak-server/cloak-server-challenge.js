@@ -94,6 +94,10 @@ function challengeRespond(user, user2, accept, numberOfPieces=7, enablePowerUps=
         createdRoom.data.numberOfPieces = numberOfPieces;
         createdRoom.data.powerUps = [];
         createdRoom.data.enablePowerUps = enablePowerUps;
+
+        createdRoom.data.finalPosition = 15;
+        createdRoom.data.warZoneEnd = 13;
+
         userJoinRoom(user, createdRoom);
         userJoinRoom(user2, createdRoom);
         createdRoom.data.spectatedId = user.id;
