@@ -31,8 +31,10 @@ export default class PowerUp extends Component {
             return;
         }
         if (!this.state.powerUpClicked) {
-            var picture = require('../../../images/powerups/cursors/'+ this.props.powerUp +'.png');
-            document.body.style.cursor = "url('" + picture + "'), auto";
+            if (this.props.powerUp !== "reroll") {
+                var picture = require('../../../images/powerups/cursors/'+ this.props.powerUp +'.png');
+                document.body.style.cursor = "url('" + picture + "'), auto";
+            }
             cloak.message('activatepowerup', this.props.powerUp);
         } else {
             document.body.style.cursor = "auto";

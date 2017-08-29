@@ -158,6 +158,7 @@ export class Board extends Component {
         }
         const rollSequenceNotClickable = (<RollFlash sequence={this.props.rollSequence} rollNumber={this.props.rollNumber} className={boardStyles.rollButton} />);
         const rollSequenceClickable = (<div onClick={this.onClick} > <Roll rollNumber={this.props.rollNumber} isPlayerTurn={this.props.isPlayerTurn}/></div>);
+        const useable = this.props.isPlayerTurn && ((!this.props.rollSequence && (this.props.powerUp !== "reroll"))  || (this.props.rolled && (this.props.powerUp === "reroll")));
         return (
             <div>
                 <div className={boardStyles.boardMainDiv}>
@@ -166,7 +167,7 @@ export class Board extends Component {
                 <div className={boardStyles.rollButton}>
                     {((this.props.rollNumber !== 'Roll' || this.props.rollSequence) && this.props.isPlayerTurn) ? rollSequenceNotClickable : rollSequenceClickable}
                 </div>
-                {this.props.enablePowerUps ? <PowerUp powerUp={this.props.powerUp} useable={this.props.isPlayerTurn && !this.props.rollSequence} togglePowerUp={this.togglePowerUp}/> : null}
+                {this.props.enablePowerUps ? <PowerUp powerUp={this.props.powerUp} useable={useable} togglePowerUp={this.togglePowerUp}/> : null}
                 <div className={boardStyles.oppPieceHolder}>
                     {oppPieceHolder}
                 </div>
