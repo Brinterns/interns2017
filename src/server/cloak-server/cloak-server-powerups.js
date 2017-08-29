@@ -64,12 +64,12 @@ function pullActivated(user) {
     var pullablePieces = [];
     var opponent = shared.getOpponent(user);
     user.data.piecePositions.forEach((position) => {
-        if ((position > 0) && (position < 15) && ((position === 1) || gamePlayFunctions.canMove(user, opponent.data.squares, position - 1, [], position - 2))) {
+        if ((position > 0) && (position < 15) && ((position === 1) || gamePlayFunctions.canMove(user, opponent.data.squares, position - 1, [], position))) {
             pullablePieces.push(playerPath[position-1]);
         }
     });
     opponent.data.piecePositions.forEach((position) => {
-        if ((position > 0) && (position < 15) && ((position === 1) || gamePlayFunctions.canMove(opponent, user.data.squares, position - 1, [], position - 2))) {
+        if ((position > 0) && (position < 15) && ((position === 1) || gamePlayFunctions.canMove(opponent, user.data.squares, position - 1, [], position))) {
             pullablePieces.push(opponentPath[position-1]);
         }
     });
