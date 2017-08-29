@@ -15,10 +15,10 @@ describe('<PowerUpInfo />', () => {
         expect(wrapper.state().infoDisplay).toEqual(true);
     });
 
-    it('When info icon is hovered on, 5 images should display', () => {
+    it('When info icon is hovered on, 6 images should display', () => {
         wrapper = shallow(<PowerUpInfo />);
         const lenBefore = wrapper.find("img").length;
         wrapper.find("img").at(0).simulate("mouseEnter");
-        expect(wrapper.find("img").length).toEqual(lenBefore + 5);
+        expect(wrapper.find("img").length).toEqual(lenBefore + 6);
     });
 });
