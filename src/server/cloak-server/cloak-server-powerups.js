@@ -16,6 +16,7 @@ const opponentPath = [
 ];
 
 function powerupActivated(user, powerUp) {
+    gamePlayFunctions.getUserStats(user).powerUpsUsed ++;
     switch (powerUp) {
         case "push":
             pushActivated(user);
@@ -40,6 +41,7 @@ function powerupActivated(user, powerUp) {
             break;
         default:
             console.log("Power up not found");
+            gamePlayFunctions.getUserStats(user).powerUpsUsed --;
             break;
     }
 }
