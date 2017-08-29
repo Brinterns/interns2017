@@ -165,7 +165,7 @@ export class Game extends Component {
         );
         let gameInfo = null;
         let currentPlayerText = null;
-        let notifMessage;
+        let notifMessage = "";
         let currentPlayerName = "";
         let notifDiv = null;
         if (this.props.listOfPlayers.length) {
@@ -178,8 +178,10 @@ export class Game extends Component {
             }
 
             if (this.props.powerUpNotif) {
-                currentPlayerName = emojify(currentPlayer.name);
-                notifMessage = currentPlayerName + " used ";
+                if (!isPlayerTurn) {
+                    currentPlayerName = emojify(currentPlayer.name);
+                    notifMessage = currentPlayerName + " used ";
+                }
                 var picture = require('../images/powerups/'+ this.props.powerUpNotif +'.png');
                 notifDiv = (<div className={gameStyles.powerNotificationDiv}> <p>{notifMessage}</p> <div style={{background: 'url(' + picture + ')'}} /> </div>);
             } else if (this.props.notificationText && ((this.props.opponentRollNumber === 0) || (isPlayerTurn && !isNaN(this.props.notificationText.slice(-1))))) {
