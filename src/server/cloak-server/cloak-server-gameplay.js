@@ -19,8 +19,8 @@ const opponentPath = [
     0, 3,   6
 ];
 
-const powerUpTypes = ['push', 'shield', 'pull', 'remoteattack', 'swap', 'boot'];
-const powerUpProbs = [20, 40, 60, 70, 90, 100];
+const powerUpTypes = ['push', 'shield', 'pull', 'reroll', 'swap', 'boot', 'remoteattack'];
+const powerUpProbs = [17, 34, 51, 68, 85, 93, 100];
 
 function rollDice(user) {
     var total = 0;
