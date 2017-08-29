@@ -94,6 +94,7 @@ function checkMoves(user, rollNumber, opponentSquares) {
     if (moveablePieces.length === 0) {
         if (user.data.powerUp === "reroll") {
             powerUpFunctions.reRoll(user);
+            user.message('autoreroll');
         } else {
             endTurn(user);
         }

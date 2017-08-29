@@ -32,6 +32,7 @@ export const ENABLE_POWER_UPS = namespace + 'ENABLE_POWER_UPS';
 export const UPDATE_POWER_UP_PIECES = namespace + 'UPDATE_POWER_UP_PIECES';
 export const UPDATE_ACTIVE_POWER_UPS = namespace + 'UPDATE_ACTIVE_POWER_UPS';
 export const UPDATE_POWER_UP_NOTIFICATION = namespace + 'UPDATE_POWER_UP_NOTIFICATION';
+export const AUTO_RE_ROLL = namespace + 'AUTO_RE_ROLL';
 
 export function updateUserGameId(id) {
     return {
@@ -243,6 +244,12 @@ export function updateOppFinishedPieces(numPiecesFinished) {
     return {
         type: UPDATE_NUM_OPPONENT_FINISHED,
         payload: numPiecesFinished
+    }
+}
+
+export function autoReRoll() {
+    return {
+        type: AUTO_RE_ROLL
     }
 }
 

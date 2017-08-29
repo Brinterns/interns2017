@@ -40,7 +40,8 @@ import {
     enablePowerUps,
     updatePowerablePieces,
     updateActivePowerUps,
-    updatePowerUpNotif
+    updatePowerUpNotif,
+    autoReRoll
 } from '../game/Game-actions';
 
 import { dispatch } from '../store';
@@ -204,6 +205,9 @@ export function RunCloakConfig() {
                 setTimeout(() => {
                     dispatch(updatePowerUpNotif([null, false]));
                 }, 1500);
+            },
+            autoreroll: () => {
+                dispatch(autoReRoll());
             }
         }
     });

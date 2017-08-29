@@ -6,7 +6,7 @@ var sharedFunctions = require('./cloak-server-shared');
 var gameRoomFunctions = require('./cloak-server-gameroom');
 var gamePlayFunctions = require('./cloak-server-gameplay');
 var challengeFunctions = require('./cloak-server-challenge');
-var powerupFunctions = require('./cloak-server-powerups');
+var powerUpFunctions = require('./cloak-server-powerups');
 
 
 module.exports = function(expressServer) {
@@ -95,7 +95,8 @@ module.exports = function(expressServer) {
                     var opponent = sharedFunctions.getOpponent(user);
                     if (rollNumber === 0) {
                         if (user.data.powerUp === "reroll") {
-                            powerupFunctions.reRoll(user);
+                            powerUpFunctions.reRoll(user);
+                            user.message('autoreroll');
                         } else {
                             gamePlayFunctions.endTurn(user);
                         }
@@ -108,10 +109,10 @@ module.exports = function(expressServer) {
                 gamePlayFunctions.movePiece(options[0], options[1], user);
             },
             activatepowerup: function(powerUp, user) {
-                powerupFunctions.powerupActivated(user, powerUp);
+                powerUpFunctions.powerupActivated(user, powerUp);
             },
             usepowerup: function(options, user) {
-                powerupFunctions.powerUsed(options[0], options[1], options[2], user);
+                powerUpFunctions.powerUsed(options[0], options[1], options[2], user);
             }
         },
         lobby: {

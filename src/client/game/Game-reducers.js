@@ -32,7 +32,8 @@ import {
     ENABLE_POWER_UPS,
     UPDATE_POWER_UP_PIECES,
     UPDATE_ACTIVE_POWER_UPS,
-    UPDATE_POWER_UP_NOTIFICATION
+    UPDATE_POWER_UP_NOTIFICATION,
+    AUTO_RE_ROLL
 } from './Game-actions';
 
 
@@ -155,7 +156,8 @@ const game = (state = initialState, action) => {
         }
         case ROLLED_SEQUENCE: {
             return updateState(state, {
-                rollSequence: action.payload
+                rollSequence: action.payload,
+                powerUpNotif: null
             });
         }
         case OPPONENT_ROLLED_SEQUENCE: {
@@ -290,6 +292,12 @@ const game = (state = initialState, action) => {
         case UPDATE_ACTIVE_POWER_UPS: {
             return updateState(state, {
                 activePowerUps: action.payload
+            });
+        }
+        case AUTO_RE_ROLL: {
+            return updateState(state, {
+                powerUpNotif: 'reroll',
+                notificationBool: true
             });
         }
         case RESET_STORE: {
