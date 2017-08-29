@@ -92,7 +92,11 @@ function checkMoves(user, rollNumber, opponentSquares) {
         return (position >= 0) && canMove(user, opponentSquares, position + rollNumber, moveablePositions, position);
     });
     if (moveablePieces.length === 0) {
-        endTurn(user);
+        if (user.data.powerUp === "reroll") {
+            powerUpFunctions.reRoll(user);
+        } else {
+            endTurn(user);
+        }
     }
     user.message('moveablepositions', moveablePositions);
 }
