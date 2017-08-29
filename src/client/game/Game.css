@@ -218,10 +218,6 @@
     text-align: center;
 }
 
-.numberOfPieces div {
-    display: inline-block;
-}
-
 .numberOfPieces button {
     padding: 0;
     margin: 0 !important;
