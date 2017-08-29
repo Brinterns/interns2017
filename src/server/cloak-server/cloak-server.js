@@ -94,7 +94,11 @@ module.exports = function(expressServer) {
                     gamePlayFunctions.messageRoll(rollNumber, user);
                     var opponent = sharedFunctions.getOpponent(user);
                     if (rollNumber === 0) {
-                        gamePlayFunctions.endTurn(user);
+                        if (user.data.powerUp === "reroll") {
+                            powerupFunctions.reRoll(user);
+                        } else {
+                            gamePlayFunctions.endTurn(user);
+                        }
                     } else {
                         gamePlayFunctions.checkMoves(user, rollNumber, opponent.data.squares);
                     }

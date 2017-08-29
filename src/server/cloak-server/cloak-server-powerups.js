@@ -35,6 +35,9 @@ function powerupActivated(user, powerUp) {
         case "swap":
             swapActivated(user);
             break;
+        case "reroll":
+            reRoll(user);
+            break;
         default:
             console.log("Power up not found");
             break;
@@ -262,6 +265,14 @@ function swapPiece(position, user, opponent) {
     }
 }
 
+function reRoll(user) {
+    const room = user.getRoom();
+    room.messageMembers('currentplayer', room.data.currentPlayer);
+    user.data.rolledDice = false;
+    room.messageMembers('powernotify', user.data.powerUp);
+    clearPowerUp(user);
+}
+
 function updatePieces(user, index, oldPos, newPos) {
     user.data.piecePositions[index] = newPos;
     user.data.piecePowerUps[index].position = newPos;
@@ -295,3 +306,4 @@ module.exports.powerUsed = powerUsed;
 module.exports.getActivePowerUps = getActivePowerUps;
 module.exports.messageActivePowerUps = messageActivePowerUps;
 module.exports.updatePiecesMessages = updatePiecesMessages;
+module.exports.reRoll = reRoll;

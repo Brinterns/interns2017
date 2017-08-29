@@ -19,8 +19,8 @@ const opponentPath = [
     0, 3,   6
 ];
 
-const powerUpTypes = ['push', 'shield', 'pull', 'remoteattack', 'swap', 'boot'];
-const powerUpProbs = [20, 40, 60, 70, 90, 100];
+const powerUpTypes = ['push', 'shield', 'pull', 'reroll', 'swap', 'boot', 'remoteattack'];
+const powerUpProbs = [17, 34, 51, 68, 85, 93, 100];
 
 function rollDice(user) {
     var total = 0;
@@ -92,7 +92,11 @@ function checkMoves(user, rollNumber, opponentSquares) {
         return (position >= 0) && canMove(user, opponentSquares, position + rollNumber, moveablePositions, position);
     });
     if (moveablePieces.length === 0) {
-        endTurn(user);
+        if (user.data.powerUp === "reroll") {
+            powerUpFunctions.reRoll(user);
+        } else {
+            endTurn(user);
+        }
     }
     user.message('moveablepositions', moveablePositions);
 }
