@@ -200,6 +200,11 @@ function messageActivePowerUps(user, opponent) {
 
 function shieldBootPiece(position, user, opponent, type) {
     const index = user.data.piecePositions.indexOf(position);
+    if (user.data.piecePowerUps[index].powerUp && (user.data.piecePowerUps[index].powerUp !== type)) {
+        user.data.piecePowerUps[index] = {powerUp: null, turnsLeft: null, squareIndex: playerPath[position-1], position: position};
+        messageActivePowerUps(user, opponent);
+        messageActivePowerUps(opponent, user);
+    }
     user.data.piecePowerUps[index] = {powerUp: type, turnsLeft: 3, squareIndex: playerPath[position-1], position: position};
     messageActivePowerUps(user, opponent);
     messageActivePowerUps(opponent, user);
