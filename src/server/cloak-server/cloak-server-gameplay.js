@@ -51,7 +51,7 @@ function endTurn(user) {
     }
     room.data.currentPlayer = opponent.id;
     const numPiecesEndRange = user.data.piecePositions.filter((position) => {
-        return (position >= 11 && position <= 14);
+        return (position >= room.data.finalPosition-4 && position <= room.data.finalPosition-1);
     }).length;
     getUserStats(user).turnsInEndRange += numPiecesEndRange;
     if ((user.data.numPiecesFinished === (room.data.numberOfPieces - 1)) && (numPiecesEndRange === 1)) {
@@ -241,7 +241,7 @@ function handlePowerupTake(user, room, nextPos) {
 
 function handleBootHit(player, position, isUser, opponent) {
     //cannot jump over an opponent piece in their safe zone
-    if (!isUser && (position >= 13 || position <= 4)) {
+    if (!isUser && (position >= player.getRoom().data.warZoneEnd || position <= 4)) {
         return;
     }
     const index = player.data.piecePositions.indexOf(position);

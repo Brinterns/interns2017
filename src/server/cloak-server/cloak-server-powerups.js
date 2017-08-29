@@ -63,13 +63,14 @@ function pushActivated(user) {
 function pullActivated(user) {
     var pullablePieces = [];
     var opponent = shared.getOpponent(user);
+    const finalPosition = user.getRoom().data.finalPosition;
     user.data.piecePositions.forEach((position) => {
-        if ((position > 0) && (position < 15) && ((position === 1) || gamePlayFunctions.canMove(user, opponent.data.squares, position - 1, [], position))) {
+        if ((position > 0) && (position < finalPosition) && ((position === 1) || gamePlayFunctions.canMove(user, opponent.data.squares, position - 1, [], position))) {
             pullablePieces.push(playerPath[position-1]);
         }
     });
     opponent.data.piecePositions.forEach((position) => {
-        if ((position > 0) && (position < 15) && ((position === 1) || gamePlayFunctions.canMove(opponent, user.data.squares, position - 1, [], position))) {
+        if ((position > 0) && (position < finalPosition) && ((position === 1) || gamePlayFunctions.canMove(opponent, user.data.squares, position - 1, [], position))) {
             pullablePieces.push(opponentPath[position-1]);
         }
     });
@@ -78,8 +79,9 @@ function pullActivated(user) {
 
 function shieldBootActivated(user) {
     var activePieces = [];
+    const finalPosition = user.getRoom().data.finalPosition;
     user.data.piecePositions.forEach((position) => {
-        if ((position > 0) && (position < 15)) {
+        if ((position > 0) && (position < finalPosition)) {
             activePieces.push(playerPath[position-1]);
         }
     });
@@ -89,8 +91,9 @@ function shieldBootActivated(user) {
 function remoteAttackActivated(user) {
     var remoteAttackablePieces = [];
     var opponent = shared.getOpponent(user);
+    const finalPosition = user.getRoom().data.finalPosition;
     opponent.data.piecePositions.forEach((position) => {
-        if ((position > 0) && (position < 15)) {
+        if ((position > 0) && (position < finalPosition)) {
             remoteAttackablePieces.push(opponentPath[position-1]);
         }
     });
@@ -99,8 +102,9 @@ function remoteAttackActivated(user) {
 
 function swapActivated(user) {
     var swapablePieces = [];
+    const warZoneEnd = user.getRoom().data.warZoneEnd;
     user.data.piecePositions.forEach((position) => {
-        if ((position > 4) && (position < 13)) {
+        if ((position > 4) && (position < warZoneEnd)) {
             swapablePieces.push(playerPath[position-1]);
         }
     });
@@ -248,8 +252,9 @@ function swapPiece(position, user, opponent) {
     if (user.data.piecePositions.indexOf(position) >= 0) {
         user.data.swapPos = position;
         var opponentSwapablePieces = [];
+        const warZoneEnd = user.getRoom().data.warZoneEnd;
         opponent.data.piecePositions.forEach((position) => {
-            if ((position > 4) && (position < 13)) {
+            if ((position > 4) && (position < warZoneEnd)) {
                 opponentSwapablePieces.push(playerPath[position-1]);
             }
         });
