@@ -113,6 +113,7 @@ function powerUsed(position, userMoveId, opponentBool, user) {
         room.data.moveId = shared.generateMoveId();
         var powerUp = user.data.powerUp;
         var opponent = shared.getOpponent(user);
+        gamePlayFunctions.getUserStats(user).powerUpsUsed ++;
         switch(powerUp) {
             case "push":
                 pushPullPiece(position, user, opponent, opponentBool);
@@ -133,6 +134,7 @@ function powerUsed(position, userMoveId, opponentBool, user) {
                 shieldBootPiece(position, user, opponent, "boot");
                 break;
             default:
+                gamePlayFunctions.getUserStats(user).powerUpsUsed --;
                 console.log("cannot use powerup");
                 break;
         }
@@ -251,6 +253,7 @@ function swapPiece(position, user, opponent) {
                 opponentSwapablePieces.push(playerPath[position-1]);
             }
         });
+        gamePlayFunctions.getUserStats(user).powerUpsUsed --;
         user.message('powerpieces', opponentSwapablePieces);
     } else {
         //Index of user piece in piece positions array
@@ -270,6 +273,7 @@ function reRoll(user) {
     room.messageMembers('currentplayer', room.data.currentPlayer);
     user.data.rolledDice = false;
     room.messageMembers('powernotify', user.data.powerUp);
+    gamePlayFunctions.getUserStats(user).powerUpsUsed ++;
     clearPowerUp(user);
 }
 

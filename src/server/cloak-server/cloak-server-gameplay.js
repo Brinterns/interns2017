@@ -233,6 +233,7 @@ function handlePowerupTake(user, room, nextPos) {
                 break;
             }
         }
+        getUserStats(user).powerUpsCollected ++;
         user.message('newpowerup', user.data.powerUp);
     }
 }

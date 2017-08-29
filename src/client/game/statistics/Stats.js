@@ -85,6 +85,8 @@ export default class Stats extends Component {
                                 {this.tableRow("Pieces per turn in range of end", userStats.turnsInEndRange, opponentStats.turnsInEndRange)}
                                 {this.tableRow("Turns in winning range", userStats.turnsLastInEndRange, opponentStats.turnsLastInEndRange)}
                                 {this.tableRow("Seconds per roll", userAverages[0], opponentAverages[0])}
+                                {this.tableRow("Power-ups collected", userStats.powerUpsCollected, opponentStats.powerUpsCollected)}
+                                {this.tableRow("Power-ups used", userStats.powerUpsUsed, opponentStats.powerUpsUsed)}
                             </tbody>
                         </table>
                     </div>
