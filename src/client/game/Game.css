@@ -212,7 +212,8 @@
 
 .numberOfPieces {
     margin-bottom: calc(0.4 * (1vw + 1vh - 1vmin));
-    width: 100%;
+    width: calc(8 * (1vw + 1vh - 1vmin));
+    min-width: 80px;
     height: calc(2.5 * (1vw + 1vh - 1vmin));
     min-height: 25px;
     text-align: center;
@@ -227,6 +228,7 @@
     min-height: 25px;
     min-width: 10px;
     vertical-align: top;
+    float: left;
     font-size: calc(7px + 0.5 * (1vw + 1vh - 1vmin));
 }
 
@@ -241,6 +243,8 @@
     border-style: solid;
     border-color: black;
     border-width: 1px;
+    text-align: center;
+    float: left;
 }
 
 .numberOfPieces p {
@@ -254,7 +258,7 @@
 }
 
 .numberOfPieces img {
-    margin: 0 0 0 calc(2.5 * (1vw + 1vh - 1vmin)) !important;
+    float: right;
     height: calc(2.5 * (1vw + 1vh - 1vmin));
     width: calc(3.25 * (1vw + 1vh - 1vmin));
     min-height: 25px;
