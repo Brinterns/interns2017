@@ -112,7 +112,7 @@ function movePiece(position, userMoveId, user) {
         userStats.totalTimeTaken += milliToSeconds(d.getTime() - user.data.rollStartTime - 1650);
 
         const oppIndex = opponent.data.piecePositions.indexOf(nextPos);
-        if ((oppIndex !== -1) && opponent.data.piecePowerUps[oppIndex].powerUp === "shield") {
+        if ((oppIndex !== -1) && (nextPos > 4) && (nextPos < 15) && opponent.data.piecePowerUps[oppIndex].powerUp === "shield") {
             handleMoveUserPiece(user, opponent, room, position, nextPos, true);
         } else {
             const pieceIndex = user.data.piecePositions.indexOf(position);
