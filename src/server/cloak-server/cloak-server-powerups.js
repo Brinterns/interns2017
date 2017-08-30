@@ -2,6 +2,8 @@ var cloak = require('cloak');
 var gamePlayFunctions = require('./cloak-server-gameplay');
 var shared = require('./cloak-server-shared');
 
+const alternateZone = [12, 13, 14, 15, 16];
+
 function powerupActivated(user, powerUp) {
     const room = user.getRoom();
     const playerPath = room.data.playerPath;
@@ -240,6 +242,13 @@ function remoteAttackPiece(position, user, opponent) {
     clearPowerUp(user);
 }
 
+function translatePosition(room, position) {
+    if (!room.data.originalPath && position > 11) {
+        position = alternateZone[alternateZone.length - 1 - alternateZone.indexOf(position)];
+    }
+    return position;
+}
+
 function swapPiece(position, user, opponent) {
     const room = user.getRoom();
     const playerPath = room.data.playerPath;
@@ -249,6 +258,7 @@ function swapPiece(position, user, opponent) {
         const warZoneEnd = room.data.warZoneEnd;
         opponent.data.piecePositions.forEach((position) => {
             if ((position > 4) && (position < warZoneEnd)) {
+                position = translatePosition(room, position);
                 opponentSwapablePieces.push(playerPath[position-1]);
             }
         });
@@ -256,8 +266,11 @@ function swapPiece(position, user, opponent) {
         user.message('powerpieces', opponentSwapablePieces);
     } else {
         //Index of user piece in piece positions array
-        updatePieces(user, user.data.piecePositions.indexOf(user.data.swapPos), user.data.swapPos, position, playerPath);
-        updatePieces(opponent, opponent.data.piecePositions.indexOf(position), position, user.data.swapPos, playerPath);
+        var userT = translatePosition(room, user.data.swapPos);
+        var positionT = translatePosition(room, position);
+
+        updatePieces(user, user.data.piecePositions.indexOf(user.data.swapPos), user.data.swapPos, positionT, playerPath);
+        updatePieces(opponent, opponent.data.piecePositions.indexOf(position), position, userT, playerPath);
         user.data.swapPos = null;
         messageActivePowerUps(user, opponent);
         messageActivePowerUps(opponent, user);
