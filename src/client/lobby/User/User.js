@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import {emojify} from 'react-emojione';
+import ChallengeOptions from '../../components/ChallengeOptions.js';
 import userStyles from '../Lobby.css';
-import powerups from '../../images/icons/powerups.png';
-import powerupsactive from '../../images/icons/powerupsactive.png';
 
 export default class User extends Component {
     constructor(props) {
@@ -16,16 +15,10 @@ export default class User extends Component {
         this.togglePowerUps = this.togglePowerUps.bind(this);
     }
 
-    handleChange(event) {
-        if ((event.target.id === "minus") && (this.state.numberOfPieces > 1)) {
-            this.setState({
-                numberOfPieces: this.state.numberOfPieces - 1
-            });
-        } else if ((event.target.id === "plus") && (this.state.numberOfPieces < 9)) {
-            this.setState({
-                numberOfPieces: this.state.numberOfPieces + 1
-            });
-        }
+    handleChange(numberOfPieces) {
+        this.setState({
+            numberOfPieces: numberOfPieces
+        });
     }
 
     togglePowerUps() {
@@ -57,11 +50,7 @@ export default class User extends Component {
             challengeButtons =
                 <div className={userStyles.buttonDiv}>
                     <button onClick={() => {this.props.cancelChallenge(this.props.user.id)}}> Cancel </button>
-                    <div className={userStyles.numberOfPieces}>
-                        <label title="No. of pieces" className={userStyles.numberOfPiecesInactive}> <p>{this.props.challenging.numberOfPieces}</p> </label>
-                        {this.props.challenging.enablePowerUps ? <img title="Power Ups Enabled" src={powerupsactive} /> :
-                        <img title="Power Ups Disabled" src={powerups} />}
-                    </div>
+                    <ChallengeOptions lobby={true} inChallenge={true} challengePieces={this.props.challenging.numberOfPieces} challengePowerUps={this.props.challenging.enablePowerUps} />
                 </div>;
         } else if (this.props.challenger) {
             challengeButtons =
@@ -70,25 +59,13 @@ export default class User extends Component {
                         <button className={userStyles.declineButton} onClick={() => {this.props.challengeRespond(false, this.props.user.id)}}> &#x2716; </button>
                         <button className={userStyles.acceptButton} onClick={() => {this.props.challengeRespond(true, this.props.user.id)}}> &#10004; </button>
                     </div>
-                    <div className={userStyles.numberOfPieces}>
-                        <label title="No. of pieces" className={userStyles.numberOfPiecesInactive}> <p>{this.props.challenger.numberOfPieces}</p> </label>
-                        {this.props.challenger.enablePowerUps ? <img title="Power Ups Enabled" src={powerupsactive} /> :
-                        <img title="Power Ups Disabled" src={powerups} />}
-                    </div>
+                    <ChallengeOptions lobby={true} inChallenge={true} challengePieces={this.props.challenger.numberOfPieces} challengePowerUps={this.props.challenger.enablePowerUps} />
                 </div>;
         } else {
             challengeButtons =
                 <div className={userStyles.buttonDiv}>
                     <button onClick={() => {this.props.challengeUser(this.props.user.id, this.state.numberOfPieces, this.state.enablePowerUps)}}> Challenge </button>
-                    <div className={userStyles.numberOfPieces}>
-                        <label title="No. of pieces"> <p>{this.state.numberOfPieces}</p> </label>
-                        <div>
-                            <button id="plus" title="Increase no. of pieces" onClick={this.handleChange}> + </button>
-                            <button id="minus" title="Decrease no. of pieces" className={userStyles.numberOfPiecesMinus} onClick={this.handleChange}> - </button>
-                        </div>
-                        {this.state.enablePowerUps ? <img title="Disable Power Ups" style={{cursor: "pointer"}} src={powerupsactive} onClick={this.togglePowerUps} /> :
-                        <img title="Enable Power Ups" style={{cursor: "pointer"}} src={powerups} onClick={this.togglePowerUps} />}
-                    </div>
+                    <ChallengeOptions lobby={true} inChallenge={false} numberOfPieces={this.state.numberOfPieces} enablePowerUps={this.state.enablePowerUps} onChange={this.handleChange} togglePowerUps={this.togglePowerUps} />
                 </div>;
         }
         var displayName = this.props.user.name;
