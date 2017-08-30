@@ -9,15 +9,35 @@ const rosettaSquares = [3,5,13,21,23];
 const playerPath = [
     14, 17, 20, 23,
     22, 19, 16, 13,
-    10, 7,  4,  1,
-    2,  5,  8
+    10, 7,  4,  3,
+    0,  1,  2,  5,
+    8
 ];
+
 const opponentPath = [
     12, 15, 18, 21,
     22, 19, 16, 13,
-    10, 7,  4,  1,
-    0, 3,   6
+    10, 7,  4,  5,
+    2, 1,   0, 3,
+    6
 ];
+
+// const playerPath2 = [
+//     14, 17, 20, 23,
+//     22, 19, 16, 13,
+//     10, 7,  4,  1,
+//     2,  5,  8
+// ];
+
+// const opponentPath2 = [
+//     12, 15, 18, 21,
+//     22, 19, 16, 13,
+//     10, 7,  4,  1,
+//     0, 3,   6
+// ];
+
+
+
 
 const powerUpTypes = ['push', 'shield', 'pull', 'reroll', 'swap', 'boot', 'remoteattack'];
 const powerUpProbs = [17, 34, 51, 68, 85, 93, 100];
