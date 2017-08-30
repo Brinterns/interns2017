@@ -8,7 +8,7 @@ export default class ChallengeOptions extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showOptions: true
+            showOptions: false
         }
         document.addEventListener('click', this.pageClick.bind(this), true);
         this.toggleOptions = this.toggleOptions.bind(this);
