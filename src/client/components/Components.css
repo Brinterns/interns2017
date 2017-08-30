@@ -88,7 +88,8 @@
     border: none;
 }
 
-.numberOfPieces {
+.numberOfPiecesToggle {
+    background-color: #939694;
     height: calc(2.5 * (1vw + 1vh - 1vmin));
     width: calc(8 * (1vw + 1vh - 1vmin));
     min-height: 25px;
@@ -96,12 +97,14 @@
     text-align: center;
 }
 
-.numberOfPieces div {
-    height: calc(2.5 * (1vw + 1vh - 1vmin));
-    width: calc(4.5 * (1vw + 1vh - 1vmin));
-    min-height: 25px;
-    min-width: 45px;
-    float: left;
+.numberOfPieces {
+    padding: calc(0.75 * (1vw + 1vh - 1vmin)) 0 calc(0.75 * (1vw + 1vh - 1vmin)) 0;
+    width: calc(8 * (1vw + 1vh - 1vmin));
+    min-width: 80px;
+    position: absolute;
+    background-color: rgba(0,0,0, 0.75);
+    transform: translate(0, calc(0.45 * (1vw + 1vh - 1vmin)));
+    text-align: center;
 }
 
 .numberOfPieces button {
@@ -109,7 +112,7 @@
     margin: 0 !important;
     display: inline-block !important;
     height: calc(2.5 * (1vw + 1vh - 1vmin)) !important;
-    width: calc(1vw + 1vh - 1vmin) !important;
+    width: calc(1.5 * (1vw + 1vh - 1vmin)) !important;
     min-height: 25px !important;
     min-width: 10px !important;
     vertical-align: top;
@@ -141,8 +144,18 @@
     font-weight: normal;
 }
 
-.numberOfPieces img {
-    float: right;
+.optionsImg {
+    position: relative;
+    height: calc(2.5 * (1vw + 1vh - 1vmin));
+    width: calc(8 * (1vw + 1vh - 1vmin));
+    min-height: 25px;
+    min-width: 80px;
+    transform: translate(0, -50%);
+    top: 50%;
+    cursor: pointer;
+}
+
+.powerUpsImg {
     height: calc(2.5 * (1vw + 1vh - 1vmin));
     width: calc(3.25 * (1vw + 1vh - 1vmin));
     min-height: 25px;
@@ -151,6 +164,5 @@
 }
 
 .numberOfPiecesInactive {
-    float: left;
     background: #cccccc !important;
 }

@@ -189,19 +189,19 @@
 
 .gameOverMenu button {
     display: block;
-    margin: 0 auto calc(0.4 * (1vw + 1vh - 1vmin)) auto !important;
-    padding: 0.25em 0.9em 0.25em 0.9em;
+    margin: 0 auto calc(0.4 * (1vw + 1vh - 1vmin)) auto;
+    padding: 0 0.9em 0 0.9em;
+    height: calc(3.5 * (1vw + 1vh - 1vmin));
+    min-height: 35px;
     border-style: none;
     color: white;
     background-color: #0265CB;
     outline: none;
-    font-size: calc(2 * (1vw + 1vh - 1vmin));
+    font-size: calc(10px + 0.5 * (1vw + 1vh - 1vmin));
 }
 
 .buttonsEnd {
     text-align: center;
-    margin-bottom: calc(0.4 * (1vw + 1vh - 1vmin)) !important;
-    margin-top: 0 !important;
 }
 
 .buttonsEnd button {
