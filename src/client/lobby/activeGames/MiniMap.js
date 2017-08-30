@@ -6,13 +6,6 @@ import Piece from '../../game/board/Piece';
 import OpponentPiece from '../../game/board/OpponentPiece';
 import Square from '../../game/board/Square';
 
-const playerPath = [
-    14,  17,  20,  23,
-    22,  19,  16,  13,
-    10,  7,  4,  1,
-    2,  5,  8
-];
-
 export default class MiniMap extends Component {
     constructor(props) {
         super(props);
@@ -20,7 +13,7 @@ export default class MiniMap extends Component {
     }
 
     squareType(i) {
-        const pos = playerPath.indexOf(i) + 1;
+        const pos = this.props.gameState.playerPath.indexOf(i) + 1;
         var displayNumber = null;
         if ((i === 8) && this.props.gameState.numPiecesFinished) {
             displayNumber = (this.props.gameState.numPiecesFinished > 1) ? this.props.gameState.numPiecesFinished : null;

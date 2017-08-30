@@ -41,7 +41,8 @@ import {
     updatePowerablePieces,
     updateActivePowerUps,
     updatePowerUpNotif,
-    autoReRoll
+    autoReRoll,
+    updatePathData
 } from '../game/Game-actions';
 
 import { dispatch } from '../store';
@@ -166,6 +167,9 @@ export function RunCloakConfig() {
             //Game state messages
             gamestate: (json) => {
                 dispatch(updateGameState(JSON.parse(json)));
+            },
+            pathdata: (pathData) => {
+                dispatch(updatePathData(JSON.parse(pathData)));
             },
             squares: (squares) => {
                 dispatch(updateSquares(squares));

@@ -316,7 +316,7 @@ function randomPowerUp(room, user, opponent) {
     }
     //only look to random powerups in war zone
     var freeSquares = [];
-    for (var i = 4; i <= 11; i++) {
+    for (var i = 4; i < room.data.warZoneEnd-1; i++) {
         //if there are no powerups on a space and no player pieces then add the square index as free
         if (!room.data.powerUps.includes(playerPath[i])){
             if (!user.data.squares[playerPath[i]] && !opponent.data.squares[playerPath[i]]) {

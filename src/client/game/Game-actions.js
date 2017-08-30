@@ -33,11 +33,19 @@ export const UPDATE_POWER_UP_PIECES = namespace + 'UPDATE_POWER_UP_PIECES';
 export const UPDATE_ACTIVE_POWER_UPS = namespace + 'UPDATE_ACTIVE_POWER_UPS';
 export const UPDATE_POWER_UP_NOTIFICATION = namespace + 'UPDATE_POWER_UP_NOTIFICATION';
 export const AUTO_RE_ROLL = namespace + 'AUTO_RE_ROLL';
+export const UPDATE_PATH_DATA = namespace + 'UPDATE_PATH_DATA';
 
 export function updateUserGameId(id) {
     return {
         type: UPDATE_USER_ID,
         payload: id
+    }
+}
+
+export function updatePathData(pathData) {
+    return {
+        type: UPDATE_PATH_DATA,
+        payload: pathData
     }
 }
 

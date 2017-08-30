@@ -185,6 +185,7 @@ function reconnectGame(user, user2, room) {
         gameRoomFunctions.getRoomInfo(spectator);
     });
     room.data.gameinfo.playerIds[room.data.gameinfo.playerIds.indexOf(user2.id)] = user.id;
+    user.message('pathdata', JSON.stringify({playerPath: room.data.playerPath, opponentPath: room.data.opponentPath, finalPosition: room.data.finalPosition}));
     user.message('updatestats', JSON.stringify(room.data.gameinfo));
     user.message('enablepowerups', room.data.enablePowerUps);
     user.message('newpowerup', user.data.powerUp);

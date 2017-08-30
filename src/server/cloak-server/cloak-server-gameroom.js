@@ -67,6 +67,7 @@ function getRoomInfo(user) {
             opponentDisconnect: room.data.opponentDisconnect
         };
         user.message('gamestate', JSON.stringify(gameStateJson));
+        user.message('pathdata', JSON.stringify({playerPath: room.data.playerPath, opponentPath: room.data.opponentPath, finalPosition: room.data.finalPosition}));
         user.message('currentplayer', room.data.currentPlayer);
         user.message('updatepowerups', JSON.stringify(room.data.powerUps));
         if (opponent && user.data.lastRoll) {
@@ -99,6 +100,7 @@ function getGameInfo(roomId, user) {
         powerUps: room.data.powerUps,
         activePowerUps: powerUpFunctions.getActivePowerUps(spectatedPlayer, opponent)
     };
+    user.message('pathdata', JSON.stringify({playerPath: room.data.playerPath, opponentPath: room.data.opponentPath, finalPosition: room.data.finalPosition}));
     user.message('minimapstate', JSON.stringify(gameStateJson));
 }
 
