@@ -18,7 +18,7 @@ function rollDice(user) {
         total += shared.getRandomIntInclusive(0,1);
     }
     getUserStats(user).numberOfRolls ++;
-    return 1;
+    return total;
 }
 
 function messageRoll(total, user) {
@@ -116,7 +116,7 @@ function movePiece(position, userMoveId, user) {
             userStats.squaresMoved += user.data.lastRoll;
             //If piece to move has boot powerup, deal with pieces that the piece passes during the move
             if ((position < room.data.finalPosition) && (user.data.lastRoll > 1) && user.data.piecePowerUps[pieceIndex].powerUp === "boot") {
-                handleBootMove(user, opponent, position+1, nextPos);
+                handleBootMove(room, user, opponent, position+1, nextPos);
             } else {
                 //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
                 handleTakePiece(user, opponent, userStats, room, nextPos);
@@ -241,11 +241,15 @@ function handlePowerupTake(user, room, nextPos) {
     }
 }
 
-function handleBootHit(player, position, isUser, opponent) {
+function handleBootHit(room, player, position, isUser, opponent) {
     //cannot jump over an opponent piece in their safe zone
     if (!isUser && (position >= player.getRoom().data.warZoneEnd || position <= 4)) {
         return;
     }
+    if (!isUser) {
+        position = shared.translatePosition(room, position);
+    }
+
     const index = player.data.piecePositions.indexOf(position);
     if (index > -1) {
         if (player.data.piecePowerUps[index].powerUp === "shield") {
@@ -253,7 +257,7 @@ function handleBootHit(player, position, isUser, opponent) {
             player.data.piecePowerUps[index].turnsLeft = null;
         } else {
             player.data.piecePositions[index] = 0;
-            player.data.squares[playerPath[position-1]] = false;
+            player.data.squares[room.data.playerPath[position-1]] = false;
             player.data.piecePowerUps[index].powerUp = null;
             player.data.piecePowerUps[index].turnsLeft = null;
             getUserStats(player).piecesLost ++;
@@ -266,10 +270,10 @@ function handleBootHit(player, position, isUser, opponent) {
     }
 }
 
-function handleBootMove(user, opponent, first, final) {
+function handleBootMove(room, user, opponent, first, final) {
     for (var i = first; i <= final; i ++) {
-        handleBootHit(user, i, true, opponent);
-        handleBootHit(opponent, i, false, user);
+        handleBootHit(room, user, i, true, opponent);
+        handleBootHit(room, opponent, i, false, user);
     }
     powerUpFunctions.updatePiecesMessages(user, gamePlayFunctions.reverseSquares(opponent));
     powerUpFunctions.updatePiecesMessages(opponent, gamePlayFunctions.reverseSquares(user));
