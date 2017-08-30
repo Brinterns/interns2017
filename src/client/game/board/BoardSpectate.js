@@ -6,20 +6,6 @@ import OpponentPiece from './OpponentPiece';
 import Square from './Square';
 import { connect } from 'react-redux';
 
-const playerPath = [
-    14,  17,  20,  23,
-    22,  19,  16,  13,
-    10,  7,  4,  1,
-    2,  5,  8
-];
-
-const opponentPath = [
-    12, 15, 18, 21,
-    22, 19, 16, 13,
-    10, 7,  4,  1,
-    0, 3,   6
-];
-
 export class BoardSpectate extends Component {
     constructor(props) {
         super(props);
@@ -27,8 +13,8 @@ export class BoardSpectate extends Component {
     }
 
     squareType(i) {
-        const pos = playerPath.indexOf(i) + 1;
-        const relativePos = this.props.squares[i] ? playerPath.indexOf(i) + 1 : opponentPath.indexOf(i) + 1;
+        const pos = this.props.playerPath.indexOf(i) + 1;
+        const relativePos = this.props.squares[i] ? this.props.playerPath.indexOf(i) + 1 : this.props.opponentPath.indexOf(i) + 1;
         var displayNumber = null;
         if ((i === 8) && this.props.numPiecesFinished) {
             displayNumber = (this.props.numPiecesFinished > 1) ? this.props.numPiecesFinished : null;
@@ -101,7 +87,9 @@ const mapStateToProps = state => ({
     numPiecesFinished: state.game.numPiecesFinished,
     powerUps: state.game.powerUps,
     powerUpPieces: state.game.powerUpPieces,
-    activePowerUps: state.game.activePowerUps
+    activePowerUps: state.game.activePowerUps,
+    playerPath: state.game.playerPath,
+    opponentPath: state.game.opponentPath
 });
 
 export default connect(
