@@ -4,6 +4,7 @@ var lobbyFunctions = require('./cloak-server-lobby');
 var gameRoomFunctions = require('./cloak-server-gameroom');
 var powerUpFunctions = require('./cloak-server-powerups');
 const maxMessages = 1000;
+const alternateZone = [12, 13, 14, 15, 16];
 
 function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
@@ -204,6 +205,12 @@ function reconnectGame(user, user2, room) {
     }
 }
 
+function translatePosition(room, position) {
+    if (!room.data.originalPath && position > 11) {
+        position = alternateZone[alternateZone.length - 1 - alternateZone.indexOf(position)];
+    }
+    return position;
+}
 
 module.exports.getRandomIntInclusive = getRandomIntInclusive;
 module.exports.generateMoveId = generateMoveId;
@@ -214,3 +221,4 @@ module.exports.getSpectators = getSpectators;
 module.exports.sendMessage = sendMessage;
 module.exports.reconnectUser = reconnectUser;
 module.exports.previousUser = previousUser;
+module.exports.translatePosition = translatePosition;

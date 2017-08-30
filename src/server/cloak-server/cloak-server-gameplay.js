@@ -18,7 +18,7 @@ function rollDice(user) {
         total += shared.getRandomIntInclusive(0,1);
     }
     getUserStats(user).numberOfRolls ++;
-    return total;
+    return 1;
 }
 
 function messageRoll(total, user) {
@@ -106,7 +106,8 @@ function movePiece(position, userMoveId, user) {
         var d = new Date();
         userStats.totalTimeTaken += milliToSeconds(d.getTime() - user.data.rollStartTime - 1650);
 
-        const oppIndex = opponent.data.piecePositions.indexOf(nextPos);
+        const nextPosT = shared.translatePosition(room, nextPos);
+        const oppIndex = opponent.data.piecePositions.indexOf(nextPosT);
         if ((oppIndex !== -1) && (nextPos > 4) && (nextPos < room.data.warZoneEnd) && opponent.data.piecePowerUps[oppIndex].powerUp === "shield") {
             handleMoveUserPiece(user, opponent, room, position, nextPos, true);
         } else {
@@ -156,8 +157,9 @@ function handleMoveUserPiece(user, opponent, room, position, nextPos, shielded) 
             gameRoomFunctions.win(true, user);
         }
     }
+    const nextPosT = shared.translatePosition(room, nextPos);
     if (shielded) {
-        const index = opponent.data.piecePositions.indexOf(nextPos);
+        const index = opponent.data.piecePositions.indexOf(nextPosT);
         opponent.data.piecePowerUps[index].powerUp = null;
         opponent.data.piecePowerUps[index].turnsLeft = null;
     } else {
