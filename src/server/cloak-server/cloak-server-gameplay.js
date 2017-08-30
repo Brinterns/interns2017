@@ -37,7 +37,7 @@ const opponentPath = [
 // ];
 
 
-
+const alternateZone = [12, 13, 14, 15, 16];
 
 const powerUpTypes = ['push', 'shield', 'pull', 'reroll', 'swap', 'boot', 'remoteattack'];
 const powerUpProbs = [17, 34, 51, 68, 85, 93, 100];
@@ -48,7 +48,7 @@ function rollDice(user) {
         total += shared.getRandomIntInclusive(0,1);
     }
     getUserStats(user).numberOfRolls ++;
-    return total;
+    return 2;
 }
 
 function messageRoll(total, user) {
@@ -208,6 +208,10 @@ function handleMoveUserPiece(user, opponent, room, position, nextPos, shielded) 
 }
 
 function handleTakePiece(user, opponent, userStats, room, nextPos) {
+    //true to be replaced with alternate path condition
+    if (true && nextPos >= 12) {
+        nextPos = alternateZone[alternateZone.length - 1 - alternateZone.indexOf(nextPos)];
+    }
     if ((nextPos > 4) && (nextPos < room.data.warZoneEnd) && opponent.data.piecePositions.includes(nextPos)) {
         const oppIndex = opponent.data.piecePositions.indexOf(nextPos);
         opponent.data.piecePositions[oppIndex] = 0;

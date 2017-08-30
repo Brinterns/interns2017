@@ -24,6 +24,8 @@ const opponentPath = [
     2, 1,   0, 3,
     6
 ];
+const finishingPosition = 17;
+
 export class Board extends Component {
     constructor(props) {
         super(props);
@@ -46,9 +48,9 @@ export class Board extends Component {
         const relativePos = this.props.squares[i] ? playerPath.indexOf(i) + 1 : opponentPath.indexOf(i) + 1;
 
         var pieceClassName = boardStyles.squarePiece;
-        if ((pos !== 15) && this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos) && !this.props.winnerId && !this.props.opponentSquares[i]) {
+        if ((pos !== finishingPosition) && this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos) && !this.props.winnerId && !this.props.opponentSquares[i]) {
             pieceClassName = boardStyles.moveableSquarePiece;
-            if ((this.props.rollNumber + pos) === 15) {
+            if ((this.props.rollNumber + pos) === finishingPosition) {
                 pieceClassName = boardStyles.finishSquarePiece;
             }
         }
