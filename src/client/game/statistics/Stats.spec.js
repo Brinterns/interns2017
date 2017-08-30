@@ -39,12 +39,12 @@ describe('<Stats />', () => {
         expect(wrapper.state().statsDisplay).toEqual(false);
     });
 
-    it("Table of statistics should contain 7 rows", () => {
+    it("Table of statistics should contain 9 rows", () => {
         let wrapper = shallow(<Stats stats={stats} id={1} />);
         wrapper.setState({
             statsDisplay: true
         });
-        expect(wrapper.find("tr").length).toEqual(7);
+        expect(wrapper.find("tr").length).toEqual(9);
     });
 
     it("Average square moves per turn displayed has correct value", () => {

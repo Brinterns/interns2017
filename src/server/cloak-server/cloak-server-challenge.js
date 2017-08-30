@@ -170,6 +170,8 @@ function initRoomStats(room, user, user2) {
         turnsLastInEndRange: 0,
         numberOfRolls: 0,
         totalTimeTaken: 0,
+        powerUpsCollected: 0,
+        powerUpsUsed: 0,
         name: null
     }
     room.data.gameinfo.players = [Object.assign({}, initalPlayerState), Object.assign({}, initalPlayerState)];
