@@ -118,7 +118,7 @@ function challengeRespond(user, user2, accept, numberOfPieces=7, enablePowerUps=
         const values = clearChallenges(user, user2, numberOfPieces, enablePowerUps);
         numberOfPieces = values[0];
         enablePowerUps = values[1];
-        originalPath = false;
+        originalPath = true;
         let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
         createdRoom.data.opponentDisconnect = false;
         createdRoom.data.messages = [];
