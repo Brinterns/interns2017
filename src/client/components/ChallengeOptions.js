@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import optionsStyles from './Components.css';
-import options from '../images/icons/options.png';
-import optionsactive from '../images/icons/optionsactive.png';
-import powerups from '../images/icons/powerups.png';
-import powerupsactive from '../images/icons/powerupsactive.png';
+import options from '../images/challengeoptions/options.png';
+import optionsactive from '../images/challengeoptions/optionsactive.png';
+import powerups from '../images/challengeoptions/powerups.png';
+import powerupsactive from '../images/challengeoptions/powerupsactive.png';
+import originalpath from '../images/rules/page0Img.png';
 
 export default class ChallengeOptions extends Component {
     constructor(props) {
@@ -74,7 +75,10 @@ export default class ChallengeOptions extends Component {
                             </span>
                         }
                         <br/>
-                        <input id="options" type="checkbox" defaultChecked={this.props.alternatePath} onClick={this.props.togglePath} />
+                        <span>
+                            <input id="options" type="checkbox" defaultChecked={this.props.alternatePath} onClick={this.props.togglePath} />
+                            <img className={optionsStyles.pathImg} src={originalpath} />
+                        </span>
                     </div> :
                     null}
             </div>

@@ -90,19 +90,20 @@
 
 .numberOfPiecesToggle {
     height: calc(2.5 * (1vw + 1vh - 1vmin));
-    width: calc(8 * (1vw + 1vh - 1vmin));
+    width: calc(2.5 * (1vw + 1vh - 1vmin));
     min-height: 25px;
-    min-width: 80px;
+    min-width: 25px;
     text-align: center;
 }
 
 .numberOfPieces {
     padding: calc(0.75 * (1vw + 1vh - 1vmin)) 0 calc(0.75 * (1vw + 1vh - 1vmin)) 0;
-    width: calc(8 * (1vw + 1vh - 1vmin));
-    min-width: 80px;
+    width: calc(10 * (1vw + 1vh - 1vmin));
+    min-width: 100px;
     position: absolute;
     background-color: rgba(0,0,0, 0.75);
     transform: translate(0, calc(0.45 * (1vw + 1vh - 1vmin)));
+    right: 0;
     text-align: center;
     z-index: 1;
 }
@@ -167,6 +168,13 @@
     min-height: 25px;
     min-width: 32.5px;
     vertical-align: top;
+}
+
+.pathImg {
+    height: calc(2.5 * (1vw + 1vh - 1vmin));
+    width: calc(6.75 * (1vw + 1vh - 1vmin));
+    min-height: 25px;
+    min-width: 68px;
 }
 
 .numberOfPiecesInactive {

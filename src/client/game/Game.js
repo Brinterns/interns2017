@@ -9,8 +9,6 @@ import Stats from './statistics/Stats';
 import {emojify} from 'react-emojione';
 import RollFlash from './board/Roll/RollFlash';
 import ChallengeOptions from '../components/ChallengeOptions.js';
-import powerups from '../images/icons/powerups.png';
-import powerupsactive from '../images/icons/powerupsactive.png';
 
 import { RunCloakConfig } from '../services/cloak-service';
 
