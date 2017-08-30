@@ -10,8 +10,17 @@ export default class ChallengeOptions extends Component {
         this.state = {
             showOptions: true
         }
+        document.addEventListener('click', this.pageClick.bind(this), true);
         this.toggleOptions = this.toggleOptions.bind(this);
         this.onChange = this.onChange.bind(this);
+    }
+
+    pageClick(event) {
+        if (this.refs.optionsDiv && (event.target.id !== "options") && (event.target.id !== "minus") && (event.target.id !== "plus")) {
+            this.setState({
+                showOptions: false
+            });
+        }
     }
 
     toggleOptions() {
@@ -43,21 +52,21 @@ export default class ChallengeOptions extends Component {
         }
 
         return (
-            <div className={optionsStyles.numberOfPiecesToggle} style={parentStyle}>
-                <img className={optionsStyles.optionsImg} src={options} onClick={this.toggleOptions} />
+            <div id="options" ref="optionsDiv" className={optionsStyles.numberOfPiecesToggle} style={parentStyle}>
+                <img id="options" className={optionsStyles.optionsImg} src={options} onClick={this.toggleOptions} />
                 {this.state.showOptions ?
-                    <div className={optionsStyles.numberOfPieces}>
+                    <div id="options" className={optionsStyles.numberOfPieces}>
                         {(!this.props.inChallenge) ? <button id="minus" title="Decrease no. of pieces" onClick={this.onChange}> - </button> : null}
                         {(this.props.inChallenge) ?
-                            <label title="No. of pieces" className={optionsStyles.numberOfPiecesInactive}> <p>{this.props.challengePieces}</p> </label> :
-                            <label title="No. of pieces"> <p>{this.props.numberOfPieces}</p> </label>}
+                            <label id="options" title="No. of pieces" className={optionsStyles.numberOfPiecesInactive}> <p id="options">{this.props.challengePieces}</p> </label> :
+                            <label id="options" title="No. of pieces"> <p id="options">{this.props.numberOfPieces}</p> </label>}
                         {(!this.props.inChallenge) ? <button id="plus" title="Increase no. of pieces" onClick={this.onChange}> + </button> : null}
                         <br/>
                         {(this.props.inChallenge) ?
-                            (this.props.challengePowerUps ? <img className={optionsStyles.powerUpsImg} title="Power Ups Enabled" src={powerupsactive} /> :
-                                <img className={optionsStyles.powerUpsImg} title="Power Ups Disabled" src={powerups} />) :
-                            (this.props.enablePowerUps ? <img className={optionsStyles.powerUpsImg} title="Disable Power Ups" style={{cursor: "pointer"}} src={powerupsactive} onClick={this.props.togglePowerUps} /> :
-                                <img className={optionsStyles.powerUpsImg} title="Enable Power Ups" style={{cursor: "pointer"}} src={powerups} onClick={this.props.togglePowerUps} />)}
+                            (this.props.challengePowerUps ? <img id="options" className={optionsStyles.powerUpsImg} title="Power Ups Enabled" src={powerupsactive} /> :
+                                <img id="options" className={optionsStyles.powerUpsImg} title="Power Ups Disabled" src={powerups} />) :
+                            (this.props.enablePowerUps ? <img id="options" className={optionsStyles.powerUpsImg} title="Disable Power Ups" style={{cursor: "pointer"}} src={powerupsactive} onClick={this.props.togglePowerUps} /> :
+                                <img id="options" className={optionsStyles.powerUpsImg} title="Enable Power Ups" style={{cursor: "pointer"}} src={powerups} onClick={this.props.togglePowerUps} />)}
                     </div> :
                     null}
             </div>
