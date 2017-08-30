@@ -41,7 +41,7 @@ function endTurn(user) {
     }
     room.data.currentPlayer = opponent.id;
     const numPiecesEndRange = user.data.piecePositions.filter((position) => {
-        return (position >= room.data.finalPosition-4 && position <= room.data.finalPosition-1);
+        return ((position >= (room.data.finalPosition-4)) && (position <= (room.data.finalPosition-1)));
     }).length;
     getUserStats(user).turnsInEndRange += numPiecesEndRange;
     if ((user.data.numPiecesFinished === (room.data.numberOfPieces - 1)) && (numPiecesEndRange === 1)) {
