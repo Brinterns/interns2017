@@ -89,7 +89,6 @@
 }
 
 .numberOfPiecesToggle {
-    background-color: #939694;
     height: calc(2.5 * (1vw + 1vh - 1vmin));
     width: calc(8 * (1vw + 1vh - 1vmin));
     min-height: 25px;
@@ -147,9 +146,9 @@
 .optionsImg {
     position: relative;
     height: calc(2.5 * (1vw + 1vh - 1vmin));
-    width: calc(8 * (1vw + 1vh - 1vmin));
+    width: calc(2.5 * (1vw + 1vh - 1vmin));
     min-height: 25px;
-    min-width: 80px;
+    min-width: 25px;
     transform: translate(0, -50%);
     top: 50%;
     cursor: pointer;

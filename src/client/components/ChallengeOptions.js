@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import optionsStyles from './Components.css';
 import options from '../images/icons/options.png';
+import optionsactive from '../images/icons/optionsactive.png';
 import powerups from '../images/icons/powerups.png';
 import powerupsactive from '../images/icons/powerupsactive.png';
 
@@ -53,7 +54,7 @@ export default class ChallengeOptions extends Component {
 
         return (
             <div id="options" ref="optionsDiv" className={optionsStyles.numberOfPiecesToggle} style={parentStyle}>
-                <img id="options" className={optionsStyles.optionsImg} src={options} onClick={this.toggleOptions} />
+                <img id="options" className={optionsStyles.optionsImg} src={this.state.showOptions ? optionsactive : options} onClick={this.toggleOptions} />
                 {this.state.showOptions ?
                     <div id="options" className={optionsStyles.numberOfPieces}>
                         {(!this.props.inChallenge) ? <button id="minus" title="Decrease no. of pieces" onClick={this.onChange}> - </button> : null}
