@@ -26,19 +26,20 @@ export default class ChallengeOptions extends Component {
             }
         } else {
             parentStyle = {
-                height: 'calc(2.5 * (1vw + 1vh - 1vmin))',
-                minHeight: '25px',
-                marginBottom: 'calc(0.4 * (1vw + 1vh - 1vmin))'
+                transform: 'translate(-50%, 0)',
+                margin: '0 0 calc(0.4 * (1vw + 1vh - 1vmin)) 50%'
             }
         }
 
         return (
             <div className={optionsStyles.numberOfPieces} style={parentStyle}>
-                {(!this.props.inChallenge) ?  <button id="minus" title="Decrease no. of pieces" onClick={this.onChange}> - </button> : null}
-                {(this.props.inChallenge) ?
-                    <label title="No. of pieces" className={optionsStyles.numberOfPiecesInactive}> <p>{this.props.challengePieces}</p> </label> :
-                    <label title="No. of pieces"> <p>{this.props.numberOfPieces}</p> </label>}
-                {(!this.props.inChallenge) ? <button id="plus" title="Increase no. of pieces" onClick={this.onChange}> + </button> : null}
+                <div>
+                    {(!this.props.inChallenge) ?  <button id="minus" title="Decrease no. of pieces" onClick={this.onChange}> - </button> : null}
+                    {(this.props.inChallenge) ?
+                        <label title="No. of pieces" className={optionsStyles.numberOfPiecesInactive}> <p>{this.props.challengePieces}</p> </label> :
+                        <label title="No. of pieces"> <p>{this.props.numberOfPieces}</p> </label>}
+                    {(!this.props.inChallenge) ? <button id="plus" title="Increase no. of pieces" onClick={this.onChange}> + </button> : null}
+                </div>
                 {(this.props.inChallenge) ?
                     (this.props.challengePowerUps ? <img title="Power Ups Enabled" src={powerupsactive} /> :
                         <img title="Power Ups Disabled" src={powerups} />) :
