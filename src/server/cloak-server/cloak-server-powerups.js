@@ -222,7 +222,7 @@ function remoteAttackPiece(position, user, opponent) {
         messageActivePowerUps(opponent, user);
     } else {
         opponent.data.piecePositions[index] = 0;
-        const reverseSquares = gamePlayFunctions.reverseSquares(opponent.data.piecePositions);
+        const reverseSquares = gamePlayFunctions.reverseSquares(opponent);
         const room = user.getRoom();
         opponent.data.squares[room.data.playerPath[position-1]] = false;
         opponent.message('piecepositions', opponent.data.piecePositions);
@@ -232,7 +232,7 @@ function remoteAttackPiece(position, user, opponent) {
             if (user.id === room.data.spectatedId) {
                 spectator.message('opponentsquares', reverseSquares);
             } else {
-                spectator.message('piecepositions', opponent.data.piecePositions);
+                spectator.message('piecepositions', opponent);
                 spectator.message('squares', opponent.data.squares);
             }
         });
@@ -261,8 +261,8 @@ function swapPiece(position, user, opponent) {
         user.data.swapPos = null;
         messageActivePowerUps(user, opponent);
         messageActivePowerUps(opponent, user);
-        updatePiecesMessages(user, gamePlayFunctions.reverseSquares(opponent.data.piecePositions));
-        updatePiecesMessages(opponent, gamePlayFunctions.reverseSquares(user.data.piecePositions));
+        updatePiecesMessages(user, gamePlayFunctions.reverseSquares(opponent));
+        updatePiecesMessages(opponent, gamePlayFunctions.reverseSquares(user));
         clearPowerUp(user);
     }
 }

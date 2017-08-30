@@ -7,13 +7,6 @@ var gamePlayFunctions = require('./cloak-server-gameplay');
 //Game playing variables
 const rosettaSquares = [3,5,13,21,23];
 
-const opponentPath = [
-    12, 15, 18, 21,
-    22, 19, 16, 13,
-    10, 7,  4,  1,
-    0, 3,   6
-];
-
 const alternateZone = [12, 13, 14, 15, 16];
 
 const powerUpTypes = ['push', 'shield', 'pull', 'reroll', 'swap', 'boot', 'remoteattack'];
@@ -78,7 +71,7 @@ function canMove(user, opponentSquares, nextPos, moveablePositions, position) {
     const playerPath = room.data.playerPath;
     if (nextPos <= finalPos) {
         const index = user.data.piecePositions.indexOf(position);
-        if ((!(rosettaSquares.includes(playerPath[nextPos-1]) && opponentSquares[opponentPath[nextPos-1]]) && !user.data.squares[playerPath[nextPos-1]]) || (user.data.piecePowerUps[index].powerUp === "boot") || (nextPos === finalPos)) {
+        if ((!(rosettaSquares.includes(playerPath[nextPos-1]) && opponentSquares[room.data.opponentPath[nextPos-1]]) && !user.data.squares[playerPath[nextPos-1]]) || (user.data.piecePowerUps[index].powerUp === "boot") || (nextPos === finalPos)) {
             moveablePositions.push(position);
             return true;
         }
@@ -177,13 +170,13 @@ function handleMoveUserPiece(user, opponent, room, position, nextPos, shielded) 
     powerUpFunctions.messageActivePowerUps(opponent, user);
     user.message('piecepositions', user.data.piecePositions);
     user.message('squares', user.data.squares);
-    opponent.message('opponentsquares', reverseSquares(user.data.piecePositions));
+    opponent.message('opponentsquares', reverseSquares(user));
     shared.getSpectators(room).forEach(function(spectator) {
         if (user.id === room.data.spectatedId) {
             spectator.message('piecepositions', user.data.piecePositions);
             spectator.message('squares', user.data.squares);
         } else {
-            spectator.message('opponentsquares', reverseSquares(user.data.piecePositions));
+            spectator.message('opponentsquares', reverseSquares(user));
         }
     });
 }
@@ -202,10 +195,10 @@ function handleTakePiece(user, opponent, userStats, room, nextPos) {
         opponent.data.squares[playerPath[nextPos-1]] = false;
         opponent.message('piecepositions', opponent.data.piecePositions);
         opponent.message('squares', opponent.data.squares);
-        user.message('opponentsquares', reverseSquares(opponent.data.piecePositions));
+        user.message('opponentsquares', reverseSquares(opponent));
         shared.getSpectators(room).forEach(function(spectator) {
             if (user.id === room.data.spectatedId) {
-                spectator.message('opponentsquares', reverseSquares(opponent.data.piecePositions));
+                spectator.message('opponentsquares', reverseSquares(opponent));
             } else {
                 spectator.message('piecepositions', opponent.data.piecePositions);
                 spectator.message('squares', opponent.data.squares);
@@ -276,8 +269,8 @@ function handleBootMove(user, opponent, first, final) {
         handleBootHit(user, i, true, opponent);
         handleBootHit(opponent, i, false, user);
     }
-    powerUpFunctions.updatePiecesMessages(user, gamePlayFunctions.reverseSquares(opponent.data.piecePositions));
-    powerUpFunctions.updatePiecesMessages(opponent, gamePlayFunctions.reverseSquares(user.data.piecePositions));
+    powerUpFunctions.updatePiecesMessages(user, gamePlayFunctions.reverseSquares(opponent));
+    powerUpFunctions.updatePiecesMessages(opponent, gamePlayFunctions.reverseSquares(user));
 }
 
 function handleFinalRange(user, userStats, room, position, nextPos) {
@@ -289,9 +282,10 @@ function handleFinalRange(user, userStats, room, position, nextPos) {
     }
 }
 
-function reverseSquares(positions) {
+function reverseSquares(user) {
+    const opponentPath = user.getRoom().data.opponentPath;
     var reverse = Array(24).fill(false);
-    positions.forEach(position => {
+    user.data.piecePositions.forEach(position => {
         if (position > 0) {
             reverse[opponentPath[position-1]] = true;
         }
