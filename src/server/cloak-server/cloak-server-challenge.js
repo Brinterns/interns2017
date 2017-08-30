@@ -4,6 +4,36 @@ var gameRoomFunctions = require('./cloak-server-gameroom');
 var gamePlayFunctions = require('./cloak-server-gameplay');
 var shared = require('./cloak-server-shared');
 
+
+const playerPath = [
+    14, 17, 20, 23,
+    22, 19, 16, 13,
+    10, 7,  4,  1,
+    2,  5,  8
+];
+const opponentPath = [
+    12, 15, 18, 21,
+    22, 19, 16, 13,
+    10, 7,  4,  1,
+    0, 3,   6
+];
+
+const playerPathAlternate = [
+    14, 17, 20, 23,
+    22, 19, 16, 13,
+    10, 7,  4,  3,
+    0,  1,  2,  5,
+    8
+];
+
+const opponentPathAlternate = [
+    12, 15, 18, 21,
+    22, 19, 16, 13,
+    10, 7,  4,  5,
+    2, 1,   0, 3,
+    6
+];
+
 function challengePlayer(id, numberOfPieces, enablePowerUps, user) {
     var user2 = cloak.getUser(id);
     if (!user2.data.challenging) {
@@ -88,15 +118,25 @@ function challengeRespond(user, user2, accept, numberOfPieces=7, enablePowerUps=
         const values = clearChallenges(user, user2, numberOfPieces, enablePowerUps);
         numberOfPieces = values[0];
         enablePowerUps = values[1];
+        originalPath = true;
         let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
         createdRoom.data.opponentDisconnect = false;
         createdRoom.data.messages = [];
         createdRoom.data.numberOfPieces = numberOfPieces;
         createdRoom.data.powerUps = [];
         createdRoom.data.enablePowerUps = enablePowerUps;
-
-        createdRoom.data.finalPosition = 17;
-        createdRoom.data.warZoneEnd = 17;
+        createdRoom.data.originalPath = originalPath;
+        if (originalPath) {
+            createdRoom.data.playerPath = playerPath;
+            createdRoom.data.opponentPath = opponentPath;
+            createdRoom.data.finalPosition = 15;
+            createdRoom.data.warZoneEnd = 13;
+        } else {
+            createdRoom.data.playerPath = playerPathAlternate;
+            createdRoom.data.opponentPath = opponentPathAlternate;
+            createdRoom.data.finalPosition = 17;
+            createdRoom.data.warZoneEnd = 17;
+        }
 
         userJoinRoom(user, createdRoom);
         userJoinRoom(user2, createdRoom);

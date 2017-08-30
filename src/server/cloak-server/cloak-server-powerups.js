@@ -2,41 +2,28 @@ var cloak = require('cloak');
 var gamePlayFunctions = require('./cloak-server-gameplay');
 var shared = require('./cloak-server-shared');
 
-const playerPath = [
-    14, 17, 20, 23,
-    22, 19, 16, 13,
-    10, 7,  4,  3,
-    0,  1,  2,  5,
-    8
-];
-
-const opponentPath = [
-    12, 15, 18, 21,
-    22, 19, 16, 13,
-    10, 7,  4,  5,
-    2, 1,   0, 3,
-    6
-];
-
 function powerupActivated(user, powerUp) {
+    const room = user.getRoom();
+    const playerPath = room.data.playerPath;
+    const opponentPath = room.data.opponentPath;
     switch (powerUp) {
         case "push":
-            pushActivated(user);
+            pushActivated(user, playerPath, opponentPath);
             break;
         case "pull":
-            pullActivated(user);
+            pullActivated(user, playerPath, opponentPath);
             break;
         case "shield":
-            shieldBootActivated(user);
+            shieldBootActivated(user, playerPath);
             break;
         case "boot":
-            shieldBootActivated(user);
+            shieldBootActivated(user, playerPath);
             break;
         case "remoteattack":
-            remoteAttackActivated(user);
+            remoteAttackActivated(user, opponentPath);
             break;
         case "swap":
-            swapActivated(user);
+            swapActivated(user, playerPath);
             break;
         case "reroll":
             reRoll(user);
@@ -47,7 +34,7 @@ function powerupActivated(user, powerUp) {
     }
 }
 
-function pushActivated(user) {
+function pushActivated(user, playerPath, opponentPath) {
     var pushablePieces = [];
     var opponent = shared.getOpponent(user);
     user.data.piecePositions.forEach((position) => {
@@ -63,7 +50,7 @@ function pushActivated(user) {
     user.message('powerpieces', pushablePieces);
 }
 
-function pullActivated(user) {
+function pullActivated(user, playerPath, opponentPath) {
     var pullablePieces = [];
     var opponent = shared.getOpponent(user);
     const finalPosition = user.getRoom().data.finalPosition;
@@ -80,7 +67,7 @@ function pullActivated(user) {
     user.message('powerpieces', pullablePieces);
 }
 
-function shieldBootActivated(user) {
+function shieldBootActivated(user, playerPath) {
     var activePieces = [];
     const finalPosition = user.getRoom().data.finalPosition;
     user.data.piecePositions.forEach((position) => {
@@ -91,7 +78,7 @@ function shieldBootActivated(user) {
     user.message('powerpieces', activePieces);
 }
 
-function remoteAttackActivated(user) {
+function remoteAttackActivated(user, opponentPath) {
     var remoteAttackablePieces = [];
     var opponent = shared.getOpponent(user);
     const finalPosition = user.getRoom().data.finalPosition;
@@ -103,7 +90,7 @@ function remoteAttackActivated(user) {
     user.message('powerpieces', remoteAttackablePieces);
 }
 
-function swapActivated(user) {
+function swapActivated(user, playerPath) {
     var swapablePieces = [];
     const warZoneEnd = user.getRoom().data.warZoneEnd;
     user.data.piecePositions.forEach((position) => {
@@ -162,7 +149,7 @@ function pushPullPiece(position, user, opponent, opponentBool) {
             gamePlayFunctions.handleMoveUserPiece(user, opponent, room, position, nextPos, true);
         } else {
             var userStats = gamePlayFunctions.getUserStats(user);
-            user.data.squares[playerPath[nextPos-1]] = true;
+            user.data.squares[room.data.playerPath[nextPos-1]] = true;
             gamePlayFunctions.handleMoveUserPiece(user, opponent, room, position, nextPos, false);
             //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
             gamePlayFunctions.handleTakePiece(user, opponent, userStats, room, nextPos);
@@ -173,16 +160,16 @@ function pushPullPiece(position, user, opponent, opponentBool) {
             gamePlayFunctions.handleMoveUserPiece(opponent, user, room, position, nextPos, true);
         } else {
             var userStats = gamePlayFunctions.getUserStats(opponent);
-            opponent.data.squares[playerPath[nextPos-1]] = true;
+            opponent.data.squares[room.data.playerPath[nextPos-1]] = true;
             gamePlayFunctions.handleMoveUserPiece(opponent, user, room, position, nextPos, false);
             //If the moved piece lands on an opponent piece, the opponent piece is sent back to starting position
             gamePlayFunctions.handleTakePiece(opponent, user, userStats, room, nextPos);
         }
     }
     //If moved piece lands on power up, remove the powerup
-    if (room.data.powerUps.includes(playerPath[nextPos-1])) {
+    if (room.data.powerUps.includes(room.data.playerPath[nextPos-1])) {
         room.data.powerUps = room.data.powerUps.filter((powerUpIndex) => {
-            return powerUpIndex !== playerPath[nextPos-1];
+            return powerUpIndex !== room.data.playerPath[nextPos-1];
         });
         room.messageMembers('updatepowerups', JSON.stringify(room.data.powerUps));
     }
@@ -190,6 +177,7 @@ function pushPullPiece(position, user, opponent, opponentBool) {
 }
 
 function getActivePowerUps(user, opponent) {
+    const opponentPath = user.getRoom().data.opponentPath;
     var activePowerUps = Object.assign([], user.data.piecePowerUps);
     opponent.data.piecePowerUps.forEach((piecePowerUp) => {
         var copy = Object.assign({}, piecePowerUp);
@@ -200,9 +188,9 @@ function getActivePowerUps(user, opponent) {
 }
 
 function messageActivePowerUps(user, opponent) {
+    const room = user.getRoom();
     const activePowerUps = getActivePowerUps(user, opponent);
     user.message('activepowerups', activePowerUps);
-    const room = user.getRoom();
     if (user.id === room.data.spectatedId) {
         shared.getSpectators(room).forEach((spectator) => {
             spectator.message('activepowerups', activePowerUps);
@@ -212,6 +200,7 @@ function messageActivePowerUps(user, opponent) {
 
 function shieldBootPiece(position, user, opponent, type) {
     const index = user.data.piecePositions.indexOf(position);
+    const playerPath = user.getRoom().data.playerPath;
     if (user.data.piecePowerUps[index].powerUp && (user.data.piecePowerUps[index].powerUp !== type)) {
         user.data.piecePowerUps[index] = {powerUp: null, turnsLeft: null, squareIndex: playerPath[position-1], position: position};
         messageActivePowerUps(user, opponent);
@@ -235,7 +224,7 @@ function remoteAttackPiece(position, user, opponent) {
         opponent.data.piecePositions[index] = 0;
         const reverseSquares = gamePlayFunctions.reverseSquares(opponent.data.piecePositions);
         const room = user.getRoom();
-        opponent.data.squares[playerPath[position-1]] = false;
+        opponent.data.squares[room.data.playerPath[position-1]] = false;
         opponent.message('piecepositions', opponent.data.piecePositions);
         opponent.message('squares', opponent.data.squares);
         user.message('opponentsquares', reverseSquares);
@@ -252,10 +241,12 @@ function remoteAttackPiece(position, user, opponent) {
 }
 
 function swapPiece(position, user, opponent) {
+    const room = user.getRoom();
+    const playerPath = room.data.playerPath;
     if (user.data.piecePositions.indexOf(position) >= 0) {
         user.data.swapPos = position;
         var opponentSwapablePieces = [];
-        const warZoneEnd = user.getRoom().data.warZoneEnd;
+        const warZoneEnd = room.data.warZoneEnd;
         opponent.data.piecePositions.forEach((position) => {
             if ((position > 4) && (position < warZoneEnd)) {
                 opponentSwapablePieces.push(playerPath[position-1]);
@@ -265,8 +256,8 @@ function swapPiece(position, user, opponent) {
         user.message('powerpieces', opponentSwapablePieces);
     } else {
         //Index of user piece in piece positions array
-        updatePieces(user, user.data.piecePositions.indexOf(user.data.swapPos), user.data.swapPos, position);
-        updatePieces(opponent, opponent.data.piecePositions.indexOf(position), position, user.data.swapPos);
+        updatePieces(user, user.data.piecePositions.indexOf(user.data.swapPos), user.data.swapPos, position, playerPath);
+        updatePieces(opponent, opponent.data.piecePositions.indexOf(position), position, user.data.swapPos, playerPath);
         user.data.swapPos = null;
         messageActivePowerUps(user, opponent);
         messageActivePowerUps(opponent, user);
@@ -285,7 +276,7 @@ function reRoll(user) {
     clearPowerUp(user);
 }
 
-function updatePieces(user, index, oldPos, newPos) {
+function updatePieces(user, index, oldPos, newPos, playerPath) {
     user.data.piecePositions[index] = newPos;
     user.data.piecePowerUps[index].position = newPos;
     user.data.piecePowerUps[index].squareIndex = playerPath[newPos-1];

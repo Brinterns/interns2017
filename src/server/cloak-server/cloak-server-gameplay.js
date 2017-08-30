@@ -6,36 +6,13 @@ var gamePlayFunctions = require('./cloak-server-gameplay');
 
 //Game playing variables
 const rosettaSquares = [3,5,13,21,23];
-const playerPath = [
-    14, 17, 20, 23,
-    22, 19, 16, 13,
-    10, 7,  4,  3,
-    0,  1,  2,  5,
-    8
-];
 
 const opponentPath = [
     12, 15, 18, 21,
     22, 19, 16, 13,
-    10, 7,  4,  5,
-    2, 1,   0, 3,
-    6
+    10, 7,  4,  1,
+    0, 3,   6
 ];
-
-// const playerPath2 = [
-//     14, 17, 20, 23,
-//     22, 19, 16, 13,
-//     10, 7,  4,  1,
-//     2,  5,  8
-// ];
-
-// const opponentPath2 = [
-//     12, 15, 18, 21,
-//     22, 19, 16, 13,
-//     10, 7,  4,  1,
-//     0, 3,   6
-// ];
-
 
 const alternateZone = [12, 13, 14, 15, 16];
 
@@ -48,7 +25,7 @@ function rollDice(user) {
         total += shared.getRandomIntInclusive(0,1);
     }
     getUserStats(user).numberOfRolls ++;
-    return 2;
+    return total;
 }
 
 function messageRoll(total, user) {
@@ -96,7 +73,9 @@ function endTurn(user) {
 }
 
 function canMove(user, opponentSquares, nextPos, moveablePositions, position) {
-    const finalPos = user.getRoom().data.finalPosition;
+    const room = user.getRoom();
+    const finalPos = room.data.finalPosition;
+    const playerPath = room.data.playerPath;
     if (nextPos <= finalPos) {
         const index = user.data.piecePositions.indexOf(position);
         if ((!(rosettaSquares.includes(playerPath[nextPos-1]) && opponentSquares[opponentPath[nextPos-1]]) && !user.data.squares[playerPath[nextPos-1]]) || (user.data.piecePowerUps[index].powerUp === "boot") || (nextPos === finalPos)) {
@@ -125,6 +104,7 @@ function checkMoves(user, rollNumber, opponentSquares) {
 
 function movePiece(position, userMoveId, user) {
     var room = user.getRoom();
+    const playerPath = room.data.playerPath;
     if (userMoveId === room.data.moveId) {
         room.data.moveId = shared.generateMoveId();
         var opponent = shared.getOpponent(user);
@@ -164,6 +144,7 @@ function movePiece(position, userMoveId, user) {
 }
 
 function handleMoveUserPiece(user, opponent, room, position, nextPos, shielded) {
+    const playerPath = room.data.playerPath;
     if (!shielded && (position !== 0)) {
         user.data.squares[playerPath[position-1]] = false;
     }
@@ -208,8 +189,9 @@ function handleMoveUserPiece(user, opponent, room, position, nextPos, shielded) 
 }
 
 function handleTakePiece(user, opponent, userStats, room, nextPos) {
+    const playerPath = room.data.playerPath;
     //true to be replaced with alternate path condition
-    if (true && nextPos >= 12) {
+    if (!room.data.originalPath && nextPos >= 12) {
         nextPos = alternateZone[alternateZone.length - 1 - alternateZone.indexOf(nextPos)];
     }
     if ((nextPos > 4) && (nextPos < room.data.warZoneEnd) && opponent.data.piecePositions.includes(nextPos)) {
@@ -235,7 +217,7 @@ function handleTakePiece(user, opponent, userStats, room, nextPos) {
 }
 
 function handleRosetta(user, room, position, d) {
-    if (rosettaSquares.includes(playerPath[position+user.data.lastRoll-1])) {
+    if (rosettaSquares.includes(room.data.playerPath[position+user.data.lastRoll-1])) {
         room.messageMembers('currentplayer', room.data.currentPlayer);
         user.message('updatemoveid', room.data.moveId);
         user.data.rolledDice = false;
@@ -246,6 +228,7 @@ function handleRosetta(user, room, position, d) {
 }
 
 function handlePowerupTake(user, room, nextPos) {
+    const playerPath = room.data.playerPath;
     if (room.data.powerUps.includes(playerPath[nextPos-1])) {
         room.data.powerUps = room.data.powerUps.filter((powerUpIndex) => {
             return powerUpIndex !== playerPath[nextPos-1];
@@ -332,6 +315,7 @@ function sendStats(user) {
 }
 
 function randomPowerUp(room, user, opponent) {
+    const playerPath = room.data.playerPath;
     const randomNum = shared.getRandomIntInclusive(0,6);
     if (randomNum < 5 || room.data.powerUps.length >= 2) {
         return;

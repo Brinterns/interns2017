@@ -12,19 +12,17 @@ import { connect } from 'react-redux';
 const playerPath = [
     14, 17, 20, 23,
     22, 19, 16, 13,
-    10, 7,  4,  3,
-    0,  1,  2,  5,
-    8
+    10, 7,  4,  1,
+    2,  5,  8
 ];
-
 const opponentPath = [
     12, 15, 18, 21,
     22, 19, 16, 13,
-    10, 7,  4,  5,
-    2, 1,   0, 3,
-    6
+    10, 7,  4,  1,
+    0, 3,   6
 ];
-const finishingPosition = 17;
+
+const finishingPosition = 15;
 
 export class Board extends Component {
     constructor(props) {
