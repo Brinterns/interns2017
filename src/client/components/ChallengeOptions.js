@@ -53,21 +53,28 @@ export default class ChallengeOptions extends Component {
         }
 
         return (
-            <div id="options" ref="optionsDiv" className={optionsStyles.numberOfPiecesToggle} style={parentStyle}>
+            <div ref="optionsDiv" className={optionsStyles.numberOfPiecesToggle} style={parentStyle}>
                 <img id="options" className={optionsStyles.optionsImg} src={this.state.showOptions ? optionsactive : options} onClick={this.toggleOptions} />
                 {this.state.showOptions ?
                     <div id="options" className={optionsStyles.numberOfPieces}>
                         {(!this.props.inChallenge) ? <button id="minus" title="Decrease no. of pieces" onClick={this.onChange}> - </button> : null}
                         {(this.props.inChallenge) ?
                             <label id="options" title="No. of pieces" className={optionsStyles.numberOfPiecesInactive}> <p id="options">{this.props.challengePieces}</p> </label> :
-                            <label id="options" title="No. of pieces"> <p id="options">{this.props.numberOfPieces}</p> </label>}
+                            <label id="options" title="No. of pieces"> <p id="options">{this.props.numberOfPieces}</p> </label>
+                        }
                         {(!this.props.inChallenge) ? <button id="plus" title="Increase no. of pieces" onClick={this.onChange}> + </button> : null}
                         <br/>
                         {(this.props.inChallenge) ?
                             (this.props.challengePowerUps ? <img id="options" className={optionsStyles.powerUpsImg} title="Power Ups Enabled" src={powerupsactive} /> :
                                 <img id="options" className={optionsStyles.powerUpsImg} title="Power Ups Disabled" src={powerups} />) :
-                            (this.props.enablePowerUps ? <img id="options" className={optionsStyles.powerUpsImg} title="Disable Power Ups" style={{cursor: "pointer"}} src={powerupsactive} onClick={this.props.togglePowerUps} /> :
-                                <img id="options" className={optionsStyles.powerUpsImg} title="Enable Power Ups" style={{cursor: "pointer"}} src={powerups} onClick={this.props.togglePowerUps} />)}
+                            <span id="options" onClick={this.props.togglePowerUps}>
+                                <input id="options" type="checkbox" checked={this.props.enablePowerUps} />
+                                {(this.props.enablePowerUps ? <img id="options" className={optionsStyles.powerUpsImg} title="Disable Power Ups" style={{cursor: "pointer"}} src={powerupsactive} /> :
+                                    <img id="options" className={optionsStyles.powerUpsImg} title="Enable Power Ups" style={{cursor: "pointer"}} src={powerups} />)}
+                            </span>
+                        }
+                        <br/>
+                        <input id="options" type="checkbox" defaultChecked={this.props.alternatePath} onClick={this.props.togglePath} />
                     </div> :
                     null}
             </div>

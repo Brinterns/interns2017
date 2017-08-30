@@ -40,7 +40,7 @@ module.exports = function(expressServer) {
                 gameRoomFunctions.getGameInfo(roomId, user);
             },
             challengeplayer: function(options, user) {
-                challengeFunctions.challengePlayer(options[0], options[1], options[2], user);
+                challengeFunctions.challengePlayer(options[0], options[1], options[2], options[3], user);
             },
             cancelchallenge: function(id, user) {
                 challengeFunctions.cancelChallenge(id, user);

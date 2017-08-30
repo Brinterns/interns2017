@@ -104,6 +104,11 @@
     background-color: rgba(0,0,0, 0.75);
     transform: translate(0, calc(0.45 * (1vw + 1vh - 1vmin)));
     text-align: center;
+    z-index: 1;
+}
+
+.numberOfPieces input {
+    margin-right: calc(0.5 * (1vw + 1vh - 1vmin));
 }
 
 .numberOfPieces button {
@@ -122,6 +127,7 @@
 .numberOfPieces label {
     background-color: white;
     display: inline-block;
+    margin-bottom: calc(0.5 * (1vw + 1vh - 1vmin));
     height: calc(2.5 * (1vw + 1vh - 1vmin));
     width: calc(2.5 * (1vw + 1vh - 1vmin));
     min-height: 25px;
@@ -155,6 +161,7 @@
 }
 
 .powerUpsImg {
+    margin-bottom: calc(0.5 * (1vw + 1vh - 1vmin));
     height: calc(2.5 * (1vw + 1vh - 1vmin));
     width: calc(3.25 * (1vw + 1vh - 1vmin));
     min-height: 25px;

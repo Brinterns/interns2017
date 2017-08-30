@@ -34,7 +34,7 @@ const opponentPathAlternate = [
     6
 ];
 
-function challengePlayer(id, numberOfPieces, enablePowerUps, user) {
+function challengePlayer(id, numberOfPieces, enablePowerUps, alternatePath, user) {
     var user2 = cloak.getUser(id);
     if (!user2.data.challenging) {
         user2.data.challenging = [];
@@ -49,8 +49,8 @@ function challengePlayer(id, numberOfPieces, enablePowerUps, user) {
         if (!user2.data.challengers) {
             user2.data.challengers = [];
         }
-        user.data.challenging.push({id: id, numberOfPieces: numberOfPieces, enablePowerUps: enablePowerUps});
-        user2.data.challengers.push({id: user.id, numberOfPieces: numberOfPieces, enablePowerUps: enablePowerUps});
+        user.data.challenging.push({id: id, numberOfPieces: numberOfPieces, enablePowerUps: enablePowerUps, alternatePath: alternatePath});
+        user2.data.challengers.push({id: user.id, numberOfPieces: numberOfPieces, enablePowerUps: enablePowerUps, alternatePath: alternatePath});
         user.message('updatechallenging', user.data.challenging);
         user2.message('updatechallengers', user2.data.challengers);
         lobbyFunctions.getLobbyUserInfo().then(function(listOfUserInfo) {
@@ -102,7 +102,7 @@ function reChallengeResponse(accept, user) {
     }
 }
 
-function challengeRespond(user, user2, accept, numberOfPieces=7, enablePowerUps=false) {
+function challengeRespond(user, user2, accept, numberOfPieces=7, enablePowerUps=false, alternatePath=false) {
     if (!accept) {
         user.data.challengers = user.data.challengers.filter(challenger => {
             return challenger.id !== user2.id;
@@ -115,10 +115,10 @@ function challengeRespond(user, user2, accept, numberOfPieces=7, enablePowerUps=
     } else {
         user.data.opponentDbId = user2.data.dbId;
         user2.data.opponentDbId = user.data.dbId;
-        const values = clearChallenges(user, user2, numberOfPieces, enablePowerUps);
+        const values = clearChallenges(user, user2, numberOfPieces, enablePowerUps, alternatePath);
         numberOfPieces = values[0];
         enablePowerUps = values[1];
-        originalPath = true;
+        originalPath = !values[2];
         let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
         createdRoom.data.opponentDisconnect = false;
         createdRoom.data.messages = [];
@@ -153,7 +153,7 @@ function challengeRespond(user, user2, accept, numberOfPieces=7, enablePowerUps=
     }
 }
 
-function clearChallenges(user, user2, numberOfPieces, enablePowerUps) {
+function clearChallenges(user, user2, numberOfPieces, enablePowerUps, alternatePath) {
     if (!user.data.challenging) {
         user.data.challenging = [];
     }
@@ -166,6 +166,7 @@ function clearChallenges(user, user2, numberOfPieces, enablePowerUps) {
         } else {
             numberOfPieces = challenger.numberOfPieces;
             enablePowerUps = challenger.enablePowerUps;
+            alternatePath = challenger.alternatePath;
         }
     });
     user.data.challenging.forEach(challenging => {
@@ -188,7 +189,7 @@ function clearChallenges(user, user2, numberOfPieces, enablePowerUps) {
     } else if (numberOfPieces > 9) {
         numberOfPieces = 9;
     }
-    return [Math.ceil(numberOfPieces), enablePowerUps];
+    return [Math.ceil(numberOfPieces), enablePowerUps, alternatePath];
 }
 
 function userJoinRoom(user, room) {

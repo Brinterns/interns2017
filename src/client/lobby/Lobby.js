@@ -73,8 +73,8 @@ export class Lobby extends Component {
         }
     }
 
-    challengeUser(id, numberOfPieces, powerUps) {
-        cloak.message('challengeplayer', [id, numberOfPieces, powerUps]);
+    challengeUser(id, numberOfPieces, powerUps, alternatePath) {
+        cloak.message('challengeplayer', [id, numberOfPieces, powerUps, alternatePath]);
     }
 
     cancelChallenge(id) {
