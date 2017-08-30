@@ -57,7 +57,7 @@ export class GameSpectate extends Component {
         const gameOverDiv = (
             <div className={gameStyles.gameOverMenu}>
                 <p> {gameOverText} </p>
-                <button className={gameStyles.returnButton} onClick={this.returnToLobby}> Return To Lobby </button>
+                <button onClick={this.returnToLobby}> Return To Lobby </button>
                 <Stats id={this.props.id} stats={this.props.gameStats} gameOver={true}/>
             </div>
         );

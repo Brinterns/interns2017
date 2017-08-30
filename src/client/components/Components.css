@@ -87,3 +87,70 @@
 .colourDiv:hover {
     border: none;
 }
+
+.numberOfPieces {
+    height: calc(2.5 * (1vw + 1vh - 1vmin));
+    width: calc(8 * (1vw + 1vh - 1vmin));
+    min-height: 25px;
+    min-width: 80px;
+    text-align: center;
+}
+
+.numberOfPieces div {
+    height: calc(2.5 * (1vw + 1vh - 1vmin));
+    width: calc(4.5 * (1vw + 1vh - 1vmin));
+    min-height: 25px;
+    min-width: 45px;
+    float: left;
+}
+
+.numberOfPieces button {
+    padding: 0 !important;
+    margin: 0 !important;
+    display: inline-block !important;
+    height: calc(2.5 * (1vw + 1vh - 1vmin)) !important;
+    width: calc(1vw + 1vh - 1vmin) !important;
+    min-height: 25px !important;
+    min-width: 10px !important;
+    vertical-align: top;
+    font-size: calc(7px + 0.5 * (1vw + 1vh - 1vmin)) !important;
+    float: none !important;
+}
+
+.numberOfPieces label {
+    background-color: white;
+    display: inline-block;
+    height: calc(2.5 * (1vw + 1vh - 1vmin));
+    width: calc(2.5 * (1vw + 1vh - 1vmin));
+    min-height: 25px;
+    min-width: 25px;
+    vertical-align: top;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    text-align: center;
+}
+
+.numberOfPieces p {
+    margin: 0 !important;
+    position: relative;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    font-size: calc(10px + 1.3 * (1vw + 1vh - 1vmin)) !important;
+    font-weight: normal;
+}
+
+.numberOfPieces img {
+    float: right;
+    height: calc(2.5 * (1vw + 1vh - 1vmin));
+    width: calc(3.25 * (1vw + 1vh - 1vmin));
+    min-height: 25px;
+    min-width: 32.5px;
+    vertical-align: top;
+}
+
+.numberOfPiecesInactive {
+    float: left;
+    background: #cccccc !important;
+}
