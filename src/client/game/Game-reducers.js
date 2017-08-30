@@ -33,7 +33,8 @@ import {
     UPDATE_POWER_UP_PIECES,
     UPDATE_ACTIVE_POWER_UPS,
     UPDATE_POWER_UP_NOTIFICATION,
-    AUTO_RE_ROLL
+    AUTO_RE_ROLL,
+    UPDATE_PATH_DATA
 } from './Game-actions';
 
 
@@ -67,6 +68,9 @@ const initialState = {
     moveablePositions: [],
     numPiecesFinished: 0,
     numOppPiecesFinished: 0,
+    playerPath: [14, 17, 20, 23, 22, 19, 16, 13, 10, 7, 4, 1, 2, 5, 8],
+    opponentPath: [12, 15, 18, 21, 22, 19, 16, 13, 10, 7, 4, 1, 0, 3, 6],
+    finishingPosition: 15,
     //Notification states
     notificationBool: false,
     notificationName: "",
@@ -257,6 +261,13 @@ const game = (state = initialState, action) => {
                 numOppPiecesFinished: action.payload.finishedOppPieces,
                 winnerId: action.payload.winnerId,
                 opponentDisconnect: action.payload.opponentDisconnect
+            });
+        }
+        case UPDATE_PATH_DATA: {
+            return updateState(state, {
+                playerPath: action.payload.playerPath,
+                opponentPath: action.payload.opponentPath,
+                finishingPosition: action.payload.finalPosition
             });
         }
         case UPDATE_SPECTATORS: {
