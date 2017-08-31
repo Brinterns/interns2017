@@ -74,22 +74,21 @@ export default class ChallengeOptions extends Component {
                                 <img id={this.state.id} className={optionsStyles.powerUpsImg} title="Power Ups Enabled" src={powerupsactive} /> :
                                 <img id={this.state.id} className={optionsStyles.powerUpsImg} title="Power Ups Disabled" src={powerups} />
                             ) :
-                            <span id={this.state.id} onClick={this.props.togglePowerUps}>
+                            <span id={this.state.id} title={this.props.powerUps ? "Disable Power Ups" : "Enable Power Ups"} onClick={this.props.togglePowerUps}>
                                 <input id={this.state.id} type="checkbox" checked={this.props.enablePowerUps} onChange={() => {}} />
                                 {(this.props.enablePowerUps ?
-                                    <img id={this.state.id} className={optionsStyles.powerUpsImg} title="Disable Power Ups" style={{cursor: "pointer"}} src={powerupsactive} /> :
-                                    <img id={this.state.id} className={optionsStyles.powerUpsImg} title="Enable Power Ups" style={{cursor: "pointer"}} src={powerups} />
+                                    <img id={this.state.id} className={optionsStyles.powerUpsImg} style={{cursor: "pointer"}} src={powerupsactive} /> :
+                                    <img id={this.state.id} className={optionsStyles.powerUpsImg} style={{cursor: "pointer"}} src={powerups} />
                                 )}
                             </span>
                         }
                         <br/>
-
                         {this.props.inChallenge ?
                             (this.props.challengeAlternatePath ?
-                                <img id={this.state.id} className={optionsStyles.pathImg} src={alternatepath} /> :
-                                <img id={this.state.id} className={optionsStyles.pathImg} src={originalpath} />
+                                <img id={this.state.id} className={optionsStyles.pathImg} title="Alternate Path Enabled" src={alternatepath} /> :
+                                <img id={this.state.id} className={optionsStyles.pathImg} title="Alternate Path Disabled" src={originalpath} />
                             ) :
-                            <span id={this.state.id} onClick={this.props.togglePath}>
+                            <span title={this.props.powerUps ? "Disable Alternate Path" : "Enable Alternate Path"} id={this.state.id} onClick={this.props.togglePath}>
                                 <input id={this.state.id} type="checkbox" checked={this.props.alternatePath} onChange={() => {}} />
                                 {this.props.alternatePath ?
                                     <img id={this.state.id} className={optionsStyles.pathImg} style={{cursor: "pointer"}} src={alternatepath} /> :
