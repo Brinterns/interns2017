@@ -58,7 +58,7 @@ export default class User extends Component {
             challengeButtons =
                 <div className={userStyles.buttonDiv}>
                     <button onClick={() => {this.props.cancelChallenge(this.props.user.id)}}> Cancel </button>
-                    <ChallengeOptions lobby={true} inChallenge={true} challengePieces={this.props.challenging.numberOfPieces} challengePowerUps={this.props.challenging.enablePowerUps} challengeAlternatePath={this.props.challenging.alternatePath} />
+                    <ChallengeOptions index={this.props.index} lobby={true} inChallenge={true} challengePieces={this.props.challenging.numberOfPieces} challengePowerUps={this.props.challenging.enablePowerUps} challengeAlternatePath={this.props.challenging.alternatePath} />
                 </div>;
         } else if (this.props.challenger) {
             challengeButtons =
@@ -67,13 +67,13 @@ export default class User extends Component {
                         <button className={userStyles.declineButton} onClick={() => {this.props.challengeRespond(false, this.props.user.id)}}> &#x2716; </button>
                         <button className={userStyles.acceptButton} onClick={() => {this.props.challengeRespond(true, this.props.user.id)}}> &#10004; </button>
                     </div>
-                    <ChallengeOptions lobby={true} inChallenge={true} challengePieces={this.props.challenger.numberOfPieces} challengePowerUps={this.props.challenger.enablePowerUps} challengeAlternatePath={this.props.challenger.alternatePath} />
+                    <ChallengeOptions index={this.props.index} lobby={true} inChallenge={true} challengePieces={this.props.challenger.numberOfPieces} challengePowerUps={this.props.challenger.enablePowerUps} challengeAlternatePath={this.props.challenger.alternatePath} />
                 </div>;
         } else {
             challengeButtons =
                 <div className={userStyles.buttonDiv}>
                     <button onClick={() => {this.props.challengeUser(this.props.user.id, this.state.numberOfPieces, this.state.enablePowerUps, this.state.alternatePath)}}> Challenge </button>
-                    <ChallengeOptions lobby={true} inChallenge={false} numberOfPieces={this.state.numberOfPieces} enablePowerUps={this.state.enablePowerUps} alternatePath={this.state.alternatePath} onChange={this.handleChange} togglePowerUps={this.togglePowerUps} togglePath={this.togglePath} />
+                    <ChallengeOptions index={this.props.index} lobby={true} inChallenge={false} numberOfPieces={this.state.numberOfPieces} enablePowerUps={this.state.enablePowerUps} alternatePath={this.state.alternatePath} onChange={this.handleChange} togglePowerUps={this.togglePowerUps} togglePath={this.togglePath} />
                 </div>;
         }
         var displayName = this.props.user.name;

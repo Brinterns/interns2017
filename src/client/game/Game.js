@@ -116,17 +116,17 @@ export class Game extends Component {
         var numPiecesButtons;
         if (this.props.challengerId === this.props.id) {
             challengeButton = <button onClick={() => {this.reChallengeResponse(false)}}> Cancel </button>;
-            numPiecesButtons = <ChallengeOptions lobby={false} inChallenge={true} challengePieces={this.props.newNumberOfPieces} challengePowerUps={this.props.newEnablePowerUps} challengeAlternatePath={this.props.newAlternatePath} />
+            numPiecesButtons = <ChallengeOptions index={0} lobby={false} inChallenge={true} challengePieces={this.props.newNumberOfPieces} challengePowerUps={this.props.newEnablePowerUps} challengeAlternatePath={this.props.newAlternatePath} />
         } else if (this.props.challengerId) {
             challengeButton =
                 <div className={gameStyles.buttonsEnd}>
                     <button className={gameStyles.acceptButton} onClick={() => {this.reChallengeResponse(true)}}> &#10004; </button>
                     <button className={gameStyles.declineButton} onClick={() => {this.reChallengeResponse(false)}}> &#x2716; </button>
                 </div>;
-            numPiecesButtons = <ChallengeOptions lobby={false} inChallenge={true} challengePieces={this.props.newNumberOfPieces} challengePowerUps={this.props.newEnablePowerUps} challengeAlternatePath={this.props.newAlternatePath} />
+            numPiecesButtons = <ChallengeOptions index={0} lobby={false} inChallenge={true} challengePieces={this.props.newNumberOfPieces} challengePowerUps={this.props.newEnablePowerUps} challengeAlternatePath={this.props.newAlternatePath} />
         } else {
             challengeButton = <button onClick={this.reChallenge}> Re-Challenge </button>;
-            numPiecesButtons = <ChallengeOptions lobby={false} inChallenge={false} numberOfPieces={this.state.numberOfPieces} enablePowerUps={this.state.enablePowerUps} alternatePath={this.state.alternatePath} onChange={this.handleChange} togglePowerUps={this.togglePowerUps} togglePath={this.togglePath} />
+            numPiecesButtons = <ChallengeOptions index={0} lobby={false} inChallenge={false} numberOfPieces={this.state.numberOfPieces} enablePowerUps={this.state.enablePowerUps} alternatePath={this.state.alternatePath} onChange={this.handleChange} togglePowerUps={this.togglePowerUps} togglePath={this.togglePath} />
         }
 
         const gameOverDiv = (

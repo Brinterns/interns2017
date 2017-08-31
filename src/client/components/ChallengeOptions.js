@@ -11,7 +11,8 @@ export default class ChallengeOptions extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showOptions: false
+            showOptions: false,
+            id: "options" + this.props.index
         }
         document.addEventListener('click', this.pageClick.bind(this), true);
         this.toggleOptions = this.toggleOptions.bind(this);
@@ -19,7 +20,7 @@ export default class ChallengeOptions extends Component {
     }
 
     pageClick(event) {
-        if (this.refs.optionsDiv && (event.target.id !== "options") && (event.target.id !== "minus") && (event.target.id !== "plus")) {
+        if (this.refs.optionsDiv && (event.target.id !== this.state.id) && (event.target.id !== "minus") && (event.target.id !== "plus")) {
             this.setState({
                 showOptions: false
             });
@@ -56,37 +57,41 @@ export default class ChallengeOptions extends Component {
 
         return (
             <div ref="optionsDiv" className={optionsStyles.numberOfPiecesToggle} style={parentStyle}>
-                <img id="options" className={optionsStyles.optionsImg} src={this.state.showOptions ? optionsactive : options} onClick={this.toggleOptions} />
+                <img id={this.state.id} className={optionsStyles.optionsImg} src={this.state.showOptions ? optionsactive : options} onClick={this.toggleOptions} />
                 {this.state.showOptions ?
-                    <div id="options" className={optionsStyles.numberOfPieces}>
+                    <div id={this.state.id} className={optionsStyles.numberOfPieces}>
                         {!this.props.inChallenge ? <button id="minus" title="Decrease no. of pieces" onClick={this.onChange}> - </button> : null}
                         {this.props.inChallenge ?
-                            <label id="options" title="No. of pieces" className={optionsStyles.numberOfPiecesInactive}> <p id="options">{this.props.challengePieces}</p> </label> :
-                            <label id="options" title="No. of pieces"> <p id="options">{this.props.numberOfPieces}</p> </label>
+                            <label id={this.state.id} title="No. of pieces" className={optionsStyles.numberOfPiecesInactive}> <p id={this.state.id}>{this.props.challengePieces}</p> </label> :
+                            <label id={this.state.id} title="No. of pieces"> <p id={this.state.id}>{this.props.numberOfPieces}</p> </label>
                         }
                         {!this.props.inChallenge ? <button id="plus" title="Increase no. of pieces" onClick={this.onChange}> + </button> : null}
                         <br/>
                         {this.props.inChallenge ?
-                            (this.props.challengePowerUps ? <img id="options" className={optionsStyles.powerUpsImg} title="Power Ups Enabled" src={powerupsactive} /> :
-                                <img id="options" className={optionsStyles.powerUpsImg} title="Power Ups Disabled" src={powerups} />) :
-                            <span id="options" onClick={this.props.togglePowerUps}>
-                                <input id="options" type="checkbox" checked={this.props.enablePowerUps} />
-                                {(this.props.enablePowerUps ? <img id="options" className={optionsStyles.powerUpsImg} title="Disable Power Ups" style={{cursor: "pointer"}} src={powerupsactive} /> :
-                                    <img id="options" className={optionsStyles.powerUpsImg} title="Enable Power Ups" style={{cursor: "pointer"}} src={powerups} />)}
+                            (this.props.challengePowerUps ?
+                                <img id={this.state.id} className={optionsStyles.powerUpsImg} title="Power Ups Enabled" src={powerupsactive} /> :
+                                <img id={this.state.id} className={optionsStyles.powerUpsImg} title="Power Ups Disabled" src={powerups} />
+                            ) :
+                            <span id={this.state.id} onClick={this.props.togglePowerUps}>
+                                <input id={this.state.id} type="checkbox" checked={this.props.enablePowerUps} onChange={() => {}} />
+                                {(this.props.enablePowerUps ?
+                                    <img id={this.state.id} className={optionsStyles.powerUpsImg} title="Disable Power Ups" style={{cursor: "pointer"}} src={powerupsactive} /> :
+                                    <img id={this.state.id} className={optionsStyles.powerUpsImg} title="Enable Power Ups" style={{cursor: "pointer"}} src={powerups} />
+                                )}
                             </span>
                         }
                         <br/>
 
                         {this.props.inChallenge ?
                             (this.props.challengeAlternatePath ?
-                                <img id="options" className={optionsStyles.pathImg} src={alternatepath} /> :
-                                <img id="options" className={optionsStyles.pathImg} src={originalpath} />
+                                <img id={this.state.id} className={optionsStyles.pathImg} src={alternatepath} /> :
+                                <img id={this.state.id} className={optionsStyles.pathImg} src={originalpath} />
                             ) :
-                            <span id="options" onClick={this.props.togglePath}>
-                                <input id="options" type="checkbox" checked={this.props.alternatePath} />
+                            <span id={this.state.id} onClick={this.props.togglePath}>
+                                <input id={this.state.id} type="checkbox" checked={this.props.alternatePath} onChange={() => {}} />
                                 {this.props.alternatePath ?
-                                    <img id="options" className={optionsStyles.pathImg} style={{cursor: "pointer"}} src={alternatepath} /> :
-                                    <img id="options" className={optionsStyles.pathImg} style={{cursor: "pointer"}} src={originalpath} />
+                                    <img id={this.state.id} className={optionsStyles.pathImg} style={{cursor: "pointer"}} src={alternatepath} /> :
+                                    <img id={this.state.id} className={optionsStyles.pathImg} style={{cursor: "pointer"}} src={originalpath} />
                                 }
                             </span>
                         }
