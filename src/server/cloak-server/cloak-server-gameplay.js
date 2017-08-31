@@ -322,12 +322,17 @@ function randomPowerUp(room, user, opponent) {
     }
     //only look to random powerups in war zone
     var freeSquares = [];
-    for (var i = 4; i < room.data.warZoneEnd-1; i++) {
+    var final = 11;
+    if (!room.data.originalPath) {
+        final = 10;
+        if (!room.data.powerUps.includes(playerPath[13]) && !user.data.squares[playerPath[13]] && !opponent.data.squares[playerPath[13]]) {
+            freeSquares.push(playerPath[13]);
+        }
+    }
+    for (var i = 4; i <= final; i++) {
         //if there are no powerups on a space and no player pieces then add the square index as free
-        if (!room.data.powerUps.includes(playerPath[i])){
-            if (!user.data.squares[playerPath[i]] && !opponent.data.squares[playerPath[i]]) {
-                freeSquares.push(playerPath[i]);
-            }
+        if (!room.data.powerUps.includes(playerPath[i]) && !user.data.squares[playerPath[i]] && !opponent.data.squares[playerPath[i]]) {
+            freeSquares.push(playerPath[i]);
         }
     }
     if (freeSquares.length === 0) {
