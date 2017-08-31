@@ -25,6 +25,9 @@ function powerupActivated(user, powerUp) {
         case "swap":
             swapActivated(user, playerPath);
             break;
+        case "ghost":
+            ghostActivated(user);
+            break;
         case "reroll":
             reRoll(user);
             break;
@@ -99,6 +102,13 @@ function swapActivated(user, playerPath) {
         }
     });
     user.message('powerpieces', swapablePieces);
+}
+
+function ghostActivated(user) {
+    var opponent = shared.getOpponent(user);
+    opponent.data.ghostTurns = 2;
+    opponent.message('opponentsquares', Array(24).fill(false));
+    clearPowerUp(user);
 }
 
 function powerUsed(position, userMoveId, opponentBool, user) {
