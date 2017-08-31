@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import optionsStyles from './Components.css';
 import options from '../images/challengeoptions/options.png';
+import optionschanged from '../images/challengeoptions/optionschanged.png';
 import optionsactive from '../images/challengeoptions/optionsactive.png';
 import powerups from '../images/challengeoptions/powerups.png';
 import powerupsactive from '../images/challengeoptions/powerupsactive.png';
@@ -43,6 +44,7 @@ export default class ChallengeOptions extends Component {
 
     render() {
         var parentStyle;
+        var highlightOptions = this.props.inChallenge && ((this.props.challengePieces !== 7) || this.props.challengePowerUps || this.props.challengeAlternatePath);
         if (this.props.lobby) {
             parentStyle = {
                 float: 'right',
@@ -57,7 +59,7 @@ export default class ChallengeOptions extends Component {
 
         return (
             <div ref="optionsDiv" className={optionsStyles.numberOfPiecesToggle} style={parentStyle}>
-                <img id={this.state.id} className={optionsStyles.optionsImg} src={this.state.showOptions ? optionsactive : options} onClick={this.toggleOptions} />
+                <img id={this.state.id} className={optionsStyles.optionsImg} src={this.state.showOptions ? optionsactive : (highlightOptions ? optionschanged : options)} onClick={this.toggleOptions} />
                 {this.state.showOptions ?
                     <div id={this.state.id} className={optionsStyles.numberOfPieces}>
                         {!this.props.inChallenge ? <button id="minus" title="Decrease no. of pieces" onClick={this.onChange}> - </button> : null}
