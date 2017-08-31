@@ -99,7 +99,7 @@ export class Board extends Component {
 
     usePowerUp(position, opponentBool) {
         cloak.message('usepowerup', [position, this.props.moveId, opponentBool]);
-        if ((this.props.powerUp !== "swap") || (this.props.piecePositions.indexOf(position) === -1)) {
+        if ((this.props.powerUp !== "swap") || opponentBool) {
             this.togglePowerUp(false);
             document.body.style.cursor = "auto";
         }
