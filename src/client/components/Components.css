@@ -41,6 +41,7 @@
 }
 
 .colourButton {
+    -webkit-appearance: none;
     height: calc(1.8 * (1vw + 1vh - 1vmin)) !important;
     width: calc(1.8 * (1vw + 1vh - 1vmin)) !important;
     min-height: 16px !important;
@@ -49,6 +50,7 @@
     vertical-align: middle;
     border-radius: 50%;
     outline: none;
+    padding: 0 !important;
     border-width: calc(0.1 * (1vw + 1vh - 1vmin));
 }
 
