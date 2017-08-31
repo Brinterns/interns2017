@@ -50,6 +50,7 @@
     vertical-align: middle;
     border-radius: 50%;
     outline: none;
+    padding: 0 !important;
     border-width: calc(0.1 * (1vw + 1vh - 1vmin));
 }
 
