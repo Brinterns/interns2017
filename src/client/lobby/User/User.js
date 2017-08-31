@@ -9,10 +9,12 @@ export default class User extends Component {
         super(props);
         this.state = {
             numberOfPieces: 7,
-            enablePowerUps: false
+            enablePowerUps: false,
+            alternatePath: false
         }
         this.handleChange = this.handleChange.bind(this);
         this.togglePowerUps = this.togglePowerUps.bind(this);
+        this.togglePath = this.togglePath.bind(this);
     }
 
     handleChange(numberOfPieces) {
@@ -24,6 +26,12 @@ export default class User extends Component {
     togglePowerUps() {
         this.setState({
             enablePowerUps: !this.state.enablePowerUps
+        });
+    }
+
+    togglePath() {
+        this.setState({
+            alternatePath: !this.state.alternatePath
         });
     }
 
@@ -50,7 +58,7 @@ export default class User extends Component {
             challengeButtons =
                 <div className={userStyles.buttonDiv}>
                     <button onClick={() => {this.props.cancelChallenge(this.props.user.id)}}> Cancel </button>
-                    <ChallengeOptions lobby={true} inChallenge={true} challengePieces={this.props.challenging.numberOfPieces} challengePowerUps={this.props.challenging.enablePowerUps} />
+                    <ChallengeOptions index={this.props.index} lobby={true} inChallenge={true} challengePieces={this.props.challenging.numberOfPieces} challengePowerUps={this.props.challenging.enablePowerUps} challengeAlternatePath={this.props.challenging.alternatePath} />
                 </div>;
         } else if (this.props.challenger) {
             challengeButtons =
@@ -59,13 +67,13 @@ export default class User extends Component {
                         <button className={userStyles.declineButton} onClick={() => {this.props.challengeRespond(false, this.props.user.id)}}> &#x2716; </button>
                         <button className={userStyles.acceptButton} onClick={() => {this.props.challengeRespond(true, this.props.user.id)}}> &#10004; </button>
                     </div>
-                    <ChallengeOptions lobby={true} inChallenge={true} challengePieces={this.props.challenger.numberOfPieces} challengePowerUps={this.props.challenger.enablePowerUps} />
+                    <ChallengeOptions index={this.props.index} lobby={true} inChallenge={true} challengePieces={this.props.challenger.numberOfPieces} challengePowerUps={this.props.challenger.enablePowerUps} challengeAlternatePath={this.props.challenger.alternatePath} />
                 </div>;
         } else {
             challengeButtons =
                 <div className={userStyles.buttonDiv}>
-                    <button onClick={() => {this.props.challengeUser(this.props.user.id, this.state.numberOfPieces, this.state.enablePowerUps)}}> Challenge </button>
-                    <ChallengeOptions lobby={true} inChallenge={false} numberOfPieces={this.state.numberOfPieces} enablePowerUps={this.state.enablePowerUps} onChange={this.handleChange} togglePowerUps={this.togglePowerUps} />
+                    <button onClick={() => {this.props.challengeUser(this.props.user.id, this.state.numberOfPieces, this.state.enablePowerUps, this.state.alternatePath)}}> Challenge </button>
+                    <ChallengeOptions index={this.props.index} lobby={true} inChallenge={false} numberOfPieces={this.state.numberOfPieces} enablePowerUps={this.state.enablePowerUps} alternatePath={this.state.alternatePath} onChange={this.handleChange} togglePowerUps={this.togglePowerUps} togglePath={this.togglePath} />
                 </div>;
         }
         var displayName = this.props.user.name;

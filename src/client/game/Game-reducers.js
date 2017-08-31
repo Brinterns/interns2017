@@ -82,6 +82,7 @@ const initialState = {
     powerUp: null,
     enablePowerUps: false,
     newEnablePowerUps: false,
+    newAlternatePath: false,
     powerUpPieces: [],
     activePowerUps: [],
     powerUpNotif: null,
@@ -144,7 +145,8 @@ const game = (state = initialState, action) => {
             return updateState(state, {
                 challengerId: action.payload[0],
                 newNumberOfPieces: action.payload[1],
-                newEnablePowerUps: action.payload[2]
+                newEnablePowerUps: action.payload[2],
+                newAlternatePath: action.payload[3]
             });
         }
         case TOGGLE_FORFEIT: {
