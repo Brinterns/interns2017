@@ -122,7 +122,7 @@ function powerUsed(position, userMoveId, opponentBool, user) {
                 remoteAttackPiece(position, user, opponent);
                 break;
             case "swap":
-                swapPiece(position, user, opponent);
+                swapPiece(position, user, opponent, opponentBool);
                 break;
             case "boot":
                 shieldBootPiece(position, user, opponent, "boot");
@@ -217,10 +217,9 @@ function remoteAttackPiece(position, user, opponent) {
     const currentPowerUp = opponent.data.piecePowerUps[index].powerUp;
     opponent.data.piecePowerUps[index].powerUp = null;
     opponent.data.piecePowerUps[index].turnsLeft = null;
-    if (currentPowerUp === "shield") {
-        messageActivePowerUps(user, opponent);
-        messageActivePowerUps(opponent, user);
-    } else {
+    messageActivePowerUps(user, opponent);
+    messageActivePowerUps(opponent, user);
+    if (currentPowerUp !== "shield") {
         opponent.data.piecePositions[index] = 0;
         const reverseSquares = gamePlayFunctions.reverseSquares(opponent);
         const room = user.getRoom();
@@ -240,10 +239,10 @@ function remoteAttackPiece(position, user, opponent) {
     clearPowerUp(user);
 }
 
-function swapPiece(position, user, opponent) {
+function swapPiece(position, user, opponent, opponentBool) {
     const room = user.getRoom();
     const playerPath = room.data.playerPath;
-    if (user.data.piecePositions.indexOf(position) >= 0) {
+    if (!opponentBool) {
         user.data.swapPos = position;
         var opponentSwapablePieces = [];
         const warZoneEnd = room.data.warZoneEnd;
