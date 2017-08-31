@@ -4,7 +4,8 @@ import options from '../images/challengeoptions/options.png';
 import optionsactive from '../images/challengeoptions/optionsactive.png';
 import powerups from '../images/challengeoptions/powerups.png';
 import powerupsactive from '../images/challengeoptions/powerupsactive.png';
-import originalpath from '../images/rules/page0Img.png';
+import originalpath from '../images/challengeoptions/originalpath.png';
+import alternatepath from '../images/challengeoptions/alternatepath.png';
 
 export default class ChallengeOptions extends Component {
     constructor(props) {
@@ -58,14 +59,14 @@ export default class ChallengeOptions extends Component {
                 <img id="options" className={optionsStyles.optionsImg} src={this.state.showOptions ? optionsactive : options} onClick={this.toggleOptions} />
                 {this.state.showOptions ?
                     <div id="options" className={optionsStyles.numberOfPieces}>
-                        {(!this.props.inChallenge) ? <button id="minus" title="Decrease no. of pieces" onClick={this.onChange}> - </button> : null}
-                        {(this.props.inChallenge) ?
+                        {!this.props.inChallenge ? <button id="minus" title="Decrease no. of pieces" onClick={this.onChange}> - </button> : null}
+                        {this.props.inChallenge ?
                             <label id="options" title="No. of pieces" className={optionsStyles.numberOfPiecesInactive}> <p id="options">{this.props.challengePieces}</p> </label> :
                             <label id="options" title="No. of pieces"> <p id="options">{this.props.numberOfPieces}</p> </label>
                         }
-                        {(!this.props.inChallenge) ? <button id="plus" title="Increase no. of pieces" onClick={this.onChange}> + </button> : null}
+                        {!this.props.inChallenge ? <button id="plus" title="Increase no. of pieces" onClick={this.onChange}> + </button> : null}
                         <br/>
-                        {(this.props.inChallenge) ?
+                        {this.props.inChallenge ?
                             (this.props.challengePowerUps ? <img id="options" className={optionsStyles.powerUpsImg} title="Power Ups Enabled" src={powerupsactive} /> :
                                 <img id="options" className={optionsStyles.powerUpsImg} title="Power Ups Disabled" src={powerups} />) :
                             <span id="options" onClick={this.props.togglePowerUps}>
@@ -75,10 +76,22 @@ export default class ChallengeOptions extends Component {
                             </span>
                         }
                         <br/>
-                        <span>
-                            <input id="options" type="checkbox" defaultChecked={this.props.alternatePath} onClick={this.props.togglePath} />
-                            <img className={optionsStyles.pathImg} src={originalpath} />
-                        </span>
+
+                        {this.props.inChallenge ?
+                            (this.props.challengeAlternatePath ?
+                                <img id="options" className={optionsStyles.pathImg} src={alternatepath} /> :
+                                <img id="options" className={optionsStyles.pathImg} src={originalpath} />
+                            ) :
+                            <span id="options" onClick={this.props.togglePath}>
+                                <input id="options" type="checkbox" checked={this.props.alternatePath} />
+                                {this.props.alternatePath ?
+                                    <img id="options" className={optionsStyles.pathImg} style={{cursor: "pointer"}} src={alternatepath} /> :
+                                    <img id="options" className={optionsStyles.pathImg} style={{cursor: "pointer"}} src={originalpath} />
+                                }
+                            </span>
+                        }
+
+
                     </div> :
                     null}
             </div>
