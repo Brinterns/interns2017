@@ -217,10 +217,9 @@ function remoteAttackPiece(position, user, opponent) {
     const currentPowerUp = opponent.data.piecePowerUps[index].powerUp;
     opponent.data.piecePowerUps[index].powerUp = null;
     opponent.data.piecePowerUps[index].turnsLeft = null;
-    if (currentPowerUp === "shield") {
-        messageActivePowerUps(user, opponent);
-        messageActivePowerUps(opponent, user);
-    } else {
+    messageActivePowerUps(user, opponent);
+    messageActivePowerUps(opponent, user);
+    if (currentPowerUp !== "shield") {
         opponent.data.piecePositions[index] = 0;
         const reverseSquares = gamePlayFunctions.reverseSquares(opponent);
         const room = user.getRoom();
