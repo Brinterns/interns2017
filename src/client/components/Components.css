@@ -41,6 +41,7 @@
 }
 
 .colourButton {
+    -webkit-appearance: none;
     height: calc(1.8 * (1vw + 1vh - 1vmin)) !important;
     width: calc(1.8 * (1vw + 1vh - 1vmin)) !important;
     min-height: 16px !important;
