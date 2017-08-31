@@ -242,7 +242,6 @@ function remoteAttackPiece(position, user, opponent) {
 function swapPiece(position, user, opponent, opponentBool) {
     const room = user.getRoom();
     const playerPath = room.data.playerPath;
-    console.log("position = " + position);
     if (!opponentBool) {
         user.data.swapPos = position;
         var opponentSwapablePieces = [];
