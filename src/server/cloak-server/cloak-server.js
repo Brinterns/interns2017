@@ -55,7 +55,7 @@ module.exports = function(expressServer) {
                 lobbyFunctions.observeGame(gameId, user);
             },
             rechallenge: function(options, user) {
-                challengeFunctions.reChallenge(user, options[0], options[1]);
+                challengeFunctions.reChallenge(user, options[0], options[1], options[2]);
             },
             rechallengeresponse: function(accept, user) {
                 challengeFunctions.reChallengeResponse(accept, user);

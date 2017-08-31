@@ -78,27 +78,29 @@ function declineChallenge(id, user) {
     challengeRespond(user, cloak.getUser(id), false);
 }
 
-function reChallenge(user, numberOfPieces, enablePowerUps) {
+function reChallenge(user, numberOfPieces, enablePowerUps, alternatePath) {
     var room = user.getRoom();
     const opponent = shared.getOpponent(user);
     room.data.challengerId = user.id;
     room.data.newNumberOfPieces = numberOfPieces;
     room.data.newEnablePowerUps = enablePowerUps;
-    user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps]);
-    opponent.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps]);
+    room.data.newAlternatePath = alternatePath;
+    user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps, room.data.newAlternatePath]);
+    opponent.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps, room.data.newAlternatePath]);
 }
 
 function reChallengeResponse(accept, user) {
     var room = user.getRoom();
     if (accept) {
-        challengeRespond(user, shared.getOpponent(user), accept, room.data.newNumberOfPieces, room.data.newEnablePowerUps);
+        challengeRespond(user, shared.getOpponent(user), accept, room.data.newNumberOfPieces, room.data.newEnablePowerUps, room.data.newAlternatePath);
     } else {
         const opponent = shared.getOpponent(user);
         room.data.challengerId = null;
         room.data.newNumberOfPieces = 7;
         room.data.newEnablePowerUps = false;
-        user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps]);
-        opponent.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps]);
+        room.data.newAlternatePath = false;
+        user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps, room.data.newAlternatePath]);
+        opponent.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps, room.data.newAlternatePath]);
     }
 }
 

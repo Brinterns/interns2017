@@ -191,7 +191,7 @@ function reconnectGame(user, user2, room) {
     user.message('enablepowerups', room.data.enablePowerUps);
     user.message('newpowerup', user.data.powerUp);
     user.message('updategamemessages', JSON.stringify(room.data.messages));
-    user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps]);
+    user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps, room.data.newAlternatePath]);
 
     if (user.data.isPlayer) {
         user.message('activepowerups', powerUpFunctions.getActivePowerUps(user, opponent));
