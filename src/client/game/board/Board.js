@@ -155,7 +155,7 @@ export class Board extends Component {
                 <div className={boardStyles.rollButton}>
                     {((this.props.rollNumber !== 'Roll' || this.props.rollSequence) && this.props.isPlayerTurn) ? rollSequenceNotClickable : rollSequenceClickable}
                 </div>
-                {this.props.enablePowerUps ? <PowerUp powerUp={this.props.powerUp} useable={useable} togglePowerUp={this.togglePowerUp}/> : null}
+                {this.props.enablePowerUps ? <PowerUp powerUp={this.props.powerUp} useable={useable} togglePowerUp={this.togglePowerUp} ghostTurns={this.props.ghostTurns} /> : null}
                 <div className={boardStyles.oppPieceHolder}>
                     {oppPieceHolder}
                 </div>
