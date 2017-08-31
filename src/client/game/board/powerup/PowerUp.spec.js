@@ -11,7 +11,7 @@ describe('<PowerUp />', () => {
     it('When power icon is clicked, the powerup clicked state is set to true', () => {
         wrapper = shallow(<PowerUp powerUp={"push"} useable={true} togglePowerUp={() => {}} />);
         expect(wrapper.state().powerUpClicked).toEqual(false);
-        wrapper.find("div").at(1).simulate("click");
+        wrapper.find("div").at(2).simulate("click");
         expect(wrapper.state().powerUpClicked).toEqual(true);
     });
 });
