@@ -89,10 +89,11 @@
 }
 
 .numberOfPiecesToggle {
+    position: relative;
     height: calc(2.5 * (1vw + 1vh - 1vmin));
-    width: calc(2.5 * (1vw + 1vh - 1vmin));
+    width: calc(8 * (1vw + 1vh - 1vmin));
     min-height: 25px;
-    min-width: 25px;
+    min-width: 80px;
     text-align: center;
 }
 
@@ -102,8 +103,8 @@
     min-width: 100px;
     position: absolute;
     background-color: rgba(0,0,0, 0.75);
-    transform: translate(0, calc(0.45 * (1vw + 1vh - 1vmin)));
-    right: 0;
+    transform: translate(-50%, calc(0.45 * (1vw + 1vh - 1vmin)));
+    left: 50%;
     text-align: center;
     z-index: 1;
 }
