@@ -42,7 +42,9 @@ import {
     updateActivePowerUps,
     updatePowerUpNotif,
     autoReRoll,
-    updatePathData
+    updatePathData,
+    opponentGhost,
+    ghost
 } from '../game/Game-actions';
 
 import { dispatch } from '../store';
@@ -209,6 +211,12 @@ export function RunCloakConfig() {
                 setTimeout(() => {
                     dispatch(updatePowerUpNotif([null, false]));
                 }, 1500);
+            },
+            opponentghost: (opponentGhostTurns) => {
+                dispatch(opponentGhost(opponentGhostTurns));
+            },
+            ghost: (ghostTurns) => {
+                dispatch(ghost(ghostTurns));
             },
             autoreroll: () => {
                 dispatch(autoReRoll());

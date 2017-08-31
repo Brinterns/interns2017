@@ -123,7 +123,9 @@ export class Board extends Component {
             }
         }
         var oppPieceHolderSize = this.props.numberOfPieces - this.props.opponentSquares.filter((square) => {return square}).length;
-        if (this.props.numOppPiecesFinished > 1) {
+        if (this.props.opponentGhostTurns) {
+            oppPieceHolderSize = 0;
+        } else if (this.props.numOppPiecesFinished > 1) {
             oppPieceHolderSize -= (this.props.numOppPiecesFinished - 1);
         }
         for (var i = 0; i < oppPieceHolderSize; i++) {
@@ -187,7 +189,9 @@ const mapStateToProps = state => ({
     activePowerUps: state.game.activePowerUps,
     playerPath: state.game.playerPath,
     opponentPath: state.game.opponentPath,
-    finishingPosition: state.game.finishingPosition
+    finishingPosition: state.game.finishingPosition,
+    opponentGhostTurns: state.game.opponentGhostTurns,
+    ghostTurns: state.game.ghostTurns
 });
 
 export default connect(

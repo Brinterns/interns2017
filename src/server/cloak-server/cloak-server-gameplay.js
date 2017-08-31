@@ -63,6 +63,13 @@ function endTurn(user) {
     });
     powerUpFunctions.messageActivePowerUps(user, opponent);
     powerUpFunctions.messageActivePowerUps(opponent, user);
+    if (user.data.ghostTurns) {
+        user.data.ghostTurns --;
+        opponent.message('ghost', user.data.ghostTurns);
+        if (!user.data.ghostTurns) {
+            user.message('opponentghost', 0);
+        }
+    }
 }
 
 function canMove(user, opponentSquares, nextPos, moveablePositions, position) {
@@ -172,7 +179,9 @@ function handleMoveUserPiece(user, opponent, room, position, nextPos, shielded) 
     powerUpFunctions.messageActivePowerUps(opponent, user);
     user.message('piecepositions', user.data.piecePositions);
     user.message('squares', user.data.squares);
-    opponent.message('opponentsquares', reverseSquares(user));
+    if (!opponent.data.ghostTurns) {
+        opponent.message('opponentsquares', reverseSquares(user));
+    }
     shared.getSpectators(room).forEach(function(spectator) {
         if (user.id === room.data.spectatedId) {
             spectator.message('piecepositions', user.data.piecePositions);
@@ -197,7 +206,9 @@ function handleTakePiece(user, opponent, userStats, room, nextPos) {
         opponent.data.squares[playerPath[nextPos-1]] = false;
         opponent.message('piecepositions', opponent.data.piecePositions);
         opponent.message('squares', opponent.data.squares);
-        user.message('opponentsquares', reverseSquares(opponent));
+        if (!user.data.ghostTurns) {
+            user.message('opponentsquares', reverseSquares(opponent));
+        }
         shared.getSpectators(room).forEach(function(spectator) {
             if (user.id === room.data.spectatedId) {
                 spectator.message('opponentsquares', reverseSquares(opponent));

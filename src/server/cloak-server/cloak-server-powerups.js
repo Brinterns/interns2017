@@ -104,13 +104,6 @@ function swapActivated(user, playerPath) {
     user.message('powerpieces', swapablePieces);
 }
 
-function ghostActivated(user) {
-    var opponent = shared.getOpponent(user);
-    opponent.data.ghostTurns = 2;
-    opponent.message('opponentsquares', Array(24).fill(false));
-    clearPowerUp(user);
-}
-
 function powerUsed(position, userMoveId, opponentBool, user) {
     var room = user.getRoom();
     if (userMoveId === room.data.moveId) {
@@ -278,6 +271,16 @@ function swapPiece(position, user, opponent, opponentBool) {
         updatePiecesMessages(opponent, gamePlayFunctions.reverseSquares(user));
         clearPowerUp(user);
     }
+}
+
+function ghostActivated(user) {
+    var opponent = shared.getOpponent(user);
+    opponent.data.ghostTurns = 3;
+    opponent.message('opponentsquares', Array(24).fill(false));
+    opponent.message('opponentghost', opponent.data.ghostTurns);
+    user.message('ghost', opponent.data.ghostTurns);
+    user.getRoom().messageMembers('powernotify', user.data.powerUp);
+    clearPowerUp(user);
 }
 
 function reRoll(user) {
