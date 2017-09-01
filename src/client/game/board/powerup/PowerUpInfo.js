@@ -9,6 +9,7 @@ import shield from '../../../images/powerups/shield.png';
 import swap from '../../../images/powerups/swap.png';
 import reroll from '../../../images/powerups/reroll.png';
 import remoteattack from '../../../images/powerups/remoteattack.png';
+import ghost from '../../../images/powerups/ghost.png';
 
 export default class PowerUpInfo extends Component {
     constructor(props) {
@@ -49,6 +50,7 @@ export default class PowerUpInfo extends Component {
                         <p>(Rare)</p>
                         {this.getPowerUpInfo(boot, "No restrictions on moves, attacks all pieces that are jumped over")}
                         {this.getPowerUpInfo(remoteattack, "Target any opponent piece on the board")}
+                        {this.getPowerUpInfo(ghost, "Hide all pieces from the opponent for 3 turns, does not offer protection")}
                     </div>
                     : null
                 }

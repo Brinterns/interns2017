@@ -202,6 +202,7 @@ function userJoinRoom(user, room) {
     user.data.piecePowerUps = Array(room.data.numberOfPieces).fill({powerUp: null, turnsLeft: null, squareIndex: 0, position: 0});
     user.data.numPiecesFinished = 0;
     user.data.lastRoll = null;
+    user.data.ghostTurns = 0;
     user.data.powerUp = null;
 }
 

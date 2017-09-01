@@ -34,6 +34,8 @@ import {
     UPDATE_ACTIVE_POWER_UPS,
     UPDATE_POWER_UP_NOTIFICATION,
     AUTO_RE_ROLL,
+    OPPONENT_GHOST,
+    GHOST,
     UPDATE_PATH_DATA
 } from './Game-actions';
 
@@ -86,6 +88,8 @@ const initialState = {
     powerUpPieces: [],
     activePowerUps: [],
     powerUpNotif: null,
+    opponentGhostTurns: 0,
+    ghostTurns: 0,
     //Game statistics
     gameStats: null
 };
@@ -262,7 +266,9 @@ const game = (state = initialState, action) => {
                 numPiecesFinished: action.payload.finishedPieces,
                 numOppPiecesFinished: action.payload.finishedOppPieces,
                 winnerId: action.payload.winnerId,
-                opponentDisconnect: action.payload.opponentDisconnect
+                opponentDisconnect: action.payload.opponentDisconnect,
+                opponentGhostTurns: action.payload.opponentGhostTurns,
+                ghostTurns: action.payload.ghostTurns
             });
         }
         case UPDATE_PATH_DATA: {
@@ -305,6 +311,16 @@ const game = (state = initialState, action) => {
         case UPDATE_ACTIVE_POWER_UPS: {
             return updateState(state, {
                 activePowerUps: action.payload
+            });
+        }
+        case OPPONENT_GHOST: {
+            return updateState(state, {
+                opponentGhostTurns: action.payload
+            });
+        }
+        case GHOST: {
+            return updateState(state, {
+                ghostTurns: action.payload
             });
         }
         case AUTO_RE_ROLL: {

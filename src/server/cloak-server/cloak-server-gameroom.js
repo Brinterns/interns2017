@@ -64,8 +64,13 @@ function getRoomInfo(user) {
             finishedPieces: user.data.numPiecesFinished,
             finishedOppPieces: opponent ? opponent.data.numPiecesFinished : null,
             winnerId: room.data.winnerId,
-            opponentDisconnect: room.data.opponentDisconnect
+            opponentDisconnect: room.data.opponentDisconnect,
+            opponentGhostTurns: user.data.ghostTurns,
+            ghostTurns: opponent.data.ghostTurns
         };
+        if (user.data.ghostTurns) {
+            gameStateJson.opponentSquares = Array(24).fill(false);
+        }
         user.message('gamestate', JSON.stringify(gameStateJson));
         user.message('pathdata', JSON.stringify({playerPath: room.data.playerPath, opponentPath: room.data.opponentPath, finalPosition: room.data.finalPosition}));
         user.message('currentplayer', room.data.currentPlayer);
