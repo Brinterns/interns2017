@@ -8,20 +8,7 @@ import Roll from './Roll/Roll';
 import OpponentPiece from './OpponentPiece';
 import Square from './Square';
 import { connect } from 'react-redux';
-
-const playerPath = [
-    14,  17,  20,  23,
-    22,  19,  16,  13,
-    10,  7,  4,  1,
-    2,  5,  8
-];
-
-const opponentPath = [
-    12, 15, 18, 21,
-    22, 19, 16, 13,
-    10, 7,  4,  1,
-    0, 3,   6
-];
+import ghost from '../../images/powerups/ghost.png';
 
 export class Board extends Component {
     constructor(props) {
@@ -41,13 +28,13 @@ export class Board extends Component {
     squareType(i) {
         //Empty function for moving opponent pieces, only allowing your pieces to be moved
         var movePieceFunction = this.props.squares[i] ? this.handleMovePiece : () => {};
-        const pos = playerPath.indexOf(i) + 1;
-        const relativePos = this.props.squares[i] ? playerPath.indexOf(i) + 1 : opponentPath.indexOf(i) + 1;
+        const pos = this.props.playerPath.indexOf(i) + 1;
+        const relativePos = this.props.squares[i] ? this.props.playerPath.indexOf(i) + 1 : this.props.opponentPath.indexOf(i) + 1;
 
         var pieceClassName = boardStyles.squarePiece;
-        if ((pos !== 15) && this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos) && !this.props.winnerId && !this.props.opponentSquares[i]) {
+        if ((pos !== this.props.finishingPosition) && this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos) && !this.props.winnerId && !this.props.opponentSquares[i]) {
             pieceClassName = boardStyles.moveableSquarePiece;
-            if ((this.props.rollNumber + pos) === 15) {
+            if ((this.props.rollNumber + pos) === this.props.finishingPosition) {
                 pieceClassName = boardStyles.finishSquarePiece;
             }
         }
@@ -113,7 +100,7 @@ export class Board extends Component {
 
     usePowerUp(position, opponentBool) {
         cloak.message('usepowerup', [position, this.props.moveId, opponentBool]);
-        if ((this.props.powerUp !== "swap") || (this.props.piecePositions.indexOf(position) === -1)) {
+        if ((this.props.powerUp !== "swap") || opponentBool) {
             this.togglePowerUp(false);
             document.body.style.cursor = "auto";
         }
@@ -123,13 +110,14 @@ export class Board extends Component {
         const pieceHolder = [];
         const oppPieceHolder = [];
         const squareCols = [];
+        var opponentGhost;
         for (var i = 0; i < this.props.numberOfPieces; i++) {
             const pos = this.props.piecePositions[i];
             if (pos === 0) {
                 if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos) && !this.props.winnerId) {
                     pieceHolder.push(<Piece position={pos} className={boardStyles.moveablePiece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
                     continue;
-                } else if (this.state.powerUpActive && (this.props.powerUp === "push") && (this.props.powerUpPieces.length > 0) && !this.props.squares[playerPath[0]]) {
+                } else if (this.state.powerUpActive && (this.props.powerUp === "push") && (this.props.powerUpPieces.length > 0) && !this.props.squares[this.props.playerPath[0]]) {
                     pieceHolder.push(<Piece position={pos} className={boardStyles.powerUpHolderPiece} movePiece={this.usePowerUp} setHighlightSquare={this.setHighlightSquare} key={i}/>);
                     continue;
                 }
@@ -137,11 +125,14 @@ export class Board extends Component {
             }
         }
         var oppPieceHolderSize = this.props.numberOfPieces - this.props.opponentSquares.filter((square) => {return square}).length;
-        if (this.props.numOppPiecesFinished > 1) {
+        if (this.props.opponentGhostTurns) {
+            oppPieceHolderSize = 0;
+            opponentGhost = (<div className={boardStyles.oppGhostTurns} key={100}> <img src={ghost} /> <h4> {this.props.opponentGhostTurns} </h4> </div>);
+        } else if (this.props.numOppPiecesFinished > 1) {
             oppPieceHolderSize -= (this.props.numOppPiecesFinished - 1);
         }
         for (var i = 0; i < oppPieceHolderSize; i++) {
-            if (this.state.powerUpActive && (this.props.powerUp === "push") && (this.props.powerUpPieces.length > 0) && !(this.props.opponentSquares[opponentPath[0]])) {
+            if (this.state.powerUpActive && (this.props.powerUp === "push") && (this.props.powerUpPieces.length > 0) && !(this.props.opponentSquares[this.props.opponentPath[0]])) {
                 oppPieceHolder.push(<OpponentPiece movePiece={this.usePowerUp} className={boardStyles.powerUpHolderPiece} position={0} key={i}/>);
                 continue;
             }
@@ -158,6 +149,7 @@ export class Board extends Component {
         }
         const rollSequenceNotClickable = (<RollFlash sequence={this.props.rollSequence} rollNumber={this.props.rollNumber} className={boardStyles.rollButton} />);
         const rollSequenceClickable = (<div onClick={this.onClick} > <Roll rollNumber={this.props.rollNumber} isPlayerTurn={this.props.isPlayerTurn}/></div>);
+        const useable = this.props.isPlayerTurn && ((!this.props.rollSequence && (this.props.powerUp !== "reroll"))  || (this.props.rolled && (this.props.powerUp === "reroll")));
         return (
             <div>
                 <div className={boardStyles.boardMainDiv}>
@@ -166,10 +158,12 @@ export class Board extends Component {
                 <div className={boardStyles.rollButton}>
                     {((this.props.rollNumber !== 'Roll' || this.props.rollSequence) && this.props.isPlayerTurn) ? rollSequenceNotClickable : rollSequenceClickable}
                 </div>
-                {this.props.enablePowerUps ? <PowerUp powerUp={this.props.powerUp} useable={this.props.isPlayerTurn && !this.props.rollSequence} togglePowerUp={this.togglePowerUp}/> : null}
-                <div className={boardStyles.oppPieceHolder}>
-                    {oppPieceHolder}
-                </div>
+                {this.props.enablePowerUps ? <PowerUp powerUp={this.props.powerUp} useable={useable} togglePowerUp={this.togglePowerUp} ghostTurns={this.props.ghostTurns} /> : null}
+                {this.props.opponentGhostTurns ? opponentGhost :
+                    <div className={boardStyles.oppPieceHolder}>
+                        {oppPieceHolder}
+                    </div>
+                }
                 <div className={boardStyles.pieceHolder}>
                     {pieceHolder}
                 </div>
@@ -197,7 +191,12 @@ const mapStateToProps = state => ({
     powerUp: state.game.powerUp,
     enablePowerUps: state.game.enablePowerUps,
     powerUpPieces: state.game.powerUpPieces,
-    activePowerUps: state.game.activePowerUps
+    activePowerUps: state.game.activePowerUps,
+    playerPath: state.game.playerPath,
+    opponentPath: state.game.opponentPath,
+    finishingPosition: state.game.finishingPosition,
+    opponentGhostTurns: state.game.opponentGhostTurns,
+    ghostTurns: state.game.ghostTurns
 });
 
 export default connect(

@@ -6,7 +6,7 @@ var sharedFunctions = require('./cloak-server-shared');
 var gameRoomFunctions = require('./cloak-server-gameroom');
 var gamePlayFunctions = require('./cloak-server-gameplay');
 var challengeFunctions = require('./cloak-server-challenge');
-var powerupFunctions = require('./cloak-server-powerups');
+var powerUpFunctions = require('./cloak-server-powerups');
 
 
 module.exports = function(expressServer) {
@@ -40,7 +40,7 @@ module.exports = function(expressServer) {
                 gameRoomFunctions.getGameInfo(roomId, user);
             },
             challengeplayer: function(options, user) {
-                challengeFunctions.challengePlayer(options[0], options[1], options[2], user);
+                challengeFunctions.challengePlayer(options[0], options[1], options[2], options[3], user);
             },
             cancelchallenge: function(id, user) {
                 challengeFunctions.cancelChallenge(id, user);
@@ -55,7 +55,7 @@ module.exports = function(expressServer) {
                 lobbyFunctions.observeGame(gameId, user);
             },
             rechallenge: function(options, user) {
-                challengeFunctions.reChallenge(user, options[0], options[1]);
+                challengeFunctions.reChallenge(user, options[0], options[1], options[2]);
             },
             rechallengeresponse: function(accept, user) {
                 challengeFunctions.reChallengeResponse(accept, user);
@@ -94,7 +94,12 @@ module.exports = function(expressServer) {
                     gamePlayFunctions.messageRoll(rollNumber, user);
                     var opponent = sharedFunctions.getOpponent(user);
                     if (rollNumber === 0) {
-                        gamePlayFunctions.endTurn(user);
+                        if (user.data.powerUp === "reroll") {
+                            powerUpFunctions.reRoll(user);
+                            user.message('autoreroll');
+                        } else {
+                            gamePlayFunctions.endTurn(user);
+                        }
                     } else {
                         gamePlayFunctions.checkMoves(user, rollNumber, opponent.data.squares);
                     }
@@ -104,10 +109,10 @@ module.exports = function(expressServer) {
                 gamePlayFunctions.movePiece(options[0], options[1], user);
             },
             activatepowerup: function(powerUp, user) {
-                powerupFunctions.powerupActivated(user, powerUp);
+                powerUpFunctions.powerupActivated(user, powerUp);
             },
             usepowerup: function(options, user) {
-                powerupFunctions.powerUsed(options[0], options[1], options[2], user);
+                powerUpFunctions.powerUsed(options[0], options[1], options[2], user);
             }
         },
         lobby: {

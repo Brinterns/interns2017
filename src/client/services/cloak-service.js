@@ -40,7 +40,11 @@ import {
     enablePowerUps,
     updatePowerablePieces,
     updateActivePowerUps,
-    updatePowerUpNotif
+    updatePowerUpNotif,
+    autoReRoll,
+    updatePathData,
+    opponentGhost,
+    ghost
 } from '../game/Game-actions';
 
 import { dispatch } from '../store';
@@ -166,6 +170,9 @@ export function RunCloakConfig() {
             gamestate: (json) => {
                 dispatch(updateGameState(JSON.parse(json)));
             },
+            pathdata: (pathData) => {
+                dispatch(updatePathData(JSON.parse(pathData)));
+            },
             squares: (squares) => {
                 dispatch(updateSquares(squares));
             },
@@ -204,6 +211,15 @@ export function RunCloakConfig() {
                 setTimeout(() => {
                     dispatch(updatePowerUpNotif([null, false]));
                 }, 1500);
+            },
+            opponentghost: (opponentGhostTurns) => {
+                dispatch(opponentGhost(opponentGhostTurns));
+            },
+            ghost: (ghostTurns) => {
+                dispatch(ghost(ghostTurns));
+            },
+            autoreroll: () => {
+                dispatch(autoReRoll());
             }
         }
     });

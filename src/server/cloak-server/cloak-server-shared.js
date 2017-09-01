@@ -4,6 +4,7 @@ var lobbyFunctions = require('./cloak-server-lobby');
 var gameRoomFunctions = require('./cloak-server-gameroom');
 var powerUpFunctions = require('./cloak-server-powerups');
 const maxMessages = 1000;
+const alternateZone = [12, 13, 14, 15, 16];
 
 function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
@@ -185,11 +186,12 @@ function reconnectGame(user, user2, room) {
         gameRoomFunctions.getRoomInfo(spectator);
     });
     room.data.gameinfo.playerIds[room.data.gameinfo.playerIds.indexOf(user2.id)] = user.id;
+    user.message('pathdata', JSON.stringify({playerPath: room.data.playerPath, opponentPath: room.data.opponentPath, finalPosition: room.data.finalPosition}));
     user.message('updatestats', JSON.stringify(room.data.gameinfo));
     user.message('enablepowerups', room.data.enablePowerUps);
     user.message('newpowerup', user.data.powerUp);
     user.message('updategamemessages', JSON.stringify(room.data.messages));
-    user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps]);
+    user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps, room.data.newAlternatePath]);
 
     if (user.data.isPlayer) {
         user.message('activepowerups', powerUpFunctions.getActivePowerUps(user, opponent));
@@ -203,6 +205,12 @@ function reconnectGame(user, user2, room) {
     }
 }
 
+function translatePosition(room, position) {
+    if (!room.data.originalPath && position > 11) {
+        position = alternateZone[alternateZone.length - 1 - alternateZone.indexOf(position)];
+    }
+    return position;
+}
 
 module.exports.getRandomIntInclusive = getRandomIntInclusive;
 module.exports.generateMoveId = generateMoveId;
@@ -213,3 +221,4 @@ module.exports.getSpectators = getSpectators;
 module.exports.sendMessage = sendMessage;
 module.exports.reconnectUser = reconnectUser;
 module.exports.previousUser = previousUser;
+module.exports.translatePosition = translatePosition;

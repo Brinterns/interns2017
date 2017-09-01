@@ -311,6 +311,7 @@
     padding: 0;
     text-align: center;
     color: black;
+    text-shadow: 0.1px 0 0 white, 0 -0.1px 0 white, 0 0.1px 0 white, -0.1px 0 0 white;
     pointer-events: none;
 }
 
@@ -328,4 +329,29 @@
 
 .turnsLeftMiniMap {
     font-size: calc(1.25 * (1vw + 1vh - 1vmin));
+}
+
+.oppGhostTurns {
+    position: absolute;
+    top: calc(30% - calc(2 * (1vw + 1vh - 1vmin)));
+    right: 5%;
+    font-size: calc(1.5 * (1vw + 1vh - 1vmin));
+    margin-top: calc(0.01 * var(--squareSide));
+    height: calc(0.92 * var(--squareSide));
+    width: calc(0.92 * var(--squareSide));
+}
+
+.oppGhostTurns img {
+    height: calc(0.92 * var(--squareSide));
+    width: calc(0.92 * var(--squareSide));
+}
+
+.oppGhostTurns h4 {
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    color: black;
+    bottom: -5%;
+    right: -2%;
+    font-size: calc(3.5 * (1vw + 1vh - 1vmin);
 }

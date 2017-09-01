@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import powerUpStyles from './PowerUp.css';
 import PowerUpInfo from './PowerUpInfo';
+import ghost from '../../../images/powerups/ghost.png';
 
 export default class PowerUp extends Component {
     constructor(props) {
@@ -31,8 +32,10 @@ export default class PowerUp extends Component {
             return;
         }
         if (!this.state.powerUpClicked) {
-            var picture = require('../../../images/powerups/cursors/'+ this.props.powerUp +'.png');
-            document.body.style.cursor = "url('" + picture + "'), auto";
+            if ((this.props.powerUp !== "reroll") && (this.props.powerUp !== "ghost")) {
+                var picture = require('../../../images/powerups/cursors/'+ this.props.powerUp +'.png');
+                document.body.style.cursor = "url('" + picture + "'), auto";
+            }
             cloak.message('activatepowerup', this.props.powerUp);
         } else {
             document.body.style.cursor = "auto";
@@ -54,9 +57,18 @@ export default class PowerUp extends Component {
         }
 
         return (
-            <div ref="powerup" className={powerUpStyles.powerUpDiv}>
-                <div id="powerup" className={(this.props.useable && this.props.powerUp) ? powerUpStyles.powerClickable : powerUpStyles.powerUnclickable} style={powerUpStyle} onClick={this.togglePowerUp} />
-                <PowerUpInfo />
+            <div>
+                <div ref="powerup" className={powerUpStyles.powerUpDiv}>
+                    <div id="powerup" className={(this.props.useable && this.props.powerUp) ? powerUpStyles.powerClickable : powerUpStyles.powerUnclickable} style={powerUpStyle} onClick={this.togglePowerUp} />
+                    <PowerUpInfo />
+                </div>
+                {this.props.ghostTurns  ?
+                    <div className={powerUpStyles.ghostTurns}>
+                        <img src={ghost} />
+                        <h4> {this.props.ghostTurns} </h4>
+                    </div> :
+                    null
+                }
             </div>
         );
     }

@@ -32,11 +32,22 @@ export const ENABLE_POWER_UPS = namespace + 'ENABLE_POWER_UPS';
 export const UPDATE_POWER_UP_PIECES = namespace + 'UPDATE_POWER_UP_PIECES';
 export const UPDATE_ACTIVE_POWER_UPS = namespace + 'UPDATE_ACTIVE_POWER_UPS';
 export const UPDATE_POWER_UP_NOTIFICATION = namespace + 'UPDATE_POWER_UP_NOTIFICATION';
+export const AUTO_RE_ROLL = namespace + 'AUTO_RE_ROLL';
+export const OPPONENT_GHOST = namespace + 'OPPONENT_GHOST';
+export const GHOST = namespace + 'GHOST';
+export const UPDATE_PATH_DATA = namespace + 'UPDATE_PATH_DATA';
 
 export function updateUserGameId(id) {
     return {
         type: UPDATE_USER_ID,
         payload: id
+    }
+}
+
+export function updatePathData(pathData) {
+    return {
+        type: UPDATE_PATH_DATA,
+        payload: pathData
     }
 }
 
@@ -243,6 +254,26 @@ export function updateOppFinishedPieces(numPiecesFinished) {
     return {
         type: UPDATE_NUM_OPPONENT_FINISHED,
         payload: numPiecesFinished
+    }
+}
+
+export function opponentGhost(opponentGhostTurns) {
+    return {
+        type: OPPONENT_GHOST,
+        payload: opponentGhostTurns
+    }
+}
+
+export function ghost(ghostTurns) {
+    return {
+        type: GHOST,
+        payload: ghostTurns
+    }
+}
+
+export function autoReRoll() {
+    return {
+        type: AUTO_RE_ROLL
     }
 }
 

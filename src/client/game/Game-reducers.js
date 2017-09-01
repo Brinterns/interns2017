@@ -32,7 +32,11 @@ import {
     ENABLE_POWER_UPS,
     UPDATE_POWER_UP_PIECES,
     UPDATE_ACTIVE_POWER_UPS,
-    UPDATE_POWER_UP_NOTIFICATION
+    UPDATE_POWER_UP_NOTIFICATION,
+    AUTO_RE_ROLL,
+    OPPONENT_GHOST,
+    GHOST,
+    UPDATE_PATH_DATA
 } from './Game-actions';
 
 
@@ -66,6 +70,9 @@ const initialState = {
     moveablePositions: [],
     numPiecesFinished: 0,
     numOppPiecesFinished: 0,
+    playerPath: [14, 17, 20, 23, 22, 19, 16, 13, 10, 7, 4, 1, 2, 5, 8],
+    opponentPath: [12, 15, 18, 21, 22, 19, 16, 13, 10, 7, 4, 1, 0, 3, 6],
+    finishingPosition: 15,
     //Notification states
     notificationBool: false,
     notificationName: "",
@@ -77,9 +84,12 @@ const initialState = {
     powerUp: null,
     enablePowerUps: false,
     newEnablePowerUps: false,
+    newAlternatePath: false,
     powerUpPieces: [],
     activePowerUps: [],
     powerUpNotif: null,
+    opponentGhostTurns: 0,
+    ghostTurns: 0,
     //Game statistics
     gameStats: null
 };
@@ -139,7 +149,8 @@ const game = (state = initialState, action) => {
             return updateState(state, {
                 challengerId: action.payload[0],
                 newNumberOfPieces: action.payload[1],
-                newEnablePowerUps: action.payload[2]
+                newEnablePowerUps: action.payload[2],
+                newAlternatePath: action.payload[3]
             });
         }
         case TOGGLE_FORFEIT: {
@@ -155,7 +166,8 @@ const game = (state = initialState, action) => {
         }
         case ROLLED_SEQUENCE: {
             return updateState(state, {
-                rollSequence: action.payload
+                rollSequence: action.payload,
+                powerUpNotif: null
             });
         }
         case OPPONENT_ROLLED_SEQUENCE: {
@@ -254,7 +266,16 @@ const game = (state = initialState, action) => {
                 numPiecesFinished: action.payload.finishedPieces,
                 numOppPiecesFinished: action.payload.finishedOppPieces,
                 winnerId: action.payload.winnerId,
-                opponentDisconnect: action.payload.opponentDisconnect
+                opponentDisconnect: action.payload.opponentDisconnect,
+                opponentGhostTurns: action.payload.opponentGhostTurns,
+                ghostTurns: action.payload.ghostTurns
+            });
+        }
+        case UPDATE_PATH_DATA: {
+            return updateState(state, {
+                playerPath: action.payload.playerPath,
+                opponentPath: action.payload.opponentPath,
+                finishingPosition: action.payload.finalPosition
             });
         }
         case UPDATE_SPECTATORS: {
@@ -290,6 +311,22 @@ const game = (state = initialState, action) => {
         case UPDATE_ACTIVE_POWER_UPS: {
             return updateState(state, {
                 activePowerUps: action.payload
+            });
+        }
+        case OPPONENT_GHOST: {
+            return updateState(state, {
+                opponentGhostTurns: action.payload
+            });
+        }
+        case GHOST: {
+            return updateState(state, {
+                ghostTurns: action.payload
+            });
+        }
+        case AUTO_RE_ROLL: {
+            return updateState(state, {
+                powerUpNotif: 'reroll',
+                notificationBool: true
             });
         }
         case RESET_STORE: {

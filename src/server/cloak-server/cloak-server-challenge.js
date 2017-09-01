@@ -4,7 +4,37 @@ var gameRoomFunctions = require('./cloak-server-gameroom');
 var gamePlayFunctions = require('./cloak-server-gameplay');
 var shared = require('./cloak-server-shared');
 
-function challengePlayer(id, numberOfPieces, enablePowerUps, user) {
+
+const playerPath = [
+    14, 17, 20, 23,
+    22, 19, 16, 13,
+    10, 7,  4,  1,
+    2,  5,  8
+];
+const opponentPath = [
+    12, 15, 18, 21,
+    22, 19, 16, 13,
+    10, 7,  4,  1,
+    0, 3,   6
+];
+
+const playerPathAlternate = [
+    14, 17, 20, 23,
+    22, 19, 16, 13,
+    10, 7,  4,  3,
+    0,  1,  2,  5,
+    8
+];
+
+const opponentPathAlternate = [
+    12, 15, 18, 21,
+    22, 19, 16, 13,
+    10, 7,  4,  5,
+    2, 1,   0, 3,
+    6
+];
+
+function challengePlayer(id, numberOfPieces, enablePowerUps, alternatePath, user) {
     var user2 = cloak.getUser(id);
     if (!user2.data.challenging) {
         user2.data.challenging = [];
@@ -19,8 +49,8 @@ function challengePlayer(id, numberOfPieces, enablePowerUps, user) {
         if (!user2.data.challengers) {
             user2.data.challengers = [];
         }
-        user.data.challenging.push({id: id, numberOfPieces: numberOfPieces, enablePowerUps: enablePowerUps});
-        user2.data.challengers.push({id: user.id, numberOfPieces: numberOfPieces, enablePowerUps: enablePowerUps});
+        user.data.challenging.push({id: id, numberOfPieces: numberOfPieces, enablePowerUps: enablePowerUps, alternatePath: alternatePath});
+        user2.data.challengers.push({id: user.id, numberOfPieces: numberOfPieces, enablePowerUps: enablePowerUps, alternatePath: alternatePath});
         user.message('updatechallenging', user.data.challenging);
         user2.message('updatechallengers', user2.data.challengers);
         lobbyFunctions.getLobbyUserInfo().then(function(listOfUserInfo) {
@@ -48,31 +78,33 @@ function declineChallenge(id, user) {
     challengeRespond(user, cloak.getUser(id), false);
 }
 
-function reChallenge(user, numberOfPieces, enablePowerUps) {
+function reChallenge(user, numberOfPieces, enablePowerUps, alternatePath) {
     var room = user.getRoom();
     const opponent = shared.getOpponent(user);
     room.data.challengerId = user.id;
     room.data.newNumberOfPieces = numberOfPieces;
     room.data.newEnablePowerUps = enablePowerUps;
-    user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps]);
-    opponent.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps]);
+    room.data.newAlternatePath = alternatePath;
+    user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps, room.data.newAlternatePath]);
+    opponent.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps, room.data.newAlternatePath]);
 }
 
 function reChallengeResponse(accept, user) {
     var room = user.getRoom();
     if (accept) {
-        challengeRespond(user, shared.getOpponent(user), accept, room.data.newNumberOfPieces, room.data.newEnablePowerUps);
+        challengeRespond(user, shared.getOpponent(user), accept, room.data.newNumberOfPieces, room.data.newEnablePowerUps, room.data.newAlternatePath);
     } else {
         const opponent = shared.getOpponent(user);
         room.data.challengerId = null;
         room.data.newNumberOfPieces = 7;
         room.data.newEnablePowerUps = false;
-        user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps]);
-        opponent.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps]);
+        room.data.newAlternatePath = false;
+        user.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps, room.data.newAlternatePath]);
+        opponent.message('challengerdetails', [room.data.challengerId, room.data.newNumberOfPieces, room.data.newEnablePowerUps, room.data.newAlternatePath]);
     }
 }
 
-function challengeRespond(user, user2, accept, numberOfPieces=7, enablePowerUps=false) {
+function challengeRespond(user, user2, accept, numberOfPieces=7, enablePowerUps=false, alternatePath=false) {
     if (!accept) {
         user.data.challengers = user.data.challengers.filter(challenger => {
             return challenger.id !== user2.id;
@@ -85,21 +117,35 @@ function challengeRespond(user, user2, accept, numberOfPieces=7, enablePowerUps=
     } else {
         user.data.opponentDbId = user2.data.dbId;
         user2.data.opponentDbId = user.data.dbId;
-        const values = clearChallenges(user, user2, numberOfPieces, enablePowerUps);
+        const values = clearChallenges(user, user2, numberOfPieces, enablePowerUps, alternatePath);
         numberOfPieces = values[0];
         enablePowerUps = values[1];
+        originalPath = !values[2];
         let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
         createdRoom.data.opponentDisconnect = false;
         createdRoom.data.messages = [];
         createdRoom.data.numberOfPieces = numberOfPieces;
         createdRoom.data.powerUps = [];
         createdRoom.data.enablePowerUps = enablePowerUps;
+        createdRoom.data.originalPath = originalPath;
+        if (originalPath) {
+            createdRoom.data.playerPath = playerPath;
+            createdRoom.data.opponentPath = opponentPath;
+            createdRoom.data.finalPosition = 15;
+            createdRoom.data.warZoneEnd = 13;
+        } else {
+            createdRoom.data.playerPath = playerPathAlternate;
+            createdRoom.data.opponentPath = opponentPathAlternate;
+            createdRoom.data.finalPosition = 17;
+            createdRoom.data.warZoneEnd = 17;
+        }
         userJoinRoom(user, createdRoom);
         userJoinRoom(user2, createdRoom);
         createdRoom.data.spectatedId = user.id;
         createdRoom.messageMembers('joingame', createdRoom.id);
         createdRoom.messageMembers('enablepowerups', createdRoom.data.enablePowerUps);
         setTimeout(function() {
+            createdRoom.messageMembers('pathdata', JSON.stringify({playerPath: createdRoom.data.playerPath, opponentPath: createdRoom.data.opponentPath, finalPosition: createdRoom.data.finalPosition}));
             lobbyFunctions.updateLobbyActiveGames();
             lobbyFunctions.updateLobbyUsers();
             gameRoomFunctions.getRoomInfo(user);
@@ -109,7 +155,7 @@ function challengeRespond(user, user2, accept, numberOfPieces=7, enablePowerUps=
     }
 }
 
-function clearChallenges(user, user2, numberOfPieces, enablePowerUps) {
+function clearChallenges(user, user2, numberOfPieces, enablePowerUps, alternatePath) {
     if (!user.data.challenging) {
         user.data.challenging = [];
     }
@@ -122,6 +168,7 @@ function clearChallenges(user, user2, numberOfPieces, enablePowerUps) {
         } else {
             numberOfPieces = challenger.numberOfPieces;
             enablePowerUps = challenger.enablePowerUps;
+            alternatePath = challenger.alternatePath;
         }
     });
     user.data.challenging.forEach(challenging => {
@@ -144,7 +191,7 @@ function clearChallenges(user, user2, numberOfPieces, enablePowerUps) {
     } else if (numberOfPieces > 9) {
         numberOfPieces = 9;
     }
-    return [Math.ceil(numberOfPieces), enablePowerUps];
+    return [Math.ceil(numberOfPieces), enablePowerUps, alternatePath];
 }
 
 function userJoinRoom(user, room) {
@@ -155,6 +202,7 @@ function userJoinRoom(user, room) {
     user.data.piecePowerUps = Array(room.data.numberOfPieces).fill({powerUp: null, turnsLeft: null, squareIndex: 0, position: 0});
     user.data.numPiecesFinished = 0;
     user.data.lastRoll = null;
+    user.data.ghostTurns = 0;
     user.data.powerUp = null;
 }
 
@@ -170,6 +218,8 @@ function initRoomStats(room, user, user2) {
         turnsLastInEndRange: 0,
         numberOfRolls: 0,
         totalTimeTaken: 0,
+        powerUpsCollected: 0,
+        powerUpsUsed: 0,
         name: null
     }
     room.data.gameinfo.players = [Object.assign({}, initalPlayerState), Object.assign({}, initalPlayerState)];
