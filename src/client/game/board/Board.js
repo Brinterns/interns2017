@@ -8,6 +8,7 @@ import Roll from './Roll/Roll';
 import OpponentPiece from './OpponentPiece';
 import Square from './Square';
 import { connect } from 'react-redux';
+import ghost from '../../images/powerups/ghost.png';
 
 export class Board extends Component {
     constructor(props) {
@@ -109,6 +110,7 @@ export class Board extends Component {
         const pieceHolder = [];
         const oppPieceHolder = [];
         const squareCols = [];
+        var opponentGhost;
         for (var i = 0; i < this.props.numberOfPieces; i++) {
             const pos = this.props.piecePositions[i];
             if (pos === 0) {
@@ -125,6 +127,7 @@ export class Board extends Component {
         var oppPieceHolderSize = this.props.numberOfPieces - this.props.opponentSquares.filter((square) => {return square}).length;
         if (this.props.opponentGhostTurns) {
             oppPieceHolderSize = 0;
+            opponentGhost = (<div className={boardStyles.oppGhostTurns} key={100}> <img src={ghost} /> <h4> {this.props.opponentGhostTurns} </h4> </div>);
         } else if (this.props.numOppPiecesFinished > 1) {
             oppPieceHolderSize -= (this.props.numOppPiecesFinished - 1);
         }
@@ -156,9 +159,11 @@ export class Board extends Component {
                     {((this.props.rollNumber !== 'Roll' || this.props.rollSequence) && this.props.isPlayerTurn) ? rollSequenceNotClickable : rollSequenceClickable}
                 </div>
                 {this.props.enablePowerUps ? <PowerUp powerUp={this.props.powerUp} useable={useable} togglePowerUp={this.togglePowerUp} ghostTurns={this.props.ghostTurns} /> : null}
-                <div className={boardStyles.oppPieceHolder}>
-                    {oppPieceHolder}
-                </div>
+                {this.props.opponentGhostTurns ? opponentGhost :
+                    <div className={boardStyles.oppPieceHolder}>
+                        {oppPieceHolder}
+                    </div>
+                }
                 <div className={boardStyles.pieceHolder}>
                     {pieceHolder}
                 </div>

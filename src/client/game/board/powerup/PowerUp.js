@@ -62,7 +62,7 @@ export default class PowerUp extends Component {
                     <div id="powerup" className={(this.props.useable && this.props.powerUp) ? powerUpStyles.powerClickable : powerUpStyles.powerUnclickable} style={powerUpStyle} onClick={this.togglePowerUp} />
                     <PowerUpInfo />
                 </div>
-                {this.props.ghostTurns ?
+                {this.props.ghostTurns  ?
                     <div className={powerUpStyles.ghostTurns}>
                         <img src={ghost} />
                         <h4> {this.props.ghostTurns} </h4>

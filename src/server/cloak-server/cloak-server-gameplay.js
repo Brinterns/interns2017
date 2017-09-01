@@ -66,8 +66,9 @@ function endTurn(user) {
     if (user.data.ghostTurns) {
         user.data.ghostTurns --;
         opponent.message('ghost', user.data.ghostTurns);
+        user.message('opponentghost', user.data.ghostTurns);
         if (!user.data.ghostTurns) {
-            user.message('opponentghost', 0);
+            user.message('opponentsquares', reverseSquares(opponent));
         }
     }
 }
