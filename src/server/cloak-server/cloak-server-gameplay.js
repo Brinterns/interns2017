@@ -9,8 +9,8 @@ const rosettaSquares = [3,5,13,21,23];
 
 const alternateZone = [12, 13, 14, 15, 16];
 
-const powerUpTypes = ['push', 'shield', 'pull', 'reroll', 'swap', 'boot', 'remoteattack'];
-const powerUpProbs = [17, 34, 51, 68, 85, 93, 100];
+const powerUpTypes = ['push', 'shield', 'pull', 'reroll', 'swap', 'boot', 'remoteattack', 'ghost'];
+const powerUpProbs = [15, 30, 45, 60, 75, 83, 91, 100];
 
 function rollDice(user) {
     var total = 0;
