@@ -1,6 +1,6 @@
 .powerUpDiv {
     position: absolute;
-    top: calc(30% - calc(2 * (1vw + 1vh - 1vmin)));
+    top: calc(28% - calc(2 * (1vw + 1vh - 1vmin)));
     left: 5%;
     border: solid #FAD000 0.12em;
     font-size: calc(1.5 * (1vw + 1vh - 1vmin));
@@ -68,8 +68,8 @@
     background-color: rgba(0,0,0, 0.75);
     color: #FAD000;
     z-index: 2;
-    width: calc(20 * (1vw + 1vh - 1vmin));
-    min-width: 200px;
+    width: calc(24.5 * (1vw + 1vh - 1vmin));
+    min-width: 245px;
     padding: 0.1em;
     box-shadow: 5px 0px 20px rgba(0, 0, 0, 0.6);
 }
@@ -90,7 +90,7 @@
 
 .powerUpInfo p {
     display: inline-block;
-    min-width: 165px;
-    width: calc(16.5 * (1vw + 1vh - 1vmin));
-    font-size: calc(8px + 0.5 * (1vw + 1vh - 1vmin));
+    min-width: 210px;
+    width: calc(21 * (1vw + 1vh - 1vmin));
+    font-size: calc(7px + 0.5 * (1vw + 1vh - 1vmin));
 }
