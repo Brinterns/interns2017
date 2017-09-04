@@ -2,7 +2,6 @@ var cloak = require('cloak');
 var shared = require('./cloak-server-shared');
 var gameRoomFunctions = require('./cloak-server-gameroom');
 var powerUpFunctions = require('./cloak-server-powerups');
-var gamePlayFunctions = require('./cloak-server-gameplay');
 
 //Game playing variables
 const rosettaSquares = [3,5,13,21,23];
@@ -11,6 +10,37 @@ const alternateZone = [12, 13, 14, 15, 16];
 
 const powerUpTypes = ['push', 'shield', 'pull', 'reroll', 'swap', 'boot', 'remoteattack', 'ghost'];
 const powerUpProbs = [15, 30, 45, 60, 75, 83, 91, 100];
+
+function handleRollDice(user) {
+    const room = user.getRoom();
+    if (!user.data.rolledDice && !room.data.winnerId) {
+        user.data.rolledDice = true;
+        const rollNumber = rollDice(user);
+        const rollSequence = ("1".repeat(rollNumber) + "0".repeat(4-rollNumber)).split('').sort(function() {return 0.5-Math.random()});
+        user.message("rollsequence", rollSequence);
+        shared.getOpponent(user).message("opponentsequence", rollSequence);
+        shared.getSpectators(room).forEach(function(spectator) {
+            spectator.message('opponentsequence', rollSequence);
+        });
+        setTimeout(() => {
+            if (user.data.newId) {
+                user = cloak.getUser(user.data.newId);
+            }
+            messageRoll(rollNumber, user);
+            var opponent = shared.getOpponent(user);
+            if (rollNumber === 0) {
+                if (user.data.powerUp === "reroll") {
+                    powerUpFunctions.reRoll(user);
+                    user.message('autoreroll');
+                } else {
+                    endTurn(user);
+                }
+            } else {
+                checkMoves(user, rollNumber, opponent.data.squares);
+            }
+        }, 1750);
+    }
+}
 
 function rollDice(user) {
     var total = 0;
@@ -291,8 +321,8 @@ function handleBootMove(room, user, opponent, first, final) {
         handleBootHit(room, user, i, true, opponent);
         handleBootHit(room, opponent, i, false, user);
     }
-    powerUpFunctions.updatePiecesMessages(user, gamePlayFunctions.reverseSquares(opponent));
-    powerUpFunctions.updatePiecesMessages(opponent, gamePlayFunctions.reverseSquares(user));
+    powerUpFunctions.updatePiecesMessages(user, reverseSquares(opponent));
+    powerUpFunctions.updatePiecesMessages(opponent, reverseSquares(user));
 }
 
 function handleFinalRange(user, userStats, room, position, nextPos) {
@@ -363,6 +393,7 @@ function randomPowerUp(room, user, opponent) {
 
 
 module.exports.endTurn = endTurn;
+module.exports.handleRollDice = handleRollDice;
 module.exports.rollDice = rollDice;
 module.exports.messageRoll = messageRoll;
 module.exports.movePiece = movePiece;
