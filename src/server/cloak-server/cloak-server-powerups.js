@@ -111,7 +111,9 @@ function swapActivated(user, playerPath) {
 
 function powerUsed(position, userMoveId, opponentBool, user) {
     var room = user.getRoom();
-    if (user.data.powerablePieces.includes(room.data.playerPath[position-1]) && (userMoveId === room.data.moveId)) {
+    if ((user.data.powerablePieces.includes(room.data.playerPath[position-1]) ||
+            (opponentBool && user.data.powerablePieces.includes(room.data.opponentPath[position-1]))) &&
+            (userMoveId === room.data.moveId)) {
         room.data.moveId = shared.generateMoveId();
         const powerUp = user.data.powerUp;
         var opponent = shared.getOpponent(user);
