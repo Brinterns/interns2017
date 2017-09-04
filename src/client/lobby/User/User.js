@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import {emojify} from 'react-emojione';
 import ChallengeOptions from '../../components/ChallengeOptions.js';
-import userStyles from '../Lobby.css';
+import userStyles from './User.css';
 
 export default class User extends Component {
     constructor(props) {
