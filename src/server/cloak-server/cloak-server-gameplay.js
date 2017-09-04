@@ -9,8 +9,8 @@ const rosettaSquares = [3,5,13,21,23];
 
 const alternateZone = [12, 13, 14, 15, 16];
 
-const powerUpTypes = ['push', 'shield', 'pull', 'reroll', 'swap', 'boot', 'remoteattack'];
-const powerUpProbs = [17, 34, 51, 68, 85, 93, 100];
+const powerUpTypes = ['push', 'shield', 'pull', 'reroll', 'swap', 'boot', 'remoteattack', 'ghost'];
+const powerUpProbs = [15, 30, 45, 60, 75, 83, 91, 100];
 
 function rollDice(user) {
     var total = 0;
@@ -71,6 +71,7 @@ function endTurn(user) {
             user.message('opponentsquares', reverseSquares(opponent));
         }
     }
+    user.data.powerablePieces = [];
 }
 
 function canMove(user, opponentSquares, nextPos, moveablePositions, position) {
@@ -100,18 +101,20 @@ function checkMoves(user, rollNumber, opponentSquares) {
             endTurn(user);
         }
     }
+    user.data.moveablePieces = moveablePositions;
     user.message('moveablepositions', moveablePositions);
 }
 
 function movePiece(position, userMoveId, user) {
     var room = user.getRoom();
     const playerPath = room.data.playerPath;
-    if (userMoveId === room.data.moveId) {
+    if (user.data.moveablePieces.includes(position) && (userMoveId === room.data.moveId)) {
         room.data.moveId = shared.generateMoveId();
         var opponent = shared.getOpponent(user);
         var nextPos = position + user.data.lastRoll;
         var userStats = getUserStats(user);
         var d = new Date();
+        user.data.moveablePieces = [];
         userStats.totalTimeTaken += milliToSeconds(d.getTime() - user.data.rollStartTime - 1650);
 
         const nextPosT = shared.translatePosition(room, nextPos);
@@ -229,6 +232,7 @@ function handleRosetta(user, room, position, d) {
         user.message('updatemoveid', room.data.moveId);
         user.data.rolledDice = false;
         user.data.rollStartTime = d.getTime();
+        user.data.powerablePieces = [];
         return true;
     }
     return false;
