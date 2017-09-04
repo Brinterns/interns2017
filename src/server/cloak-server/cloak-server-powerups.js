@@ -50,6 +50,7 @@ function pushActivated(user, playerPath, opponentPath) {
             pushablePieces.push(opponentPath[position-1]);
         }
     });
+    user.data.powerablePieces = pushablePieces;
     user.message('powerpieces', pushablePieces);
 }
 
@@ -67,6 +68,7 @@ function pullActivated(user, playerPath, opponentPath) {
             pullablePieces.push(opponentPath[position-1]);
         }
     });
+    user.data.powerablePieces = pullablePieces;
     user.message('powerpieces', pullablePieces);
 }
 
@@ -78,6 +80,7 @@ function shieldBootActivated(user, playerPath) {
             activePieces.push(playerPath[position-1]);
         }
     });
+    user.data.powerablePieces = activePieces;
     user.message('powerpieces', activePieces);
 }
 
@@ -90,6 +93,7 @@ function remoteAttackActivated(user, opponentPath) {
             remoteAttackablePieces.push(opponentPath[position-1]);
         }
     });
+    user.data.powerablePieces = remoteAttackablePieces;
     user.message('powerpieces', remoteAttackablePieces);
 }
 
@@ -101,12 +105,13 @@ function swapActivated(user, playerPath) {
             swapablePieces.push(playerPath[position-1]);
         }
     });
+    user.data.powerablePieces = swapablePieces;
     user.message('powerpieces', swapablePieces);
 }
 
 function powerUsed(position, userMoveId, opponentBool, user) {
     var room = user.getRoom();
-    if (userMoveId === room.data.moveId) {
+    if (user.data.powerablePieces.indludes(position) && (userMoveId === room.data.moveId)) {
         room.data.moveId = shared.generateMoveId();
         const powerUp = user.data.powerUp;
         var opponent = shared.getOpponent(user);
@@ -135,6 +140,7 @@ function powerUsed(position, userMoveId, opponentBool, user) {
                 console.log("cannot use powerup");
                 break;
         }
+        user.data.powerablePieces = [];
         user.message('updatemoveid', room.data.moveId);
         if ((powerUp !== "swap") || (opponent.data.piecePositions.indexOf(position)) >= 0) {
             room.messageMembers('powernotify', powerUp);
@@ -256,6 +262,7 @@ function swapPiece(position, user, opponent, opponentBool) {
             }
         });
         gamePlayFunctions.getUserStats(user).powerUpsUsed --;
+        user.data.powerablePieces = opponentSwapablePieces;
         user.message('powerpieces', opponentSwapablePieces);
     } else {
         //Index of user piece in piece positions array

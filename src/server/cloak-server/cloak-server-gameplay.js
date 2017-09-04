@@ -71,6 +71,7 @@ function endTurn(user) {
             user.message('opponentsquares', reverseSquares(opponent));
         }
     }
+    user.data.powerablePieces = [];
 }
 
 function canMove(user, opponentSquares, nextPos, moveablePositions, position) {
@@ -229,6 +230,7 @@ function handleRosetta(user, room, position, d) {
         user.message('updatemoveid', room.data.moveId);
         user.data.rolledDice = false;
         user.data.rollStartTime = d.getTime();
+        user.data.powerablePieces = [];
         return true;
     }
     return false;
