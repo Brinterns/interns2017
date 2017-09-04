@@ -142,11 +142,9 @@ function powerUsed(position, userMoveId, opponentBool, user) {
                 console.log("cannot use powerup");
                 break;
         }
+        user.message('updatemoveid', room.data.moveId);
         if ((powerUp !== "swap") || opponentBool) {
             user.data.powerablePieces = [];
-        }
-        user.message('updatemoveid', room.data.moveId);
-        if ((powerUp !== "swap") || (opponent.data.piecePositions.indexOf(position)) >= 0) {
             room.messageMembers('powernotify', powerUp);
         }
     }
