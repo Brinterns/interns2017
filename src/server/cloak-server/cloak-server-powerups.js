@@ -315,7 +315,9 @@ function updatePiecesMessages(user, reverseSquares) {
     const room = user.getRoom();
     user.message('piecepositions', user.data.piecePositions);
     user.message('squares', user.data.squares);
-    user.message('opponentsquares', reverseSquares);
+    if (!user.data.ghostTurns) {
+        user.message('opponentsquares', reverseSquares);
+    }
     shared.getSpectators(room).forEach(function(spectator) {
         if (user.id === room.data.spectatedId) {
             spectator.message('piecepositions', user.data.piecePositions);
