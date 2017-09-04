@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import User from './User';
+import ActiveGames from './activeGames/ActiveGames';
 import displayStyles from './LobbyDisplay.css';
 import trophy from '../../images/icons/trophy.png';
 import trophygold from '../../images/icons/trophygold.png';
-import ActiveGames from './activeGames/ActiveGames';
 
 export class LobbyDisplay extends Component {
     constructor(props) {
