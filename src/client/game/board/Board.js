@@ -9,6 +9,7 @@ import OpponentPiece from './OpponentPiece';
 import Square from './Square';
 import { connect } from 'react-redux';
 import ghost from '../../images/powerups/ghost.png';
+import PieceHolder from './PieceHolder';
 
 export class Board extends Component {
     constructor(props) {
@@ -107,23 +108,10 @@ export class Board extends Component {
     }
 
     render() {
-        const pieceHolder = [];
         const oppPieceHolder = [];
         const squareCols = [];
         var opponentGhost;
-        for (var i = 0; i < this.props.numberOfPieces; i++) {
-            const pos = this.props.piecePositions[i];
-            if (pos === 0) {
-                if (this.props.isPlayerTurn && this.props.rolled && this.props.moveablePositions.includes(pos) && !this.props.winnerId) {
-                    pieceHolder.push(<Piece position={pos} className={boardStyles.moveablePiece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
-                    continue;
-                } else if (this.state.powerUpActive && (this.props.powerUp === "push") && (this.props.powerUpPieces.length > 0) && !this.props.squares[this.props.playerPath[0]]) {
-                    pieceHolder.push(<Piece position={pos} className={boardStyles.powerUpHolderPiece} movePiece={this.usePowerUp} setHighlightSquare={this.setHighlightSquare} key={i}/>);
-                    continue;
-                }
-                pieceHolder.push(<Piece position={pos} className={boardStyles.piece} movePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} key={i}/>);
-            }
-        }
+        
         var oppPieceHolderSize = this.props.numberOfPieces - this.props.opponentSquares.filter((square) => {return square}).length;
         if (this.props.opponentGhostTurns) {
             oppPieceHolderSize = 0;
@@ -165,7 +153,7 @@ export class Board extends Component {
                     </div>
                 }
                 <div className={boardStyles.pieceHolder}>
-                    {pieceHolder}
+                    <PieceHolder powerUpActive={this.state.powerUpActive} isPlayerTurn={this.props.isPlayerTurn} handleMovePiece={this.handleMovePiece} setHighlightSquare={this.setHighlightSquare} usePowerUp={this.usePowerUp} />
                 </div>
             </div>
         );
