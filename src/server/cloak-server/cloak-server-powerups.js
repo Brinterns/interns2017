@@ -6,7 +6,7 @@ function powerupActivated(user, powerUp) {
     const room = user.getRoom();
     const playerPath = room.data.playerPath;
     const opponentPath = room.data.opponentPath;
-    switch (powerUp) {
+    switch (user.data.powerUp) {
         case "push":
             pushActivated(user, playerPath, opponentPath);
             break;
@@ -108,7 +108,7 @@ function powerUsed(position, userMoveId, opponentBool, user) {
     var room = user.getRoom();
     if (userMoveId === room.data.moveId) {
         room.data.moveId = shared.generateMoveId();
-        var powerUp = user.data.powerUp;
+        const powerUp = user.data.powerUp;
         var opponent = shared.getOpponent(user);
         gamePlayFunctions.getUserStats(user).powerUpsUsed ++;
         switch(powerUp) {
