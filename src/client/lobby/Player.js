@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
-import userStyles from '../Lobby.css';
-import pencil from '../../images/icons/pencil.png';
+import userStyles from './Lobby.css';
+import pencil from '../images/icons/pencil.png';
 import {emojify} from 'react-emojione';
 
 export default class Player extends Component {
