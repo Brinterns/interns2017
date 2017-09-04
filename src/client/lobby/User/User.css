@@ -7,7 +7,7 @@
 }
 
 .buttonDiv button {
-    min-height: 30px;
+    min-height: 30px !important;
     display: block;
     float: right;
 }
