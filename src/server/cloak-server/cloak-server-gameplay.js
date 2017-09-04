@@ -101,18 +101,20 @@ function checkMoves(user, rollNumber, opponentSquares) {
             endTurn(user);
         }
     }
+    user.data.moveablePieces = moveablePositions;
     user.message('moveablepositions', moveablePositions);
 }
 
 function movePiece(position, userMoveId, user) {
     var room = user.getRoom();
     const playerPath = room.data.playerPath;
-    if (userMoveId === room.data.moveId) {
+    if (user.data.moveablePieces.includes(position) && (userMoveId === room.data.moveId)) {
         room.data.moveId = shared.generateMoveId();
         var opponent = shared.getOpponent(user);
         var nextPos = position + user.data.lastRoll;
         var userStats = getUserStats(user);
         var d = new Date();
+        user.data.moveablePieces = [];
         userStats.totalTimeTaken += milliToSeconds(d.getTime() - user.data.rollStartTime - 1650);
 
         const nextPosT = shared.translatePosition(room, nextPos);

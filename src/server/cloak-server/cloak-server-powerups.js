@@ -111,7 +111,7 @@ function swapActivated(user, playerPath) {
 
 function powerUsed(position, userMoveId, opponentBool, user) {
     var room = user.getRoom();
-    if (user.data.powerablePieces.indludes(position) && (userMoveId === room.data.moveId)) {
+    if (user.data.powerablePieces.includes(room.data.playerPath[position-1]) && (userMoveId === room.data.moveId)) {
         room.data.moveId = shared.generateMoveId();
         const powerUp = user.data.powerUp;
         var opponent = shared.getOpponent(user);
@@ -140,7 +140,9 @@ function powerUsed(position, userMoveId, opponentBool, user) {
                 console.log("cannot use powerup");
                 break;
         }
-        user.data.powerablePieces = [];
+        if ((powerUp !== "swap") || opponentBool) {
+            user.data.powerablePieces = [];
+        }
         user.message('updatemoveid', room.data.moveId);
         if ((powerUp !== "swap") || (opponent.data.piecePositions.indexOf(position)) >= 0) {
             room.messageMembers('powernotify', powerUp);

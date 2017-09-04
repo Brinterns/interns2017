@@ -204,6 +204,7 @@ function userJoinRoom(user, room) {
     user.data.lastRoll = null;
     user.data.ghostTurns = 0;
     user.data.powerUp = null;
+    user.data.moveablePieces = [];
     user.data.powerablePieces = [];
 }
 
