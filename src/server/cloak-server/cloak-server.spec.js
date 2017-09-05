@@ -2,14 +2,14 @@ var sinon = require('sinon');
 var mockery = require('mockery');
 
 describe('Cloak server tests', function() {
-    let cloakConfig;
-    const playerPath = [
+    var cloakConfig;
+    var playerPath = [
         14, 17, 20, 23,
         22, 19, 16, 13,
         10, 7,  4,  1,
         2,  5,  8
     ];
-    const opponentPath = [
+    var opponentPath = [
         12, 15, 18, 21,
         22, 19, 16, 13,
         10, 7,  4,  1,
@@ -53,7 +53,7 @@ describe('Cloak server tests', function() {
     });
 
     it('sending message should update members in room with the new message list', () => {
-        let testUser = {
+        var testUser = {
             name: 'Foo',
             id: '1',
             data: {
@@ -80,7 +80,7 @@ describe('Cloak server tests', function() {
     });
 //
 //     it('sending message should update members in room with the new message list', () => {
-//         let testUser = {
+//         var testUser = {
 //             id: '1',
 //             data: {
 //                 challenging: [],
@@ -94,7 +94,7 @@ describe('Cloak server tests', function() {
 //             },
 //             message: (a, b) => {}
 //         }
-//         let testUser2 = {
+//         var testUser2 = {
 //             id: '2',
 //             data: {
 //                 challenging: [],
@@ -108,14 +108,14 @@ describe('Cloak server tests', function() {
 //             },
 //             message: (a, b) => {}
 //         }
-//         const users = [testUser, testUser2];
+//         var users = [testUser, testUser2];
 //         lobby.data = {};
 //         lobby.isLobby.and.returnValue(true);
 //         lobby.getMembers.and.returnValue(users);
 //         cloak.getUsers.and.returnValue([]);
 //         user.getRoom.and.returnValue(lobby);
 //         cloak.getUser.and.returnValue(testUser2);
-//         const getLobbyUserInfo = sinon.spy();
+//         var getLobbyUserInfo = sinon.spy();
 //         cloakConfig.messages.challengeplayer(['2', 7, false, false], testUser);
 //         expect(testUser2.data.challengers).toEqual([{id: '1',numberOfPieces: 7, enablePowerUps: false, alternatePath: false}])
 //     });
