@@ -7,7 +7,6 @@
 }
 
 .buttonDiv button {
-    min-height: 30px !important;
     display: block;
     float: right;
 }
@@ -16,7 +15,7 @@
     padding: 0;
     height: calc(3.5 * (1vw + 1vh - 1vmin));
     width: calc(8 * (1vw + 1vh - 1vmin));
-    min-height: 30px;
+    min-height: 35px;
     min-width: 80px;
     float: right;
 }
@@ -24,16 +23,14 @@
 .acceptButton {
     background-color: #03b733 !important;
     width: calc(3.5 * (1vw + 1vh - 1vmin)) !important;
-    min-height: 30px !important;
-    min-width: 30px !important;
+    min-width: 35px !important;
     float: left !important;
 }
 
 .declineButton {
     background-color: #e81212 !important;
     width: calc(3.5 * (1vw + 1vh - 1vmin)) !important;
-    min-height: 30px !important;
-    min-width: 30px !important;
+    min-width: 35px !important;
 }
 
 .onlineBackground {
