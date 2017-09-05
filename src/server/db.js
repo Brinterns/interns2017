@@ -108,3 +108,10 @@ module.exports.updateAvatar = function(userData, avatar) {
 module.exports.collection = function(collection) {
     return client.collection(collection);
 }
+
+module.exports.connected = function() {
+    if (typeof client !== 'undefined') {
+        return true;
+    }
+    return false;
+}

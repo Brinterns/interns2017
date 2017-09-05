@@ -40,9 +40,13 @@ function getLobbyUserInfo() {
         cloak.getUsers().forEach(function(user, index, cloakUsers) {
             cloakUserInfo(user, listOfUserInfo, listOfDbIds);
             if (index === (cloakUsers.length - 1)) {
-                resolve(new Promise(function(resolve, reject) {
-                    dbUserInfo(resolve, listOfUserInfo, listOfDbIds);
-                }));
+                if (!db.connected()) {
+                    resolve("");
+                } else {
+                    resolve(new Promise(function(resolve, reject) {
+                        dbUserInfo(resolve, listOfUserInfo, listOfDbIds);
+                    }));
+                }
             }
         });
         updateLobbyActiveGames();
