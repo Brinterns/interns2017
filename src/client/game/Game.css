@@ -258,6 +258,7 @@
     background-color: #03b733 !important;
     height: calc(3.5 * (1vw + 1vh - 1vmin));
     width: calc(3.5 * (1vw + 1vh - 1vmin));
+    min-width: 35px;
 }
 
 .declineButton {
@@ -267,6 +268,7 @@
     background-color: #e81212 !important;
     height: calc(3.5 * (1vw + 1vh - 1vmin));
     width: calc(3.5 * (1vw + 1vh - 1vmin));
+    min-width: 35px;
 }
 
 .spectatorDiv {
