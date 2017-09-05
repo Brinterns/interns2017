@@ -190,11 +190,13 @@ function pushPullPiece(position, user, opponent, opponentBool) {
 function getActivePowerUps(user, opponent) {
     const opponentPath = user.getRoom().data.opponentPath;
     var activePowerUps = Object.assign([], user.data.piecePowerUps);
-    opponent.data.piecePowerUps.forEach((piecePowerUp) => {
-        var copy = Object.assign({}, piecePowerUp);
-        copy.squareIndex = opponentPath[piecePowerUp.position - 1];
-        activePowerUps.push(copy);
-    });
+    if (!user.data.ghostTurns) {
+        opponent.data.piecePowerUps.forEach((piecePowerUp) => {
+            var copy = Object.assign({}, piecePowerUp);
+            copy.squareIndex = opponentPath[piecePowerUp.position - 1];
+            activePowerUps.push(copy);
+        });
+    }
     return activePowerUps;
 }
 
@@ -289,6 +291,7 @@ function ghostActivated(user) {
     opponent.message('opponentghost', opponent.data.ghostTurns);
     user.message('ghost', opponent.data.ghostTurns);
     user.getRoom().messageMembers('powernotify', user.data.powerUp);
+    messageActivePowerUps(opponent, user);
     clearPowerUp(user);
 }
 

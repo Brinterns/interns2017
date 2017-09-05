@@ -91,8 +91,6 @@ function endTurn(user) {
             piecePowerUp.turnsLeft --;
         }
     });
-    powerUpFunctions.messageActivePowerUps(user, opponent);
-    powerUpFunctions.messageActivePowerUps(opponent, user);
     if (user.data.ghostTurns) {
         user.data.ghostTurns --;
         opponent.message('ghost', user.data.ghostTurns);
@@ -101,6 +99,8 @@ function endTurn(user) {
             user.message('opponentsquares', reverseSquares(opponent));
         }
     }
+    powerUpFunctions.messageActivePowerUps(user, opponent);
+    powerUpFunctions.messageActivePowerUps(opponent, user);
     user.data.powerablePieces = [];
 }
 
