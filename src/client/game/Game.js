@@ -156,7 +156,10 @@ export class Game extends Component {
             })[0];
             if (currentPlayer) {
                 currentPlayerName = emojify(currentPlayer.name);
-                currentPlayerText = isPlayerTurn ? "It's your turn" : "It's " + currentPlayerName + "'s turn";
+                currentPlayerText = (isPlayerTurn ?
+                    "It's your turn" :
+                    ("It's " + currentPlayerName + "'" + ((currentPlayer.name.toLowerCase().slice(-1) !== "s") ? "s" : "") + " turn")
+                );
             }
 
             if (this.props.powerUpNotif) {

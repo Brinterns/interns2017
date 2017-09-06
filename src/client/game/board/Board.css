@@ -333,7 +333,7 @@
 
 .oppGhostTurns {
     position: absolute;
-    top: calc(30% - calc(2 * (1vw + 1vh - 1vmin)));
+    top: calc(28% - calc(2 * (1vw + 1vh - 1vmin)));
     right: 5%;
     font-size: calc(1.5 * (1vw + 1vh - 1vmin));
     margin-top: calc(0.01 * var(--squareSide));

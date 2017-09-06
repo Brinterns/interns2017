@@ -1,0 +1,103 @@
+.buttonDiv {
+    padding-left: calc(27.5% - 8 * (1vw + 1vh - 1vmin));
+    vertical-align: top;
+    position: relative;
+    width: 27.5%;
+    display: inline-block;
+}
+
+.buttonDiv button {
+    display: block;
+    float: right;
+}
+
+.buttonHolder {
+    padding: 0;
+    height: calc(3.5 * (1vw + 1vh - 1vmin));
+    width: calc(8 * (1vw + 1vh - 1vmin));
+    min-height: 35px;
+    min-width: 80px;
+    float: right;
+}
+
+.acceptButton {
+    background-color: #03b733 !important;
+    width: calc(3.5 * (1vw + 1vh - 1vmin)) !important;
+    min-width: 35px !important;
+    float: left !important;
+}
+
+.declineButton {
+    background-color: #e81212 !important;
+    width: calc(3.5 * (1vw + 1vh - 1vmin)) !important;
+    min-width: 35px !important;
+}
+
+.onlineBackground {
+    background-color: #FFE562;
+    margin-top: calc(0.75 * (1vw + 1vh - 1vmin));
+    margin-bottom: calc(0.75 * (1vw + 1vh - 1vmin));
+    margin-left: calc(1.5 * (1vw + 1vh - 1vmin));
+    margin-right: calc(1.5 * (1vw + 1vh - 1vmin));
+}
+
+.offlineBackground {
+    background-color: rgba(204,204,204,1.0);
+    margin-top: calc(0.75 * (1vw + 1vh - 1vmin));
+    margin-bottom: calc(0.75 * (1vw + 1vh - 1vmin));
+    margin-left: calc(1.5 * (1vw + 1vh - 1vmin));
+    margin-right: calc(1.5 * (1vw + 1vh - 1vmin));
+}
+
+.user {
+    display: block;
+    margin: 0;
+    padding: calc(0.75 * (1vw + 1vh - 1vmin));
+    border-style: solid;
+    border-color: black;
+    border-width: 0.12em;
+}
+
+.user h1 {
+    margin: 0;
+    margin-bottom: 0.2em;
+    color: black !important;
+    display: block;
+    font-size: calc(10px + 1.5 * (1vw + 1vh - 1vmin));
+}
+
+.user h2 {
+    margin: 0;
+    color: #a8a6a6 !important;
+    display: block;
+    font-size: calc(7px + (1vw + 1vh - 1vmin));
+}
+
+.userDetails {
+    width: 72.5%;
+    display: inline-block;
+}
+
+.userDetailsFull {
+    width: 100%;
+    display: inline-block;
+}
+
+.canvasOther {
+    display: inline-block;
+    vertical-align: top;
+    height: calc(6.2 * (1vw + 1vh - 1vmin));
+    width: calc(6.2 * (1vw + 1vh - 1vmin));
+    min-height: 40px;
+    min-width: 40px;
+    margin-top: 0;
+    background-color: white;
+    border: solid;
+    border-color: black;
+    border-width: 0.12em;
+    margin-right: calc(1.5 * (1vw + 1vh - 1vmin));
+}
+
+.userDetailsText {
+    display: inline-block;
+}

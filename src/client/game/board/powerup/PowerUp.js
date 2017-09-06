@@ -36,7 +36,7 @@ export default class PowerUp extends Component {
                 var picture = require('../../../images/powerups/cursors/'+ this.props.powerUp +'.png');
                 document.body.style.cursor = "url('" + picture + "'), auto";
             }
-            cloak.message('activatepowerup', this.props.powerUp);
+            cloak.message('activatepowerup');
         } else {
             document.body.style.cursor = "auto";
         }

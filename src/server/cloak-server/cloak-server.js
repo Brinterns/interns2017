@@ -79,37 +79,13 @@ module.exports = function(expressServer) {
                 sharedFunctions.sendMessage(message, user);
             },
             rolldice: function(_, user) {
-                user.data.rolledDice = true;
-                const rollNumber = gamePlayFunctions.rollDice(user);
-                const rollSequence = ("1".repeat(rollNumber) + "0".repeat(4-rollNumber)).split('').sort(function() {return 0.5-Math.random()});
-                user.message("rollsequence", rollSequence);
-                sharedFunctions.getOpponent(user).message("opponentsequence", rollSequence);
-                sharedFunctions.getSpectators(user.getRoom()).forEach(function(spectator) {
-                    spectator.message('opponentsequence', rollSequence);
-                });
-                setTimeout(() => {
-                    if (user.data.newId) {
-                        user = cloak.getUser(user.data.newId);
-                    }
-                    gamePlayFunctions.messageRoll(rollNumber, user);
-                    var opponent = sharedFunctions.getOpponent(user);
-                    if (rollNumber === 0) {
-                        if (user.data.powerUp === "reroll") {
-                            powerUpFunctions.reRoll(user);
-                            user.message('autoreroll');
-                        } else {
-                            gamePlayFunctions.endTurn(user);
-                        }
-                    } else {
-                        gamePlayFunctions.checkMoves(user, rollNumber, opponent.data.squares);
-                    }
-                }, 1750);
+                gamePlayFunctions.handleRollDice(user);
             },
             movepiece: function(options, user) {
                 gamePlayFunctions.movePiece(options[0], options[1], user);
             },
-            activatepowerup: function(powerUp, user) {
-                powerUpFunctions.powerupActivated(user, powerUp);
+            activatepowerup: function(_, user) {
+                powerUpFunctions.powerupActivated(user);
             },
             usepowerup: function(options, user) {
                 powerUpFunctions.powerUsed(options[0], options[1], options[2], user);

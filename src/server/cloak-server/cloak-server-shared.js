@@ -197,7 +197,7 @@ function reconnectGame(user, user2, room) {
         user.message('activepowerups', powerUpFunctions.getActivePowerUps(user, opponent));
     } else {
         const spectatedPlayer = cloak.getUser(room.data.spectatedId);
-        user.message('activepowerups', powerUpFunctions.getActivePowerUps(spectatedPlayer, shared.getOpponent(spectatedPlayer)));
+        user.message('activepowerups', powerUpFunctions.getActivePowerUps(spectatedPlayer, getOpponent(spectatedPlayer)));
     }
 
     if (user.id === room.data.currentPlayer) {

@@ -5,7 +5,7 @@ import message from '../images/icons/msg.png';
 import emoji from '../images/icons/emoji.png';
 import {emojify} from 'react-emojione';
 import emojione from 'emojione';
-import EmojiPicker from '../mod/emojipick/EmojiPicker';
+import EmojiPicker from '../components/emojipick/EmojiPicker';
 
 export default class ChatBox extends Component {
     constructor(props) {

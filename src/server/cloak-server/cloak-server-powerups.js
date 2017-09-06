@@ -6,7 +6,7 @@ function powerupActivated(user, powerUp) {
     const room = user.getRoom();
     const playerPath = room.data.playerPath;
     const opponentPath = room.data.opponentPath;
-    switch (powerUp) {
+    switch (user.data.powerUp) {
         case "push":
             pushActivated(user, playerPath, opponentPath);
             break;
@@ -50,6 +50,7 @@ function pushActivated(user, playerPath, opponentPath) {
             pushablePieces.push(opponentPath[position-1]);
         }
     });
+    user.data.powerablePieces = pushablePieces;
     user.message('powerpieces', pushablePieces);
 }
 
@@ -67,6 +68,7 @@ function pullActivated(user, playerPath, opponentPath) {
             pullablePieces.push(opponentPath[position-1]);
         }
     });
+    user.data.powerablePieces = pullablePieces;
     user.message('powerpieces', pullablePieces);
 }
 
@@ -78,6 +80,7 @@ function shieldBootActivated(user, playerPath) {
             activePieces.push(playerPath[position-1]);
         }
     });
+    user.data.powerablePieces = activePieces;
     user.message('powerpieces', activePieces);
 }
 
@@ -90,6 +93,7 @@ function remoteAttackActivated(user, opponentPath) {
             remoteAttackablePieces.push(opponentPath[position-1]);
         }
     });
+    user.data.powerablePieces = remoteAttackablePieces;
     user.message('powerpieces', remoteAttackablePieces);
 }
 
@@ -101,14 +105,17 @@ function swapActivated(user, playerPath) {
             swapablePieces.push(playerPath[position-1]);
         }
     });
+    user.data.powerablePieces = swapablePieces;
     user.message('powerpieces', swapablePieces);
 }
 
 function powerUsed(position, userMoveId, opponentBool, user) {
     var room = user.getRoom();
-    if (userMoveId === room.data.moveId) {
+    if ((user.data.powerablePieces.includes(room.data.playerPath[position-1]) ||
+            (opponentBool && user.data.powerablePieces.includes(room.data.opponentPath[position-1]))) &&
+            (userMoveId === room.data.moveId)) {
         room.data.moveId = shared.generateMoveId();
-        var powerUp = user.data.powerUp;
+        const powerUp = user.data.powerUp;
         var opponent = shared.getOpponent(user);
         gamePlayFunctions.getUserStats(user).powerUpsUsed ++;
         switch(powerUp) {
@@ -136,7 +143,8 @@ function powerUsed(position, userMoveId, opponentBool, user) {
                 break;
         }
         user.message('updatemoveid', room.data.moveId);
-        if ((powerUp !== "swap") || (opponent.data.piecePositions.indexOf(position)) >= 0) {
+        if ((powerUp !== "swap") || opponentBool) {
+            user.data.powerablePieces = [];
             room.messageMembers('powernotify', powerUp);
         }
     }
@@ -182,11 +190,13 @@ function pushPullPiece(position, user, opponent, opponentBool) {
 function getActivePowerUps(user, opponent) {
     const opponentPath = user.getRoom().data.opponentPath;
     var activePowerUps = Object.assign([], user.data.piecePowerUps);
-    opponent.data.piecePowerUps.forEach((piecePowerUp) => {
-        var copy = Object.assign({}, piecePowerUp);
-        copy.squareIndex = opponentPath[piecePowerUp.position - 1];
-        activePowerUps.push(copy);
-    });
+    if (!user.data.ghostTurns) {
+        opponent.data.piecePowerUps.forEach((piecePowerUp) => {
+            var copy = Object.assign({}, piecePowerUp);
+            copy.squareIndex = opponentPath[piecePowerUp.position - 1];
+            activePowerUps.push(copy);
+        });
+    }
     return activePowerUps;
 }
 
@@ -256,6 +266,7 @@ function swapPiece(position, user, opponent, opponentBool) {
             }
         });
         gamePlayFunctions.getUserStats(user).powerUpsUsed --;
+        user.data.powerablePieces = opponentSwapablePieces;
         user.message('powerpieces', opponentSwapablePieces);
     } else {
         //Index of user piece in piece positions array
@@ -280,6 +291,7 @@ function ghostActivated(user) {
     opponent.message('opponentghost', opponent.data.ghostTurns);
     user.message('ghost', opponent.data.ghostTurns);
     user.getRoom().messageMembers('powernotify', user.data.powerUp);
+    messageActivePowerUps(opponent, user);
     clearPowerUp(user);
 }
 
@@ -304,7 +316,9 @@ function updatePiecesMessages(user, reverseSquares) {
     const room = user.getRoom();
     user.message('piecepositions', user.data.piecePositions);
     user.message('squares', user.data.squares);
-    user.message('opponentsquares', reverseSquares);
+    if (!user.data.ghostTurns) {
+        user.message('opponentsquares', reverseSquares);
+    }
     shared.getSpectators(room).forEach(function(spectator) {
         if (user.id === room.data.spectatedId) {
             spectator.message('piecepositions', user.data.piecePositions);

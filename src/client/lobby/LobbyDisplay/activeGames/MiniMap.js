@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import boardStyles from './ActiveGames.css';
 import {emojify} from 'react-emojione';
-import Piece from '../../game/board/Piece';
-import OpponentPiece from '../../game/board/OpponentPiece';
-import Square from '../../game/board/Square';
+import Piece from '../../../game/board/Piece';
+import OpponentPiece from '../../../game/board/OpponentPiece';
+import Square from '../../../game/board/Square';
 
 export default class MiniMap extends Component {
     constructor(props) {

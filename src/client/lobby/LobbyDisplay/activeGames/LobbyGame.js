@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import gameStyle from './ActiveGames.css';
 import {emojify} from 'react-emojione';
 import MiniMap from './MiniMap';
-import eye from '../../images/icons/eye.png';
-import eyeselected from '../../images/icons/eyeselected.png';
+import eye from '../../../images/icons/eye.png';
+import eyeselected from '../../../images/icons/eyeselected.png';
 
 export default class LobbyGame extends Component {
     constructor(props) {
@@ -46,7 +46,6 @@ export default class LobbyGame extends Component {
     }
 
     render() {
-        // console.log("tabbed = " + this.props.tabbed);
         const spectateButtons = (
             <div>
                 <div className={gameStyle.spectatorDiv}>

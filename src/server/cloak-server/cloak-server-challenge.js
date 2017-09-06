@@ -25,7 +25,6 @@ const playerPathAlternate = [
     0,  1,  2,  5,
     8
 ];
-
 const opponentPathAlternate = [
     12, 15, 18, 21,
     22, 19, 16, 13,
@@ -122,26 +121,9 @@ function challengeRespond(user, user2, accept, numberOfPieces=7, enablePowerUps=
         enablePowerUps = values[1];
         originalPath = !values[2];
         let createdRoom = cloak.createRoom(user2.name + " vs " + user.name);
-        createdRoom.data.opponentDisconnect = false;
-        createdRoom.data.messages = [];
-        createdRoom.data.numberOfPieces = numberOfPieces;
-        createdRoom.data.powerUps = [];
-        createdRoom.data.enablePowerUps = enablePowerUps;
-        createdRoom.data.originalPath = originalPath;
-        if (originalPath) {
-            createdRoom.data.playerPath = playerPath;
-            createdRoom.data.opponentPath = opponentPath;
-            createdRoom.data.finalPosition = 15;
-            createdRoom.data.warZoneEnd = 13;
-        } else {
-            createdRoom.data.playerPath = playerPathAlternate;
-            createdRoom.data.opponentPath = opponentPathAlternate;
-            createdRoom.data.finalPosition = 17;
-            createdRoom.data.warZoneEnd = 17;
-        }
+        roomOptions(createdRoom, values[0], values[1], !values[2], user.id);
         userJoinRoom(user, createdRoom);
         userJoinRoom(user2, createdRoom);
-        createdRoom.data.spectatedId = user.id;
         createdRoom.messageMembers('joingame', createdRoom.id);
         createdRoom.messageMembers('enablepowerups', createdRoom.data.enablePowerUps);
         setTimeout(function() {
@@ -194,6 +176,27 @@ function clearChallenges(user, user2, numberOfPieces, enablePowerUps, alternateP
     return [Math.ceil(numberOfPieces), enablePowerUps, alternatePath];
 }
 
+function roomOptions(room, numberOfPieces, enablePowerUps, originalPath, spectatedId) {
+    room.data.spectatedId = spectatedId;
+    room.data.opponentDisconnect = false;
+    room.data.messages = [];
+    room.data.numberOfPieces = numberOfPieces;
+    room.data.powerUps = [];
+    room.data.enablePowerUps = enablePowerUps;
+    room.data.originalPath = originalPath;
+    if (originalPath) {
+        room.data.playerPath = playerPath;
+        room.data.opponentPath = opponentPath;
+        room.data.finalPosition = 15;
+        room.data.warZoneEnd = 13;
+    } else {
+        room.data.playerPath = playerPathAlternate;
+        room.data.opponentPath = opponentPathAlternate;
+        room.data.finalPosition = 17;
+        room.data.warZoneEnd = 17;
+    }
+}
+
 function userJoinRoom(user, room) {
     room.addMember(user);
     user.data.isPlayer = true;
@@ -204,6 +207,8 @@ function userJoinRoom(user, room) {
     user.data.lastRoll = null;
     user.data.ghostTurns = 0;
     user.data.powerUp = null;
+    user.data.moveablePieces = [];
+    user.data.powerablePieces = [];
 }
 
 function initRoomStats(room, user, user2) {

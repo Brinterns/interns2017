@@ -2,7 +2,6 @@ var cloak = require('cloak');
 var shared = require('./cloak-server-shared');
 var gameRoomFunctions = require('./cloak-server-gameroom');
 var powerUpFunctions = require('./cloak-server-powerups');
-var gamePlayFunctions = require('./cloak-server-gameplay');
 
 //Game playing variables
 const rosettaSquares = [3,5,13,21,23];
@@ -11,6 +10,37 @@ const alternateZone = [12, 13, 14, 15, 16];
 
 const powerUpTypes = ['push', 'shield', 'pull', 'reroll', 'swap', 'boot', 'remoteattack', 'ghost'];
 const powerUpProbs = [15, 30, 45, 60, 75, 83, 91, 100];
+
+function handleRollDice(user) {
+    const room = user.getRoom();
+    if (!user.data.rolledDice && !room.data.winnerId) {
+        user.data.rolledDice = true;
+        const rollNumber = rollDice(user);
+        const rollSequence = ("1".repeat(rollNumber) + "0".repeat(4-rollNumber)).split('').sort(function() {return 0.5-Math.random()});
+        user.message("rollsequence", rollSequence);
+        shared.getOpponent(user).message("opponentsequence", rollSequence);
+        shared.getSpectators(room).forEach(function(spectator) {
+            spectator.message('opponentsequence', rollSequence);
+        });
+        setTimeout(() => {
+            if (user.data.newId) {
+                user = cloak.getUser(user.data.newId);
+            }
+            messageRoll(rollNumber, user);
+            var opponent = shared.getOpponent(user);
+            if (rollNumber === 0) {
+                if (user.data.powerUp === "reroll") {
+                    powerUpFunctions.reRoll(user);
+                    user.message('autoreroll');
+                } else {
+                    endTurn(user);
+                }
+            } else {
+                checkMoves(user, rollNumber, opponent.data.squares);
+            }
+        }, 1750);
+    }
+}
 
 function rollDice(user) {
     var total = 0;
@@ -61,8 +91,6 @@ function endTurn(user) {
             piecePowerUp.turnsLeft --;
         }
     });
-    powerUpFunctions.messageActivePowerUps(user, opponent);
-    powerUpFunctions.messageActivePowerUps(opponent, user);
     if (user.data.ghostTurns) {
         user.data.ghostTurns --;
         opponent.message('ghost', user.data.ghostTurns);
@@ -71,6 +99,9 @@ function endTurn(user) {
             user.message('opponentsquares', reverseSquares(opponent));
         }
     }
+    powerUpFunctions.messageActivePowerUps(user, opponent);
+    powerUpFunctions.messageActivePowerUps(opponent, user);
+    user.data.powerablePieces = [];
 }
 
 function canMove(user, opponentSquares, nextPos, moveablePositions, position) {
@@ -100,18 +131,20 @@ function checkMoves(user, rollNumber, opponentSquares) {
             endTurn(user);
         }
     }
+    user.data.moveablePieces = moveablePositions;
     user.message('moveablepositions', moveablePositions);
 }
 
 function movePiece(position, userMoveId, user) {
     var room = user.getRoom();
     const playerPath = room.data.playerPath;
-    if (userMoveId === room.data.moveId) {
+    if (user.data.moveablePieces.includes(position) && (userMoveId === room.data.moveId)) {
         room.data.moveId = shared.generateMoveId();
         var opponent = shared.getOpponent(user);
         var nextPos = position + user.data.lastRoll;
         var userStats = getUserStats(user);
         var d = new Date();
+        user.data.moveablePieces = [];
         userStats.totalTimeTaken += milliToSeconds(d.getTime() - user.data.rollStartTime - 1650);
 
         const nextPosT = shared.translatePosition(room, nextPos);
@@ -229,6 +262,7 @@ function handleRosetta(user, room, position, d) {
         user.message('updatemoveid', room.data.moveId);
         user.data.rolledDice = false;
         user.data.rollStartTime = d.getTime();
+        user.data.powerablePieces = [];
         return true;
     }
     return false;
@@ -287,8 +321,8 @@ function handleBootMove(room, user, opponent, first, final) {
         handleBootHit(room, user, i, true, opponent);
         handleBootHit(room, opponent, i, false, user);
     }
-    powerUpFunctions.updatePiecesMessages(user, gamePlayFunctions.reverseSquares(opponent));
-    powerUpFunctions.updatePiecesMessages(opponent, gamePlayFunctions.reverseSquares(user));
+    powerUpFunctions.updatePiecesMessages(user, reverseSquares(opponent));
+    powerUpFunctions.updatePiecesMessages(opponent, reverseSquares(user));
 }
 
 function handleFinalRange(user, userStats, room, position, nextPos) {
@@ -359,6 +393,7 @@ function randomPowerUp(room, user, opponent) {
 
 
 module.exports.endTurn = endTurn;
+module.exports.handleRollDice = handleRollDice;
 module.exports.rollDice = rollDice;
 module.exports.messageRoll = messageRoll;
 module.exports.movePiece = movePiece;
